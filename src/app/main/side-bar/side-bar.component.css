@@ -1,0 +1,11 @@
+:host {
+  background-color: #2B2D42;
+  padding: 10px
+}
+
+div {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
