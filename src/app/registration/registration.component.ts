@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-registration',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.css'
 })
-export class LoginComponent {
+export class RegistrationComponent {
 
   constructor(private router: Router) { }
-
-  login() {
+  register() {
     // Implement your authentication logic here
     // For simplicity, let's assume authentication is successful
     // and navigate to the main page
     this.router.navigate(['/main']);
   }
 
-  goToRegistration() : void {
-    this.router.navigate(['/registration']);
+  goToLogin() : void {
+    this.router.navigate(['/login']);
   }
 }

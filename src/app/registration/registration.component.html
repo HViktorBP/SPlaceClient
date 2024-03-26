@@ -1,6 +1,6 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="login()" #loginForm="ngForm">
+  <h2>Registration</h2>
+  <form (ngSubmit)="register()" #loginForm="ngForm">
     <div class="form-group">
       <label for="username">Username</label>
       <input type="text" id="username" name="username" ngModel required>
@@ -9,7 +9,8 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" ngModel required>
     </div>
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
-    <button type="submit" (click)="goToRegistration()">Create an account!</button>
+    <button type="submit" [disabled]="!loginForm.valid">Register</button>
+    <button type="submit" (click)="goToLogin()">I already have an account!</button>
   </form>
 </div>
+

@@ -15,6 +15,6 @@ export class AppComponent {
   title = 'SPlaceClient';
 
   constructor(private router: Router) {
-    this.router.navigate(['/main']);
+    this.router.navigate(['/login']);
   }
 }
