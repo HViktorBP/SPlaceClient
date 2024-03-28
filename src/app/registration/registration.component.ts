@@ -1,25 +1,43 @@
 import { Component } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
+import {AuthorisationService} from "../services/authorisation.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-registration',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
+  registerError : string = ''
+  profilePicture: string = 'smth'
+  language: string = 'EN'
+  status: string = 'Curious'
+  constructor(private router: Router,  private auth : AuthorisationService) { }
+  register(username:string, password:string, email:string, passwordCheck:string) {
+    if (passwordCheck.trim() == password.trim()) {
+      this.auth.signUp(username.trim(), password.trim(), this.profilePicture, this.language, this.status, email).subscribe(
+        {
+          next: res =>{
+            console.log(res.message)
+          },
+          error: err => {
+            console.log(err.error.message)
+            this.registerError = err.error.message;
+          }
+        }
+      );
+    } else {
+      this.registerError = 'Passwords are not matching!';
+    }
 
-  constructor(private router: Router) { }
-  register() {
-    // Implement your authentication logic here
-    // For simplicity, let's assume authentication is successful
-    // and navigate to the main page
-    this.router.navigate(['/main']);
   }
 
   goToLogin() : void {

@@ -1,25 +1,36 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {AuthorisationService} from "../services/authorisation.service";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
+
 export class LoginComponent {
+  logInError:string = ''
+  constructor(private router: Router, private auth : AuthorisationService) { }
 
-  constructor(private router: Router) { }
-
-  login() {
-    // Implement your authentication logic here
-    // For simplicity, let's assume authentication is successful
-    // and navigate to the main page
-    this.router.navigate(['/main']);
+  onLogin(username: string, password: string){
+      this.auth.logIn(username.trim(), password.trim()).subscribe(
+        {
+          next: res =>{
+            console.log(res.message)
+          },
+          error: err => {
+            console.log(err.error.message)
+            this.logInError = err.error.message;
+          }
+        }
+      );
   }
 
   goToRegistration() : void {

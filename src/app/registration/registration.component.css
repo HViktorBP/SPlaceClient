@@ -21,16 +21,27 @@ h2 {
   font-size: xx-large;
 }
 
-.login-container {
+.login-container, .errors {
   max-width: 600px;
-  padding: 3% 6%;
   border-radius: 20px;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   background-color: #2B2D42;
   box-shadow: 8px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-container {
+  padding: 3% 6%;
+  transform: translate(-50%, -50%);
+}
+
+.errors {
+  padding: 3%;
+  position: fixed;
+  top:12%;
+  left:10%;
+  list-style-type: none;
 }
 
 .form-group {
@@ -65,16 +76,3 @@ input {
   font-size: large;
 }
 
-.errors {
-  max-width: 600px;
-  padding: 6%;
-  border-radius: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-200%, -153%);
-  background-color: #2B2D42;
-  box-shadow: 8px 8px rgba(0, 0, 0, 0.2);
-  z-index: 6;
-  display: none;
-}
