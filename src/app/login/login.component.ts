@@ -24,6 +24,8 @@ export class LoginComponent {
         {
           next: res =>{
             console.log(res.message)
+            this.auth.storeToken(res.token)
+            this.router.navigate(['/main']);
           },
           error: err => {
             console.log(err.error.message)
@@ -34,6 +36,6 @@ export class LoginComponent {
   }
 
   goToRegistration() : void {
-    this.router.navigate(['/registration']);
+    this.router.navigate(['registration']);
   }
 }

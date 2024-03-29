@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {RouterOutlet} from '@angular/router';
 import {MenuComponent} from "./main/side-bar/menu/menu.component";
 import {MainBarComponent} from "./main/main-bar/main-bar.component";
 import {SideBarComponent} from "./main/side-bar/side-bar.component";
@@ -13,8 +13,4 @@ import {MainComponent} from "./main/main.component";
 })
 export class AppComponent {
   title = 'SPlaceClient';
-
-  constructor(private router: Router) {
-    this.router.navigate(['/login']);
-  }
 }

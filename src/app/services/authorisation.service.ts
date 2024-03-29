@@ -9,8 +9,8 @@ export class AuthorisationService {
   private baseUrl:string = "https://localhost:7149/api/User/"
   constructor(private http : HttpClient) { }
 
-  signUp(username: string, password: string, profilePicture: string, language: string, status: string, email: string) {
-    const formData = { username, password, profilePicture, language, status, email};
+  signUp(username: string, password: string, email: string) {
+    const formData = { username, password, email};
     return this.http.post<any>(`${this.baseUrl}register`, formData)
   }
 
@@ -19,5 +19,16 @@ export class AuthorisationService {
     return this.http.post<any>(`${this.baseUrl}authentication`, formData);
   }
 
+  storeToken(tokenValue: string) { //singleton service
+    localStorage.setItem("token", tokenValue)
+  }
 
+  getToken() {
+    return localStorage.getItem("token")
+  }
+
+  isLoggedIn(): boolean {
+    console.log("I'm here")
+    return !!localStorage.getItem("token") // converts to bool
+  }
 }

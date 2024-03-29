@@ -17,16 +17,14 @@ import {NgIf} from "@angular/common";
 })
 export class RegistrationComponent {
   registerError : string = ''
-  profilePicture: string = 'smth'
-  language: string = 'EN'
-  status: string = 'Curious'
   constructor(private router: Router,  private auth : AuthorisationService) { }
   register(username:string, password:string, email:string, passwordCheck:string) {
     if (passwordCheck.trim() == password.trim()) {
-      this.auth.signUp(username.trim(), password.trim(), this.profilePicture, this.language, this.status, email).subscribe(
+      this.auth.signUp(username.trim(), password.trim(), email).subscribe(
         {
           next: res =>{
             console.log(res.message)
+            this.router.navigate(['/main'])
           },
           error: err => {
             console.log(err.error.message)
@@ -41,6 +39,6 @@ export class RegistrationComponent {
   }
 
   goToLogin() : void {
-    this.router.navigate(['/login']);
+    this.router.navigate(['login']);
   }
 }
