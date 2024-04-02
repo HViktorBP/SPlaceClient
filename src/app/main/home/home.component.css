@@ -1,7 +1,6 @@
 :host {
-  background-color: #edf2f4;
   height: 100vh;
-  padding: 10px
+  padding: 10px;
 }
 
 div {
@@ -9,6 +8,7 @@ div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-content: stretch;
 }
 
 .child {

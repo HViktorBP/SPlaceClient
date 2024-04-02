@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MainBarComponent} from "./main-bar/main-bar.component";
 import {SideBarComponent} from "./side-bar/side-bar.component";
 import {RouterOutlet} from "@angular/router";
 import {HomeComponent} from "./home/home.component";
+import {AuthorisationService} from "../services/authorisation.service";
+import {User} from "../interfaces/user";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-main',
@@ -16,6 +19,21 @@ import {HomeComponent} from "./home/home.component";
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
+  userData : User = {
+    username : '',
+    profilePicture : '',
+    language : '',
+    status : '',
+    email : ''
+  }
 
+  constructor(private auth : AuthorisationService) {
+  }
+
+  ngOnInit() {
+    this.auth.getUser().subscribe(data => {
+      this.userData = data
+    });
+  }
 }
