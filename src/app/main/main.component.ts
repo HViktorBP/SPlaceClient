@@ -5,7 +5,6 @@ import {RouterOutlet} from "@angular/router";
 import {HomeComponent} from "./home/home.component";
 import {AuthorisationService} from "../services/authorisation.service";
 import {User} from "../interfaces/user";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-main',

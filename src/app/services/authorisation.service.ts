@@ -1,9 +1,6 @@
-import {inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {User} from "../interfaces/user";
-import {HomeComponent} from "../main/home/home.component";
-import {MainComponent} from "../main/main.component";
 import {Quote} from "../interfaces/quote";
 
 @Injectable({
