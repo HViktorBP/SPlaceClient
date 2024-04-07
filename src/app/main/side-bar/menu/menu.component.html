@@ -1,12 +1,12 @@
-<!--<button (click)="toggleMenu()">Toggle Menu</button>-->
-<!--<hr>-->
-<!--<div class="menu" [@slideInOut]="menuSliding" *ngIf="isOpen">-->
-<!--  &lt;!&ndash; Menu content goes here &ndash;&gt;-->
-<!--  <ul>-->
-<!--    <li><a href="#">Home</a></li>-->
-<!--    <li><a href="#">About</a></li>-->
-<!--    <li><a href="#">Services</a></li>-->
-<!--    <li><a href="#">Contact</a></li>-->
-<!--  </ul>-->
-<!--</div>-->
-<p>Menu is working!<p>
+<div class="toggle-btn" (click)="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+<div class="menu" *ngIf="menuSliding == 'out'">
+  <ul>
+    <li *ngFor="let group of groups"><a href="#">{{ group }}</a></li>
+    <div><p (click)="addGroup()">Add group</p></div>
+  </ul>
+</div>

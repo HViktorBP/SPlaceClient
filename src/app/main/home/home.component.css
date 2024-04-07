@@ -1,16 +1,16 @@
 :host {
-  height: 100vh;
   padding: 10px;
+  overflow-y: auto;
+  flex-grow: 4;
 }
 
 div {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-content: stretch;
+  align-items: stretch;
 }
 
 .child {
-  flex-grow: 1;
+  flex-grow: 2;
 }
+

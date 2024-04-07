@@ -1,8 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #edf2f4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2B2D42;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 * {
   font-family: "Roboto Light", monospace;
 }
 body {
   margin: 0;
   height: 100vh;
+  position: relative;
+  background-color: #8D99AE;
 }

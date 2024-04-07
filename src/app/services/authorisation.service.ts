@@ -28,21 +28,16 @@ export class AuthorisationService {
     localStorage.setItem("username", username)
   }
 
-  getUser() {
-    const username = this.getUsername()
+  getUser(username:string) {
     return this.http.get<User>(`${this.baseUrl}user?username=${username}`)
-  }
-
-  getQuote() {
-    return this.http.get<Quote>(`${this.baseUrl}quote`)
   }
 
   getUsername() {
     return localStorage.getItem("username")!!
   }
 
-  getToken() {
-    return localStorage.getItem("token")
+  getQuote() {
+    return this.http.get<Quote>(`${this.baseUrl}quote`)
   }
 
   isLoggedIn(): boolean {

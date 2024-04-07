@@ -1,12 +1,28 @@
 :host {
   border-radius: 20px;
   background-color: #edf2f4;
-  padding: 10px;
+  padding: 30px;
   margin: 10px;
   color: #2B2D42;
   box-shadow: 12px 12px 2px 1px rgba(0, 0, 0, .1);
+  flex-grow: 4;
 }
 
-.quote{
+.text, .quote, .author {
+  font-size: 16pt;
+  margin: 5px;
+}
 
+.text {
+  text-align: left;
+}
+
+.quote {
+  padding-top: 30px;
+  text-align: center;
+}
+
+.author {
+  padding-top: 30px;
+  text-align: right;
 }

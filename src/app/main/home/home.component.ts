@@ -15,5 +15,4 @@ import {GroupsInfoComponent} from "./groups-info/groups-info.component";
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
 }

@@ -24,8 +24,8 @@ export class LoginComponent {
         {
           next: res =>{
             console.log(res.message)
-            this.auth.storeToken(res.token)
             this.auth.storeUsername(username)
+            this.auth.storeToken(res.token)
             this.router.navigate(['/main']);
           },
           error: err => {
