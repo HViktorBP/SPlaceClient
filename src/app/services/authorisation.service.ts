@@ -32,6 +32,10 @@ export class AuthorisationService {
     return this.http.get<User>(`${this.baseUrl}user?username=${username}`)
   }
 
+  getUserID(username:string)  {
+    return this.http.get<number>(`${this.baseUrl}id?username=${username}`)
+  }
+
   getUsername() {
     return localStorage.getItem("username")!!
   }

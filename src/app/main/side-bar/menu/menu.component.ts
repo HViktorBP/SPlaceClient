@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
+import {AuthorisationService} from "../../../services/authorisation.service";
+import {GroupsService} from "../../../services/groups.service";
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -12,8 +14,17 @@ import {NgForOf, NgIf} from "@angular/common";
 })
 
 export class MenuComponent {
-  groups: string[] = ['First', 'Second', 'Third']
   menuSliding : string = 'in';
+  userGroups: string[] = []
+
+  constructor(private auth: AuthorisationService, private groups : GroupsService) {
+    this.auth.getUserID(this.auth.getUsername()).subscribe(data => {
+      this.groups.getGroups(data).subscribe(data => {
+        this.userGroups = data
+      })
+    })
+  }
+
   toggleMenu() {
     this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
