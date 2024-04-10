@@ -4,13 +4,8 @@
   flex-wrap: nowrap;
 }
 
-.main-page div {
-  flex-grow: 4;
-  display: flex;
-  flex-direction: column;
-}
-
 .main-info {
+  flex-grow: 4;
   display: flex;
   flex-direction: column;
 }

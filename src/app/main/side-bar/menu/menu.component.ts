@@ -2,12 +2,14 @@ import {Component} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {AuthorisationService} from "../../../services/authorisation.service";
 import {GroupsService} from "../../../services/groups.service";
+import {RouterLink} from "@angular/router";
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [
     NgIf,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',

@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import {AuthorisationService} from "../../../services/authorisation.service";
 import {GroupsService} from "../../../services/groups.service";
 import {NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-groups-info',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   templateUrl: './groups-info.component.html',
   styleUrl: './groups-info.component.css'

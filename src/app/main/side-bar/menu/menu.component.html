@@ -6,7 +6,7 @@
 
 <div class="menu" *ngIf="menuSliding == 'out'">
   <ul>
-    <li *ngFor="let group of userGroups"><a href="#">{{ group }}</a></li>
+    <li *ngFor="let group of userGroups"><a [routerLink]="['/main/group', group]" (click)="toggleMenu()">{{ group }}</a></li>
     <div><p (click)="addGroup()">Add group</p></div>
   </ul>
 </div>

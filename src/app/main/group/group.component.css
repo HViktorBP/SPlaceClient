@@ -1,0 +1,36 @@
+:host {
+  flex-grow: 1;
+}
+
+.main {
+  display:flex;
+  flex-direction: row;
+  margin: 10px;
+  align-items: stretch;
+}
+
+.group-right {
+  display:flex;
+  flex-direction: column;
+  padding-right: 15px;
+}
+
+.group-right-main {
+ display: grid;
+}
+
+.child {
+  max-width: 30vh;
+}
+
+@media only screen and (min-width: 992px) {
+  .group-right-main {
+    grid-template-rows: 48% 48% 5%;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .group-right-main {
+    grid-template-rows: 48% 48% 6%;
+  }
+}

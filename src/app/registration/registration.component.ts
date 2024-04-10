@@ -24,7 +24,7 @@ export class RegistrationComponent {
         {
           next: res =>{
             console.log(res.message)
-            this.router.navigate(['/main'])
+            this.router.navigate(['/main/home'])
           },
           error: err => {
             console.log(err.error.message)
