@@ -1,0 +1,42 @@
+
+
+div {
+  background-color: #edf2f4;
+  color: #2B2D42;
+  border-radius: 10px;
+  box-shadow: 5px 6px 2px 1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding:3px;
+}
+
+h3 {
+  text-align: center;
+}
+
+ul {
+  overflow-y: auto;
+  overflow-x: auto;
+  margin: 0;
+  list-style-type: none;
+  padding-left: 8px;
+}
+
+li {
+  padding: 3px 4px;
+}
+
+@media only screen and (min-width: 992px) {
+  ul {
+    max-height: 20vh;
+    min-height: 20vh;
+  }
+}
+
+
+@media only screen and (min-width: 1600px) {
+  ul {
+    max-height: 27vh;
+    min-height: 27vh;
+  }
+}
