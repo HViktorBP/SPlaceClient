@@ -10,6 +10,14 @@ export class GroupsService {
   constructor(private http : HttpClient) { }
 
   getGroups(id:number) {
-    return this.http.get<string[]>(`${this.baseUrl}groups?CreatorID=${id}`)
+    return this.http.get<number[]>(`${this.baseUrl}groups?userID=${id}`)
+  }
+
+  getGroupById(groupId: number) {
+    return this.http.get<string>(`${this.baseUrl}group-by-id?groupID=${groupId}`)
+  }
+
+  getUsersInGroup(groupId: number) {
+    return this.http.get<number[]>(`${this.baseUrl}users-in-group?groupID=${groupId}`)
   }
 }

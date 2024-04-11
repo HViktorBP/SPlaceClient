@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.auth.getUser(this.auth.getUsername()).subscribe(data => {
+    this.auth.getUserByName(this.auth.getUsername()).subscribe(data => {
       this.userData = data
   })
   }

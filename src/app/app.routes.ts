@@ -12,7 +12,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'main', component: MainComponent, canActivate:[authGuard], children:[
       {path:'home', component: HomeComponent, canActivate:[authGuard]},
-      {path:'group/:group', component: GroupComponent, canActivate:[authGuard]}
+      {path:'group/:name/:id', component: GroupComponent, canActivate:[authGuard]}
     ]},
   {path: 'registration', component: RegistrationComponent},
   {path: '**', component: NotFoundComponent},

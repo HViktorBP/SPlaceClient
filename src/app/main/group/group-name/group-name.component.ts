@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-group-name',
@@ -8,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './group-name.component.css'
 })
 export class GroupNameComponent {
-  amount: number = 10;
+  @Input({required: true}) groupName! : string;
+  @Input({required: true}) amount! : number;
 }

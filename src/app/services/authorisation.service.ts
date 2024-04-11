@@ -28,8 +28,12 @@ export class AuthorisationService {
     localStorage.setItem("username", username)
   }
 
-  getUser(username:string) {
-    return this.http.get<User>(`${this.baseUrl}user?username=${username}`)
+  getUserByName(username:string) {
+    return this.http.get<User>(`${this.baseUrl}user-by-name?username=${username}`)
+  }
+
+  getUserByID(id:number) {
+    return this.http.get<User>(`${this.baseUrl}user-by-id?id=${id}`)
   }
 
   getUserID(username:string)  {
