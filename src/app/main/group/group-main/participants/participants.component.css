@@ -24,14 +24,7 @@ li {
   padding: 3px 4px;
 }
 
-@media only screen and (min-width: 992px) {
-  ul {
-    max-height: 20vh;
-    min-height: 20vh;
-  }
-}
-
-@media only screen and (min-width: 1600px) {
+@media only screen and (min-width: 700px) {
   ul {
     max-height: 27vh;
     min-height: 27vh;

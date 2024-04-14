@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../interfaces/user";
 import {Quote} from "../interfaces/quote";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorisationService {
   private baseUrl:string = "https://localhost:7149/api/User/"
+
   constructor(private http : HttpClient) { }
 
   signUp(username: string, password: string, email: string) {
@@ -25,7 +27,7 @@ export class AuthorisationService {
   }
 
   storeUsername(username: string) { //singleton service
-    localStorage.setItem("username", username)
+    sessionStorage.setItem("username", username)
   }
 
   getUserByName(username:string) {
@@ -41,7 +43,7 @@ export class AuthorisationService {
   }
 
   getUsername() {
-    return localStorage.getItem("username")!!
+    return sessionStorage.getItem("username")!!
   }
 
   getQuote() {

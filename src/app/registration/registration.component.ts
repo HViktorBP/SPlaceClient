@@ -24,6 +24,7 @@ export class RegistrationComponent {
         {
           next: res =>{
             console.log(res.message)
+            this.auth.storeUsername(username.trim())
             this.router.navigate(['/main/home'])
           },
           error: err => {

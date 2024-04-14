@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {AuthorisationService} from "../services/authorisation.service";
 import {NgIf} from "@angular/common";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -20,20 +21,21 @@ export class LoginComponent {
   constructor(private router: Router, private auth : AuthorisationService) { }
 
   onLogin(username: string, password: string){
-      this.auth.logIn(username.trim(), password.trim()).subscribe(
-        {
-          next: res =>{
-            console.log(res.message)
-            this.auth.storeUsername(username)
-            this.auth.storeToken(res.token)
-            this.router.navigate(['/main/home']);
-          },
-          error: err => {
-            console.log(err.error.message)
-            this.logInError = err.error.message;
-          }
+    this.auth.logIn(username.trim(), password.trim()).subscribe(
+      {
+        next: res =>{
+          console.log(res.message)
+          this.auth.storeUsername(username)
+          this.auth.storeToken(res.token)
+          this.router.navigate(['/main/home']);
+        },
+        error: err => {
+          console.log(err.error.message)
+          this.logInError = err.error.message;
         }
-      );
+      }
+    );
+
   }
 
   goToRegistration() : void {

@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {NgClass, NgOptimizedImage} from "@angular/common";
+import {AuthorisationService} from "../../../services/authorisation.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -15,4 +16,6 @@ import {NgClass, NgOptimizedImage} from "@angular/common";
 export class UserMenuComponent {
   @Input({required:true}) username : string | undefined
   @Input({required:true}) status : string | undefined
+
+  userName = inject(AuthorisationService).getUsername();
 }

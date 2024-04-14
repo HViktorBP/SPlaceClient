@@ -12,4 +12,8 @@ import {NgForOf} from "@angular/common";
 })
 export class ParticipantsComponent {
   @Input({required: true}) participants! : string[];
+
+  constructor() {
+
+  }
 }

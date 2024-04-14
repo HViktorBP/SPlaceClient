@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {AuthorisationService} from "../../../services/authorisation.service";
 import {GroupsService} from "../../../services/groups.service";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {forkJoin, map, Observable, switchMap} from "rxjs";
 @Component({
   selector: 'app-menu',
@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   menuSliding : string = 'in';
   userGroupData: { name: string; id: number }[]= []
 
-  constructor(private auth: AuthorisationService, private groups : GroupsService) {
+  constructor(private auth: AuthorisationService, private groups : GroupsService, private route : ActivatedRoute) {
 
   }
 
@@ -38,11 +38,16 @@ export class MenuComponent implements OnInit {
     ).subscribe(groupInfos => {
       this.userGroupData.push(...groupInfos);
     });
+
+    this
   }
 
   toggleMenu() {
     this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
-    //window.location.reload()
+  }
+
+  goToGroup() {
+    this.toggleMenu()
   }
 
   addGroup() {

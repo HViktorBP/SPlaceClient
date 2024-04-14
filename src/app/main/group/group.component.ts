@@ -7,7 +7,10 @@ import {QuizComponent} from "./group-main/quiz/quiz.component";
 import {GroupsService} from "../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthorisationService} from "../../services/authorisation.service";
-import {forkJoin, map, switchMap} from "rxjs";
+import {BehaviorSubject, forkJoin, map, Observable, Subject, switchMap, takeUntil} from "rxjs";
+import {User} from "../../interfaces/user";
+import {ChatService} from "../../services/chat.service";
+import {waitForAsync} from "@angular/core/testing";
 
 @Component({
   selector: 'app-group',
@@ -24,37 +27,68 @@ import {forkJoin, map, switchMap} from "rxjs";
 })
 export class GroupComponent implements OnInit{
   private route = inject(ActivatedRoute)
-  private id: number = 0
-  private name:string = ''
+  private id$ = new BehaviorSubject<string>('')
+  private name$ = new BehaviorSubject<string>('')
+  private users$ = new BehaviorSubject<string[]>([])
   private users:string[]= []
+  private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private group : GroupsService, private auth : AuthorisationService) {
+  constructor(private group : GroupsService,
+              private auth : AuthorisationService,
+              private chat: ChatService) {
 
   }
 
   ngOnInit() {
-    this.id = +this.route.snapshot.paramMap.get('id')!
-    this.name = this.route.snapshot.paramMap.get('name')!
-    this.group.getUsersInGroup(this.id).pipe(
-      switchMap(usersID => {
-        const observables = usersID.map(id => this.auth.getUserByID(id));
-        return forkJoin(observables);
-      }),
-      map(usersData => usersData.map(user => user.username))
-    ).subscribe(userUsernames => {
-      this.users.push(...userUsernames);
-    });
+      this.route.params.subscribe(() => {
+        this.updateData()
+      });
   }
 
   getId() {
-    return this.id
+    return this.id$
   }
 
   getUsers() {
-    return this.users
+    return this.users$
   }
 
   getName() {
-    return this.name
+    return this.name$
+  }
+
+  updateData() {
+    this.id$.next(this.route.snapshot.paramMap.get('id')!);
+
+    this.group.getUsersInGroup(+this.id$.value).pipe(
+      switchMap(usersID => {
+        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id));
+        return forkJoin(observables).pipe(
+          map(usersData => usersData.map(user => user.username))
+        );
+      })
+    ).subscribe(userUsernames => {
+      this.users.length = 0;
+      this.users.push(...userUsernames);
+      this.users$.next(this.users);
+
+      this.group.getGroupById(+this.id$.value).pipe(
+        switchMap(res => {
+          this.name$.next(res[0]);
+          return this.chat.joinChat(this.auth.getUsername(), this.id$.value);
+        }),
+        takeUntil(this.destroy$)
+      ).subscribe(() => {
+        console.log(`${this.auth.getUsername()} is connected to the chat!`);
+      }, error => {
+        console.log("Error occurred while joining chat:", error);
+      });
+    });
+
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
