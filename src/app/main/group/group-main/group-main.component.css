@@ -28,18 +28,12 @@ img {
   padding: 5px 10px 5px 12px;
   width: 100%;
   overflow-x: auto;
-}
-
-.received_withd_msg p {
-  text-align: left;
-}
-
-.sent_msg p {
-  text-align: right;
+  text-align: left
 }
 
 .time_date {
-  color: #747474;
+  color: #2B2D42;
+  font-size: 15px;
   display: block;
   margin: 8px 0 6px;
 }

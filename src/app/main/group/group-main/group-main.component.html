@@ -1,20 +1,22 @@
   <div class="mesgs">
     <div #scrollMe class="msg_history">
       <ng-container *ngFor="let message of this.chatService.messages$ | async">
-        <div
-          [ngClass]="{'incoming_msg': message.user != loggedInUserName, 'outgoing_msg': message.user === loggedInUserName}">
-          <div *ngIf="message.user != loggedInUserName" class="incoming_msg_img">
-            <img ngSrc="assets/random_user_pick.png" height="60" width="60" alt="user">
-          </div>
-          <div *ngIf="message.user != loggedInUserName" class="received_msg">
-            <div class="received_withd_msg">
-              <p> {{message.message}}</p>
-              <span class="time_date">{{message.user}} | {{message.messageTime | date: 'medium'}}</span>
+        <div *ngIf="message.groupID == +groupData.getId().value">
+          <div
+            [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
+            <div *ngIf="message.username != loggedInUserName" class="incoming_msg_img">
+              <img ngSrc="assets/random_user_pick.png" height="60" width="60" alt="user">
             </div>
-          </div>
-          <div *ngIf="message.user === loggedInUserName" class="sent_msg">
-            <p>{{message.message}}</p>
-            <span class="time_date">{{message.user}} | {{message.messageTime | date: 'medium'}}</span>
+            <div *ngIf="message.username != loggedInUserName" class="received_msg">
+              <div class="received_withd_msg">
+                <p> {{message.message}}</p>
+                <span class="time_date">{{message.username}} | {{message.timespan | date: 'medium'}}</span>
+              </div>
+            </div>
+            <div *ngIf="message.username === loggedInUserName" class="sent_msg">
+              <p>{{message.message}}</p>
+              <span class="time_date">{{message.username}} | {{message.timespan | date: 'medium'}}</span>
+            </div>
           </div>
         </div>
       </ng-container>

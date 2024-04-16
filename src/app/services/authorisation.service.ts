@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../interfaces/user";
 import {Quote} from "../interfaces/quote";
-import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class AuthorisationService {
   }
 
   storeToken(tokenValue: string) { //singleton service
-    localStorage.setItem("token", tokenValue)
+    sessionStorage.setItem("token", tokenValue)
   }
 
   storeUsername(username: string) { //singleton service
@@ -51,6 +50,6 @@ export class AuthorisationService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem("token") // converts to bool
+    return !!sessionStorage.getItem("token") // converts to bool
   }
 }

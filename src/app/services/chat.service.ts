@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, forkJoin} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {AuthorisationService} from "./authorisation.service";
+import {MessageDTO} from "../interfaces/message-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -10,21 +13,16 @@ export class ChatService {
       .withUrl("https://localhost:7149/chat")
       .configureLogging(signalR.LogLevel.Information)
       .build()
-
+  public baseUrl = "https://localhost:7149/api/Chat/"
   public messages$ = new BehaviorSubject<any>([])
-  public connectedUsers$ = new BehaviorSubject<string[]>([])
   public messages: any[] = []
-  public connectedUsers: string[] =[]
-  constructor() {
+  public auth = inject(AuthorisationService)
+
+  constructor(private http: HttpClient) {
     this.start()
-    this.connection.on("ReceiveMessage", (user: string, message: string, messageTime: string) => {
-
-      this.messages = [...this.messages, {user, message, messageTime}]
+    this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
+      this.messages = [...this.messages, {username, groupID, message, timespan}]
       this.messages$.next(this.messages)
-    })
-
-    this.connection.on("ConnectedUser", (users: any) => {
-      this.connectedUsers$.next(users)
     })
   }
 
@@ -32,6 +30,19 @@ export class ChatService {
     try {
       await this.connection.start()
       console.log("Connection is established")
+
+      this.getMessages().subscribe(result => {
+        const observables = result.map(m => this.auth.getUserByID(m.userID));
+        forkJoin(observables).subscribe(users => {
+          result.forEach((m, index) => {
+            const username = users[index].username;
+            console.log(m.message)
+            this.messages = [...this.messages, { username, groupID: +m.groupID, message: m.message, timespan: m.timespan }];
+          });
+          this.messages$.next(this.messages);
+        });
+      });
+
     } catch (e) {
       console.log(e)
       setTimeout(() => {
@@ -40,18 +51,29 @@ export class ChatService {
     }
   }
 
-  public async joinChat(username: string, room: string) {
-    console.log(username, room)
-    return this.connection.invoke("JoinChat", {username, room})
+  public async joinChat(username: string, group: string) {
+    return this.connection.invoke("JoinChat", {username, group})
   }
 
-  public async sendMessage(message: string){
-    return this.connection.invoke("SendMessage", message)
+  public async sendMessage(message: string, group: string, date: Date){
+    return this.connection.invoke("SendMessage", message, group, date)
+  }
+
+  public getMessages() {
+    return this.http.get<MessageDTO[]>(`${this.baseUrl}get-messages-in-group`)
+  }
+
+  public saveMessage(userID: number, groupID: number, message: string, timespan: Date){
+    const messageToSend : MessageDTO = {
+      userID: userID,
+      groupID: groupID,
+      message: message,
+      timespan: timespan
+    }
+    return this.http.post<any>(`${this.baseUrl}save-message`, messageToSend)
   }
 
   public async leaveChat() {
     return this.connection.stop()
   }
-
-
 }

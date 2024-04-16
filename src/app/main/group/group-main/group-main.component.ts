@@ -1,9 +1,10 @@
-import {AfterViewChecked, Component, ElementRef, inject, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ChatService} from "../../../services/chat.service";
 import {FormsModule} from "@angular/forms";
 import {GroupComponent} from "../group.component";
 import {AuthorisationService} from "../../../services/authorisation.service";
+import {forkJoin, of, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-group-main',
@@ -24,17 +25,20 @@ import {AuthorisationService} from "../../../services/authorisation.service";
 export class GroupMainComponent implements OnInit, AfterViewChecked {
   chatService = inject(ChatService)
   groupData = inject(GroupComponent)
-  messages! : string[]
+  messages   = ['']
+  auth = inject(AuthorisationService)
   inputMessage= ''
   loggedInUserName!:string;
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
 
-  constructor(private auth : AuthorisationService) {
+  constructor() {
   }
 
   ngOnInit () {
+    this.messages.length = 0
     this.chatService.messages$.subscribe(res => {
       this.messages = res
+      //console.log(this.messages)
     })
 
     this.loggedInUserName = this.auth.getUsername()
@@ -45,13 +49,24 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
-      this.chatService.sendMessage(this.inputMessage).then(()=> {
-        try {
-          this.inputMessage = ''
-        } catch (e) {
-          console.log(e)
-        }
-        console.log(this.messages)
+    const date = new Date();
+
+    this.auth.getUserID(this.auth.getUsername()).pipe(
+      switchMap(res => {
+        return this.chatService.saveMessage(res, +this.groupData.getId().value, this.inputMessage, date).pipe(
+          switchMap(() => {
+            return forkJoin({
+              sendMessageResult: this.chatService.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
+              clearInputResult: of(this.inputMessage = '')
+            })
+          }),
+          tap(() => console.log('Message sent successfully'))
+        )
       })
-    }
+    ).subscribe({
+      error: (error) => {
+        console.error('Error:', error)
+      }
+    })
+  }
 }
