@@ -1,6 +1,6 @@
   <div class="mesgs">
     <div #scrollMe class="msg_history">
-      <ng-container *ngFor="let message of this.messages ">
+      <ng-container *ngFor="let message of this.groupData.messages$ | async">
         <div *ngIf="message.groupID == +groupData.getId().value">
           <div
             [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
