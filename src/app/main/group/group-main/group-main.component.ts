@@ -25,7 +25,7 @@ import {forkJoin, of, switchMap, tap} from "rxjs";
 export class GroupMainComponent implements OnInit, AfterViewChecked {
   chatService = inject(ChatService)
   groupData = inject(GroupComponent)
-  messages   = ['']
+  messages: any[] = []
   auth = inject(AuthorisationService)
   inputMessage= ''
   loggedInUserName!:string;
@@ -38,7 +38,6 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
     this.messages.length = 0
     this.chatService.messages$.subscribe(res => {
       this.messages = res
-      //console.log(this.messages)
     })
 
     this.loggedInUserName = this.auth.getUsername()
