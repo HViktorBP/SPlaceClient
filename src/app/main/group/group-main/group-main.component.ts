@@ -25,18 +25,18 @@ import {forkJoin, of, switchMap, tap} from "rxjs";
 export class GroupMainComponent implements OnInit, AfterViewChecked {
   chatService = inject(ChatService)
   groupData = inject(GroupComponent)
-  messages: any[] = []
-  auth = inject(AuthorisationService)
   inputMessage= ''
-  loggedInUserName!:string;
+  loggedInUserName!:string
+  messages! : any[]
+  public auth = inject(AuthorisationService)
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
 
   constructor() {
+
   }
 
   ngOnInit () {
-    this.messages.length = 0
-    this.chatService.messages$.subscribe(res => {
+    this.groupData.messages$.subscribe(res => {
       this.messages = res
     })
 
@@ -55,7 +55,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
         return this.chatService.saveMessage(res, +this.groupData.getId().value, this.inputMessage, date).pipe(
           switchMap(() => {
             return forkJoin({
-              sendMessageResult: this.chatService.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
+              sendMessageResult: this.groupData.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
               clearInputResult: of(this.inputMessage = '')
             })
           }),
