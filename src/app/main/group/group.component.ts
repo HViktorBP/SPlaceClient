@@ -27,7 +27,6 @@ import * as signalR from "@microsoft/signalr";
 })
 
 export class GroupComponent implements OnInit{
-  private route = inject(ActivatedRoute)
   private id$ = new BehaviorSubject<string>('')
   private name$ = new BehaviorSubject<string>('')
   private users$ = new BehaviorSubject<string[]>([])
@@ -43,7 +42,8 @@ export class GroupComponent implements OnInit{
   public auth = inject(AuthorisationService)
 
   constructor(private group : GroupsService,
-              private chat: ChatService) {
+              private chat: ChatService,
+              private route: ActivatedRoute) {
     this.start()
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -52,17 +52,17 @@ export class GroupComponent implements OnInit{
   }
 
   ngOnInit() {
-      this.route.params.subscribe(() => {
-        this.updateData()
-        this.getMessages()
-      });
+    this.route.params.subscribe(() => {
+      //this.start()
+      this.updateData()
+      this.getMessages()
+    })
   }
 
   public async start() {
       try {
         await this.connection.start()
         console.log("Connection is established")
-        this.getMessages()
 
       } catch (e) {
         console.log(e)
@@ -97,26 +97,28 @@ export class GroupComponent implements OnInit{
   }
 
   getMessages() {
+    this.messages$.value.length = 0
+    this.messages.length = 0
     this.chat.getMessages(+this.id$.value).subscribe(result => {
       const observables = result.map(m => this.auth.getUserByID(m.userID))
       forkJoin(observables).subscribe(users => {
         result.forEach((m, index) => {
           const username = users[index].username
-          console.log(m.message)
           this.messages = [...this.messages, { username, groupID: +m.groupID, message: m.message, timespan: m.timespan }]
         })
         this.messages$.next(this.messages);
       })
     })
   }
+
   updateData() {
     this.id$.next(this.route.snapshot.paramMap.get('id')!);
     this.group.getUsersInGroup(+this.id$.value).pipe(
       switchMap(usersID => {
-        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id));
+        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
         return forkJoin(observables).pipe(
           map(usersData => usersData.map(user => user.username))
-        );
+        )
       })
     ).subscribe(userUsernames => {
       this.users.length = 0;
@@ -133,8 +135,7 @@ export class GroupComponent implements OnInit{
         console.log(`${this.auth.getUsername()} is connected to the chat!`)
       }, error => {
         console.log("Error occurred while joining chat:", error)
-      });
-    });
-
+      })
+    })
   }
 }

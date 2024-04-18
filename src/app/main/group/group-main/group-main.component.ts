@@ -27,24 +27,32 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   groupData = inject(GroupComponent)
   inputMessage= ''
   loggedInUserName!:string
-  messages! : any[]
-  public auth = inject(AuthorisationService)
+  auth = inject(AuthorisationService)
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
+  private canBeScrolled = false
 
   constructor() {
 
   }
 
   ngOnInit () {
-    this.groupData.messages$.subscribe(res => {
-      this.messages = res
+    this.groupData.messages$.subscribe(() => {
+      try {
+        console.log('Messages uploaded')
+        this.canBeScrolled = !this.canBeScrolled
+      } catch (e) {
+        console.log(e)
+      }
     })
-
     this.loggedInUserName = this.auth.getUsername()
   }
 
   ngAfterViewChecked() {
-    this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    if (this.canBeScrolled) {
+      console.log("Now")
+      this.canBeScrolled = !this.canBeScrolled
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
+    }
   }
 
   sendMessage() {
@@ -65,7 +73,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
     ).subscribe({
       error: (error) => {
         console.error('Error:', error)
-      }
+      },
     })
   }
 }

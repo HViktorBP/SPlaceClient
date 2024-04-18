@@ -1,31 +1,29 @@
-  <div class="mesgs">
-    <div #scrollMe class="msg_history">
-      <ng-container *ngFor="let message of this.groupData.messages$ | async">
-        <div *ngIf="message.groupID == +groupData.getId().value">
-          <div
-            [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
-            <div *ngIf="message.username != loggedInUserName" class="incoming_msg_img">
-              <img ngSrc="assets/random_user_pick.png" height="60" width="60" alt="user">
-            </div>
-            <div *ngIf="message.username != loggedInUserName" class="received_msg">
-              <div class="received_withd_msg">
-                <p> {{message.message}}</p>
-                <span class="time_date">{{message.username}} | {{message.timespan | date: 'medium'}}</span>
-              </div>
-            </div>
-            <div *ngIf="message.username === loggedInUserName" class="sent_msg">
-              <p>{{message.message}}</p>
+<div class="mesgs">
+  <div #scrollMe class="msg_history">
+    <ng-container *ngFor="let message of this.groupData.messages$ | async">
+        <div
+          [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
+          <div *ngIf="message.username != loggedInUserName" class="incoming_msg_img">
+            <img ngSrc="assets/random_user_pick.png" height="60" width="60" alt="user">
+          </div>
+          <div *ngIf="message.username != loggedInUserName" class="received_msg">
+            <div class="received_withd_msg">
+              <p> {{message.message}}</p>
               <span class="time_date">{{message.username}} | {{message.timespan | date: 'medium'}}</span>
             </div>
           </div>
-        </div>
-      </ng-container>
-    </div>
-    <div class="type_msg">
-      <div class="input_msg_write">
-        <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"
-               placeholder="Type a message" />
-        <button (click)="sendMessage()" class="msg_send_btn" type="button"><p>Send</p></button>
+          <div *ngIf="message.username === loggedInUserName" class="sent_msg">
+            <p>{{message.message}}</p>
+            <span class="time_date">{{message.username}} | {{message.timespan | date: 'medium'}}</span>
+          </div>
       </div>
+    </ng-container>
+  </div>
+  <div class="type_msg">
+    <div class="input_msg_write">
+      <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"
+             placeholder="Type a message" />
+      <button (click)="sendMessage()" class="msg_send_btn" type="button"><p>Send</p></button>
     </div>
   </div>
+</div>
