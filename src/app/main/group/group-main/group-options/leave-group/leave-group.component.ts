@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {ChatService} from "../../../../../services/chat.service";
 import {Router} from "@angular/router";
+import {GroupComponent} from "../../../group.component";
 
 @Component({
   selector: 'app-leave-group',
@@ -13,14 +13,13 @@ import {Router} from "@angular/router";
   styleUrl: './leave-group.component.css'
 })
 export class LeaveGroupComponent {
-
-  constructor(private chat: ChatService,
-              private router: Router) {
+  groupData = inject(GroupComponent)
+  constructor(private router: Router) {
 
   }
 
   leaveChat() {
-    this.chat.leaveChat().then(() => {
+    this.groupData.leaveChat().then(() => {
       this.router.navigate(['main/home'])
     }).catch(e => {
       console.log(e)

@@ -10,7 +10,7 @@ import {AuthorisationService} from "../../services/authorisation.service";
 import {BehaviorSubject, forkJoin, map, Observable, Subject, switchMap, takeUntil} from "rxjs";
 import {User} from "../../interfaces/user";
 import {ChatService} from "../../services/chat.service";
-import {waitForAsync} from "@angular/core/testing";
+import * as signalR from "@microsoft/signalr";
 
 @Component({
   selector: 'app-group',
@@ -25,24 +25,62 @@ import {waitForAsync} from "@angular/core/testing";
   templateUrl: './group.component.html',
   styleUrl: './group.component.css'
 })
+
 export class GroupComponent implements OnInit{
-  private route = inject(ActivatedRoute)
   private id$ = new BehaviorSubject<string>('')
   private name$ = new BehaviorSubject<string>('')
   private users$ = new BehaviorSubject<string[]>([])
   private users:string[]= []
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private group : GroupsService,
-              private auth : AuthorisationService,
-              private chat: ChatService) {
+  public connection : signalR.HubConnection = new signalR.HubConnectionBuilder()
+    .withUrl("https://localhost:7149/chat")
+    .configureLogging(signalR.LogLevel.Information)
+    .build()
+  public messages$ = new BehaviorSubject<any>([])
+  public messages: any[] = []
+  public auth = inject(AuthorisationService)
 
+  constructor(private group : GroupsService,
+              private chat: ChatService,
+              private route: ActivatedRoute) {
+    this.start()
+    this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
+      this.messages = [...this.messages, {username, groupID, message, timespan}]
+      this.messages$.next(this.messages)
+    })
   }
 
   ngOnInit() {
-      this.route.params.subscribe(() => {
-        this.updateData()
-      });
+    this.route.params.subscribe(() => {
+      this.updateData()
+      this.getMessages()
+    })
+  }
+
+  public async start() {
+      try {
+        await this.connection.start()
+        console.log("Connection is established")
+
+      } catch (e) {
+        console.log(e)
+        setTimeout(() => {
+          this.start()
+        }, 6000)
+      }
+  }
+
+  public async joinChat(username: string, group: string) {
+    return this.connection.invoke("JoinChat", {username, group})
+  }
+
+  public async sendMessage(message: string, group: string, date: Date){
+    return this.connection.invoke("SendMessage", message, group, date)
+  }
+
+  public async leaveChat() {
+    return this.connection.stop()
   }
 
   getId() {
@@ -57,15 +95,29 @@ export class GroupComponent implements OnInit{
     return this.name$
   }
 
+  getMessages() {
+    this.messages$.value.length = 0
+    this.messages.length = 0
+    this.chat.getMessages(+this.id$.value).subscribe(result => {
+      const observables = result.map(m => this.auth.getUserByID(m.userID))
+      forkJoin(observables).subscribe(users => {
+        result.forEach((m, index) => {
+          const username = users[index].username
+          this.messages = [...this.messages, { username, groupID: +m.groupID, message: m.message, timespan: m.timespan }]
+        })
+        this.messages$.next(this.messages);
+      })
+    })
+  }
+
   updateData() {
     this.id$.next(this.route.snapshot.paramMap.get('id')!);
-
     this.group.getUsersInGroup(+this.id$.value).pipe(
       switchMap(usersID => {
-        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id));
+        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
         return forkJoin(observables).pipe(
           map(usersData => usersData.map(user => user.username))
-        );
+        )
       })
     ).subscribe(userUsernames => {
       this.users.length = 0;
@@ -75,20 +127,14 @@ export class GroupComponent implements OnInit{
       this.group.getGroupById(+this.id$.value).pipe(
         switchMap(res => {
           this.name$.next(res[0]);
-          return this.chat.joinChat(this.auth.getUsername(), this.id$.value);
+          return this.joinChat(this.auth.getUsername(), this.id$.value);
         }),
         takeUntil(this.destroy$)
       ).subscribe(() => {
-        console.log(`${this.auth.getUsername()} is connected to the chat!`);
+        console.log(`${this.auth.getUsername()} is connected to the chat!`)
       }, error => {
-        console.log("Error occurred while joining chat:", error);
-      });
-    });
-
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+        console.log("Error occurred while joining chat:", error)
+      })
+    })
   }
 }

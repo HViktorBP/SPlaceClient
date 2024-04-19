@@ -25,27 +25,34 @@ import {forkJoin, of, switchMap, tap} from "rxjs";
 export class GroupMainComponent implements OnInit, AfterViewChecked {
   chatService = inject(ChatService)
   groupData = inject(GroupComponent)
-  messages   = ['']
-  auth = inject(AuthorisationService)
   inputMessage= ''
-  loggedInUserName!:string;
+  loggedInUserName!:string
+  auth = inject(AuthorisationService)
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
+  private canBeScrolled = false
 
   constructor() {
+
   }
 
   ngOnInit () {
-    this.messages.length = 0
-    this.chatService.messages$.subscribe(res => {
-      this.messages = res
-      //console.log(this.messages)
+    this.groupData.messages$.subscribe(() => {
+      try {
+        console.log('Messages uploaded')
+        this.canBeScrolled = !this.canBeScrolled
+      } catch (e) {
+        console.log(e)
+      }
     })
-
     this.loggedInUserName = this.auth.getUsername()
   }
 
   ngAfterViewChecked() {
-    this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+    if (this.canBeScrolled) {
+      console.log("Now")
+      this.canBeScrolled = !this.canBeScrolled
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
+    }
   }
 
   sendMessage() {
@@ -56,7 +63,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
         return this.chatService.saveMessage(res, +this.groupData.getId().value, this.inputMessage, date).pipe(
           switchMap(() => {
             return forkJoin({
-              sendMessageResult: this.chatService.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
+              sendMessageResult: this.groupData.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
               clearInputResult: of(this.inputMessage = '')
             })
           }),
@@ -66,7 +73,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
     ).subscribe({
       error: (error) => {
         console.error('Error:', error)
-      }
+      },
     })
   }
 }
