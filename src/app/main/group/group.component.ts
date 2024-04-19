@@ -53,7 +53,6 @@ export class GroupComponent implements OnInit{
 
   ngOnInit() {
     this.route.params.subscribe(() => {
-      //this.start()
       this.updateData()
       this.getMessages()
     })
