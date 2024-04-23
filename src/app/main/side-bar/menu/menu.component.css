@@ -26,15 +26,7 @@
   text-decoration: none;
 }
 .toggle-btn {
-  padding-top: 16px;
   cursor: pointer;
-}
-.toggle-btn span {
-  width: 40px;
-  height: 6px;
-  background-color: #8D99AE;
-  display: block;
-  margin-top: 4px;
 }
 
 ul p {

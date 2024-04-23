@@ -4,6 +4,8 @@ import {GroupsService} from "../../../services/groups.service";
 import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faUsers} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-groups-info',
@@ -12,7 +14,8 @@ import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
     NgForOf,
     RouterLink,
     AsyncPipe,
-    SlicePipe
+    SlicePipe,
+    FaIconComponent
   ],
   templateUrl: './groups-info.component.html',
   styleUrl: './groups-info.component.css'
@@ -20,6 +23,7 @@ import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 export class GroupsInfoComponent implements OnInit {
   userGroupData: { name: string; id: number }[]= []
   userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
+  icon = faUsers
 
   constructor(private auth: AuthorisationService, private groups : GroupsService) {
 

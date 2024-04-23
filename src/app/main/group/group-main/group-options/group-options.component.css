@@ -4,8 +4,6 @@ div {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: baseline;
-  align-content: center;
   width:100%;
   background-color: #edf2f4;
   color: #2B2D42;

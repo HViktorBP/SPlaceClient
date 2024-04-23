@@ -6,6 +6,8 @@ import {RouterLink} from "@angular/router";
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {FormsModule} from "@angular/forms";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faBars, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +17,8 @@ import {FormsModule} from "@angular/forms";
     NgForOf,
     RouterLink,
     FormsModule,
-    AsyncPipe
+    AsyncPipe,
+    FaIconComponent
   ],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.css',
@@ -26,6 +29,8 @@ export class MenuComponent implements OnInit {
   userGroupData: { name: string; id: number }[]= []
   userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   closeResult : string = ''
+  menuIcon = faBars
+  groupIcon = faDoorOpen
 
   constructor(private auth: AuthorisationService, private groups : GroupsService, private modalService : NgbModal) {
 

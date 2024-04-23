@@ -1,12 +1,12 @@
-<div class="toggle-btn" (click)="toggleMenu()">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
+<fa-icon class="toggle-btn fa-3x fa-solid" style="color: #8D99AE" (click)="toggleMenu()" [icon]="menuIcon" title="Groups' options"></fa-icon>
 
 <div class="menu" *ngIf="menuSliding == 'out'">
   <ul>
-    <li *ngFor="let group of userGroupData$ | async"><a [routerLink]="['/main/group', group.name[0], group.id]" (click)="goToGroup()">{{ group.name }}</a></li>
+    <li *ngFor="let group of userGroupData$ | async">
+        <fa-icon [icon]="groupIcon"></fa-icon>
+      <a [routerLink]="['/main/group', group.name[0], group.id]" (click)="goToGroup()"> {{ group.name }}
+      </a>
+    </li>
     <div><p (click)="open(content)">Add group</p></div>
   </ul>
 </div>

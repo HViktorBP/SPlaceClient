@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddQuizComponent } from './add-quiz.component';
+import { RenameGroupComponent } from './rename-group.component';
 
-describe('AddQuizComponent', () => {
-  let component: AddQuizComponent;
-  let fixture: ComponentFixture<AddQuizComponent>;
+describe('RenameGroupComponent', () => {
+  let component: RenameGroupComponent;
+  let fixture: ComponentFixture<RenameGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddQuizComponent]
+      imports: [RenameGroupComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddQuizComponent);
+    fixture = TestBed.createComponent(RenameGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
