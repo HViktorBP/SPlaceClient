@@ -20,4 +20,14 @@ export class GroupsService {
   getUsersInGroup(groupId: number) {
     return this.http.get<number[]>(`${this.baseUrl}users-in-group?groupID=${groupId}`)
   }
+
+  addGroup(userID: number, groupName: string) {
+    const group = {userID, groupName}
+    return this.http.post<any>(`${this.baseUrl}add-group`, group)
+  }
+
+  addUserInGroup(userID:number, groupID:number) {
+    const usersGroup = {userID, groupID}
+    return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
+  }
 }

@@ -50,3 +50,38 @@ ul p:hover {
   box-shadow: 6px 6px 2px 1px rgba(0, 0, 0, .1);
   transition: 0.3s;
 }
+
+.modal-body button {
+  margin: 5px;
+  background-color: #8D99AE;
+  transition: 0.3s;
+  cursor: pointer;
+  color: #2B2D42;
+}
+
+.modal-body button:hover {
+  transition: 0.3s;
+  background-color: #2B2D42;
+  color: #8D99AE;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-title {
+  flex-grow: 6;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
