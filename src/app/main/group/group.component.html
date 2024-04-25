@@ -1,9 +1,9 @@
 <div class="main">
   <app-group-main></app-group-main>
   <div class="group-right">
-    <app-group-name [groupName]="getName().value" [amount]="getUsers().value.length"></app-group-name>
+    <app-group-name [groupName]="getName().value"></app-group-name>
     <div class="group-right-main">
-      <app-participants class="scroll child" [participants]="getUsers().value"></app-participants>
+      <app-participants class="scroll child"></app-participants>
       <app-quiz class="scroll child"></app-quiz>
       <app-group-options class="child"></app-group-options>
     </div>

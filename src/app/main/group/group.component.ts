@@ -11,6 +11,7 @@ import {BehaviorSubject, forkJoin, map, Observable, Subject, switchMap, takeUnti
 import {User} from "../../interfaces/user";
 import {ChatService} from "../../services/chat.service";
 import * as signalR from "@microsoft/signalr";
+import {UsersDataService} from "../../services/users-data.service";
 
 @Component({
   selector: 'app-group',
@@ -29,8 +30,6 @@ import * as signalR from "@microsoft/signalr";
 export class GroupComponent implements OnInit{
   private id$ = new BehaviorSubject<string>('')
   private name$ = new BehaviorSubject<string>('')
-  private users$ = new BehaviorSubject<string[]>([])
-  private users:string[]= []
   private destroy$: Subject<void> = new Subject<void>();
 
   public connection : signalR.HubConnection = new signalR.HubConnectionBuilder()
@@ -43,7 +42,8 @@ export class GroupComponent implements OnInit{
 
   constructor(private group : GroupsService,
               private chat: ChatService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private usersDataService: UsersDataService) {
     this.start()
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -87,10 +87,6 @@ export class GroupComponent implements OnInit{
     return this.id$
   }
 
-  getUsers() {
-    return this.users$
-  }
-
   getName() {
     return this.name$
   }
@@ -120,9 +116,8 @@ export class GroupComponent implements OnInit{
         )
       })
     ).subscribe(userUsernames => {
-      this.users.length = 0;
-      this.users.push(...userUsernames);
-      this.users$.next(this.users);
+      this.usersDataService.updateUsersList(userUsernames);
+      this.usersDataService.updateUserCount(userUsernames.length);
 
       this.group.getGroupById(+this.id$.value).pipe(
         switchMap(res => {

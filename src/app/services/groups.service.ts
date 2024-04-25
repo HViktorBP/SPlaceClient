@@ -26,8 +26,8 @@ export class GroupsService {
     return this.http.post<any>(`${this.baseUrl}add-group`, group)
   }
 
-  addUserInGroup(userID:number, groupID:number) {
-    const usersGroup = {userID, groupID}
+  addUserInGroup(userID:number, groupID:number, role: string) {
+    const usersGroup = {userID, groupID, role}
     return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
   }
 }

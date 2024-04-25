@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgForOf} from "@angular/common";
+import {UsersDataService} from "../../../../services/users-data.service";
 
 @Component({
   selector: 'app-participants',
@@ -10,10 +11,15 @@ import {NgForOf} from "@angular/common";
   templateUrl: './participants.component.html',
   styleUrl: './participants.component.css'
 })
-export class ParticipantsComponent {
-  @Input({required: true}) participants! : string[];
+export class ParticipantsComponent implements OnInit {
+  participants! : string[];
 
-  constructor() {
+  constructor(private usesDataService : UsersDataService) {
+
+  }
+
+  ngOnInit() {
+    this.usesDataService.userList$.subscribe(list => this.participants = list)
 
   }
 }

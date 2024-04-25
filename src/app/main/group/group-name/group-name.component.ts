@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
   selector: 'app-group-name',
@@ -7,7 +8,15 @@ import {Component, Input} from '@angular/core';
   templateUrl: './group-name.component.html',
   styleUrl: './group-name.component.css'
 })
-export class GroupNameComponent {
+export class GroupNameComponent implements OnInit {
   @Input({required: true}) groupName! : string;
-  @Input({required: true}) amount! : number;
+  count! : number;
+
+  constructor(private usesDataService : UsersDataService) {
+
+  }
+
+  ngOnInit() {
+    this.usesDataService.userCount$.subscribe(list => this.count = list)
+  }
 }
