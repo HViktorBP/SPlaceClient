@@ -18,5 +18,6 @@ export class GroupNameComponent implements OnInit {
 
   ngOnInit() {
     this.usesDataService.userCount$.subscribe(list => this.count = list)
+    this.usesDataService.groupName$.subscribe(grpName => this.groupName = grpName)
   }
 }

@@ -5,7 +5,7 @@ import {ParticipantsComponent} from "./group-main/participants/participants.comp
 import {GroupOptionsComponent} from "./group-main/group-options/group-options.component";
 import {QuizComponent} from "./group-main/quiz/quiz.component";
 import {GroupsService} from "../../services/groups.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {AuthorisationService} from "../../services/authorisation.service";
 import {BehaviorSubject, forkJoin, map, Observable, Subject, switchMap, takeUntil} from "rxjs";
 import {User} from "../../interfaces/user";
@@ -43,8 +43,7 @@ export class GroupComponent implements OnInit{
   constructor(private group : GroupsService,
               private chat: ChatService,
               private route: ActivatedRoute,
-              private usersDataService: UsersDataService,
-              private router: Router) {
+              private usersDataService: UsersDataService) {
     this.start()
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -83,10 +82,6 @@ export class GroupComponent implements OnInit{
 
   public async leaveChat() {
     return this.connection.stop()
-  }
-
-  getId() {
-    return this.id$
   }
 
   getName() {

@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {GroupComponent} from "../group.component";
 import {AuthorisationService} from "../../../services/authorisation.service";
 import {forkJoin, of, switchMap, tap} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-group-main',
@@ -31,7 +32,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 
-  constructor() {
+  constructor(private route : ActivatedRoute) {
 
   }
 
@@ -57,13 +58,14 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
 
   sendMessage() {
     const date = new Date();
+    const groupID = this.route.snapshot.paramMap.get('id')!
 
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(res => {
-        return this.chatService.saveMessage(res, +this.groupData.getId().value, this.inputMessage, date).pipe(
+        return this.chatService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
           switchMap(() => {
             return forkJoin({
-              sendMessageResult: this.groupData.sendMessage(this.inputMessage, this.groupData.getId().value.toString(), date),
+              sendMessageResult: this.groupData.sendMessage(this.inputMessage, groupID, date),
               clearInputResult: of(this.inputMessage = '')
             })
           }),
