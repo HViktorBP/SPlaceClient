@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {group} from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +22,21 @@ export class GroupsService {
     return this.http.get<number[]>(`${this.baseUrl}users-in-group?groupID=${groupId}`)
   }
 
-  addGroup(userID: number, groupName: string) {
-    const group = {userID, groupName}
+  getUserRole(userId: number, groupId: number) {
+    return this.http.get<string>(`${this.baseUrl}user-role?userID=${userId}&groupID=${groupId}`)
+  }
+
+  addGroup(userId: number, groupName: string) {
+    const group = {userId, groupName}
     return this.http.post<any>(`${this.baseUrl}add-group`, group)
   }
 
-  addUserInGroup(userID:number, groupID:number, role: string) {
-    const usersGroup = {userID, groupID, role}
+  addUserInGroup(userId:number, groupId:number, role: string) {
+    const usersGroup = {userId, groupId, role}
     return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
+  }
+
+  deleteUserFromGroup(userId : number, groupId : number, role : string) {
+    return this.http.delete<any>(`${this.baseUrl}delete-user-from-group`, {body : {userId, groupId, role}})
   }
 }
