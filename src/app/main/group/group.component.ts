@@ -12,7 +12,7 @@ import {User} from "../../interfaces/user";
 import {ChatService} from "../../services/chat.service";
 import * as signalR from "@microsoft/signalr";
 import {UsersDataService} from "../../services/users-data.service";
-import {QuizesService} from "../../services/quizes.service";
+import {QuizzesService} from "../../services/quizzes.service";
 
 @Component({
   selector: 'app-group',
@@ -45,7 +45,7 @@ export class GroupComponent implements OnInit{
               private chat: ChatService,
               private route: ActivatedRoute,
               private usersDataService: UsersDataService,
-              private quizes : QuizesService) {
+              private quizzes : QuizzesService) {
     this.start()
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -107,6 +107,7 @@ export class GroupComponent implements OnInit{
 
   updateData() {
     this.id$.next(this.route.snapshot.paramMap.get('id')!);
+
     this.group.getUsersInGroup(+this.id$.value).pipe(
       switchMap(usersID => {
         const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
@@ -131,8 +132,8 @@ export class GroupComponent implements OnInit{
       })
     })
 
-    this.quizes.getQuizesInGroup(+this.id$.value).subscribe(quizesList => {
-      this.usersDataService.updateQuizesList(quizesList)
+    this.quizzes.getQuizzesInGroup(+this.id$.value).subscribe(quizzesList => {
+      this.usersDataService.updateQuizesList(quizzesList)
     })
   }
 }

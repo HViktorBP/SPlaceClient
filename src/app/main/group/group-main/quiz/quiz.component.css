@@ -1,6 +1,4 @@
-
-
-div {
+.quizzes-container {
   background-color: #edf2f4;
   color: #2B2D42;
   border-radius: 10px;
@@ -22,8 +20,80 @@ ul {
   padding-left: 8px;
 }
 
+ul li {
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+ul li:hover {
+  text-decoration: underline;
+  transition: 0.4s;
+}
+
+ul p, .form-group div p, .submit-button, .delete-button  {
+  text-align: center;
+  background-color: #8D99AE;
+  margin: 10px 60px;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+ul p:hover, .form-group div p:hover, .submit-button, .delete-button  {
+  box-shadow: 6px 6px 2px 1px rgba(0, 0, 0, .1);
+  transition: 0.3s;
+}
+
+.submit-button, .delete-button {
+  margin: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.submit-button {
+  background-color: #8D99AE;
+  color: #2B2D42;
+}
+
+.delete-button {
+  background-color: #b41212;
+  color: #edf2f4;
+}
+
+.submit-button:hover {
+  transition: 0.3s;
+  background-color: #2B2D42;
+  color: #8D99AE;
+}
+
+.delete-button:hover {
+  background-color: #5b0808;
+}
+
 li {
   padding: 3px 4px;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-title {
+  flex-grow: 6;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @media only screen and (min-width: 700px) {

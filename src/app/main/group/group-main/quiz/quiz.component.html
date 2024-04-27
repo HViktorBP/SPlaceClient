@@ -1,6 +1,74 @@
-<div>
-  <h3> Quizes </h3>
+<div class="quizzes-container">
+  <h3> Quizzes </h3>
   <ul>
-    <li *ngFor="let quiz of quizes" (click)="onQuizOpened(quiz)">{{quiz.name}}</li>
+    <li *ngFor="let quiz of quizzes" (click)="onQuizOpened(quiz, quizContent)">{{quiz.name}}</li>
+    <div><p (click)="onAddQuiz(newQuizContent)">Add quiz</p></div>
   </ul>
 </div>
+
+<ng-template #newQuizContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Quiz</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmitNewQuiz(quizName.value)" #newQuiz="ngForm" [formGroup]="quizForm">
+      <div class="form-group">
+        <h5>New quiz's name:</h5>
+        <input formControlName="name" type="text" id="quiz-name" name="quiz-name" required #quizName>
+        <h5 style="padding-top: 22px">Questions:</h5>
+
+        <div><p (click)="onAddQuestion()">Add Question</p></div>
+        <div formArrayName="questions">
+          <div *ngFor="let questionControl of questions.controls; let questionIndex = index">
+            <hr/>
+              <div [formGroupName]="questionIndex">
+
+                <label for="question{{questionIndex}}">Question {{questionIndex + 1}}:</label>
+                <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}">
+
+                <button class="delete-button" (click)="onDeleteQuestion(questionIndex)">Delete</button>
+
+                <div *ngIf="answers(questionControl)?.length != 0">
+                  <div formArrayName="answers">
+                    <div *ngFor="let answersControl of answers(questionControl).controls; let answerIndex = index">
+                      <hr/>
+                      <div [formGroupName]="answerIndex">
+                        <label for="answer{{questionIndex}}{{answerIndex}}">Answer {{answerIndex + 1}}:</label>
+                        <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}">
+
+                        <button class="delete-button" (click)="onDeleteAnswer(answerIndex, questionControl)">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div><p (click)="onAddAnswers(questionControl)">Add Answers</p></div>
+
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="buttons">
+        <hr/>
+        <button type="submit" [disabled]="!newQuiz.valid" class="submit-button">Add new quiz</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #quizContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title-2">Quiz</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmitQuizAnswer()">
+
+    </form>
+  </div>
+</ng-template>
