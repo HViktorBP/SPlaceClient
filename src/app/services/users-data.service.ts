@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {QuizesDTO} from "../interfaces/quizes-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class UsersDataService {
   private userListSubject = new BehaviorSubject<string[]>([]);
   userList$ = this.userListSubject.asObservable();
 
+  private quizListSubject = new BehaviorSubject<QuizesDTO[]>([]);
+  quizList$ = this.quizListSubject.asObservable();
 
   constructor() { }
 
@@ -28,5 +31,9 @@ export class UsersDataService {
 
   updateGroupName(groupName: string) {
     this.groupNameSubject.next(groupName)
+  }
+
+  updateQuizesList(quizesList: QuizesDTO[]) {
+    this.quizListSubject.next(quizesList)
   }
 }

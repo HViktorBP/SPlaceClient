@@ -12,6 +12,7 @@ import {User} from "../../interfaces/user";
 import {ChatService} from "../../services/chat.service";
 import * as signalR from "@microsoft/signalr";
 import {UsersDataService} from "../../services/users-data.service";
+import {QuizesService} from "../../services/quizes.service";
 
 @Component({
   selector: 'app-group',
@@ -43,7 +44,8 @@ export class GroupComponent implements OnInit{
   constructor(private group : GroupsService,
               private chat: ChatService,
               private route: ActivatedRoute,
-              private usersDataService: UsersDataService) {
+              private usersDataService: UsersDataService,
+              private quizes : QuizesService) {
     this.start()
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -127,6 +129,10 @@ export class GroupComponent implements OnInit{
       }, error => {
         console.log("Error occurred while joining chat:", error)
       })
+    })
+
+    this.quizes.getQuizesInGroup(+this.id$.value).subscribe(quizesList => {
+      this.usersDataService.updateQuizesList(quizesList)
     })
   }
 }

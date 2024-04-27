@@ -1,6 +1,6 @@
 <div>
   <h3> Quizes </h3>
   <ul>
-    <li *ngFor="let quiz of quizes">{{quiz}}</li>
+    <li *ngFor="let quiz of quizes" (click)="onQuizOpened(quiz)">{{quiz.name}}</li>
   </ul>
 </div>
