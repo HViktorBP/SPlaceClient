@@ -14,20 +14,19 @@
     </button>
   </div>
   <div class="modal-body">
-    <form (ngSubmit)="onSubmitNewQuiz(quizName.value)" #newQuiz="ngForm" [formGroup]="quizForm">
+    <form (ngSubmit)="onSubmitNewQuiz()" [formGroup]="quizForm">
       <div class="form-group">
         <h5>New quiz's name:</h5>
-        <input formControlName="name" type="text" id="quiz-name" name="quiz-name" required #quizName>
+        <input formControlName="name" type="text" id="quiz-name" name="quiz-name" required>
         <h5 style="padding-top: 22px">Questions:</h5>
 
-        <div><p (click)="onAddQuestion()">Add Question</p></div>
         <div formArrayName="questions">
           <div *ngFor="let questionControl of questions.controls; let questionIndex = index">
             <hr/>
               <div [formGroupName]="questionIndex">
 
                 <label for="question{{questionIndex}}">Question {{questionIndex + 1}}:</label>
-                <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}">
+                <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}" required>
 
                 <button class="delete-button" (click)="onDeleteQuestion(questionIndex)">Delete</button>
 
@@ -37,8 +36,9 @@
                       <hr/>
                       <div [formGroupName]="answerIndex">
                         <label for="answer{{questionIndex}}{{answerIndex}}">Answer {{answerIndex + 1}}:</label>
-                        <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}">
-
+                        <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}" required>
+                        <label for="isCorrect{{questionIndex}}{{answerIndex}}">Correct:</label>
+                        <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
                         <button class="delete-button" (click)="onDeleteAnswer(answerIndex, questionControl)">Delete</button>
                       </div>
                     </div>
@@ -50,10 +50,11 @@
               </div>
           </div>
         </div>
+        <div><p (click)="onAddQuestion()">Add Question</p></div>
       </div>
       <div class="buttons">
         <hr/>
-        <button type="submit" [disabled]="!newQuiz.valid" class="submit-button">Add new quiz</button>
+        <button type="submit" [disabled]="!quizForm.valid" class="submit-button">Add new quiz</button>
       </div>
     </form>
   </div>

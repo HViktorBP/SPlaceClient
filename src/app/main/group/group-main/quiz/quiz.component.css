@@ -30,7 +30,7 @@ ul li:hover {
   transition: 0.4s;
 }
 
-ul p, .form-group div p, .submit-button, .delete-button  {
+ul p, .form-group div p, /*.submit-button,*/ .delete-button  {
   text-align: center;
   background-color: #8D99AE;
   margin: 10px 60px;
@@ -40,7 +40,7 @@ ul p, .form-group div p, .submit-button, .delete-button  {
   transition: 0.3s;
 }
 
-ul p:hover, .form-group div p:hover, .submit-button, .delete-button  {
+ul p:hover, .form-group div p:hover, /*.submit-button,*/ .delete-button  {
   box-shadow: 6px 6px 2px 1px rgba(0, 0, 0, .1);
   transition: 0.3s;
 }
@@ -51,21 +51,21 @@ ul p:hover, .form-group div p:hover, .submit-button, .delete-button  {
   cursor: pointer;
 }
 
-.submit-button {
-  background-color: #8D99AE;
-  color: #2B2D42;
-}
+/*.submit-button {*/
+/*  background-color: #8D99AE;*/
+/*  color: #2B2D42;*/
+/*}*/
 
 .delete-button {
   background-color: #b41212;
   color: #edf2f4;
 }
 
-.submit-button:hover {
-  transition: 0.3s;
-  background-color: #2B2D42;
-  color: #8D99AE;
-}
+/*.submit-button:hover {*/
+/*  transition: 0.3s;*/
+/*  background-color: #2B2D42;*/
+/*  color: #8D99AE;*/
+/*}*/
 
 .delete-button:hover {
   background-color: #5b0808;

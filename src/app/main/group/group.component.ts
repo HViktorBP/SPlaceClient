@@ -133,7 +133,7 @@ export class GroupComponent implements OnInit{
     })
 
     this.quizzes.getQuizzesInGroup(+this.id$.value).subscribe(quizzesList => {
-      this.usersDataService.updateQuizesList(quizzesList)
+      this.usersDataService.updateQuizzesList(quizzesList)
     })
   }
 }

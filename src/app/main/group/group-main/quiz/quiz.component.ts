@@ -8,6 +8,8 @@ import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import {QuizzesService} from "../../../../services/quizzes.service";
+import {catchError, switchMap, tap, throwError} from "rxjs";
 
 @Component({
   selector: 'app-quiz',
@@ -32,7 +34,8 @@ export class QuizComponent implements OnInit {
               private group : GroupsService,
               private route : ActivatedRoute,
               private modalService: NgbModal,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private quiz: QuizzesService) {
   }
 
   ngOnInit() {
@@ -41,7 +44,7 @@ export class QuizComponent implements OnInit {
       questions: this.fb.array([
         this.createQuestion()
       ])
-    });
+    }, {validators: [this.atLeastOneQuestion, this.atLeastOneAnswer]});
     this.userDataService.quizList$.subscribe(list => this.quizzes = list)
   }
   createQuestion() {
@@ -60,6 +63,19 @@ export class QuizComponent implements OnInit {
     });
   }
 
+  atLeastOneQuestion(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    return questionsArray && questionsArray.length > 0 ? null : { noQuestions: true };
+  }
+
+  atLeastOneAnswer(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    const invalidQuestions = questionsArray.controls.filter(control => {
+      const answersArray = control.get('answers') as FormArray;
+      return !answersArray || answersArray.length === 0;
+    });
+    return invalidQuestions.length === 0 ? null : { noAnswers: true };
+  }
   onAddQuiz(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
@@ -94,12 +110,40 @@ export class QuizComponent implements OnInit {
     return question.get('answers') as FormArray
   }
 
-  onSubmitNewQuiz(quizName : string) {
-    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
-      const groupID = +this.route.snapshot.paramMap.get('id')!
-      console.log(quizName, userID, groupID)
-      this.modalService.dismissAll()
-    })
+  onSubmitNewQuiz() {
+    const groupID = +this.route.snapshot.paramMap.get('id')!;
+    this.auth.getUserID(this.auth.getUsername()).pipe(
+      switchMap(userID => {
+        console.log(userID, groupID, this.quizForm.value);
+        return this.group.getUserRole(userID, groupID).pipe(
+          switchMap(role => {
+            return this.quiz.submitNewQuiz(userID, groupID, role, this.quizForm.value).pipe(
+              tap(res => console.log(res.message)),
+              catchError(err => {
+                console.error(err.message);
+                return throwError(err);
+              })
+            );
+          }),
+          catchError(err => {
+            console.error(err.message);
+            return throwError(err);
+          })
+        );
+      }),
+      switchMap(() => this.quiz.getQuizzesInGroup(groupID)),
+      catchError(err => {
+        console.error(err.message);
+        return throwError(err);
+      })
+    ).subscribe(quizzes => {
+      this.userDataService.updateQuizzesList(quizzes);
+      this.quizForm.reset();
+      const questionsArray = this.quizForm.get('questions') as FormArray;
+      questionsArray.clear();
+      this.modalService.dismissAll();
+    });
+
   }
 
   onQuizOpened(quiz : QuizzesDTO, content : any) {

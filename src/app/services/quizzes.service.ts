@@ -12,4 +12,8 @@ export class QuizzesService {
   getQuizzesInGroup(groupID: number) {
     return this.http.get<QuizzesDTO[]>(`${this.baseUrl}quizes-in-group?groupID=${groupID}`)
   }
+
+  submitNewQuiz(userID: number, groupID: number, role: string, quiz: any) {
+    return this.http.post<any>(`${this.baseUrl}add-new-quiz?userID=${userID}&groupID=${groupID}&role=${role}`, quiz)
+  }
 }

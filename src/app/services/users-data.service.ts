@@ -33,7 +33,7 @@ export class UsersDataService {
     this.groupNameSubject.next(groupName)
   }
 
-  updateQuizesList(quizesList: QuizzesDTO[]) {
+  updateQuizzesList(quizesList: QuizzesDTO[]) {
     this.quizListSubject.next(quizesList)
   }
 }
