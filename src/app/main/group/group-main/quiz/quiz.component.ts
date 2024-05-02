@@ -83,33 +83,26 @@ export class QuizComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
     })
   }
-
   onAddQuestion() {
     this.questions.push(this.createQuestion())
   }
-
   onDeleteQuestion(index: number) {
     this.questions.removeAt(index)
   }
-
   onAddAnswers(question: AbstractControl<any>) {
     const answers = question.get('answers') as FormArray;
     answers.push(this.createAnswer());
   }
-
   onDeleteAnswer(index: number, question: AbstractControl<any>) {
     const answers = question.get('answers') as FormArray;
     answers.removeAt(index)
   }
-
   get questions() {
     return this.quizForm.get('questions') as FormArray
   }
-
   answers(question: AbstractControl<any>) {
     return question.get('answers') as FormArray
   }
-
   onSubmitNewQuiz() {
     const groupID = +this.route.snapshot.paramMap.get('id')!;
     this.auth.getUserID(this.auth.getUsername()).pipe(
@@ -143,10 +136,16 @@ export class QuizComponent implements OnInit {
       questionsArray.clear();
       this.modalService.dismissAll();
     });
-
   }
-
   onQuizOpened(quiz : QuizzesDTO, content : any) {
+    this.modalService.dismissAll()
+    const groupId = +this.route.snapshot.paramMap.get('id')!
+
+    this.quiz.getQuizId(groupId, quiz.name!).subscribe( quizId => {
+      this.quiz.getQuiz(groupId, quizId).subscribe(res => {
+        console.log(res)
+      })
+    })
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
     }, (reason) => {
@@ -154,12 +153,9 @@ export class QuizComponent implements OnInit {
     })
     console.log(quiz.name, quiz.groupID, quiz.creatorID)
   }
-
   onSubmitQuizAnswer() {
 
   }
-
-
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

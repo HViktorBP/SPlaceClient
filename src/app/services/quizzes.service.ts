@@ -16,4 +16,12 @@ export class QuizzesService {
   submitNewQuiz(userID: number, groupID: number, role: string, quiz: any) {
     return this.http.post<any>(`${this.baseUrl}add-new-quiz?userID=${userID}&groupID=${groupID}&role=${role}`, quiz)
   }
+
+  getQuizId(groupID:number, quizName: string) {
+    return this.http.get<number>(`${this.baseUrl}get-quiz-id?groupID=${groupID}&quizName=${quizName}`)
+  }
+
+  getQuiz(groupID:number, quizId: number) {
+    return this.http.get<any>(`${this.baseUrl}get-quiz?groupID=${groupID}&quizId=${quizId}`)
+  }
 }
