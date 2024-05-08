@@ -34,7 +34,6 @@ export class QuizComponent implements OnInit {
   quizzes : QuizzesDTO[] = []
   closeResult : string = ''
   newQuizForm!: FormGroup
-  retrievedQuizForm!: FormGroup
   quizModel!: QuizModel
 
   constructor(private userDataService : UsersDataService,
@@ -85,6 +84,8 @@ export class QuizComponent implements OnInit {
     return invalidQuestions.length === 0 ? null : { noAnswers: true };
   }
   onAddQuiz(content: any) {
+    this.resetQuiz()
+
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`
     }, (reason) => {
@@ -109,19 +110,13 @@ export class QuizComponent implements OnInit {
     return this.newQuizForm.get('questions') as FormArray
   }
 
-  get questionsRetrieved() {
-    return this.retrievedQuizForm.get('questionsRetrieved') as FormArray
-  }
-
   answers(question: AbstractControl<any>) {
     return question.get('answers') as FormArray
   }
 
-  answersRetrieved(questionRetrieved: AbstractControl<any>) {
-    return questionRetrieved.get('answersRetrieved') as FormArray
-  }
-
   onSubmitNewQuiz() {
+    this.resetQuiz()
+
     const groupID = +this.route.snapshot.paramMap.get('id')!;
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(userID => {
@@ -149,27 +144,26 @@ export class QuizComponent implements OnInit {
       })
     ).subscribe(quizzes => {
       this.userDataService.updateQuizzesList(quizzes);
-      this.newQuizForm.reset();
-      const questionsArray = this.newQuizForm.get('questions') as FormArray;
-      questionsArray.clear();
-      this.modalService.dismissAll();
+      this.resetQuiz()
     });
   }
 
   async initializeNewQuiz(quiz: QuizModel) {
-    this.retrievedQuizForm = this.fb.group({
+    this.resetQuiz()
+
+    this.newQuizForm = this.fb.group({
       name: quiz.name,
-      questionsRetrieved: this.fb.array([])
+      questions: this.fb.array([])
     });
-    const questions = this.retrievedQuizForm.get('questionsRetrieved') as FormArray;
+    const questions = this.newQuizForm.get('questions') as FormArray;
 
     await Promise.all(quiz.questions.map(async q => {
       const question = this.fb.group({
         question: q.question,
-        answersRetrieved: this.fb.array([])
+        answers: this.fb.array([])
       });
 
-      const answers = question.get('answersRetrieved') as FormArray;
+      const answers = question.get('answers') as FormArray;
       await Promise.all(q.answers.map(async a => {
         const answer = this.fb.group({
           answer: a.answer,
@@ -179,19 +173,18 @@ export class QuizComponent implements OnInit {
       }));
       questions.push(question);
     }));
-
   }
 
 
   async onQuizOpened(quiz : QuizzesDTO, content : any) {
-    this.modalService.dismissAll()
+    this.resetQuiz()
+
     const groupId = +this.route.snapshot.paramMap.get('id')!
 
     this.quiz.getQuizId(groupId, quiz.name!).subscribe( quizId => {
       this.quiz.getQuiz(groupId, quizId).subscribe(async res => {
         this.quizModel = res
         await this.initializeNewQuiz(res);
-        console.log(this.retrievedQuizForm)
         this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
           this.closeResult = `Closed with: ${result}`
         }, (reason) => {
@@ -202,7 +195,7 @@ export class QuizComponent implements OnInit {
   }
 
   onSubmitQuizAnswered() {
-    const formValue = this.retrievedQuizForm.value;
+    const formValue = this.newQuizForm.value;
     console.log('Selected answers:', formValue);
   }
 
@@ -214,5 +207,12 @@ export class QuizComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  private resetQuiz() {
+    this.modalService.dismissAll()
+    this.newQuizForm.reset();
+    const questionsArray = this.newQuizForm.get('questions') as FormArray;
+    questionsArray.clear();
   }
 }

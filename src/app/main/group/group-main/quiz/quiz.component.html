@@ -67,14 +67,14 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="retrievedQuizForm" (ngSubmit)="onSubmitQuizAnswered()">
-    <div formArrayName="questionsRetrieved">
-      <div *ngFor="let questionControl of questionsRetrieved.controls; let questionIndex = index">
+  <form [formGroup]="newQuizForm" (ngSubmit)="onSubmitQuizAnswered()">
+    <div formArrayName="questions">
+      <div *ngFor="let questionControl of questions.controls; let questionIndex = index">
         <div [formGroupName]="questionIndex">
           <h3>{{ questionIndex + 1 }}. {{questionControl.get('question')?.value}}</h3>
-          <div *ngIf="answersRetrieved(questionControl)?.length != 0">
-            <div formArrayName="answersRetrieved">
-              <div *ngFor="let answersControl of answersRetrieved(questionControl).controls; let answerIndex = index">
+          <div *ngIf="answers(questionControl)?.length != 0">
+            <div formArrayName="answers">
+              <div *ngFor="let answersControl of answers(questionControl).controls; let answerIndex = index">
                 <div [formGroupName]="answerIndex">
                   <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
                   <span>{{answerIndex + 1}}. {{ answersControl.get('answer')?.value }}</span>
