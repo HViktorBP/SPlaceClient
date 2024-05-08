@@ -17,7 +17,7 @@
     <form (ngSubmit)="onSubmitNewQuiz()" [formGroup]="newQuizForm">
       <div class="form-group">
         <h5>New quiz's name:</h5>
-        <input formControlName="name" type="text" id="quiz-name" name="quiz-name" required>
+        <input formControlName="name" type="text" id="quiz-name" name="quiz-name">
         <h5 style="padding-top: 22px">Questions:</h5>
 
         <div formArrayName="questions">
@@ -26,7 +26,7 @@
               <div [formGroupName]="questionIndex">
 
                 <label for="question{{questionIndex}}">Question {{questionIndex + 1}}:</label>
-                <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}" required>
+                <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}">
 
                 <button class="delete-button" (click)="onDeleteQuestion(questionIndex)">Delete</button>
 
@@ -36,7 +36,7 @@
                       <hr/>
                       <div [formGroupName]="answerIndex">
                         <label for="answer{{questionIndex}}{{answerIndex}}">Answer {{answerIndex + 1}}:</label>
-                        <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}" required>
+                        <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}">
                         <label for="isCorrect{{questionIndex}}{{answerIndex}}">Correct:</label>
                         <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
                         <button class="delete-button" (click)="onDeleteAnswer(answerIndex, questionControl)">Delete</button>

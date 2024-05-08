@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {UsersDataService} from "../../../../services/users-data.service";
 import {QuizzesDTO} from "../../../../interfaces/quizes-dto";
-import {AbstractControl, Form, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthorisationService} from "../../../../services/authorisation.service";
 import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
@@ -11,8 +11,6 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {catchError, switchMap, tap, throwError} from "rxjs";
 import {QuizModel} from "../../../../interfaces/quiz-model";
-import {QuestionsModel} from "../../../../interfaces/questions-model";
-import {AnswerModel} from "../../../../interfaces/answer-model";
 
 @Component({
   selector: 'app-quiz',
@@ -115,8 +113,6 @@ export class QuizComponent implements OnInit {
   }
 
   onSubmitNewQuiz() {
-    this.resetQuiz()
-
     const groupID = +this.route.snapshot.paramMap.get('id')!;
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(userID => {
@@ -210,9 +206,9 @@ export class QuizComponent implements OnInit {
   }
 
   private resetQuiz() {
-    this.modalService.dismissAll()
     this.newQuizForm.reset();
     const questionsArray = this.newQuizForm.get('questions') as FormArray;
     questionsArray.clear();
+    this.modalService.dismissAll()
   }
 }
