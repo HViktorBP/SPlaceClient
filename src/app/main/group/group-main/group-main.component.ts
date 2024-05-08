@@ -50,7 +50,6 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     if (this.canBeScrolled) {
-      console.log("Now")
       this.canBeScrolled = !this.canBeScrolled
       this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
     }

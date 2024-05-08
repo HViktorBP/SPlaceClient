@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {QuizzesDTO} from "../interfaces/quizes-dto";
+import {QuizModel} from "../interfaces/quiz-model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,6 @@ export class QuizzesService {
   }
 
   getQuiz(groupID:number, quizId: number) {
-    return this.http.get<any>(`${this.baseUrl}get-quiz?groupID=${groupID}&quizId=${quizId}`)
+    return this.http.get<QuizModel>(`${this.baseUrl}get-quiz?groupID=${groupID}&quizId=${quizId}`)
   }
 }

@@ -14,7 +14,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form (ngSubmit)="onSubmitNewQuiz()" [formGroup]="quizForm">
+    <form (ngSubmit)="onSubmitNewQuiz()" [formGroup]="newQuizForm">
       <div class="form-group">
         <h5>New quiz's name:</h5>
         <input formControlName="name" type="text" id="quiz-name" name="quiz-name" required>
@@ -54,7 +54,7 @@
       </div>
       <div class="buttons">
         <hr/>
-        <button type="submit" [disabled]="!quizForm.valid" class="submit-button">Add new quiz</button>
+        <button type="submit" [disabled]="!newQuizForm.valid" class="submit-button">Add new quiz</button>
       </div>
     </form>
   </div>
@@ -62,14 +62,30 @@
 
 <ng-template #quizContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title-2"></h4>
+    <h4 class="modal-title" id="modal-basic-title-2">{{ quizModel.name }}</h4>
     <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <form (ngSubmit)="onSubmitQuizAnswer()">
-
-    </form>
-  </div>
+  <form [formGroup]="retrievedQuizForm" (ngSubmit)="onSubmitQuizAnswered()">
+    <div formArrayName="questionsRetrieved">
+      <div *ngFor="let questionControl of questionsRetrieved.controls; let questionIndex = index">
+        <div [formGroupName]="questionIndex">
+          <h3>{{ questionIndex + 1 }}. {{questionControl.get('question')?.value}}</h3>
+          <div *ngIf="answersRetrieved(questionControl)?.length != 0">
+            <div formArrayName="answersRetrieved">
+              <div *ngFor="let answersControl of answersRetrieved(questionControl).controls; let answerIndex = index">
+                <div [formGroupName]="answerIndex">
+                  <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
+                  <span>{{answerIndex + 1}}. {{ answersControl.get('answer')?.value }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr/>
+      </div>
+    </div>
+  </form>
 </ng-template>
+

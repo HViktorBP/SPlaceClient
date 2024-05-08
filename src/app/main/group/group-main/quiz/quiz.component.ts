@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {UsersDataService} from "../../../../services/users-data.service";
 import {QuizzesDTO} from "../../../../interfaces/quizes-dto";
-import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AbstractControl, Form, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthorisationService} from "../../../../services/authorisation.service";
 import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
@@ -10,6 +10,9 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {catchError, switchMap, tap, throwError} from "rxjs";
+import {QuizModel} from "../../../../interfaces/quiz-model";
+import {QuestionsModel} from "../../../../interfaces/questions-model";
+import {AnswerModel} from "../../../../interfaces/answer-model";
 
 @Component({
   selector: 'app-quiz',
@@ -19,15 +22,20 @@ import {catchError, switchMap, tap, throwError} from "rxjs";
     FormsModule,
     ReactiveFormsModule,
     JsonPipe,
-    NgIf
+    NgIf,
+    KeyValuePipe,
+    AsyncPipe
   ],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css'
 })
 export class QuizComponent implements OnInit {
+  @ViewChild('quizContent') quizContent!: ElementRef
   quizzes : QuizzesDTO[] = []
   closeResult : string = ''
-  quizForm!: FormGroup
+  newQuizForm!: FormGroup
+  retrievedQuizForm!: FormGroup
+  quizModel!: QuizModel
 
   constructor(private userDataService : UsersDataService,
               private auth : AuthorisationService,
@@ -39,7 +47,7 @@ export class QuizComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.quizForm = this.fb.group({
+    this.newQuizForm = this.fb.group({
       name: '',
       questions: this.fb.array([
         this.createQuestion()
@@ -98,19 +106,29 @@ export class QuizComponent implements OnInit {
     answers.removeAt(index)
   }
   get questions() {
-    return this.quizForm.get('questions') as FormArray
+    return this.newQuizForm.get('questions') as FormArray
   }
+
+  get questionsRetrieved() {
+    return this.retrievedQuizForm.get('questionsRetrieved') as FormArray
+  }
+
   answers(question: AbstractControl<any>) {
     return question.get('answers') as FormArray
   }
+
+  answersRetrieved(questionRetrieved: AbstractControl<any>) {
+    return questionRetrieved.get('answersRetrieved') as FormArray
+  }
+
   onSubmitNewQuiz() {
     const groupID = +this.route.snapshot.paramMap.get('id')!;
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(userID => {
-        console.log(userID, groupID, this.quizForm.value);
+        console.log(userID, groupID, this.newQuizForm.value);
         return this.group.getUserRole(userID, groupID).pipe(
           switchMap(role => {
-            return this.quiz.submitNewQuiz(userID, groupID, role, this.quizForm.value).pipe(
+            return this.quiz.submitNewQuiz(userID, groupID, role, this.newQuizForm.value).pipe(
               tap(res => console.log(res.message)),
               catchError(err => {
                 console.error(err.message);
@@ -131,31 +149,63 @@ export class QuizComponent implements OnInit {
       })
     ).subscribe(quizzes => {
       this.userDataService.updateQuizzesList(quizzes);
-      this.quizForm.reset();
-      const questionsArray = this.quizForm.get('questions') as FormArray;
+      this.newQuizForm.reset();
+      const questionsArray = this.newQuizForm.get('questions') as FormArray;
       questionsArray.clear();
       this.modalService.dismissAll();
     });
   }
-  onQuizOpened(quiz : QuizzesDTO, content : any) {
+
+  async initializeNewQuiz(quiz: QuizModel) {
+    this.retrievedQuizForm = this.fb.group({
+      name: quiz.name,
+      questionsRetrieved: this.fb.array([])
+    });
+    const questions = this.retrievedQuizForm.get('questionsRetrieved') as FormArray;
+
+    await Promise.all(quiz.questions.map(async q => {
+      const question = this.fb.group({
+        question: q.question,
+        answersRetrieved: this.fb.array([])
+      });
+
+      const answers = question.get('answersRetrieved') as FormArray;
+      await Promise.all(q.answers.map(async a => {
+        const answer = this.fb.group({
+          answer: a.answer,
+          isCorrect: false
+        });
+        answers.push(answer);
+      }));
+      questions.push(question);
+    }));
+
+  }
+
+
+  async onQuizOpened(quiz : QuizzesDTO, content : any) {
     this.modalService.dismissAll()
     const groupId = +this.route.snapshot.paramMap.get('id')!
 
     this.quiz.getQuizId(groupId, quiz.name!).subscribe( quizId => {
-      this.quiz.getQuiz(groupId, quizId).subscribe(res => {
-        console.log(res)
+      this.quiz.getQuiz(groupId, quizId).subscribe(async res => {
+        this.quizModel = res
+        await this.initializeNewQuiz(res);
+        console.log(this.retrievedQuizForm)
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
+          this.closeResult = `Closed with: ${result}`
+        }, (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+        })
       })
     })
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
-    })
-    console.log(quiz.name, quiz.groupID, quiz.creatorID)
   }
-  onSubmitQuizAnswer() {
 
+  onSubmitQuizAnswered() {
+    const formValue = this.retrievedQuizForm.value;
+    console.log('Selected answers:', formValue);
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
