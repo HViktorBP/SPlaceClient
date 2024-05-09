@@ -37,8 +37,8 @@
                       <div [formGroupName]="answerIndex">
                         <label for="answer{{questionIndex}}{{answerIndex}}">Answer {{answerIndex + 1}}:</label>
                         <input formControlName="answer" type="text" placeholder="Your answer" id="answer{{questionIndex}}{{answerIndex}}">
-                        <label for="isCorrect{{questionIndex}}{{answerIndex}}">Correct:</label>
-                        <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
+                        <label for="status{{questionIndex}}{{answerIndex}}">Correct:</label>
+                        <input formControlName="status" type="checkbox" id="status{{questionIndex}}{{answerIndex}}">
                         <button class="delete-button" (click)="onDeleteAnswer(answerIndex, questionControl)">Delete</button>
                       </div>
                     </div>
@@ -67,7 +67,7 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form [formGroup]="newQuizForm" (ngSubmit)="onSubmitQuizAnswered()">
+  <form [formGroup]="newQuizForm" (ngSubmit)="onSubmitQuizAnswered(result)">
     <div formArrayName="questions">
       <div *ngFor="let questionControl of questions.controls; let questionIndex = index">
         <div [formGroupName]="questionIndex">
@@ -76,7 +76,7 @@
             <div formArrayName="answers">
               <div *ngFor="let answersControl of answers(questionControl).controls; let answerIndex = index">
                 <div [formGroupName]="answerIndex">
-                  <input formControlName="isCorrect" type="checkbox" id="isCorrect{{questionIndex}}{{answerIndex}}">
+                  <input formControlName="status" type="checkbox" id="status{{questionIndex}}{{answerIndex}}">
                   <span>{{answerIndex + 1}}. {{ answersControl.get('answer')?.value }}</span>
                 </div>
               </div>
@@ -85,7 +85,20 @@
         </div>
         <hr/>
       </div>
+      <div class="buttons">
+        <button type="submit" [disabled]="!newQuizForm.valid" class="submit-button">Submit quiz</button>
+      </div>
     </div>
   </form>
+</ng-template>
+
+<ng-template #result let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title-3">Your result:</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <h4 style="text-align: center">You scored {{getUserScore}} point(s) on this quiz!</h4>
 </ng-template>
 

@@ -33,6 +33,7 @@ export class QuizComponent implements OnInit {
   closeResult : string = ''
   newQuizForm!: FormGroup
   quizModel!: QuizModel
+  private userScore : number = 0
 
   constructor(private userDataService : UsersDataService,
               private auth : AuthorisationService,
@@ -64,7 +65,7 @@ export class QuizComponent implements OnInit {
   createAnswer() {
     return this.fb.group({
       answer: '',
-      isCorrect: false
+      status: false
     });
   }
 
@@ -110,6 +111,10 @@ export class QuizComponent implements OnInit {
 
   answers(question: AbstractControl<any>) {
     return question.get('answers') as FormArray
+  }
+
+  get getUserScore() {
+    return this.userScore;
   }
 
   onSubmitNewQuiz() {
@@ -163,7 +168,7 @@ export class QuizComponent implements OnInit {
       await Promise.all(q.answers.map(async a => {
         const answer = this.fb.group({
           answer: a.answer,
-          isCorrect: false
+          status: false
         });
         answers.push(answer);
       }));
@@ -190,9 +195,31 @@ export class QuizComponent implements OnInit {
     })
   }
 
-  onSubmitQuizAnswered() {
+  openResult(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-3'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+    })
+  }
+
+  onSubmitQuizAnswered(content: any) {
     const formValue = this.newQuizForm.value;
     console.log('Selected answers:', formValue);
+
+    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+      const groupID = +this.route.snapshot.paramMap.get('id')!
+
+      this.quiz.getQuizId(groupID, this.quizModel.name!).subscribe(quizID => {
+        this.quiz.submitQuizResult(userID, groupID, quizID, formValue).subscribe({
+          next: result => {
+            this.userScore = result.score
+            this.openResult(content)
+          }
+        })
+      })
+    })
+    this.resetQuiz()
   }
 
   private getDismissReason(reason: any): string {

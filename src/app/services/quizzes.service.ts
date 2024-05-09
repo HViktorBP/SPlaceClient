@@ -25,4 +25,8 @@ export class QuizzesService {
   getQuiz(groupID:number, quizId: number) {
     return this.http.get<QuizModel>(`${this.baseUrl}get-quiz?groupID=${groupID}&quizId=${quizId}`)
   }
+
+  submitQuizResult(userID: number, groupID: number, quizID: number, quiz: any) {
+    return this.http.post<any>(`${this.baseUrl}submit-quiz-result?userID=${userID}&groupID=${groupID}&quizID=${quizID}`, quiz)
+  }
 }
