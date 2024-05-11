@@ -3,7 +3,7 @@ import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@an
 import {ChatService} from "../../../services/chat.service";
 import {FormsModule} from "@angular/forms";
 import {GroupComponent} from "../group.component";
-import {AuthorisationService} from "../../../services/authorisation.service";
+import {UserService} from "../../../services/user.service";
 import {forkJoin, of, switchMap, tap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 
@@ -28,7 +28,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   groupData = inject(GroupComponent)
   inputMessage= ''
   loggedInUserName!:string
-  auth = inject(AuthorisationService)
+  auth = inject(UserService)
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 

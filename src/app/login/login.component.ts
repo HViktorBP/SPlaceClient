@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {AuthorisationService} from "../services/authorisation.service";
+import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +17,7 @@ import {BehaviorSubject} from "rxjs";
 
 export class LoginComponent {
   logInError:string = ''
-  constructor(private router: Router, private auth : AuthorisationService) { }
+  constructor(private router: Router, private auth : UserService) { }
 
   onLogin(username: string, password: string){
     this.auth.logIn(username.trim(), password.trim()).subscribe(

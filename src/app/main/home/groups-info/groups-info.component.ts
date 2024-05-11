@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorisationService} from "../../../services/authorisation.service";
+import {UserService} from "../../../services/user.service";
 import {GroupsService} from "../../../services/groups.service";
 import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
@@ -25,7 +25,7 @@ export class GroupsInfoComponent implements OnInit {
   userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   icon = faUsers
 
-  constructor(private auth: AuthorisationService, private groups : GroupsService) {
+  constructor(private auth: UserService, private groups : GroupsService) {
 
   }
   ngOnInit(): void {

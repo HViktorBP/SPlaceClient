@@ -3,7 +3,7 @@ import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common"
 import {UsersDataService} from "../../../../services/users-data.service";
 import {QuizzesDTO} from "../../../../interfaces/quizes-dto";
 import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthorisationService} from "../../../../services/authorisation.service";
+import {UserService} from "../../../../services/user.service";
 import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -36,7 +36,7 @@ export class QuizComponent implements OnInit {
   private userScore : number = 0
 
   constructor(private userDataService : UsersDataService,
-              private auth : AuthorisationService,
+              private auth : UserService,
               private group : GroupsService,
               private route : ActivatedRoute,
               private modalService: NgbModal,

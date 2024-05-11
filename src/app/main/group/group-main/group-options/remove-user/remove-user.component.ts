@@ -4,7 +4,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUserMinus} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AuthorisationService} from "../../../../../services/authorisation.service";
+import {UserService} from "../../../../../services/user.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
@@ -25,7 +25,7 @@ import {User} from "../../../../../interfaces/user";
 export class RemoveUserComponent {
   icon = faUserMinus;
   closeResult : string = ''
-  constructor(private auth : AuthorisationService,
+  constructor(private auth : UserService,
               private group : GroupsService,
               private modalService : NgbModal,
               private route : ActivatedRoute,

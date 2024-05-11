@@ -7,6 +7,12 @@ import {QuizzesDTO} from "../interfaces/quizes-dto";
 })
 
 export class UsersDataService {
+  private userNameSubject = new BehaviorSubject<string>('');
+  userName$ = this.userNameSubject.asObservable();
+
+  private userStatusSubject = new BehaviorSubject<string>('');
+  userStatus$ = this.userStatusSubject.asObservable();
+
   private userCountSubject = new BehaviorSubject<number>(0);
   userCount$ = this.userCountSubject.asObservable();
 
@@ -33,7 +39,15 @@ export class UsersDataService {
     this.groupNameSubject.next(groupName)
   }
 
-  updateQuizzesList(quizesList: QuizzesDTO[]) {
-    this.quizListSubject.next(quizesList)
+  updateQuizzesList(quizzesList: QuizzesDTO[]) {
+    this.quizListSubject.next(quizzesList)
+  }
+
+  updateUsername(username: string) {
+    this.userNameSubject.next(username)
+  }
+
+  updateStatus(status: string) {
+    this.userStatusSubject.next(status)
   }
 }

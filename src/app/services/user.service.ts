@@ -6,7 +6,7 @@ import {Quote} from "../interfaces/quote";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorisationService {
+export class UserService {
   private baseUrl:string = "https://localhost:7149/api/User/"
 
   constructor(private http : HttpClient) { }
@@ -47,6 +47,22 @@ export class AuthorisationService {
 
   getQuote() {
     return this.http.get<Quote>(`${this.baseUrl}quote`)
+  }
+
+  changeUsername(username : string, userID: number) {
+    return this.http.put<any>(`${this.baseUrl}change-username?username=${username}&userID=${userID}`, {})
+  }
+
+  changePassword(password : string, userID: number) {
+    return this.http.put<any>(`${this.baseUrl}change-password?password=${password}&userID=${userID}`, {})
+  }
+
+  changeStatus(status : string, userID: number) {
+    return this.http.put<any>(`${this.baseUrl}change-status?status=${status}&userID=${userID}`, {})
+  }
+
+  changeEmail(email : string, userID: number) {
+    return this.http.put<any>(`${this.baseUrl}change-email?email=${email}&userID=${userID}`, {})
   }
 
   isLoggedIn(): boolean {

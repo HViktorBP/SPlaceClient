@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Quote} from "../../../interfaces/quote";
-import {AuthorisationService} from "../../../services/authorisation.service";
+import {UserService} from "../../../services/user.service";
 
 @Component({
   selector: 'app-info',
@@ -15,7 +15,7 @@ export class InfoComponent {
     quoteAuthor : ''
   }
 
-  constructor(private auth : AuthorisationService) {
+  constructor(private auth : UserService) {
     this.auth.getQuote().subscribe(data => {
       this.quote = data
     });

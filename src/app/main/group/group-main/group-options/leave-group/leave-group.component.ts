@@ -5,7 +5,7 @@ import {GroupComponent} from "../../../group.component";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
-import {AuthorisationService} from "../../../../../services/authorisation.service";
+import {UserService} from "../../../../../services/user.service";
 import {catchError, of, switchMap} from "rxjs";
 
 @Component({
@@ -23,7 +23,7 @@ export class LeaveGroupComponent {
   icon = faRightFromBracket
   constructor(private router: Router,
               private group : GroupsService,
-              private auth : AuthorisationService,
+              private auth : UserService,
               private route : ActivatedRoute) {
 
   }

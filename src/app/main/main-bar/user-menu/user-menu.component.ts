@@ -1,6 +1,6 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgClass, NgOptimizedImage} from "@angular/common";
-import {AuthorisationService} from "../../../services/authorisation.service";
+import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -13,9 +13,16 @@ import {AuthorisationService} from "../../../services/authorisation.service";
   styleUrl: './user-menu.component.css'
 })
 
-export class UserMenuComponent {
-  @Input({required:true}) username : string | undefined
-  @Input({required:true}) status : string | undefined
+export class UserMenuComponent implements OnInit{
+  username : string | undefined
+  status : string | undefined
 
-  userName = inject(AuthorisationService).getUsername();
+  constructor(private userData : UsersDataService) {
+
+  }
+
+  ngOnInit() {
+    this.userData.userName$.subscribe(username => this.username = username)
+    this.userData.userStatus$.subscribe(status => this.status = status)
+  }
 }

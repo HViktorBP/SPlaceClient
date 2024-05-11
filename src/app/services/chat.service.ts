@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {AuthorisationService} from "./authorisation.service";
+import {UserService} from "./user.service";
 import {MessageDTO} from "../interfaces/message-dto";
 
 @Injectable({
@@ -8,7 +8,7 @@ import {MessageDTO} from "../interfaces/message-dto";
 })
 export class ChatService {
   public baseUrl = "https://localhost:7149/api/Chat/"
-  public auth = inject(AuthorisationService)
+  public auth = inject(UserService)
 
   constructor(private http : HttpClient) {
 

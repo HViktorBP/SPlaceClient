@@ -6,7 +6,7 @@ import {GroupOptionsComponent} from "./group-main/group-options/group-options.co
 import {QuizComponent} from "./group-main/quiz/quiz.component";
 import {GroupsService} from "../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
-import {AuthorisationService} from "../../services/authorisation.service";
+import {UserService} from "../../services/user.service";
 import {BehaviorSubject, forkJoin, map, Observable, Subject, switchMap, takeUntil} from "rxjs";
 import {User} from "../../interfaces/user";
 import {ChatService} from "../../services/chat.service";
@@ -39,7 +39,7 @@ export class GroupComponent implements OnInit{
     .build()
   public messages$ = new BehaviorSubject<any>([])
   public messages: any[] = []
-  public auth = inject(AuthorisationService)
+  public auth = inject(UserService)
 
   constructor(private group : GroupsService,
               private chat: ChatService,

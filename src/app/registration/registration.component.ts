@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import {AuthorisationService} from "../services/authorisation.service";
+import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -17,7 +17,7 @@ import {NgIf} from "@angular/common";
 })
 export class RegistrationComponent {
   registerError : string = ''
-  constructor(private router: Router,  private auth : AuthorisationService) { }
+  constructor(private router: Router,  private auth : UserService) { }
   register(username:string, password:string, email:string, passwordCheck:string) {
     if (passwordCheck.trim() == password.trim()) {
       this.auth.signUp(username.trim(), password.trim(), email).subscribe(

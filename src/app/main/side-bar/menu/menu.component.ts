@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {AuthorisationService} from "../../../services/authorisation.service";
+import {UserService} from "../../../services/user.service";
 import {GroupsService} from "../../../services/groups.service";
 import {RouterLink} from "@angular/router";
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
@@ -32,7 +32,7 @@ export class MenuComponent implements OnInit {
   menuIcon = faBars
   groupIcon = faDoorOpen
 
-  constructor(private auth: AuthorisationService, private groups : GroupsService, private modalService : NgbModal) {
+  constructor(private auth: UserService, private groups : GroupsService, private modalService : NgbModal) {
 
   }
 
