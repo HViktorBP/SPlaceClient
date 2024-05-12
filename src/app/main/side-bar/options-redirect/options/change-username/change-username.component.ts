@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../../../../services/user.service";
 import {UsersDataService} from "../../../../../services/users-data.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-change-username',
@@ -13,7 +14,9 @@ import {UsersDataService} from "../../../../../services/users-data.service";
   styleUrl: '../../../../../../customStyles/options-custom.scss'
 })
 export class ChangeUsernameComponent {
-  constructor(private auth : UserService, private userService : UsersDataService) {
+  constructor(private auth : UserService,
+              private userService : UsersDataService,
+              private toast : NgToastService) {
 
   }
 
@@ -21,12 +24,12 @@ export class ChangeUsernameComponent {
     this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
       this.auth.changeUsername(username, userID).subscribe({
         next: res => {
-          console.log(res.message)
+          this.toast.success({detail:"Success", summary:res.message, duration:3000})
           this.userService.updateUsername(username)
           this.auth.storeUsername(username)
         },
-        error: err=> {
-          console.log(err.error.message)
+        error: err => {
+          this.toast.error({detail:"Error", summary:err.error.message, duration:3000})
         }
       })
     })

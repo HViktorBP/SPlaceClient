@@ -8,6 +8,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {FormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faBars, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-menu',
@@ -32,7 +33,10 @@ export class MenuComponent implements OnInit {
   menuIcon = faBars
   groupIcon = faDoorOpen
 
-  constructor(private auth: UserService, private groups : GroupsService, private modalService : NgbModal) {
+  constructor(private auth: UserService,
+              private groups : GroupsService,
+              private modalService : NgbModal,
+              private toast : NgToastService) {
 
   }
 
@@ -57,7 +61,6 @@ export class MenuComponent implements OnInit {
       this.userGroupData.push(...groupInfos);
       this.userGroupData$.next(this.userGroupData)
     })
-
   }
 
   open(content: any) {
@@ -91,12 +94,12 @@ export class MenuComponent implements OnInit {
     this.auth.getUserID(this.auth.getUsername()).subscribe(res => {
       this.groups.addGroup(res, groupName).subscribe( {
         next: res => {
-          console.log(res.message)
+          this.toast.success({detail:"Success", summary:res.message, duration: 3000})
           this.updateData()
           this.toggleMenu()
         },
         error: err => {
-          console.log(err.error.message)
+          this.toast.error({detail:"Error", summary:err.error.message, duration: 3000})
         }
       })
     })

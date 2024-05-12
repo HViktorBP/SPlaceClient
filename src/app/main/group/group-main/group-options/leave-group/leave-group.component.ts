@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UserService} from "../../../../../services/user.service";
-import {catchError, of, switchMap} from "rxjs";
 import {GroupHubService} from "../../../../../services/group-hub.service";
+import {NgToastService} from "ng-angular-popup";
+import {UsersDataService} from "../../../../../services/users-data.service";
 
 @Component({
   selector: 'app-leave-group',
@@ -24,37 +25,32 @@ export class LeaveGroupComponent {
               private groupHub : GroupHubService,
               private group : GroupsService,
               private auth : UserService,
-              private route : ActivatedRoute) {
+              private toast : NgToastService,
+              private userData : UsersDataService) {
 
   }
 
-  leaveChat() {
-    this.groupHub.leaveChat().then(() => {
-      console.log("Disconnected")
-    }).catch(e => {
-      console.log(e)
-    })
-
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userId => {
-        const groupId = +this.route.snapshot.paramMap.get('id')!
-        return this.group.getUserRole(userId, groupId).pipe(
-          switchMap(role => this.group.deleteUserFromGroup(userId, groupId, role[0])),
-          catchError(err => {
-            console.error(err.message)
-            return of({ message: 'An error occurred while deleting user from group.' })
+  leaveGroup() {
+    this.auth.getUserID(this.auth.getUsername()).subscribe(userId => {
+      this.userData.groupId$.subscribe(groupID => {
+        this.group.getUserRole(userId, groupID).subscribe( role => {
+          this.group.deleteUserFromGroup(userId, groupID, role[0]).subscribe({
+            next: res => {
+              this.toast.success({detail: "Success", summary: res.message, duration: 3000})
+              this.groupHub.leaveChat().then(() => {
+                this.toast.success({detail: "Success", summary: "You left the group!", duration: 3000})
+              }).catch(e => {
+                this.toast.error({detail: "Error", summary: e.message, duration: 3000})
+              })
+              this.router.navigate(['main/home'])
+            },
+            error: err => {
+              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            }
           })
-        )
+        })
       })
-    ).subscribe({
-      next: res => {
-        console.log(res.message);
-        this.router.navigate(['main/home'])
-      },
-      error: err => {
-        console.error('An error occurred:', err)
       }
-    })
-
+    )
   }
 }

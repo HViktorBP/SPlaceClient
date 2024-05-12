@@ -14,5 +14,7 @@ import {UserMenuComponent} from "./user-menu/user-menu.component";
   templateUrl: './main-bar.component.html',
   styleUrl: './main-bar.component.css'
 })
+
 export class MainBarComponent {
+
 }

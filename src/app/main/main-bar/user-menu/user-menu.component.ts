@@ -4,6 +4,7 @@ import {UsersDataService} from "../../../services/users-data.service";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {Router} from "@angular/router";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-user-menu',
@@ -23,7 +24,8 @@ export class UserMenuComponent implements OnInit{
   logOutIcon = faRightFromBracket
 
   constructor(private userData : UsersDataService,
-              private router : Router) {
+              private router : Router,
+              private toast : NgToastService) {
 
   }
 
@@ -32,9 +34,9 @@ export class UserMenuComponent implements OnInit{
     this.userData.userStatus$.subscribe(status => this.status = status)
   }
 
-
   logOut() {
     sessionStorage.clear()
     this.router.navigate(['login'])
+    this.toast.success({detail:"Success", summary: "You have successfully loged out!", duration: 2000})
   }
 }

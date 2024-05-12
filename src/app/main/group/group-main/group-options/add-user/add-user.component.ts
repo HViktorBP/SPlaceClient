@@ -10,6 +10,8 @@ import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
 import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {User} from "../../../../../interfaces/user";
+import {NgToastService} from "ng-angular-popup";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -29,7 +31,8 @@ export class AddUserComponent {
               private group : GroupsService,
               private modalService : NgbModal,
               private route : ActivatedRoute,
-              private usersDataService : UsersDataService) {
+              private usersDataService : UsersDataService,
+              private toast : NgToastService) {
   }
 
   open(content: any) {
@@ -52,28 +55,33 @@ export class AddUserComponent {
 
   onSubmit(userName : string, role: string) {
     const id = +this.route.snapshot.paramMap.get('id')!
-    this.auth.getUserID(userName).subscribe(userID => {
-      console.log(userID, id, role)
-      this.group.addUserInGroup(userID, id, role).subscribe({
-        next: message => {
-          console.log(message.message)
-          this.group.getUsersInGroup(id).pipe(
-            switchMap(usersID => {
-              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
-              return forkJoin(observables).pipe(
-                map(usersData => usersData.map(user => user.username))
-              )
+    this.auth.getUserID(userName).subscribe( {
+      next: userID => {
+        console.log(userID, id, role)
+        this.group.addUserInGroup(userID, id, role).subscribe({
+          next: res => {
+            this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+            this.group.getUsersInGroup(id).pipe(
+              switchMap(usersID => {
+                const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+                return forkJoin(observables).pipe(
+                  map(usersData => usersData.map(user => user.username))
+                )
+              })
+            ).subscribe(users => {
+              this.usersDataService.updateUserCount(users.length)
+              this.usersDataService.updateUsersList(users)
             })
-          ).subscribe(users => {
-            this.usersDataService.updateUserCount(users.length)
-            this.usersDataService.updateUsersList(users)
-          })
-          this.modalService.dismissAll()
-        },
-        error: err => {
-          console.log(err.error.message)
-        }
-      })
+            this.modalService.dismissAll()
+          },
+          error: err => {
+            this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+          }
+        })
+      },
+      error : err => {
+        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+      }
     })
   }
 }
