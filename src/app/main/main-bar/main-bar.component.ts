@@ -15,5 +15,4 @@ import {UserMenuComponent} from "./user-menu/user-menu.component";
   styleUrl: './main-bar.component.css'
 })
 export class MainBarComponent {
-
 }

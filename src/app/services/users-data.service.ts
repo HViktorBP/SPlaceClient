@@ -25,6 +25,12 @@ export class UsersDataService {
   private quizListSubject = new BehaviorSubject<QuizzesDTO[]>([]);
   quizList$ = this.quizListSubject.asObservable();
 
+  private groupMessagesSubject = new BehaviorSubject<any>([])
+  groupMessages$ = this.groupMessagesSubject.asObservable()
+
+  private groupIdSubject = new BehaviorSubject<number>(0)
+  groupId$ = this.groupIdSubject.asObservable()
+
   constructor() { }
 
   updateUserCount(count: number) {
@@ -49,5 +55,13 @@ export class UsersDataService {
 
   updateStatus(status: string) {
     this.userStatusSubject.next(status)
+  }
+
+  updateGroupMessages(messages: any) {
+    this.groupMessagesSubject.next(messages)
+  }
+
+  updateGroupId(groupId : number) {
+    this.groupIdSubject.next(groupId)
   }
 }

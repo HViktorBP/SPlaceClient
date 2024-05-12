@@ -79,11 +79,12 @@ export class MenuComponent implements OnInit {
   }
 
   toggleMenu() {
+    this.updateData()
     this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
 
   goToGroup() {
-    this.toggleMenu()
+    this.menuSliding = 'in';
   }
 
   onSubmit(groupName : string) {

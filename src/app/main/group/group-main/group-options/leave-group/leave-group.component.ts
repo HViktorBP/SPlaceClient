@@ -1,12 +1,12 @@
-import {Component, inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import {GroupComponent} from "../../../group.component";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UserService} from "../../../../../services/user.service";
 import {catchError, of, switchMap} from "rxjs";
+import {GroupHubService} from "../../../../../services/group-hub.service";
 
 @Component({
   selector: 'app-leave-group',
@@ -19,9 +19,9 @@ import {catchError, of, switchMap} from "rxjs";
   styleUrl: './leave-group.component.css'
 })
 export class LeaveGroupComponent {
-  groupData = inject(GroupComponent)
   icon = faRightFromBracket
   constructor(private router: Router,
+              private groupHub : GroupHubService,
               private group : GroupsService,
               private auth : UserService,
               private route : ActivatedRoute) {
@@ -29,7 +29,7 @@ export class LeaveGroupComponent {
   }
 
   leaveChat() {
-    this.groupData.leaveChat().then(() => {
+    this.groupHub.leaveChat().then(() => {
       console.log("Disconnected")
     }).catch(e => {
       console.log(e)

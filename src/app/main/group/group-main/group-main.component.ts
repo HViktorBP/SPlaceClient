@@ -1,11 +1,11 @@
 import {AfterViewChecked, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {ChatService} from "../../../services/chat.service";
+import {GroupHubService} from "../../../services/group-hub.service";
 import {FormsModule} from "@angular/forms";
-import {GroupComponent} from "../group.component";
 import {UserService} from "../../../services/user.service";
 import {forkJoin, of, switchMap, tap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
   selector: 'app-group-main',
@@ -24,8 +24,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 
 export class GroupMainComponent implements OnInit, AfterViewChecked {
-  chatService = inject(ChatService)
-  groupData = inject(GroupComponent)
+  groupHubService = inject(GroupHubService)
+  userData = inject(UsersDataService)
   inputMessage= ''
   loggedInUserName!:string
   auth = inject(UserService)
@@ -37,7 +37,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit () {
-    this.groupData.messages$.subscribe(() => {
+    this.userData.groupMessages$.subscribe(() => {
       try {
         console.log('Messages uploaded')
         this.canBeScrolled = !this.canBeScrolled
@@ -61,10 +61,10 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
 
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(res => {
-        return this.chatService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
+        return this.groupHubService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
           switchMap(() => {
             return forkJoin({
-              sendMessageResult: this.groupData.sendMessage(this.inputMessage, groupID, date),
+              sendMessageResult: this.groupHubService.sendMessage(this.inputMessage, groupID, date),
               clearInputResult: of(this.inputMessage = '')
             })
           }),

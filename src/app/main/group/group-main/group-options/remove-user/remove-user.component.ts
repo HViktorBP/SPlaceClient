@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
 import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {User} from "../../../../../interfaces/user";
+import {GroupHubService} from "../../../../../services/group-hub.service";
 
 @Component({
   selector: 'app-remove-user',
@@ -29,7 +30,8 @@ export class RemoveUserComponent {
               private group : GroupsService,
               private modalService : NgbModal,
               private route : ActivatedRoute,
-              private usersDataService : UsersDataService) {
+              private usersDataService : UsersDataService,
+              private groupHub : GroupHubService) {
   }
 
   open(content: any) {
@@ -57,6 +59,11 @@ export class RemoveUserComponent {
       this.group.deleteUserFromGroup(userID, id, role).subscribe({
         next: message => {
           console.log(message.message)
+
+          this.auth.getUserByID(userID).subscribe(user => {
+            this.groupHub.removeUserFromGroup(user.username, id.toString()).then(() => console.log(`Removing user '${user.username}' from group '${id}'...`))
+          })
+
           this.group.getUsersInGroup(id).pipe(
             switchMap(usersID => {
               const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
