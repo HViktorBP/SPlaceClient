@@ -54,25 +54,6 @@ export class GroupHubService {
         }
       })
     })
-
-    this.connection.on("NewUserAdded", (targetUsername:string, groupID:string) => {
-      this.userData.groupId$.subscribe(groupIDUser => {
-        if (this.auth.getUsername() == targetUsername && groupIDUser  == +groupID) {
-          this.joinChat(targetUsername, groupID)
-          this.group.getGroupById(groupIDUser).subscribe({
-            next:group => {
-              this.toast.info({detail: "Info", summary: `${targetUsername} have been added to ${group}!`})
-            }
-          })
-        } else if (groupIDUser == +groupID) {
-          this.group.getGroupById(groupIDUser).subscribe({
-            next:group => {
-              this.toast.info({detail: "Info", summary: `${targetUsername} have been added to ${group}!`})
-            }
-          })
-        }
-      })
-    })
   }
 
   public async start() {
@@ -90,10 +71,6 @@ export class GroupHubService {
 
   public async joinChat(username: string, group: string) {
     return this.connection.invoke("JoinChat", {username, group})
-  }
-
-  public async addNewUser(requestingUsername : string, targetUsername: string, group: string) {
-    return this.connection.invoke("AddUserToGroup", requestingUsername, targetUsername, group)
   }
 
   public async sendMessage(message: string, group: string, date: Date){
@@ -132,5 +109,4 @@ export class GroupHubService {
     }
     return this.http.post<any>(`${this.baseUrl}save-message`, messageToSend)
   }
-
 }

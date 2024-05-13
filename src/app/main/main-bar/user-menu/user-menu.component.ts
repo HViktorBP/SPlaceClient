@@ -5,6 +5,7 @@ import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {Router} from "@angular/router";
 import {NgToastService} from "ng-angular-popup";
+import {AppHubService} from "../../../services/app-hub.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -25,7 +26,8 @@ export class UserMenuComponent implements OnInit{
 
   constructor(private userData : UsersDataService,
               private router : Router,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private appHub : AppHubService) {
 
   }
 
@@ -36,6 +38,7 @@ export class UserMenuComponent implements OnInit{
 
   logOut() {
     sessionStorage.clear()
+    this.appHub.leave()
     this.router.navigate(['login'])
     this.toast.success({detail:"Success", summary: "You have successfully loged out!", duration: 2000})
   }
