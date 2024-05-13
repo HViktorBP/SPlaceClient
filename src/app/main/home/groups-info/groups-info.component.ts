@@ -6,6 +6,7 @@ import {RouterLink} from "@angular/router";
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
+import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
   selector: 'app-groups-info',
@@ -21,32 +22,12 @@ import {faUsers} from "@fortawesome/free-solid-svg-icons";
   styleUrl: './groups-info.component.css'
 })
 export class GroupsInfoComponent implements OnInit {
-  userGroupData: { name: string; id: number }[]= []
-  userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   icon = faUsers
-
-  constructor(private auth: UserService, private groups : GroupsService) {
+  constructor(private auth: UserService,
+              public userData : UsersDataService) {
 
   }
   ngOnInit(): void {
-    this.updateData()
-  }
-
-  updateData() {
-    this.userGroupData.length = 0;
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userID => this.groups.getGroups(userID)),
-      switchMap(groups => {
-        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
-          return this.groups.getGroupById(groupID).pipe(
-            map(groupName => ({ id: groupID, name: groupName }))
-          );
-        });
-        return forkJoin(observables);
-      })
-    ).subscribe(groupInfos => {
-      this.userGroupData.push(...groupInfos);
-      this.userGroupData$.next(this.userGroupData)
-    })
+    this.userData.updateGroup(this.auth.getUsername())
   }
 }

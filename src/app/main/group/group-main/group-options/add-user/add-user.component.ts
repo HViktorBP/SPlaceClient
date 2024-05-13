@@ -12,6 +12,7 @@ import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {User} from "../../../../../interfaces/user";
 import {NgToastService} from "ng-angular-popup";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {GroupHubService} from "../../../../../services/group-hub.service";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -32,7 +33,8 @@ export class AddUserComponent {
               private modalService : NgbModal,
               private route : ActivatedRoute,
               private usersDataService : UsersDataService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private groupHub : GroupHubService) {
   }
 
   open(content: any) {
@@ -61,6 +63,14 @@ export class AddUserComponent {
         this.group.addUserInGroup(userID, id, role).subscribe({
           next: res => {
             this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+            this.auth.getUserByID(userID).subscribe({
+              next:username => {
+                this.groupHub.addNewUser(this.auth.getUsername(), username.username, id.toString())
+              },
+              error:err => {
+                this.toast.error({detail:"Error", summary: `Couldn't find a user!`, duration: 3000})
+              }
+            })
             this.group.getUsersInGroup(id).pipe(
               switchMap(usersID => {
                 const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))

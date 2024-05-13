@@ -6,6 +6,8 @@ import * as signalR from "@microsoft/signalr";
 import {BehaviorSubject, forkJoin} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UsersDataService} from "./users-data.service";
+import {NgToastService} from "ng-angular-popup";
+import {GroupsService} from "./groups.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +25,10 @@ export class GroupHubService {
   constructor(private http : HttpClient,
               private auth : UserService,
               private route : ActivatedRoute,
+              private group : GroupsService,
               private userData : UsersDataService,
-              private router : Router) {
+              private router : Router,
+              private toast : NgToastService) {
     this.start()
 
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
@@ -34,14 +38,39 @@ export class GroupHubService {
     })
 
     this.connection.on("UserRemovedFromGroup", (username: string, groupID:string) => {
-      console.log('Starting to remove user')
       const usernameUser = this.auth.getUsername()
       this.userData.groupId$.subscribe(groupIDUser => {
-        if (usernameUser == username && groupIDUser == +groupID)
+        if (usernameUser == username && groupIDUser == +groupID) {
           this.router.navigate(['main/home']).then(res => {
-            if (res)
-              console.log("You were removed from group!")
+            this.leaveChat().then(() => this.toast.info({detail: "Info", summary: `You was removed from the group!`}))
           })
+          this.userData.updateGroup(this.auth.getUsername())
+        } else if (groupIDUser == +groupID) {
+          this.group.getGroupById(groupIDUser).subscribe({
+            next:group => {
+              this.toast.info({detail: "Info", summary: `${username} removed from the ${group}!`})
+            }
+          })
+        }
+      })
+    })
+
+    this.connection.on("NewUserAdded", (targetUsername:string, groupID:string) => {
+      this.userData.groupId$.subscribe(groupIDUser => {
+        if (this.auth.getUsername() == targetUsername && groupIDUser  == +groupID) {
+          this.joinChat(targetUsername, groupID)
+          this.group.getGroupById(groupIDUser).subscribe({
+            next:group => {
+              this.toast.info({detail: "Info", summary: `${targetUsername} have been added to ${group}!`})
+            }
+          })
+        } else if (groupIDUser == +groupID) {
+          this.group.getGroupById(groupIDUser).subscribe({
+            next:group => {
+              this.toast.info({detail: "Info", summary: `${targetUsername} have been added to ${group}!`})
+            }
+          })
+        }
       })
     })
   }
@@ -61,6 +90,10 @@ export class GroupHubService {
 
   public async joinChat(username: string, group: string) {
     return this.connection.invoke("JoinChat", {username, group})
+  }
+
+  public async addNewUser(requestingUsername : string, targetUsername: string, group: string) {
+    return this.connection.invoke("AddUserToGroup", requestingUsername, targetUsername, group)
   }
 
   public async sendMessage(message: string, group: string, date: Date){

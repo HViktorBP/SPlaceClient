@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {QuizzesDTO} from "../interfaces/quizes-dto";
+import {UserService} from "./user.service";
+import {GroupsService} from "./groups.service";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,10 @@ export class UsersDataService {
   private groupIdSubject = new BehaviorSubject<number>(0)
   groupId$ = this.groupIdSubject.asObservable()
 
-  constructor() { }
+  private userGroupDataSubject: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
+  userGroupData$ = this.userGroupDataSubject.asObservable()
+  constructor(private auth : UserService,
+              private groups : GroupsService) { }
 
   updateUserCount(count: number) {
     this.userCountSubject.next(count)
@@ -63,5 +68,26 @@ export class UsersDataService {
 
   updateGroupId(groupId : number) {
     this.groupIdSubject.next(groupId)
+  }
+
+  updateGroupData(groups : {name: string; id: number}[]) {
+    this.userGroupDataSubject.next(groups)
+  }
+
+  updateGroup(username : string) {
+    this.updateGroupData([])
+    this.auth.getUserID(username).pipe(
+      switchMap(userID => this.groups.getGroups(userID)),
+      switchMap(groups => {
+        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
+          return this.groups.getGroupById(groupID).pipe(
+            map(groupName => ({ id: groupID, name: groupName }))
+          );
+        });
+        return forkJoin(observables);
+      })
+    ).subscribe(groupInfos => {
+      this.updateGroupData(groupInfos)
+    })
   }
 }

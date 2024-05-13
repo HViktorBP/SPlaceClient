@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faBars, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 import {NgToastService} from "ng-angular-popup";
+import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
   selector: 'app-menu',
@@ -27,40 +28,22 @@ import {NgToastService} from "ng-angular-popup";
 
 export class MenuComponent implements OnInit {
   menuSliding : string = 'in'
-  userGroupData: { name: string; id: number }[]= []
-  userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   closeResult : string = ''
   menuIcon = faBars
   groupIcon = faDoorOpen
-
+  groupsData : {name:string, id:number}[] = []
   constructor(private auth: UserService,
               private groups : GroupsService,
               private modalService : NgbModal,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private userData : UsersDataService) {
 
   }
 
   ngOnInit(): void {
-    this.updateData()
-  }
+    this.userData.userGroupData$.subscribe(groupData => this.groupsData = groupData)
 
-  updateData() {
-    this.userGroupData.length = 0
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userID => this.groups.getGroups(userID)),
-      switchMap(groups => {
-        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
-          return this.groups.getGroupById(groupID).pipe(
-            map(groupName => ({ id: groupID, name: groupName }))
-          );
-        });
-        return forkJoin(observables);
-      })
-    ).subscribe(groupInfos => {
-      console.log(groupInfos)
-      this.userGroupData.push(...groupInfos);
-      this.userGroupData$.next(this.userGroupData)
-    })
+    this.userData.updateGroup(this.auth.getUsername())
   }
 
   open(content: any) {
@@ -82,12 +65,11 @@ export class MenuComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.updateData()
     this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
 
   goToGroup() {
-    this.menuSliding = 'in';
+    this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
 
   onSubmit(groupName : string) {
@@ -95,7 +77,7 @@ export class MenuComponent implements OnInit {
       this.groups.addGroup(res, groupName).subscribe( {
         next: res => {
           this.toast.success({detail:"Success", summary:res.message, duration: 3000})
-          this.updateData()
+          this.userData.updateGroup(this.auth.getUsername())
           this.toggleMenu()
         },
         error: err => {

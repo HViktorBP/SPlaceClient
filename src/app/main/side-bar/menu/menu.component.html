@@ -2,7 +2,7 @@
 
 <div class="menu" *ngIf="menuSliding == 'out'">
   <ul>
-    <li *ngFor="let group of userGroupData$ | async">
+    <li *ngFor="let group of this.groupsData">
         <fa-icon [icon]="groupIcon"></fa-icon>
       <a [routerLink]="['/main/group', group.name[0], group.id]" (click)="goToGroup()"> {{ group.name }}
       </a>
