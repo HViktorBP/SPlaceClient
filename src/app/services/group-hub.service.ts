@@ -24,8 +24,6 @@ export class GroupHubService {
 
   constructor(private http : HttpClient,
               private auth : UserService,
-              private route : ActivatedRoute,
-              private group : GroupsService,
               private userData : UsersDataService,
               private router : Router,
               private toast : NgToastService) {
@@ -35,24 +33,6 @@ export class GroupHubService {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
       this.userData.updateGroupMessages(this.messages)
       console.log(this.userData.groupMessages$)
-    })
-
-    this.connection.on("UserRemovedFromGroup", (username: string, groupID:string) => {
-      const usernameUser = this.auth.getUsername()
-      this.userData.groupId$.subscribe(groupIDUser => {
-        if (usernameUser == username && groupIDUser == +groupID) {
-          this.router.navigate(['main/home']).then(res => {
-            this.leaveChat().then(() => this.toast.info({detail: "Info", summary: `You was removed from the group!`}))
-          })
-          this.userData.updateGroup(this.auth.getUsername())
-        } else if (groupIDUser == +groupID) {
-          this.group.getGroupById(groupIDUser).subscribe({
-            next:group => {
-              this.toast.info({detail: "Info", summary: `${username} removed from the ${group}!`})
-            }
-          })
-        }
-      })
     })
   }
 
