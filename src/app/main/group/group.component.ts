@@ -46,6 +46,7 @@ export class GroupComponent implements OnInit{
       this.updateData()
       this.getMessages()
     })
+
   }
 
   getName() {

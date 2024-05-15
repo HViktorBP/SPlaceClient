@@ -32,15 +32,16 @@ export class AppHubService {
             next:groupName => {
               this.userData.groupId$.subscribe(groupIdCurrent => {
                 if (userIDCurrent == +userID) {
-                  this.toast.info({detail: "Info", summary: `You have been added to the ${groupName}!`, duration: 3000})
-                  this.userData.updateGroup(this.auth.getUsername())
+                  this.groupHub.start().then(() => {
+                    this.userData.updateGroup(this.auth.getUsername())
+                    this.toast.info({detail: "Info", summary: `You have been added to the ${groupName}!`, duration: 3000})
+                  })
                 } else if (+groupID == groupIdCurrent) {
                   this.auth.getUserByID(+userID).subscribe({
                     next:user => {
                       this.toast.info({detail: "Info", summary: `${user.username} was added to this group!`, duration: 3000})
                     }
                   })
-
                   this.group.getUsersInGroup(+groupID).pipe(
                     switchMap(usersID => {
                       const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
@@ -74,23 +75,18 @@ export class AppHubService {
               this.userData.groupId$.subscribe(groupIdCurrent => {
                 if (userIDCurrent == +userID) {
                   this.toast.info({detail: "Info", summary: `You have been removed from the ${groupName}!`, duration: 3000})
-                  this.groupHub.leaveChat().then(
-                    () => {
-                      this.userData.updateGroup(this.auth.getUsername())
-                      this.router.navigate(['main/home']).then(
-                        () => {
-                          this.toast.info({detail: "Info", summary: `You was removed from the group!`})
-                          this.userData.updateGroup(this.auth.getUsername())
-                        }
-                      )
-                    }
-                  )
+                  this.userData.updateGroup(this.auth.getUsername())
+                  if (+groupID == groupIdCurrent) {
+                    this.userData.updateGroupId(0)
+                    this.router.navigate(['main/home']).then(() =>{location.reload()})
+                  }
                 } else if (+groupID == groupIdCurrent) {
                   this.auth.getUserByID(+userID).subscribe({
                     next:user => {
                       this.toast.info({detail: "Info", summary: `${user.username} was removed from this group`, duration: 3000})
                     }
                   })
+                  this.groupHub.getMessages(+groupID)
                   this.group.getUsersInGroup(+groupID).pipe(
                     switchMap(usersID => {
                       const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
@@ -120,7 +116,7 @@ export class AppHubService {
   public async start() {
     try {
       await this.connection.start()
-      console.log("Connection is established")
+      console.log("You are in the group now!")
 
     } catch (e) {
       console.log(e)

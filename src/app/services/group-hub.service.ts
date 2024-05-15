@@ -3,11 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "./user.service";
 import {MessageDTO} from "../interfaces/message-dto";
 import * as signalR from "@microsoft/signalr";
-import {BehaviorSubject, forkJoin} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {forkJoin} from "rxjs";
 import {UsersDataService} from "./users-data.service";
 import {NgToastService} from "ng-angular-popup";
-import {GroupsService} from "./groups.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +17,11 @@ export class GroupHubService {
     .withUrl("https://localhost:7149/group")
     .configureLogging(signalR.LogLevel.Information)
     .build()
-  public messages$ = new BehaviorSubject<any>([])
   public messages: any[] = []
 
   constructor(private http : HttpClient,
               private auth : UserService,
               private userData : UsersDataService,
-              private router : Router,
               private toast : NgToastService) {
     this.start()
 
@@ -39,13 +35,8 @@ export class GroupHubService {
   public async start() {
     try {
       await this.connection.start()
-      console.log("Connection is established")
-
     } catch (e) {
-      console.log(e)
-      setTimeout(() => {
-        this.start()
-      }, 6000)
+      this.toast.error({detail:"Error", summary:"Couldn't establish a connection with group!", duration: 3000})
     }
   }
 

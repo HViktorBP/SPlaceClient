@@ -38,8 +38,12 @@ export class UserMenuComponent implements OnInit{
 
   logOut() {
     sessionStorage.clear()
-    this.appHub.leave()
-    this.router.navigate(['login'])
-    this.toast.success({detail:"Success", summary: "You have successfully loged out!", duration: 2000})
+    this.appHub.leave().then(() => {
+      console.log('Disconnected from the app hub!')
+      this.router.navigate(['login']).then(() => {
+        this.toast.success({detail:"Success", summary: "You have successfully loged out!", duration: 2000})
+      })
+    })
+
   }
 }
