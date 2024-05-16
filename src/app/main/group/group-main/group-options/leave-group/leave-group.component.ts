@@ -31,23 +31,19 @@ export class LeaveGroupComponent {
   }
 
   leaveGroup() {
-    this.auth.getUserID(this.auth.getUsername()).subscribe(userId => {
+    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
       this.userData.groupId$.subscribe(groupID => {
-        this.group.getUserRole(userId, groupID).subscribe( role => {
-          this.group.deleteUserFromGroup(userId, groupID, role[0]).subscribe({
-            next: res => {
-              this.toast.success({detail: "Success", summary: res.message, duration: 3000})
-              this.groupHub.leaveChat().then(() => {
-                this.toast.success({detail: "Success", summary: "You left the group!", duration: 3000})
-              }).catch(e => {
-                this.toast.error({detail: "Error", summary: e.message, duration: 3000})
-              })
+        this.group.leaveGroup(userID, groupID).subscribe({
+          next: res => {
+            this.toast.info({detail: "Info", summary: res.message, duration: 3000})
+            this.groupHub.removeUserFromGroup(this.auth.getUsername(), groupID.toString()).catch(e => {
+              this.toast.error({detail: "Error", summary: e.message, duration: 3000})
               this.router.navigate(['main/home'])
-            },
-            error: err => {
-              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
-            }
-          })
+            })
+          },
+          error: err => {
+            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+          }
         })
       })
       }

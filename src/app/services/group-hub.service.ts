@@ -6,6 +6,8 @@ import * as signalR from "@microsoft/signalr";
 import {forkJoin} from "rxjs";
 import {UsersDataService} from "./users-data.service";
 import {NgToastService} from "ng-angular-popup";
+import {QuizzesService} from "./quizzes.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Injectable({
   providedIn: 'root'
@@ -22,21 +24,65 @@ export class GroupHubService {
   constructor(private http : HttpClient,
               private auth : UserService,
               private userData : UsersDataService,
-              private toast : NgToastService) {
-    this.start()
-
+              private toast : NgToastService,
+              private quizzes : QuizzesService,
+              private modal : NgbModal) {
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
       this.userData.updateGroupMessages(this.messages)
-      console.log(this.userData.groupMessages$)
     })
+
+    this.connection.on("NewQuizAdded", (groupID:number, name:string) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        if (groupID == groupIdCurrent) {
+          this.quizzes.getQuizzesInGroup(groupID).subscribe({
+            next:quizzesList=> {
+              this.userData.updateQuizzesList(quizzesList)
+              this.toast.info({detail: "Info", summary: `New quiz(${name}) has been added to this group!`, duration: 3000})
+            },
+            error:err => {
+              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            }
+        })
+        }
+      })
+    })
+
+    this.connection.on("QuizRemoved", (name:string, groupID:number) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        if (groupID == groupIdCurrent) {
+          if (sessionStorage.getItem('quiz') == name) {
+            this.modal.dismissAll()
+          }
+
+          this.quizzes.getQuizzesInGroup(groupIdCurrent).subscribe({
+            next:quizzesList=> {
+              this.userData.updateQuizzesList(quizzesList)
+              this.toast.info({detail: "Info", summary: `${name} was deleted!`, duration: 3000})
+            },
+            error:err => {
+              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            }
+          })
+        }
+      })
+    })
+
+
   }
 
   public async start() {
-    try {
-      await this.connection.start()
-    } catch (e) {
-      this.toast.error({detail:"Error", summary:"Couldn't establish a connection with group!", duration: 3000})
+    if (this.connection.state == signalR.HubConnectionState.Disconnected) {
+      try {
+        await this.connection.start()
+        console.log("You are in the group now!")
+
+      } catch (e) {
+        console.log(e)
+        setTimeout(() => {
+          this.start()
+        }, 6000)
+      }
     }
   }
 
@@ -52,7 +98,7 @@ export class GroupHubService {
     return this.connection.invoke('RemoveUserFromGroup', username, groupID)
   }
 
-  public async leaveChat() {
+  public async leave() {
     return this.connection.stop()
   }
 
@@ -80,4 +126,5 @@ export class GroupHubService {
     }
     return this.http.post<any>(`${this.baseUrl}save-message`, messageToSend)
   }
+
 }

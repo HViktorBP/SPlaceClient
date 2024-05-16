@@ -10,7 +10,7 @@ import {NgToastService} from "ng-angular-popup";
         FormsModule
     ],
   templateUrl: './change-email.component.html',
-  styleUrl: '../../../../../../customStyles/options-custom.scss'
+  styleUrl: '../../../../../../custom/options-custom.scss'
 })
 export class ChangeEmailComponent {
   constructor(private auth : UserService,

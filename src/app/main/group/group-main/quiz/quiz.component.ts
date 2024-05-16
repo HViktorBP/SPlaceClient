@@ -12,6 +12,10 @@ import {QuizzesService} from "../../../../services/quizzes.service";
 import {catchError, switchMap, tap, throwError} from "rxjs";
 import {QuizModel} from "../../../../interfaces/quiz-model";
 import {NgToastService} from "ng-angular-popup";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import { MatDialog } from '@angular/material/dialog';
+import {ConfirmQuizComponent} from "../../../../../custom/confirm-quiz/confirm-quiz.component";
 
 @Component({
   selector: 'app-quiz',
@@ -23,7 +27,8 @@ import {NgToastService} from "ng-angular-popup";
     JsonPipe,
     NgIf,
     KeyValuePipe,
-    AsyncPipe
+    AsyncPipe,
+    FaIconComponent
   ],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css'
@@ -35,6 +40,7 @@ export class QuizComponent implements OnInit {
   newQuizForm!: FormGroup
   quizModel!: QuizModel
   private userScore : number = 0
+  trash = faTrash;
 
   constructor(private userDataService : UsersDataService,
               private auth : UserService,
@@ -43,7 +49,8 @@ export class QuizComponent implements OnInit {
               private modalService: NgbModal,
               private fb: FormBuilder,
               private quiz: QuizzesService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -179,12 +186,11 @@ export class QuizComponent implements OnInit {
     }));
   }
 
-
   async onQuizOpened(quiz : QuizzesDTO, content : any) {
     this.resetQuiz()
 
     const groupId = +this.route.snapshot.paramMap.get('id')!
-
+    sessionStorage.setItem('quiz', quiz.name!)
     this.quiz.getQuizId(groupId, quiz.name!).subscribe({
       next:quizId=> {
         this.quiz.getQuiz(groupId, quizId).subscribe({
@@ -248,7 +254,33 @@ export class QuizComponent implements OnInit {
     this.resetQuiz()
   }
 
+  deleteQuiz(quiz: QuizzesDTO) {
+    this.auth.getUserID(this.auth.getUsername()).subscribe({
+      next:userID => {
+        this.group.getUserRole(userID, quiz.groupID!).subscribe({
+          next: role => {
+            this.quiz.deleteQuiz(quiz, userID, role).subscribe({
+              next:res => {
+                this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+              },
+              error:err => {
+                this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+              }
+            })
+          },
+          error:err => {
+            this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+          }
+        })
+      },
+      error:err => {
+        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+      }
+    })
+  }
+
   private getDismissReason(reason: any): string {
+    sessionStorage.setItem('quiz', 'none')
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -263,5 +295,15 @@ export class QuizComponent implements OnInit {
     const questionsArray = this.newQuizForm.get('questions') as FormArray;
     questionsArray.clear();
     this.modalService.dismissAll()
+  }
+
+  openConfirmationDialog(quiz: QuizzesDTO): void {
+    const dialogRef = this.dialog.open(ConfirmQuizComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteQuiz(quiz);
+      }
+    });
   }
 }

@@ -38,7 +38,6 @@ export class GroupComponent implements OnInit{
               private route : ActivatedRoute,
               private usersDataService: UsersDataService,
               private quizzes : QuizzesService) {
-
   }
 
   ngOnInit() {

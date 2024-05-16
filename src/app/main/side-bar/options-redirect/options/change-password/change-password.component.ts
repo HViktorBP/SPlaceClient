@@ -10,7 +10,7 @@ import {NgToastService} from "ng-angular-popup";
         FormsModule
     ],
   templateUrl: './change-password.component.html',
-  styleUrl: '../../../../../../customStyles/options-custom.scss'
+  styleUrl: '../../../../../../custom/options-custom.scss'
 })
 export class ChangePasswordComponent {
   constructor(private auth : UserService,

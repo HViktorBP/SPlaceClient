@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../../../../services/user.service";
 import {UsersDataService} from "../../../../../services/users-data.service";
-import {NgToastComponent, NgToastService} from "ng-angular-popup";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-change-status',
@@ -11,7 +11,7 @@ import {NgToastComponent, NgToastService} from "ng-angular-popup";
         FormsModule
     ],
   templateUrl: './change-status.component.html',
-  styleUrl: '../../../../../../customStyles/options-custom.scss'
+  styleUrl: '../../../../../../custom/options-custom.scss'
 })
 export class ChangeStatusComponent {
   constructor(private auth : UserService,

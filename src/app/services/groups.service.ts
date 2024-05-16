@@ -39,12 +39,11 @@ export class GroupsService {
     return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
   }
 
-  renameGroup(userId:number, groupId:number, role:string, groupName:string, userCreatorID:number) {
-    return this.http.put<any>(`${this.baseUrl}change-group-name?groupName=${groupName}&userCreatorID=${userCreatorID}`,{userId: userId, groupId: groupId, role: role})
-  }
-
   deleteUserFromGroup(userId:number, groupId:number, role:string) {
     return this.http.delete<any>(`${this.baseUrl}delete-user-from-group`, {body : {userId, groupId, role}})
   }
 
+  leaveGroup(userId:number, groupId:number) {
+    return this.http.delete<any>(`${this.baseUrl}leave-group?userID=${userId}&groupID=${groupId}`)
+  }
 }

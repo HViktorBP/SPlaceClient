@@ -23,7 +23,6 @@ export class AppHubService {
               private userData : UsersDataService,
               private groupHub : GroupHubService,
               private router : Router) {
-    this.start()
 
     this.connection.on("NewUserAdded", (userID : string, groupID : string) => {
       this.auth.getUserID(this.auth.getUsername()).subscribe({
@@ -32,11 +31,9 @@ export class AppHubService {
             next:groupName => {
               this.userData.groupId$.subscribe(groupIdCurrent => {
                 if (userIDCurrent == +userID) {
-                  this.groupHub.start().then(() => {
-                    this.userData.updateGroup(this.auth.getUsername())
-                    this.toast.info({detail: "Info", summary: `You have been added to the ${groupName}!`, duration: 3000})
-                  })
-                } else if (+groupID == groupIdCurrent) {
+                  this.userData.updateGroup(this.auth.getUsername())
+                  this.toast.info({detail: "Info", summary: `You have been added to the ${groupName}!`, duration: 3000})
+                } else if (+groupID == groupIdCurrent && userIDCurrent != +userID) {
                   this.auth.getUserByID(+userID).subscribe({
                     next:user => {
                       this.toast.info({detail: "Info", summary: `${user.username} was added to this group!`, duration: 3000})
@@ -67,18 +64,19 @@ export class AppHubService {
       })
     })
 
-    this.connection.on("UserDeletedFromTheGroup", (userID : string, groupID : string) => {
+    this.connection.on("UserDeletedFromTheGroup", (userID : string, groupID : number) => {
       this.auth.getUserID(this.auth.getUsername()).subscribe({
         next : userIDCurrent => {
           this.group.getGroupById(+groupID).subscribe({
             next:groupName => {
               this.userData.groupId$.subscribe(groupIdCurrent => {
                 if (userIDCurrent == +userID) {
-                  this.toast.info({detail: "Info", summary: `You have been removed from the ${groupName}!`, duration: 3000})
                   this.userData.updateGroup(this.auth.getUsername())
                   if (+groupID == groupIdCurrent) {
-                    this.userData.updateGroupId(0)
-                    this.router.navigate(['main/home']).then(() =>{location.reload()})
+                    this.router.navigate(['main/home']).then(() => {
+                      this.toast.info({detail: "Info", summary: `You was removed from this ${groupName}`, duration: 3000})
+                      location.reload()
+                    })
                   }
                 } else if (+groupID == groupIdCurrent) {
                   this.auth.getUserByID(+userID).subscribe({
@@ -111,12 +109,29 @@ export class AppHubService {
         }
       })
     })
+
+    this.connection.on("UserChangedTheName", (username : string) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        if (groupIdCurrent != 0) {
+          this.group.getUsersInGroup(groupIdCurrent).pipe(
+            switchMap(usersID => {
+              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+              return forkJoin(observables).pipe(
+                map(usersData => usersData.map(user => user.username))
+              )
+            })
+          ).subscribe(users => {
+            this.userData.updateUsersList(users)
+          })
+        }
+      })
+    })
   }
 
   public async start() {
     try {
       await this.connection.start()
-      console.log("You are in the group now!")
+      console.log("You are in the app now!")
 
     } catch (e) {
       console.log(e)

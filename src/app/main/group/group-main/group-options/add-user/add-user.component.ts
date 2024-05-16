@@ -8,9 +8,8 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserService} from "../../../../../services/user.service";
 import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
-import {forkJoin, map, Observable, switchMap} from "rxjs";
-import {User} from "../../../../../interfaces/user";
 import {NgToastService} from "ng-angular-popup";
+import {GroupHubService} from "../../../../../services/group-hub.service";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -31,7 +30,8 @@ export class AddUserComponent {
               private modalService : NgbModal,
               private route : ActivatedRoute,
               private usersDataService : UsersDataService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private groupHub : GroupHubService) {
   }
 
   open(content: any) {
@@ -53,39 +53,27 @@ export class AddUserComponent {
   }
 
   onSubmit(userName : string, role: string) {
-    const id = +this.route.snapshot.paramMap.get('id')!
-    this.auth.getUserID(userName).subscribe( {
-      next: userID => {
-        console.log(userID, id, role)
-        this.group.addUserInGroup(userID, id, role).subscribe({
-          next: res => {
-            this.toast.success({detail:"Success", summary: res.message, duration: 3000})
-            this.auth.getUserByID(userID).subscribe({
-              error: err => {
-                this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-              }
-            })
-            this.group.getUsersInGroup(id).pipe(
-              switchMap(usersID => {
-                const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
-                return forkJoin(observables).pipe(
-                  map(usersData => usersData.map(user => user.username))
-                )
-              })
-            ).subscribe(users => {
-              this.usersDataService.updateUserCount(users.length)
-              this.usersDataService.updateUsersList(users)
-            })
-            this.modalService.dismissAll()
-          },
-          error: err => {
-            this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-          }
-        })
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-      }
+    this.usersDataService.groupId$.subscribe(id => {
+      this.auth.getUserID(userName).subscribe( {
+        next: userID => {
+          this.group.addUserInGroup(userID, id, role).subscribe({
+            next: res => {
+              this.groupHub.joinChat(userName, id.toString()).then(
+                () => {
+                  this.modalService.dismissAll()
+                }
+              )
+              this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+            },
+            error: err => {
+              this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+            }
+          })
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+        }
+      })
     })
   }
 }

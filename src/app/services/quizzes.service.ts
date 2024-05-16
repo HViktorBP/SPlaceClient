@@ -29,4 +29,8 @@ export class QuizzesService {
   submitQuizResult(userID: number, groupID: number, quizID: number, quiz: any) {
     return this.http.post<any>(`${this.baseUrl}submit-quiz-result?userID=${userID}&groupID=${groupID}&quizID=${quizID}`, quiz)
   }
+
+  deleteQuiz (quizBody:QuizzesDTO, userID:number, role:string) {
+    return this.http.delete<any>(`${this.baseUrl}delete-quiz-from-group?userID=${userID}&userID=${userID}&role=${role}`, {body: quizBody})
+  }
 }

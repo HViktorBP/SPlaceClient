@@ -96,6 +96,17 @@ form{
   align-items: center;
 }
 
+.quiz-list {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+
+fa-icon {
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 700px) {
   ul {
     max-height: 27vh;

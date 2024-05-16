@@ -23,7 +23,6 @@ import {UsersDataService} from "../services/users-data.service";
 export class MainComponent implements OnInit {
   userData : User = {
     username : '',
-    profilePicture : '',
     status : '',
     email : ''
   }
@@ -39,5 +38,6 @@ export class MainComponent implements OnInit {
       this.userDataService.updateUsername(this.userData.username)
       this.userDataService.updateStatus(this.userData.status)
     })
+    this.userDataService.updateGroupId(0);
   }
 }

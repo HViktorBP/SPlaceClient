@@ -11,7 +11,7 @@ import {NgToastService} from "ng-angular-popup";
     FormsModule
   ],
   templateUrl: './change-username.component.html',
-  styleUrl: '../../../../../../customStyles/options-custom.scss'
+  styleUrl: '../../../../../../custom/options-custom.scss'
 })
 export class ChangeUsernameComponent {
   constructor(private auth : UserService,
