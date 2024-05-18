@@ -3,11 +3,14 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "./user.service";
 import {MessageDTO} from "../interfaces/message-dto";
 import * as signalR from "@microsoft/signalr";
-import {forkJoin} from "rxjs";
+import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {UsersDataService} from "./users-data.service";
 import {NgToastService} from "ng-angular-popup";
 import {QuizzesService} from "./quizzes.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {User} from "../interfaces/user";
+import {GroupsService} from "./groups.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +29,8 @@ export class GroupHubService {
               private userData : UsersDataService,
               private toast : NgToastService,
               private quizzes : QuizzesService,
+              private group : GroupsService,
+              private router : Router,
               private modal : NgbModal) {
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
@@ -68,7 +73,44 @@ export class GroupHubService {
       })
     })
 
+    this.connection.on("UserDeletedFromTheGroup", (username : string, groupID : string) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        console.log("Hello")
+        if (groupIdCurrent == +groupID) {
+          this.toast.info({detail: "Info", summary: `${username} was removed from this group`, duration: 3000})
+          this.getMessages(+groupID)
+          this.group.getUsersInGroup(+groupID).pipe(
+            switchMap(usersID => {
+              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+              return forkJoin(observables).pipe(
+                map(usersData => usersData.map(user => user.username))
+              )
+            })
+          ).subscribe(userUsernames => {
+            this.userData.updateUsersList(userUsernames);
+            this.userData.updateUserCount(userUsernames.length);
+          })
+        }
+      })
+    })
 
+    this.connection.on("UserLeftGroup", (groupID : number) => {
+      this.userData.groupId$.subscribe(groupIDCurrent => {
+        if (groupIDCurrent == groupID) {
+          this.group.getUsersInGroup(+groupID).pipe(
+            switchMap(usersID => {
+              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+              return forkJoin(observables).pipe(
+                map(usersData => usersData.map(user => user.username))
+              )
+            })
+          ).subscribe(userUsernames => {
+            this.userData.updateUsersList(userUsernames);
+            this.userData.updateUserCount(userUsernames.length);
+          })
+        }
+      })
+    })
   }
 
   public async start() {
@@ -126,5 +168,4 @@ export class GroupHubService {
     }
     return this.http.post<any>(`${this.baseUrl}save-message`, messageToSend)
   }
-
 }

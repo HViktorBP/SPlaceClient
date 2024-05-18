@@ -36,9 +36,10 @@ export class LeaveGroupComponent {
         this.group.leaveGroup(userID, groupID).subscribe({
           next: res => {
             this.toast.info({detail: "Info", summary: res.message, duration: 3000})
-            this.groupHub.removeUserFromGroup(this.auth.getUsername(), groupID.toString()).catch(e => {
-              this.toast.error({detail: "Error", summary: e.message, duration: 3000})
+            this.groupHub.removeUserFromGroup(this.auth.getUsername(), groupID.toString()).then(() => {
               this.router.navigate(['main/home'])
+            }).catch(e => {
+              this.toast.error({detail: "Error", summary: e.message, duration: 3000})
             })
           },
           error: err => {

@@ -38,6 +38,5 @@ export class MainComponent implements OnInit {
       this.userDataService.updateUsername(this.userData.username)
       this.userDataService.updateStatus(this.userData.status)
     })
-    this.userDataService.updateGroupId(0);
   }
 }

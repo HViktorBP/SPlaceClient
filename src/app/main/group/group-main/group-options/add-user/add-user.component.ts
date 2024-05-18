@@ -6,10 +6,8 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserService} from "../../../../../services/user.service";
-import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
 import {NgToastService} from "ng-angular-popup";
-import {GroupHubService} from "../../../../../services/group-hub.service";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -28,10 +26,8 @@ export class AddUserComponent {
   constructor(private auth : UserService,
               private group : GroupsService,
               private modalService : NgbModal,
-              private route : ActivatedRoute,
               private usersDataService : UsersDataService,
-              private toast : NgToastService,
-              private groupHub : GroupHubService) {
+              private toast : NgToastService) {
   }
 
   open(content: any) {
@@ -58,12 +54,7 @@ export class AddUserComponent {
         next: userID => {
           this.group.addUserInGroup(userID, id, role).subscribe({
             next: res => {
-              this.groupHub.joinChat(userName, id.toString()).then(
-                () => {
-                  this.modalService.dismissAll()
-                }
-              )
-              this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+              this.modalService.dismissAll()
             },
             error: err => {
               this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})

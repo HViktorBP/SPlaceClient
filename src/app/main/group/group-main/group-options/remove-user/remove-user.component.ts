@@ -60,7 +60,10 @@ export class RemoveUserComponent {
           next: res => {
             this.auth.getUserByID(userID).subscribe(user => {
               this.groupHub.removeUserFromGroup(user.username, id.toString())
-                .then(() => this.modalService.dismissAll())
+                .then(() => {
+                  this.modalService.dismissAll()
+                  this.toast.info({detail:"Info", summary: "User successfully removed!", duration:3000})
+                })
             })
           },
           error: err => {

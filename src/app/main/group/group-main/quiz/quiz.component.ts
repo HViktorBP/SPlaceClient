@@ -59,7 +59,7 @@ export class QuizComponent implements OnInit {
       questions: this.fb.array([
         this.createQuestion()
       ])
-    }, {validators: [this.atLeastOneQuestion, this.atLeastOneAnswer]});
+    }, {validators: [this.atLeastOneQuestion, this.atLeastOneAnswer, this.atLeastOneCorrectAnswer, this.allFieldsFilled]});
     this.userDataService.quizList$.subscribe(list => this.quizzes = list)
   }
   createQuestion() {
@@ -91,6 +91,32 @@ export class QuizComponent implements OnInit {
     });
     return invalidQuestions.length === 0 ? null : { noAnswers: true };
   }
+
+  allFieldsFilled(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    const emptyFields = questionsArray.controls.some(control => {
+      const question = control.get('question')!.value;
+      const answersArray = control.get('answers') as FormArray;
+      const emptyAnswers = answersArray.controls.some(answerControl => {
+        return !answerControl.get('answer')!.value;
+      });
+      return !question || emptyAnswers;
+    });
+    return emptyFields ? { emptyFields: true } : null;
+  }
+
+  atLeastOneCorrectAnswer(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    const invalidQuestions = questionsArray.controls.some(control => {
+      const answersArray = control.get('answers') as FormArray;
+      const hasCorrectAnswer = answersArray.controls.some(answerControl => {
+        return answerControl.get('status')!.value;
+      });
+      return !hasCorrectAnswer;
+    });
+    return invalidQuestions ? { noCorrectAnswer: true } : null;
+  }
+
   onAddQuiz(content: any) {
     this.resetQuiz()
 
