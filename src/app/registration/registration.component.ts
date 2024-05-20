@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-registration',
@@ -17,25 +18,26 @@ import {NgIf} from "@angular/common";
 })
 export class RegistrationComponent {
   registerError : string = ''
-  constructor(private router: Router,  private auth : UserService) { }
+  constructor(private router: Router,
+              private auth : UserService,
+              private toast : NgToastService) { }
   register(username:string, password:string, email:string, passwordCheck:string) {
-    if (passwordCheck.trim() == password.trim()) {
-      this.auth.signUp(username.trim(), password.trim(), email).subscribe(
+    if (passwordCheck == password) {
+      this.auth.signUp(username, password, email).subscribe(
         {
           next: res =>{
-            console.log(res.message)
+            this.toast.success({detail: "Success", summary: res.message, duration: 3000})
             this.auth.storeUsername(username.trim())
             this.auth.storeToken(res.token)
             this.router.navigate(['/main/home'])
           },
           error: err => {
-            console.log(err.error.message)
-            this.registerError = err.error.message;
+            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
           }
         }
       );
     } else {
-      this.registerError = 'Passwords are not matching!';
+      this.toast.error({detail: "Error", summary: "Passwords are not matching!", duration: 3000})
     }
 
   }

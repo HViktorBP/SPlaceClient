@@ -1,12 +1,13 @@
-import {Component, inject} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
-import {GroupComponent} from "../../../group.component";
+import {Router} from "@angular/router";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UserService} from "../../../../../services/user.service";
-import {catchError, of, switchMap} from "rxjs";
+import {GroupHubService} from "../../../../../services/group-hub.service";
+import {NgToastService} from "ng-angular-popup";
+import {UsersDataService} from "../../../../../services/users-data.service";
 
 @Component({
   selector: 'app-leave-group',
@@ -19,42 +20,34 @@ import {catchError, of, switchMap} from "rxjs";
   styleUrl: './leave-group.component.css'
 })
 export class LeaveGroupComponent {
-  groupData = inject(GroupComponent)
   icon = faRightFromBracket
   constructor(private router: Router,
+              private groupHub : GroupHubService,
               private group : GroupsService,
               private auth : UserService,
-              private route : ActivatedRoute) {
+              private toast : NgToastService,
+              private userData : UsersDataService) {
 
   }
 
-  leaveChat() {
-    this.groupData.leaveChat().then(() => {
-      console.log("Disconnected")
-    }).catch(e => {
-      console.log(e)
-    })
-
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userId => {
-        const groupId = +this.route.snapshot.paramMap.get('id')!
-        return this.group.getUserRole(userId, groupId).pipe(
-          switchMap(role => this.group.deleteUserFromGroup(userId, groupId, role[0])),
-          catchError(err => {
-            console.error(err.message)
-            return of({ message: 'An error occurred while deleting user from group.' })
-          })
-        )
+  leaveGroup() {
+    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+      this.userData.groupId$.subscribe(groupID => {
+        this.group.leaveGroup(userID, groupID).subscribe({
+          next: res => {
+            this.toast.info({detail: "Info", summary: res.message, duration: 3000})
+            this.groupHub.removeUserFromGroup(this.auth.getUsername(), groupID.toString()).then(() => {
+              this.router.navigate(['main/home'])
+            }).catch(e => {
+              this.toast.error({detail: "Error", summary: e.message, duration: 3000})
+            })
+          },
+          error: err => {
+            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+          }
+        })
       })
-    ).subscribe({
-      next: res => {
-        console.log(res.message);
-        this.router.navigate(['main/home'])
-      },
-      error: err => {
-        console.error('An error occurred:', err)
       }
-    })
-
+    )
   }
 }

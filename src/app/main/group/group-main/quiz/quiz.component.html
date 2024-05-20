@@ -1,7 +1,12 @@
 <div class="quizzes-container">
   <h3> Quizzes </h3>
   <ul>
-    <li *ngFor="let quiz of quizzes" (click)="onQuizOpened(quiz, quizContent)">{{quiz.name}}</li>
+    <div>
+      <div class="quiz-list" *ngFor="let quiz of quizzes">
+        <li  (click)="onQuizOpened(quiz, quizContent)">{{quiz.name}}</li>
+        <fa-icon [icon]="trash" title="Remove quiz" (click)="openConfirmationDialog(quiz)"></fa-icon>
+      </div>
+    </div>
     <div><p (click)="onAddQuiz(newQuizContent)">Add quiz</p></div>
   </ul>
 </div>

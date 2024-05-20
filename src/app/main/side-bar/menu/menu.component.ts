@@ -3,11 +3,13 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {UserService} from "../../../services/user.service";
 import {GroupsService} from "../../../services/groups.service";
 import {RouterLink} from "@angular/router";
-import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap'
 import {FormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faBars, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
+import {NgToastService} from "ng-angular-popup";
+import {UsersDataService} from "../../../services/users-data.service";
+import {GroupHubService} from "../../../services/group-hub.service";
 
 @Component({
   selector: 'app-menu',
@@ -26,38 +28,23 @@ import {faBars, faDoorOpen} from "@fortawesome/free-solid-svg-icons";
 
 export class MenuComponent implements OnInit {
   menuSliding : string = 'in'
-  userGroupData: { name: string; id: number }[]= []
-  userGroupData$: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   closeResult : string = ''
   menuIcon = faBars
   groupIcon = faDoorOpen
-
-  constructor(private auth: UserService, private groups : GroupsService, private modalService : NgbModal) {
+  groupsData : {name:string, id:number}[] = []
+  constructor(private auth: UserService,
+              private groups : GroupsService,
+              private modalService : NgbModal,
+              private toast : NgToastService,
+              private userData : UsersDataService,
+              private groupHub : GroupHubService) {
 
   }
 
   ngOnInit(): void {
-    this.updateData()
-  }
+    this.userData.userGroupData$.subscribe(groupData => this.groupsData = groupData)
 
-  updateData() {
-    this.userGroupData.length = 0
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userID => this.groups.getGroups(userID)),
-      switchMap(groups => {
-        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
-          return this.groups.getGroupById(groupID).pipe(
-            map(groupName => ({ id: groupID, name: groupName }))
-          );
-        });
-        return forkJoin(observables);
-      })
-    ).subscribe(groupInfos => {
-      console.log(groupInfos)
-      this.userGroupData.push(...groupInfos);
-      this.userGroupData$.next(this.userGroupData)
-    })
-
+    this.userData.updateGroupsList(this.auth.getUsername())
   }
 
   open(content: any) {
@@ -83,22 +70,27 @@ export class MenuComponent implements OnInit {
   }
 
   goToGroup() {
-    this.toggleMenu()
+    this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
 
   onSubmit(groupName : string) {
     this.auth.getUserID(this.auth.getUsername()).subscribe(res => {
       this.groups.addGroup(res, groupName).subscribe( {
         next: res => {
-          console.log(res.message)
-          this.updateData()
+          this.toast.success({detail:"Success", summary:res.message, duration: 3000})
+          this.userData.updateGroupsList(this.auth.getUsername())
           this.toggleMenu()
         },
         error: err => {
-          console.log(err.error.message)
+          this.toast.error({detail:"Error", summary:err.error.message, duration: 3000})
         }
       })
     })
     this.modalService.dismissAll();
+  }
+
+  onGroupClicked(groupId : number) {
+    this.groupHub.joinChat(this.auth.getUsername(), groupId.toString()).then(() => {
+    })
   }
 }

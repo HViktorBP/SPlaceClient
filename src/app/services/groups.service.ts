@@ -17,6 +17,10 @@ export class GroupsService {
     return this.http.get<string>(`${this.baseUrl}group-by-id?groupID=${groupId}`)
   }
 
+  getGroupCreator(groupId: number) {
+    return this.http.get<number>(`${this.baseUrl}group-creator?groupID=${groupId}`)
+  }
+
   getUsersInGroup(groupId: number) {
     return this.http.get<number[]>(`${this.baseUrl}users-in-group?groupID=${groupId}`)
   }
@@ -35,12 +39,11 @@ export class GroupsService {
     return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
   }
 
-  renameGroup(userId:number, groupId:number, role:string, groupName:string) {
-    return this.http.put<any>(`${this.baseUrl}change-group-name?groupName=${groupName}`,{userId: userId, groupId: groupId, role: role})
-  }
-
   deleteUserFromGroup(userId:number, groupId:number, role:string) {
     return this.http.delete<any>(`${this.baseUrl}delete-user-from-group`, {body : {userId, groupId, role}})
   }
 
+  leaveGroup(userId:number, groupId:number) {
+    return this.http.delete<any>(`${this.baseUrl}leave-group?userID=${userId}&groupID=${groupId}`)
+  }
 }

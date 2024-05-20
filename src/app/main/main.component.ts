@@ -7,6 +7,7 @@ import {UserService} from "../services/user.service";
 import {User} from "../interfaces/user";
 import {UsersDataService} from "../services/users-data.service";
 
+
 @Component({
   selector: 'app-main',
   standalone: true,
@@ -22,12 +23,13 @@ import {UsersDataService} from "../services/users-data.service";
 export class MainComponent implements OnInit {
   userData : User = {
     username : '',
-    profilePicture : '',
     status : '',
     email : ''
   }
 
-  constructor(private auth : UserService, private userDataService : UsersDataService) {
+  constructor(private auth : UserService,
+              private userDataService : UsersDataService) {
+
   }
 
   ngOnInit() {
@@ -35,6 +37,6 @@ export class MainComponent implements OnInit {
       this.userData = data
       this.userDataService.updateUsername(this.userData.username)
       this.userDataService.updateStatus(this.userData.status)
-  })
+    })
   }
 }

@@ -1,11 +1,12 @@
 import {AfterViewChecked, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
-import {ChatService} from "../../../services/chat.service";
+import {GroupHubService} from "../../../services/group-hub.service";
 import {FormsModule} from "@angular/forms";
-import {GroupComponent} from "../group.component";
 import {UserService} from "../../../services/user.service";
 import {forkJoin, of, switchMap, tap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {UsersDataService} from "../../../services/users-data.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-group-main',
@@ -24,25 +25,25 @@ import {ActivatedRoute} from "@angular/router";
 })
 
 export class GroupMainComponent implements OnInit, AfterViewChecked {
-  chatService = inject(ChatService)
-  groupData = inject(GroupComponent)
+  groupHubService = inject(GroupHubService)
+  userData = inject(UsersDataService)
   inputMessage= ''
   loggedInUserName!:string
   auth = inject(UserService)
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 
-  constructor(private route : ActivatedRoute) {
+  constructor(private route : ActivatedRoute,
+              private toast : NgToastService) {
 
   }
 
   ngOnInit () {
-    this.groupData.messages$.subscribe(() => {
+    this.userData.groupMessages$.subscribe(() => {
       try {
-        console.log('Messages uploaded')
         this.canBeScrolled = !this.canBeScrolled
       } catch (e) {
-        console.log(e)
+        this.toast.error({detail:"Error", summary: "Error when loading the messages!", duration: 3000})
       }
     })
     this.loggedInUserName = this.auth.getUsername()
@@ -58,23 +59,27 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
   sendMessage() {
     const date = new Date();
     const groupID = this.route.snapshot.paramMap.get('id')!
+    const message = this.inputMessage.trim()
 
-    this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(res => {
-        return this.chatService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
-          switchMap(() => {
-            return forkJoin({
-              sendMessageResult: this.groupData.sendMessage(this.inputMessage, groupID, date),
-              clearInputResult: of(this.inputMessage = '')
+    if (message != '') {
+      this.auth.getUserID(this.auth.getUsername()).pipe(
+        switchMap(res => {
+          return this.groupHubService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
+            switchMap(() => {
+              return forkJoin({
+                sendMessageResult: this.groupHubService.sendMessage(this.inputMessage, groupID, date),
+                clearInputResult: of(this.inputMessage = '')
+              })
             })
-          }),
-          tap(() => console.log('Message sent successfully'))
-        )
+          )
+        })
+      ).subscribe({
+        error: (error) => {
+          this.toast.error({detail:"Error", summary: error.error.message, duration: 3000})
+        }
       })
-    ).subscribe({
-      error: (error) => {
-        console.error('Error:', error)
-      },
-    })
+    } else {
+      this.toast.info({detail:"Info", summary: "If you want to send message, type it in", duration: 3000})
+    }
   }
 }

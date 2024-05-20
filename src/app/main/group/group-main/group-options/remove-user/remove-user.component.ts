@@ -8,8 +8,8 @@ import {UserService} from "../../../../../services/user.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
-import {forkJoin, map, Observable, switchMap} from "rxjs";
-import {User} from "../../../../../interfaces/user";
+import {GroupHubService} from "../../../../../services/group-hub.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-remove-user',
@@ -29,7 +29,9 @@ export class RemoveUserComponent {
               private group : GroupsService,
               private modalService : NgbModal,
               private route : ActivatedRoute,
-              private usersDataService : UsersDataService) {
+              private usersDataService : UsersDataService,
+              private groupHub : GroupHubService,
+              private toast : NgToastService) {
   }
 
   open(content: any) {
@@ -52,28 +54,26 @@ export class RemoveUserComponent {
 
   onSubmit(userName : string, role: string) {
     const id = +this.route.snapshot.paramMap.get('id')!
-    this.auth.getUserID(userName).subscribe(userID => {
-      console.log(userID, id, role)
-      this.group.deleteUserFromGroup(userID, id, role).subscribe({
-        next: message => {
-          console.log(message.message)
-          this.group.getUsersInGroup(id).pipe(
-            switchMap(usersID => {
-              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
-              return forkJoin(observables).pipe(
-                map(usersData => usersData.map(user => user.username))
-              )
+    this.auth.getUserID(userName).subscribe({
+      next:userID => {
+        this.group.deleteUserFromGroup(userID, id, role).subscribe({
+          next: res => {
+            this.auth.getUserByID(userID).subscribe(user => {
+              this.groupHub.removeUserFromGroup(user.username, id.toString())
+                .then(() => {
+                  this.modalService.dismissAll()
+                  this.toast.info({detail:"Info", summary: "User successfully removed!", duration:3000})
+                })
             })
-          ).subscribe(users => {
-            this.usersDataService.updateUserCount(users.length)
-            this.usersDataService.updateUsersList(users)
-          })
-          this.modalService.dismissAll()
-        },
-        error: err => {
-          console.log(err.error.message)
-        }
-      })
+          },
+          error: err => {
+            this.toast.error({detail:"Error", summary: err.error.message, duration:3000})
+          }
+        })
+      },
+      error:err => {
+        this.toast.error({detail:"Error", summary: err.error.message, duration:3000})
+      }
     })
   }
 }
