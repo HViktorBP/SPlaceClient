@@ -3,9 +3,14 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "./user.service";
 import {MessageDTO} from "../interfaces/message-dto";
 import * as signalR from "@microsoft/signalr";
-import {BehaviorSubject, forkJoin} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {forkJoin, map, Observable, switchMap} from "rxjs";
 import {UsersDataService} from "./users-data.service";
+import {NgToastService} from "ng-angular-popup";
+import {QuizzesService} from "./quizzes.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {User} from "../interfaces/user";
+import {GroupsService} from "./groups.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -17,45 +22,109 @@ export class GroupHubService {
     .withUrl("https://localhost:7149/group")
     .configureLogging(signalR.LogLevel.Information)
     .build()
-  public messages$ = new BehaviorSubject<any>([])
   public messages: any[] = []
 
   constructor(private http : HttpClient,
               private auth : UserService,
-              private route : ActivatedRoute,
               private userData : UsersDataService,
-              private router : Router) {
-    this.start()
-
+              private toast : NgToastService,
+              private quizzes : QuizzesService,
+              private group : GroupsService,
+              private router : Router,
+              private modal : NgbModal) {
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
       this.messages = [...this.messages, {username, groupID, message, timespan}]
       this.userData.updateGroupMessages(this.messages)
-      console.log(this.userData.groupMessages$)
     })
 
-    this.connection.on("UserRemovedFromGroup", (username: string, groupID:string) => {
-      console.log('Starting to remove user')
-      const usernameUser = this.auth.getUsername()
-      this.userData.groupId$.subscribe(groupIDUser => {
-        if (usernameUser == username && groupIDUser == +groupID)
-          this.router.navigate(['main/home']).then(res => {
-            if (res)
-              console.log("You were removed from group!")
+    this.connection.on("NewQuizAdded", (groupID:number, name:string) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        if (groupID == groupIdCurrent) {
+          this.quizzes.getQuizzesInGroup(groupID).subscribe({
+            next:quizzesList=> {
+              this.userData.updateQuizzesList(quizzesList)
+              this.toast.info({detail: "Info", summary: `New quiz(${name}) has been added to this group!`, duration: 3000})
+            },
+            error:err => {
+              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            }
+        })
+        }
+      })
+    })
+
+    this.connection.on("QuizRemoved", (name:string, groupID:number) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        if (groupID == groupIdCurrent) {
+          if (sessionStorage.getItem('quiz') == name) {
+            this.modal.dismissAll()
+          }
+
+          this.quizzes.getQuizzesInGroup(groupIdCurrent).subscribe({
+            next:quizzesList=> {
+              this.userData.updateQuizzesList(quizzesList)
+              this.toast.info({detail: "Info", summary: `${name} was deleted!`, duration: 3000})
+            },
+            error:err => {
+              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            }
           })
+        }
+      })
+    })
+
+    this.connection.on("UserDeletedFromTheGroup", (username : string, groupID : string) => {
+      this.userData.groupId$.subscribe(groupIdCurrent => {
+        console.log("Hello")
+        if (groupIdCurrent == +groupID) {
+          this.toast.info({detail: "Info", summary: `${username} was removed from this group`, duration: 3000})
+          this.getMessages(+groupID)
+          this.group.getUsersInGroup(+groupID).pipe(
+            switchMap(usersID => {
+              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+              return forkJoin(observables).pipe(
+                map(usersData => usersData.map(user => user.username))
+              )
+            })
+          ).subscribe(userUsernames => {
+            this.userData.updateUsersList(userUsernames);
+            this.userData.updateUserCount(userUsernames.length);
+          })
+        }
+      })
+    })
+
+    this.connection.on("UserLeftGroup", (groupID : number) => {
+      this.userData.groupId$.subscribe(groupIDCurrent => {
+        if (groupIDCurrent == groupID) {
+          this.group.getUsersInGroup(+groupID).pipe(
+            switchMap(usersID => {
+              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+              return forkJoin(observables).pipe(
+                map(usersData => usersData.map(user => user.username))
+              )
+            })
+          ).subscribe(userUsernames => {
+            this.userData.updateUsersList(userUsernames);
+            this.userData.updateUserCount(userUsernames.length);
+          })
+        }
       })
     })
   }
 
   public async start() {
-    try {
-      await this.connection.start()
-      console.log("Connection is established")
+    if (this.connection.state == signalR.HubConnectionState.Disconnected) {
+      try {
+        await this.connection.start()
+        console.log("You are in the group now!")
 
-    } catch (e) {
-      console.log(e)
-      setTimeout(() => {
-        this.start()
-      }, 6000)
+      } catch (e) {
+        console.log(e)
+        setTimeout(() => {
+          this.start()
+        }, 6000)
+      }
     }
   }
 
@@ -71,7 +140,7 @@ export class GroupHubService {
     return this.connection.invoke('RemoveUserFromGroup', username, groupID)
   }
 
-  public async leaveChat() {
+  public async leave() {
     return this.connection.stop()
   }
 
@@ -99,5 +168,4 @@ export class GroupHubService {
     }
     return this.http.post<any>(`${this.baseUrl}save-message`, messageToSend)
   }
-
 }

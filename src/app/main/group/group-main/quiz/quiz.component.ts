@@ -11,6 +11,11 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {catchError, switchMap, tap, throwError} from "rxjs";
 import {QuizModel} from "../../../../interfaces/quiz-model";
+import {NgToastService} from "ng-angular-popup";
+import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import { MatDialog } from '@angular/material/dialog';
+import {ConfirmQuizComponent} from "../../../../../custom/confirm-quiz/confirm-quiz.component";
 
 @Component({
   selector: 'app-quiz',
@@ -22,7 +27,8 @@ import {QuizModel} from "../../../../interfaces/quiz-model";
     JsonPipe,
     NgIf,
     KeyValuePipe,
-    AsyncPipe
+    AsyncPipe,
+    FaIconComponent
   ],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css'
@@ -34,6 +40,7 @@ export class QuizComponent implements OnInit {
   newQuizForm!: FormGroup
   quizModel!: QuizModel
   private userScore : number = 0
+  trash = faTrash;
 
   constructor(private userDataService : UsersDataService,
               private auth : UserService,
@@ -41,7 +48,9 @@ export class QuizComponent implements OnInit {
               private route : ActivatedRoute,
               private modalService: NgbModal,
               private fb: FormBuilder,
-              private quiz: QuizzesService) {
+              private quiz: QuizzesService,
+              private toast : NgToastService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -50,7 +59,7 @@ export class QuizComponent implements OnInit {
       questions: this.fb.array([
         this.createQuestion()
       ])
-    }, {validators: [this.atLeastOneQuestion, this.atLeastOneAnswer]});
+    }, {validators: [this.atLeastOneQuestion, this.atLeastOneAnswer, this.atLeastOneCorrectAnswer, this.allFieldsFilled]});
     this.userDataService.quizList$.subscribe(list => this.quizzes = list)
   }
   createQuestion() {
@@ -82,6 +91,32 @@ export class QuizComponent implements OnInit {
     });
     return invalidQuestions.length === 0 ? null : { noAnswers: true };
   }
+
+  allFieldsFilled(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    const emptyFields = questionsArray.controls.some(control => {
+      const question = control.get('question')!.value;
+      const answersArray = control.get('answers') as FormArray;
+      const emptyAnswers = answersArray.controls.some(answerControl => {
+        return !answerControl.get('answer')!.value;
+      });
+      return !question || emptyAnswers;
+    });
+    return emptyFields ? { emptyFields: true } : null;
+  }
+
+  atLeastOneCorrectAnswer(group: FormGroup) {
+    const questionsArray = group.get('questions') as FormArray;
+    const invalidQuestions = questionsArray.controls.some(control => {
+      const answersArray = control.get('answers') as FormArray;
+      const hasCorrectAnswer = answersArray.controls.some(answerControl => {
+        return answerControl.get('status')!.value;
+      });
+      return !hasCorrectAnswer;
+    });
+    return invalidQuestions ? { noCorrectAnswer: true } : null;
+  }
+
   onAddQuiz(content: any) {
     this.resetQuiz()
 
@@ -127,25 +162,26 @@ export class QuizComponent implements OnInit {
             return this.quiz.submitNewQuiz(userID, groupID, role, this.newQuizForm.value).pipe(
               tap(res => console.log(res.message)),
               catchError(err => {
-                console.error(err.message);
+                this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
                 return throwError(err);
               })
             );
           }),
           catchError(err => {
-            console.error(err.message);
+            this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
             return throwError(err);
           })
         );
       }),
       switchMap(() => this.quiz.getQuizzesInGroup(groupID)),
       catchError(err => {
-        console.error(err.message);
+        this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
         return throwError(err);
       })
     ).subscribe(quizzes => {
       this.userDataService.updateQuizzesList(quizzes);
       this.resetQuiz()
+      this.toast.success({detail: "Success",summary: "New quiz uploaded!", duration: 3000});
     });
   }
 
@@ -176,22 +212,31 @@ export class QuizComponent implements OnInit {
     }));
   }
 
-
   async onQuizOpened(quiz : QuizzesDTO, content : any) {
     this.resetQuiz()
 
     const groupId = +this.route.snapshot.paramMap.get('id')!
-
-    this.quiz.getQuizId(groupId, quiz.name!).subscribe( quizId => {
-      this.quiz.getQuiz(groupId, quizId).subscribe(async res => {
-        this.quizModel = res
-        await this.initializeNewQuiz(res);
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+    sessionStorage.setItem('quiz', quiz.name!)
+    this.quiz.getQuizId(groupId, quiz.name!).subscribe({
+      next:quizId=> {
+        this.quiz.getQuiz(groupId, quizId).subscribe({
+          next:async res => {
+            this.quizModel = res
+            await this.initializeNewQuiz(res);
+            this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title-2'}).result.then((result) => {
+              this.closeResult = `Closed with: ${result}`
+            }, (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`
+            })
+          },
+          error:err => {
+            this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+          }
         })
-      })
+      },
+      error:err => {
+        this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+      }
     })
   }
 
@@ -205,24 +250,63 @@ export class QuizComponent implements OnInit {
 
   onSubmitQuizAnswered(content: any) {
     const formValue = this.newQuizForm.value;
-    console.log('Selected answers:', formValue);
 
-    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
-      const groupID = +this.route.snapshot.paramMap.get('id')!
-
-      this.quiz.getQuizId(groupID, this.quizModel.name!).subscribe(quizID => {
-        this.quiz.submitQuizResult(userID, groupID, quizID, formValue).subscribe({
-          next: result => {
-            this.userScore = result.score
-            this.openResult(content)
-          }
+    this.auth.getUserID(this.auth.getUsername()).subscribe({
+      next:userID => {
+        this.userDataService.groupId$.subscribe(groupID => {
+          this.quiz.getQuizId(groupID, this.quizModel.name!).subscribe({
+            next:quizID => {
+              this.quiz.submitQuizResult(userID, groupID, quizID, formValue).subscribe({
+                next: result => {
+                  this.userScore = result.score
+                  this.openResult(content)
+                },
+                error:err => {
+                  this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+                }
+              })
+            },
+            error:err => {
+              this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+            }
+          })
         })
-      })
-    })
+      },
+      error:err => {
+        this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+      }
+  })
+
     this.resetQuiz()
   }
 
+  deleteQuiz(quiz: QuizzesDTO) {
+    this.auth.getUserID(this.auth.getUsername()).subscribe({
+      next:userID => {
+        this.group.getUserRole(userID, quiz.groupID!).subscribe({
+          next: role => {
+            this.quiz.deleteQuiz(quiz, userID, role).subscribe({
+              next:res => {
+                this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+              },
+              error:err => {
+                this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+              }
+            })
+          },
+          error:err => {
+            this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+          }
+        })
+      },
+      error:err => {
+        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+      }
+    })
+  }
+
   private getDismissReason(reason: any): string {
+    sessionStorage.setItem('quiz', 'none')
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -237,5 +321,15 @@ export class QuizComponent implements OnInit {
     const questionsArray = this.newQuizForm.get('questions') as FormArray;
     questionsArray.clear();
     this.modalService.dismissAll()
+  }
+
+  openConfirmationDialog(quiz: QuizzesDTO): void {
+    const dialogRef = this.dialog.open(ConfirmQuizComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteQuiz(quiz);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../../../../services/user.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-change-email',
@@ -9,10 +10,11 @@ import {UserService} from "../../../../../services/user.service";
         FormsModule
     ],
   templateUrl: './change-email.component.html',
-  styleUrl: '../../../../../../customStyles/options-custom.scss'
+  styleUrl: '../../../../../../custom/options-custom.scss'
 })
 export class ChangeEmailComponent {
-  constructor(private auth : UserService) {
+  constructor(private auth : UserService,
+              private toast : NgToastService) {
 
   }
 
@@ -20,10 +22,10 @@ export class ChangeEmailComponent {
     this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
       this.auth.changeEmail(email, userID).subscribe({
         next: res => {
-          console.log(res.message)
+          this.toast.success({detail:"Success", summary:res.message, duration:3000})
         },
-        error: err=> {
-          console.log(err.error.message)
+        error: err => {
+          this.toast.error({detail:"Error", summary:err.error.message, duration:3000})
         }
       })
     })

@@ -4,6 +4,8 @@ import {UsersDataService} from "../../../services/users-data.service";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {Router} from "@angular/router";
+import {AppHubService} from "../../../services/app-hub.service";
+import {GroupHubService} from "../../../services/group-hub.service";
 
 @Component({
   selector: 'app-user-menu',
@@ -23,7 +25,9 @@ export class UserMenuComponent implements OnInit{
   logOutIcon = faRightFromBracket
 
   constructor(private userData : UsersDataService,
-              private router : Router) {
+              private router : Router,
+              private groupHub : GroupHubService,
+              private appHub : AppHubService) {
 
   }
 
@@ -32,9 +36,14 @@ export class UserMenuComponent implements OnInit{
     this.userData.userStatus$.subscribe(status => this.status = status)
   }
 
-
   logOut() {
     sessionStorage.clear()
-    this.router.navigate(['login'])
+    this.appHub.leave().then(() => {
+      this.groupHub.leave().then(() => {
+        this.router.navigate(['login']).then(() => {
+          location.reload()
+        })
+      })
+    })
   }
 }

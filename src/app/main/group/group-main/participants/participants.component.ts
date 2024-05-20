@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {UsersDataService} from "../../../../services/users-data.service";
 
@@ -20,6 +20,5 @@ export class ParticipantsComponent implements OnInit {
 
   ngOnInit() {
     this.usesDataService.userList$.subscribe(list => this.participants = list)
-
   }
 }

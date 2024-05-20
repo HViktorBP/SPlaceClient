@@ -6,10 +6,8 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserService} from "../../../../../services/user.service";
-import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../../../services/users-data.service";
-import {forkJoin, map, Observable, switchMap} from "rxjs";
-import {User} from "../../../../../interfaces/user";
+import {NgToastService} from "ng-angular-popup";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -28,8 +26,8 @@ export class AddUserComponent {
   constructor(private auth : UserService,
               private group : GroupsService,
               private modalService : NgbModal,
-              private route : ActivatedRoute,
-              private usersDataService : UsersDataService) {
+              private usersDataService : UsersDataService,
+              private toast : NgToastService) {
   }
 
   open(content: any) {
@@ -51,27 +49,20 @@ export class AddUserComponent {
   }
 
   onSubmit(userName : string, role: string) {
-    const id = +this.route.snapshot.paramMap.get('id')!
-    this.auth.getUserID(userName).subscribe(userID => {
-      console.log(userID, id, role)
-      this.group.addUserInGroup(userID, id, role).subscribe({
-        next: message => {
-          console.log(message.message)
-          this.group.getUsersInGroup(id).pipe(
-            switchMap(usersID => {
-              const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
-              return forkJoin(observables).pipe(
-                map(usersData => usersData.map(user => user.username))
-              )
-            })
-          ).subscribe(users => {
-            this.usersDataService.updateUserCount(users.length)
-            this.usersDataService.updateUsersList(users)
+    this.usersDataService.groupId$.subscribe(id => {
+      this.auth.getUserID(userName).subscribe( {
+        next: userID => {
+          this.group.addUserInGroup(userID, id, role).subscribe({
+            next: res => {
+              this.modalService.dismissAll()
+            },
+            error: err => {
+              this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+            }
           })
-          this.modalService.dismissAll()
         },
-        error: err => {
-          console.log(err.error.message)
+        error : err => {
+          this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
         }
       })
     })

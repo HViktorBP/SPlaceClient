@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {QuizzesDTO} from "../interfaces/quizes-dto";
+import {UserService} from "./user.service";
+import {GroupsService} from "./groups.service";
+import {User} from "../interfaces/user";
+import {QuizzesService} from "./quizzes.service";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +35,11 @@ export class UsersDataService {
   private groupIdSubject = new BehaviorSubject<number>(0)
   groupId$ = this.groupIdSubject.asObservable()
 
-  constructor() { }
+  private userGroupDataSubject: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
+  userGroupData$ = this.userGroupDataSubject.asObservable()
+  constructor(private auth : UserService,
+              private group : GroupsService,
+              private quizzes : QuizzesService) { }
 
   updateUserCount(count: number) {
     this.userCountSubject.next(count)
@@ -63,5 +71,52 @@ export class UsersDataService {
 
   updateGroupId(groupId : number) {
     this.groupIdSubject.next(groupId)
+  }
+
+  updateGroupData(groups : {name: string; id: number}[]) {
+    this.userGroupDataSubject.next(groups)
+  }
+
+  updateGroupsList(username : string) {
+    this.updateGroupData([])
+    this.auth.getUserID(username).pipe(
+      switchMap(userID => this.group.getGroups(userID)),
+      switchMap(groups => {
+        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
+          return this.group.getGroupById(groupID).pipe(
+            map(groupName => ({ id: groupID, name: groupName }))
+          );
+        });
+        return forkJoin(observables);
+      })
+    ).subscribe(groupInfos => {
+      this.updateGroupData(groupInfos)
+    })
+  }
+
+  updateGroupDisplay(groupId : number) {
+    this.updateGroupId(groupId)
+
+    this.group.getUsersInGroup(groupId).pipe(
+      switchMap(usersID => {
+        const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
+        return forkJoin(observables).pipe(
+          map(usersData => usersData.map(user => user.username))
+        )
+      })
+    ).subscribe(userUsernames => {
+      this.updateUsersList(userUsernames);
+      this.updateUserCount(userUsernames.length);
+    })
+
+    this.group.getGroupById(groupId).subscribe(res => {
+      this.updateGroupName(res[0]);
+      console.log(`${this.auth.getUsername()} is now active!`)
+    }, error => {
+      console.log("Error occurred while joining chat:", error)
+    })
+    this.quizzes.getQuizzesInGroup(groupId).subscribe(quizzesList => {
+      this.updateQuizzesList(quizzesList)
+    })
   }
 }
