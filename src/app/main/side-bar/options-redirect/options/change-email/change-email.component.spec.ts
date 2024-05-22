@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChangeEmailComponent } from './change-email.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ChangeEmailComponent', () => {
   let component: ChangeEmailComponent;
@@ -8,10 +9,10 @@ describe('ChangeEmailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangeEmailComponent]
+      imports: [ChangeEmailComponent, HttpClientTestingModule]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ChangeEmailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

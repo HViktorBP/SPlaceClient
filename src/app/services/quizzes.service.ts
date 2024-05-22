@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {QuizzesDTO} from "../interfaces/quizes-dto";
+import {QuizzesDTO} from "../interfaces/quizzes-dto";
 import {QuizModel} from "../interfaces/quiz-model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizzesService {
-  private baseUrl = 'https://localhost:7149/api/Quizes/';
+  private baseUrl = 'https://localhost:7149/api/Quizzes/';
   constructor(private http : HttpClient) { }
 
   getQuizzesInGroup(groupID: number) {

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {UsersDataService} from "../../../../services/users-data.service";
-import {QuizzesDTO} from "../../../../interfaces/quizes-dto";
+import {QuizzesDTO} from "../../../../interfaces/quizzes-dto";
 import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "../../../../services/user.service";
 import {GroupsService} from "../../../../services/groups.service";

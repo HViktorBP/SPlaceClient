@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChangeStatusComponent } from './change-status.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('ChangeStatusComponent', () => {
   let component: ChangeStatusComponent;
@@ -8,10 +9,10 @@ describe('ChangeStatusComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangeStatusComponent]
+      imports: [ChangeStatusComponent, HttpClientTestingModule]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ChangeStatusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

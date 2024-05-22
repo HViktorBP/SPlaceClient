@@ -39,8 +39,8 @@ export class GroupsService {
     return this.http.post<any>(`${this.baseUrl}add-user-in-group`, usersGroup)
   }
 
-  deleteUserFromGroup(userId:number, groupId:number, role:string) {
-    return this.http.delete<any>(`${this.baseUrl}delete-user-from-group`, {body : {userId, groupId, role}})
+  deleteUserFromGroup(userId:number, groupId:number, role:string, currentUserRole:string) {
+    return this.http.delete<any>(`${this.baseUrl}delete-user-from-group?role=${currentUserRole}`, {body : {userId, groupId, role}})
   }
 
   leaveGroup(userId:number, groupId:number) {

@@ -7,18 +7,18 @@ import {MainComponent} from "./main/main.component";
 import {NgToastModule} from "ng-angular-popup";
 import {AppHubService} from "./services/app-hub.service";
 import {GroupHubService} from "./services/group-hub.service";
+
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, MenuComponent, MainBarComponent, SideBarComponent, MainComponent, NgToastModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent{
-  title = 'SPlace';
 
+export class AppComponent{
   constructor(private groupHub : GroupHubService,
-              private appHub : AppHubService,) {
+              private appHub : AppHubService) {
     this.appHub.start().then(()=> {
       console.log('Connected to the app hub!')
     })

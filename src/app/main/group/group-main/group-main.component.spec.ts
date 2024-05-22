@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { GroupMainComponent } from './group-main.component';
 
@@ -8,10 +10,10 @@ describe('GroupMainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GroupMainComponent]
+      imports: [GroupMainComponent, RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(GroupMainComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
