@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 import { GroupHubService } from './group-hub.service';
 
 describe('ChatService', () => {
@@ -8,7 +7,7 @@ describe('ChatService', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule]
+      imports: [HttpClientTestingModule]
     }).compileComponents()
     service = TestBed.inject(GroupHubService);
   });

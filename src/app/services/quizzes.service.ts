@@ -6,6 +6,7 @@ import {QuizModel} from "../interfaces/quiz-model";
 @Injectable({
   providedIn: 'root'
 })
+
 export class QuizzesService {
   private baseUrl = 'https://localhost:7149/api/Quizzes/';
   constructor(private http : HttpClient) { }
@@ -31,6 +32,6 @@ export class QuizzesService {
   }
 
   deleteQuiz (quizBody:QuizzesDTO, userID:number, role:string) {
-    return this.http.delete<any>(`${this.baseUrl}delete-quiz-from-group?userID=${userID}&userID=${userID}&role=${role}`, {body: quizBody})
+    return this.http.delete<any>(`${this.baseUrl}delete-quiz-from-group?userID=${userID}&role=${role}`, {body: quizBody})
   }
 }

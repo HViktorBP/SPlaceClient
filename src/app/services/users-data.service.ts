@@ -110,7 +110,7 @@ export class UsersDataService {
     })
 
     this.group.getGroupById(groupId).subscribe(res => {
-      this.updateGroupName(res[0]);
+      this.updateGroupName(res);
       console.log(`${this.auth.getUsername()} is now active!`)
     }, error => {
       console.log("Error occurred while joining chat:", error)
