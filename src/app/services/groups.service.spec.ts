@@ -118,7 +118,7 @@ describe('Http testing GroupsService', () => {
     const mockResponse = { message: 'User added successfully' }
     const usersGroup = { userId: 1, groupId: 1, role: 'member' }
 
-    service.addUserInGroup(usersGroup.userId, usersGroup.groupId, usersGroup.role).subscribe(response => {
+    service.addUserInGroup(usersGroup.userId, usersGroup.groupId, usersGroup.role, 'Creator').subscribe(response => {
       expect(response).toEqual(mockResponse)
     })
 

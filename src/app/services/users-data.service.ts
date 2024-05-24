@@ -20,6 +20,9 @@ export class UsersDataService {
   private userCountSubject = new BehaviorSubject<number>(0);
   userCount$ = this.userCountSubject.asObservable();
 
+  private userRoleSubject = new BehaviorSubject<string>('');
+  userRole$ = this.userRoleSubject.asObservable();
+
   private groupNameSubject = new BehaviorSubject<string>('');
   groupName$ = this.groupNameSubject.asObservable();
 
@@ -77,6 +80,10 @@ export class UsersDataService {
     this.userGroupDataSubject.next(groups)
   }
 
+  updateUserRole(role : string) {
+    this.userRoleSubject.next(role)
+  }
+
   updateGroupsList(username : string) {
     this.updateGroupData([])
     this.auth.getUserID(username).pipe(
@@ -111,10 +118,18 @@ export class UsersDataService {
 
     this.group.getGroupById(groupId).subscribe(res => {
       this.updateGroupName(res);
-      console.log(`${this.auth.getUsername()} is now active!`)
+
+      this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+        this.group.getUserRole(userID, groupId).subscribe(role => {
+          this.updateUserRole(role)
+          console.log(`${this.auth.getUsername()} is now active!`)
+        })
+      })
+
     }, error => {
       console.log("Error occurred while joining chat:", error)
     })
+
     this.quizzes.getQuizzesInGroup(groupId).subscribe(quizzesList => {
       this.updateQuizzesList(quizzesList)
     })

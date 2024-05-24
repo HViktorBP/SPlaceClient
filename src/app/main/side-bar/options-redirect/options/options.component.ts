@@ -27,6 +27,7 @@ export class OptionsComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.userData.updateGroupId(0);
+    this.userData.updateGroupId(0)
+    this.userData.updateUserRole('')
   }
 }

@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AddUserComponent} from "./add-user/add-user.component";
 import {RemoveUserComponent} from "./remove-user/remove-user.component";
 import {LeaveGroupComponent} from "./leave-group/leave-group.component";
+import {DeleteGroupComponent} from "./delete-group/delete-group.component";
+import {UsersDataService} from "../../../../services/users-data.service";
+import {ActivatedRoute} from "@angular/router";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-group-options',
@@ -10,10 +14,22 @@ import {LeaveGroupComponent} from "./leave-group/leave-group.component";
     AddUserComponent,
     RemoveUserComponent,
     LeaveGroupComponent,
+    DeleteGroupComponent,
+    NgIf,
   ],
   templateUrl: './group-options.component.html',
   styleUrl: './group-options.component.css'
 })
-export class GroupOptionsComponent {
+export class GroupOptionsComponent implements OnInit {
+  userRole : string = ''
 
+  constructor(private userData : UsersDataService,
+              private route : ActivatedRoute) {
+
+  }
+  ngOnInit() {
+    this.route.params.subscribe(() => {
+      this.userData.userRole$.subscribe(role => this.userRole = role)
+    })
+  }
 }

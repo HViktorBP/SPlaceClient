@@ -94,6 +94,21 @@ export class AppHubService {
         })
       })
     })
+
+    this.connection.on("GroupDeleted", (groupID : number, name : string) => {
+      this.userData.groupId$.subscribe(groupIDCurrent => {
+
+        if (groupID == groupIDCurrent)
+          window.location.href = '/main/home';
+
+        this.userData.userGroupData$.subscribe(groupData => {
+          if (groupData.find(g => g.id == groupID) != undefined) {
+            this.userData.updateGroupsList(this.auth.getUsername())
+            this.toast.info({detail:"Info", summary: `Group ${name} was deleted!`, duration: 3000})
+          }
+        })
+      })
+    })
   }
 
   public async start() {

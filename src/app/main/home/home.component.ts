@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.userData.updateGroupId(0);
+    this.userData.updateGroupId(0)
+    this.userData.updateUserRole('')
   }
 }

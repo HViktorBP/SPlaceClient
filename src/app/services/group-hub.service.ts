@@ -118,6 +118,10 @@ export class GroupHubService {
     return this.connection.invoke('RemoveUserFromGroup', username, groupID)
   }
 
+  public async deleteGroup(groupID : number) {
+    return this.connection.invoke('DeleteGroupConnections', groupID.toString())
+  }
+
   public async leave() {
     return this.connection.stop()
   }

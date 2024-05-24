@@ -49,16 +49,20 @@ export class AddUserComponent {
   }
 
   onSubmit(userName : string, role: string) {
-    this.usersDataService.groupId$.subscribe(id => {
+    this.usersDataService.groupId$.subscribe(groupId => {
       this.auth.getUserID(userName).subscribe( {
         next: userID => {
-          this.group.addUserInGroup(userID, id, role).subscribe({
-            next: res => {
-              this.modalService.dismissAll()
-            },
-            error: err => {
-              this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-            }
+          this.auth.getUserID(this.auth.getUsername()).subscribe(userIDCurrent => {
+            this.group.getUserRole(userIDCurrent, groupId).subscribe(currentUserRole => {
+              this.group.addUserInGroup(userID, groupId, role, currentUserRole).subscribe({
+                next: res => {
+                  this.modalService.dismissAll()
+                },
+                error: err => {
+                  this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+                }
+              })
+            })
           })
         },
         error : err => {
