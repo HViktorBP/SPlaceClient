@@ -30,7 +30,7 @@ describe('UsersDataService subjects testing', () => {
 
   beforeEach(() => {
     const userServiceMock = jasmine.createSpyObj('UserService', ['getUserID', 'getUserByID', 'getUsername'])
-    const groupsServiceMock = jasmine.createSpyObj('GroupsService', ['getGroups', 'getGroupById', 'getUsersInGroup'])
+    const groupsServiceMock = jasmine.createSpyObj('GroupsService', ['getGroups', 'getGroupById', 'getUsersInGroup', 'getUserRole'])
     const quizzesServiceMock = jasmine.createSpyObj('QuizzesService', ['getQuizzesInGroup'])
 
     TestBed.configureTestingModule({
@@ -47,6 +47,7 @@ describe('UsersDataService subjects testing', () => {
     groupsServiceSpy = TestBed.inject(GroupsService) as jasmine.SpyObj<GroupsService>
     quizzesServiceSpy = TestBed.inject(QuizzesService) as jasmine.SpyObj<QuizzesService>
   })
+
   it('should update user count', () => {
     service.updateUserCount(5)
     service.userCount$.subscribe(count => {
@@ -83,6 +84,14 @@ describe('UsersDataService subjects testing', () => {
     service.updateUsername(username)
     service.userName$.subscribe(name => {
       expect(name).toBe(username)
+    })
+  })
+
+  it('should update role', () => {
+    const role = 'Administrator'
+    service.updateUserRole(role)
+    service.userRole$.subscribe(r => {
+      expect(r).toBe(role)
     })
   })
 
@@ -145,6 +154,7 @@ describe('UsersDataService subjects testing', () => {
     const usersID = [1, 2]
     const userNames = ['User1', 'User2']
     const groupName = 'Test Group'
+    const userRole = 'Student'
     const quizzesList: QuizzesDTO[] = [{name: 'Quiz 1', groupID: 1, creatorID: 1 }]
 
     groupsServiceSpy.getUsersInGroup.and.returnValue(of(usersID))
@@ -154,6 +164,8 @@ describe('UsersDataService subjects testing', () => {
     groupsServiceSpy.getGroupById.and.returnValue(of(groupName))
     quizzesServiceSpy.getQuizzesInGroup.and.returnValue(of(quizzesList))
     userServiceSpy.getUsername.and.returnValue('activeUser')
+    userServiceSpy.getUserID.and.returnValue(of(usersID[1]))
+    groupsServiceSpy.getUserRole.and.returnValue(of(userRole))
 
     service.updateGroupDisplay(groupId)
 
@@ -167,6 +179,10 @@ describe('UsersDataService subjects testing', () => {
 
     service.userCount$.subscribe(count => {
       expect(count).toBe(userNames.length)
+    })
+
+    service.userRole$.subscribe(role => {
+      expect(role).toBe(userRole)
     })
 
     service.groupName$.subscribe(name => {

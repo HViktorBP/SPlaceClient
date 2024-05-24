@@ -114,19 +114,37 @@ describe('Http testing GroupsService', () => {
     req.flush(mockResponse)
   })
 
-  it('should add a user to a group', () => {
-    const mockResponse = { message: 'User added successfully' }
-    const usersGroup = { userId: 1, groupId: 1, role: 'member' }
+  it('should call the post endpoint with the correct parameters', () => {
+    const userId = 1;
+    const groupId = 1;
+    const role = 'member';
+    const currentUserRole = 'admin';
+    const usersGroup = { userId, groupId, role };
 
-    service.addUserInGroup(usersGroup.userId, usersGroup.groupId, usersGroup.role, 'Creator').subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
+    service.addUserInGroup(userId, groupId, role, currentUserRole).subscribe(response => {
+      expect(response).toBeTruthy();
+    });
 
-    const req = httpMock.expectOne(`${service['baseUrl']}add-user-in-group`)
-    expect(req.request.method).toBe('POST')
-    expect(req.request.body).toEqual(usersGroup)
-    req.flush(mockResponse)
-  })
+    const req = httpMock.expectOne(`${service['baseUrl']}add-user-in-group?currentUserRole=${currentUserRole}`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(usersGroup);
+    req.flush({ message: 'User added successfully' }); // mock response
+  });
+
+  it('should return an error when the server returns a 400', () => {
+    const userId = 1;
+    const groupId = 1;
+    const role = 'member';
+    const currentUserRole = 'admin';
+
+    service.addUserInGroup(userId, groupId, role, currentUserRole).subscribe(
+      response => fail('expected an error, not response'),
+      error => expect(error.status).toBe(400)
+    );
+
+    const req = httpMock.expectOne(`${service['baseUrl']}add-user-in-group?currentUserRole=${currentUserRole}`);
+    req.flush('User is already in this group!', { status: 400, statusText: 'Bad Request' });
+  });
 
   it('should delete a user from a group', () => {
     const mockResponse = { message: 'User deleted successfully' }
@@ -153,4 +171,30 @@ describe('Http testing GroupsService', () => {
     expect(req.request.method).toBe('DELETE')
     req.flush(mockResponse)
   })
+
+  it('should call the delete endpoint with the correct parameters', () => {
+    const userId = 1;
+    const groupId = 1;
+
+    service.deleteGroup(userId, groupId).subscribe(response => {
+      expect(response).toBeTruthy();
+    });
+
+    const req = httpMock.expectOne(`${service['baseUrl']}delete-group?groupID=${groupId}&userID=${userId}`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush({ message: 'Group deleted successfully' }); // mock response
+  });
+
+  it('should return an error when the server returns a 404', () => {
+    const userId = 1;
+    const groupId = 1;
+
+    service.deleteGroup(userId, groupId).subscribe(
+      response => fail('expected an error, not response'),
+      error => expect(error.status).toBe(404)
+    );
+
+    const req = httpMock.expectOne(`${service['baseUrl']}delete-group?groupID=${groupId}&userID=${userId}`);
+    req.flush('User not found', { status: 404, statusText: 'Not Found' });
+  });
 })

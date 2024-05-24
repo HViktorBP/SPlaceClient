@@ -125,7 +125,6 @@ export class UsersDataService {
           console.log(`${this.auth.getUsername()} is now active!`)
         })
       })
-
     }, error => {
       console.log("Error occurred while joining chat:", error)
     })
