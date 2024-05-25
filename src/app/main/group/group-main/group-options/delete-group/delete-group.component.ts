@@ -6,6 +6,7 @@ import {UsersDataService} from "../../../../../services/users-data.service";
 import {UserService} from "../../../../../services/user.service";
 import {NgToastService} from "ng-angular-popup";
 import {GroupHubService} from "../../../../../services/group-hub.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-delete-group',
@@ -20,30 +21,28 @@ export class DeleteGroupComponent {
   icon = faTrashArrowUp
 
   constructor(private group : GroupsService,
-              private userData : UsersDataService,
+              private route : ActivatedRoute,
               private auth : UserService,
               private toast : NgToastService,
-              private groupHub : GroupHubService) {
+              private groupHub : GroupHubService,
+              private userData : UsersDataService) {
 
   }
 
   deleteGroup() {
     this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
-      this.userData.groupId$.subscribe(groupID => {
-        this.groupHub.deleteGroup(groupID).then(() => {
-          this.group.deleteGroup(userID, groupID).subscribe({
-            next:res => {
-              this.toast.success({detail:'Success', summary: res.message, duration: 3000})
-            },
-            error:err => {
-              this.toast.error({detail:'Error', summary: err.error.message, duration: 3000})
-            }
+      this.group.deleteGroup(userID, this.userData.getUserCurrentGroupId).subscribe({
+        next:res => {
+          this.toast.success({detail:'Success', summary: res.message, duration: 3000})
+          this.groupHub.deleteGroup(this.userData.getUserCurrentGroupId).catch(e => {
+            this.toast.error({detail:'Error', summary: e.message, duration: 3000})
           })
-        }).catch(e => {
-          this.toast.error({detail:'Error', summary: e.message, duration: 3000})
-        })
-
+        },
+        error:err => {
+          this.toast.error({detail:'Error', summary: err.error.message, duration: 3000})
+        }
       })
+
     })
   }
 }

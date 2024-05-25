@@ -1,5 +1,5 @@
 
 <p class="groups">Some of your groups you may want to visit: </p>
 <ul>
-  <li *ngFor="let group of this.userData.userGroupData$ | async | slice:-4"><a [routerLink]="['/main/group', group.name[0], group.id]" (click)="onGroupClicked(group.id)"><fa-icon [icon]="icon" style="padding-right: 10px"></fa-icon>{{ group.name }}</a></li>
+  <li *ngFor="let group of this.userData.userGroupData$ | async | slice:-4"><a [routerLink]="['/main/group', group.name[0], group.id]"><fa-icon [icon]="icon" style="padding-right: 10px"></fa-icon>{{ group.name }}</a></li>
 </ul>

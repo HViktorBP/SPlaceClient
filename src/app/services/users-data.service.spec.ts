@@ -111,14 +111,6 @@ describe('UsersDataService subjects testing', () => {
     })
   })
 
-  it('should update group ID', () => {
-    const groupId = 10
-    service.updateGroupId(groupId)
-    service.groupId$.subscribe(id => {
-      expect(id).toBe(groupId)
-    })
-  })
-
   it('should update group data', () => {
     const groups = [{ name: 'Group 1', id: 1 }, { name: 'Group 2', id: 2 }]
     service.updateGroupData(groups)
@@ -168,10 +160,6 @@ describe('UsersDataService subjects testing', () => {
     groupsServiceSpy.getUserRole.and.returnValue(of(userRole))
 
     service.updateGroupDisplay(groupId)
-
-    service.groupId$.subscribe(id => {
-      expect(id).toBe(groupId)
-    })
 
     service.userList$.subscribe(users => {
       expect(users).toEqual(userNames)

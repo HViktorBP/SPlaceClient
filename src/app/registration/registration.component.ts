@@ -17,7 +17,6 @@ import {NgToastService} from "ng-angular-popup";
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
-  registerError : string = ''
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
@@ -39,7 +38,6 @@ export class RegistrationComponent {
     } else {
       this.toast.error({detail: "Error", summary: "Passwords are not matching!", duration: 3000})
     }
-
   }
 
   goToLogin() : void {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UsersDataService} from "../../../services/users-data.service";
 
 @Component({
@@ -9,7 +9,7 @@ import {UsersDataService} from "../../../services/users-data.service";
   styleUrl: './group-name.component.css'
 })
 export class GroupNameComponent implements OnInit {
-  @Input({required: true}) groupName! : string;
+  groupName! : string;
   count! : number;
 
   constructor(private usesDataService : UsersDataService) {

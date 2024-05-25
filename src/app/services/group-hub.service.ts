@@ -10,6 +10,7 @@ import {QuizzesService} from "./quizzes.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../interfaces/user";
 import {GroupsService} from "./groups.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -23,70 +24,107 @@ export class GroupHubService {
     .configureLogging(signalR.LogLevel.Information)
     .build()
   public messages: any[] = []
-
   constructor(private http : HttpClient,
               private auth : UserService,
               private userData : UsersDataService,
               private toast : NgToastService,
               private quizzes : QuizzesService,
               private group : GroupsService,
-              private modal : NgbModal) {
+              private modal : NgbModal,
+              private router : Router) {
+
     this.connection.on("ReceiveMessage", (username: string, groupID:string, message: string, timespan: Date) => {
-      this.messages = [...this.messages, {username, groupID, message, timespan}]
-      this.userData.updateGroupMessages(this.messages)
+      if (+groupID == this.userData.getUserCurrentGroupId) {
+        this.messages = [...this.messages, {username, groupID, message, timespan}]
+        this.userData.updateGroupMessages(this.messages)
+      }
+    })
+
+    this.connection.on('NewUserAdded', (userID : number, groupID : number) => {
+      this.auth.getUserByID(userID).subscribe(user => {
+        this.group.getGroupById(groupID).subscribe(groupName => {
+          this.toast.info({detail: "Info", summary: `${user.username} was added to the ${groupName}!`, duration: 3000})
+        })
+      })
+
+      if (this.userData.getUserCurrentGroupId == groupID)
+        this.updateUsersInGroup(groupID)
     })
 
     this.connection.on("NewQuizAdded", (groupID:number, name:string) => {
-      this.userData.groupId$.subscribe(groupIdCurrent => {
-        if (groupID == groupIdCurrent) {
-          this.quizzes.getQuizzesInGroup(groupID).subscribe({
-            next:quizzesList=> {
-              this.userData.updateQuizzesList(quizzesList)
-              this.toast.info({detail: "Info", summary: `New quiz(${name}) has been added to this group!`, duration: 3000})
-            },
-            error:err => {
-              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
-            }
-        })
-        }
+      this.group.getGroupById(groupID).subscribe(groupName => {
+        this.toast.info({detail: "Info", summary: `New quiz(${name}) has been added to ${groupName}!`, duration: 3000})
       })
+
+      if (this.userData.getUserCurrentGroupId == groupID) {
+        this.quizzes.getQuizzesInGroup(groupID).subscribe({
+          next:quizzesList=> {
+            this.userData.updateQuizzesList(quizzesList)
+          },
+          error:err => {
+            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+          }
+        })
+      }
     })
 
     this.connection.on("QuizRemoved", (name:string, groupID:number) => {
-      this.userData.groupId$.subscribe(groupIdCurrent => {
-        if (groupID == groupIdCurrent) {
-          if (sessionStorage.getItem('quiz') == name) {
-            this.modal.dismissAll()
+      this.group.getGroupById(groupID).subscribe(groupName => {
+        this.toast.info({detail: "Info", summary: `Quiz(${name}) has been deleted from ${groupName}!`, duration: 3000})
+      })
+
+      if (this.userData.getUserCurrentGroupId == groupID) {
+        if (sessionStorage.getItem('quiz') == name)
+          this.modal.dismissAll()
+
+        this.quizzes.getQuizzesInGroup(groupID).subscribe({
+          next:quizzesList=> {
+            this.userData.updateQuizzesList(quizzesList)
+          },
+          error:err => {
+            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
           }
-
-          this.quizzes.getQuizzesInGroup(groupIdCurrent).subscribe({
-            next:quizzesList=> {
-              this.userData.updateQuizzesList(quizzesList)
-              this.toast.info({detail: "Info", summary: `${name} was deleted!`, duration: 3000})
-            },
-            error:err => {
-              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
-            }
-          })
-        }
-      })
-    })
-
-    this.connection.on("UserDeletedFromTheGroup", (username : string, groupID : string) => {
-      this.userData.groupId$.subscribe(groupIdCurrent => {
-        console.log("Hello")
-        if (groupIdCurrent == +groupID) {
-          this.toast.info({detail: "Info", summary: `${username} was removed from this group`, duration: 3000})
-          this.getMessages(+groupID)
-          this.updateUsersInGroup(+groupID)
-        }
-      })
+        })
+      }
     })
 
     this.connection.on("UserLeftGroup", (groupID : number) => {
-      this.userData.groupId$.subscribe(groupIDCurrent => {
-        if (groupIDCurrent == groupID)
-          this.updateUsersInGroup(+groupID)
+      if (groupID == this.userData.getUserCurrentGroupId) {
+        this.updateUsersInGroup(groupID)
+        this.getMessages(groupID)
+      }
+    })
+
+    this.connection.on("UserDeleted", (userID : number, groupID : number) => {
+      this.auth.getUserByID(userID).subscribe(user => {
+        this.group.getGroupById(groupID).subscribe(groupName => {
+          if (user.username == this.auth.getUsername()) {
+            if (groupID == this.userData.getUserCurrentGroupId)
+              this.router.navigate(['/main/home'])
+
+            this.toast.info({detail: "Info", summary: `You was removed from ${groupName}!`, duration: 3000})
+            this.userData.updateGroupsList(this.auth.getUsername())
+          }
+          else if (groupID == this.userData.getUserCurrentGroupId) {
+            this.updateUsersInGroup(groupID)
+            this.getMessages(groupID)
+          } else {
+            this.toast.info({detail: "Info", summary: `${user.username} was removed from ${groupName}!`, duration: 3000})
+          }
+        })
+      })
+    })
+
+    this.connection.on("GroupDeleted", (groupID : number) => {
+      if (groupID == this.userData.getUserCurrentGroupId)
+        this.router.navigate(['/main/home'])
+
+      this.userData.userGroupData$.subscribe(groupData => {
+        const exists = groupData.find(group => group.id == groupID)?.name
+        if (exists != undefined) {
+          this.userData.updateGroupsList(this.auth.getUsername())
+          this.toast.info({detail:"Info", summary: `Group ${exists} was deleted!`, duration: 3000})
+        }
       })
     })
   }
@@ -106,20 +144,24 @@ export class GroupHubService {
     }
   }
 
-  public async joinChat(username: string, group: string) {
-    return this.connection.invoke("JoinChat", {username, group})
+  public async joinChat(username: string, groupID: string) {
+    return this.connection.invoke("JoinChat", username, groupID)
   }
 
-  public async sendMessage(message: string, group: string, date: Date){
-    return this.connection.invoke("SendMessage", message, group, date)
+  public async sendMessage(username: string, groupID: string, message: string, date: Date){
+    return this.connection.invoke("SendMessage", username, groupID, message, date)
   }
 
   public async removeUserFromGroup(username: string, groupID: string) {
     return this.connection.invoke('RemoveUserFromGroup', username, groupID)
   }
 
-  public async deleteGroup(groupID : number) {
-    return this.connection.invoke('DeleteGroupConnections', groupID.toString())
+  public async deleteGroup(groupID: number) {
+    return this.connection.invoke('DeleteGroup', groupID.toString())
+  }
+
+  public async leaveChat(groupID : string) {
+    return this.connection.invoke("LeaveChat", groupID)
   }
 
   public async leave() {

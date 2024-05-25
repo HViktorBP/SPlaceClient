@@ -156,7 +156,6 @@ export class QuizComponent implements OnInit {
     const groupID = +this.route.snapshot.paramMap.get('id')!;
     this.auth.getUserID(this.auth.getUsername()).pipe(
       switchMap(userID => {
-        console.log(userID, groupID, this.newQuizForm.value);
         return this.group.getUserRole(userID, groupID).pipe(
           switchMap(role => {
             return this.quiz.submitNewQuiz(userID, groupID, role, this.newQuizForm.value).pipe(
@@ -172,14 +171,8 @@ export class QuizComponent implements OnInit {
             return throwError(err);
           })
         );
-      }),
-      switchMap(() => this.quiz.getQuizzesInGroup(groupID)),
-      catchError(err => {
-        this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
-        return throwError(err);
       })
-    ).subscribe(quizzes => {
-      this.userDataService.updateQuizzesList(quizzes);
+    ).subscribe(() => {
       this.resetQuiz()
       this.toast.success({detail: "Success",summary: "New quiz uploaded!", duration: 3000});
     });
@@ -253,23 +246,22 @@ export class QuizComponent implements OnInit {
 
     this.auth.getUserID(this.auth.getUsername()).subscribe({
       next:userID => {
-        this.userDataService.groupId$.subscribe(groupID => {
-          this.quiz.getQuizId(groupID, this.quizModel.name!).subscribe({
-            next:quizID => {
-              this.quiz.submitQuizResult(userID, groupID, quizID, formValue).subscribe({
-                next: result => {
-                  this.userScore = result.score
-                  this.openResult(content)
-                },
-                error:err => {
-                  this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
-                }
-              })
-            },
-            error:err => {
-              this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
-            }
-          })
+        const groupID : number = +this.route.snapshot.paramMap.get('id')!
+        this.quiz.getQuizId(groupID, this.quizModel.name!).subscribe({
+          next:quizID => {
+            this.quiz.submitQuizResult(userID, groupID, quizID, formValue).subscribe({
+              next: result => {
+                this.userScore = result.score
+                this.openResult(content)
+              },
+              error:err => {
+                this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+              }
+            })
+          },
+          error:err => {
+            this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+          }
         })
       },
       error:err => {

@@ -2,9 +2,9 @@
 
 <div class="menu" *ngIf="menuSliding == 'out'">
   <ul>
-    <li *ngFor="let group of this.groupsData" (click)="onGroupClicked(group.id)">
+    <li *ngFor="let group of this.groupsData">
         <fa-icon [icon]="groupIcon"></fa-icon>
-      <a [routerLink]="['/main/group', group.name[0], group.id]" (click)="goToGroup()"> {{ group.name }}
+      <a [routerLink]="['../main/group', group.name[0], group.id]" (click)="toggleMenu()"> {{ group.name }}
       </a>
     </li>
     <div><p (click)="open(content)">Add group</p></div>

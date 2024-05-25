@@ -17,7 +17,7 @@ export class LogoComponent {
 
   onClick() {
     this.router.navigate(['/main/home']).then(()=> {
-      location.reload()
+      //location.reload()
     })
   }
 }

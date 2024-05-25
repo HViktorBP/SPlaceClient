@@ -43,7 +43,6 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.userData.userGroupData$.subscribe(groupData => this.groupsData = groupData)
-
     this.userData.updateGroupsList(this.auth.getUsername())
   }
 
@@ -69,17 +68,20 @@ export class MenuComponent implements OnInit {
     this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
   }
 
-  goToGroup() {
-    this.menuSliding = this.menuSliding == 'in' ? 'out' : 'in';
-  }
-
   onSubmit(groupName : string) {
-    this.auth.getUserID(this.auth.getUsername()).subscribe(res => {
-      this.groups.addGroup(res, groupName).subscribe( {
+    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+      this.groups.addGroup(userID, groupName).subscribe( {
         next: res => {
           this.toast.success({detail:"Success", summary:res.message, duration: 3000})
           this.userData.updateGroupsList(this.auth.getUsername())
           this.toggleMenu()
+          this.groups.getGroups(userID).subscribe(groups => {
+            groups.forEach(group => {
+              this.groupHub.joinChat(this.auth.getUsername(), group.toString()).then(() => {
+                console.log('connected')
+              })
+            })
+          })
         },
         error: err => {
           this.toast.error({detail:"Error", summary:err.error.message, duration: 3000})
@@ -87,10 +89,5 @@ export class MenuComponent implements OnInit {
       })
     })
     this.modalService.dismissAll();
-  }
-
-  onGroupClicked(groupId : number) {
-    this.groupHub.joinChat(this.auth.getUsername(), groupId.toString()).then(() => {
-    })
   }
 }

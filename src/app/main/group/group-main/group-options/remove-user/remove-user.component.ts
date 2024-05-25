@@ -27,9 +27,9 @@ export class RemoveUserComponent {
   constructor(private auth : UserService,
               private group : GroupsService,
               private modalService : NgbModal,
-              private route : ActivatedRoute,
               private groupHub : GroupHubService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private route : ActivatedRoute) {
   }
 
   open(content: any) {
@@ -51,15 +51,16 @@ export class RemoveUserComponent {
   }
 
   onSubmit(userName : string, usersRole: string) {
-    const id = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+
     this.auth.getUserID(userName).subscribe({
       next:userToDeleteID => {
         this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
-          this.group.getUserRole(userID, id).subscribe(role => {
-            this.group.deleteUserFromGroup(userToDeleteID, id, usersRole, role).subscribe({
-              next: res => {
+          this.group.getUserRole(userID, groupId).subscribe(role => {
+            this.group.deleteUserFromGroup(userToDeleteID, groupId, usersRole, role).subscribe({
+              next: () => {
                 this.auth.getUserByID(userToDeleteID).subscribe(user => {
-                  this.groupHub.removeUserFromGroup(user.username, id.toString())
+                  this.groupHub.removeUserFromGroup(user.username, groupId.toString())
                     .then(() => {
                       this.modalService.dismissAll()
                       this.toast.info({detail:"Info", summary: "User successfully removed!", duration:3000})
@@ -72,7 +73,6 @@ export class RemoveUserComponent {
             })
           })
         })
-
       },
       error:err => {
         this.toast.error({detail:"Error", summary: err.error.message, duration:3000})

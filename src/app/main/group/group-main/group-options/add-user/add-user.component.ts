@@ -6,8 +6,8 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UserService} from "../../../../../services/user.service";
-import {UsersDataService} from "../../../../../services/users-data.service";
 import {NgToastService} from "ng-angular-popup";
+import {ActivatedRoute} from "@angular/router";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -26,8 +26,8 @@ export class AddUserComponent {
   constructor(private auth : UserService,
               private group : GroupsService,
               private modalService : NgbModal,
-              private usersDataService : UsersDataService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private route : ActivatedRoute) {
   }
 
   open(content: any) {
@@ -49,13 +49,13 @@ export class AddUserComponent {
   }
 
   onSubmit(userName : string, role: string) {
-    this.usersDataService.groupId$.subscribe(groupId => {
+    const groupId : number = +this.route.snapshot.paramMap.get('id')!
       this.auth.getUserID(userName).subscribe( {
         next: userID => {
           this.auth.getUserID(this.auth.getUsername()).subscribe(userIDCurrent => {
             this.group.getUserRole(userIDCurrent, groupId).subscribe(currentUserRole => {
               this.group.addUserInGroup(userID, groupId, role, currentUserRole).subscribe({
-                next: res => {
+                next: () => {
                   this.modalService.dismissAll()
                 },
                 error: err => {
@@ -69,6 +69,5 @@ export class AddUserComponent {
           this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
         }
       })
-    })
-  }
+    }
 }

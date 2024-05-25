@@ -5,7 +5,6 @@ import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {UsersDataService} from "../../../services/users-data.service";
-import {GroupHubService} from "../../../services/group-hub.service";
 
 @Component({
   selector: 'app-groups-info',
@@ -23,16 +22,10 @@ import {GroupHubService} from "../../../services/group-hub.service";
 export class GroupsInfoComponent implements OnInit {
   icon = faUsers
   constructor(private auth: UserService,
-              public userData : UsersDataService,
-              public groupHub : GroupHubService) {
+              public userData : UsersDataService) {
 
   }
   ngOnInit(): void {
     this.userData.updateGroupsList(this.auth.getUsername())
-  }
-
-  onGroupClicked(groupId : number) {
-    this.groupHub.joinChat(this.auth.getUsername(), groupId.toString()).then(() => {
-    })
   }
 }

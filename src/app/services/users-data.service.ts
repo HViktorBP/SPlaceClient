@@ -11,6 +11,9 @@ import {QuizzesService} from "./quizzes.service";
 })
 
 export class UsersDataService {
+  private userCurrentGroupIdSubject = new BehaviorSubject<number>(0);
+  userCurrentGroupId$ = this.userCurrentGroupIdSubject.asObservable();
+
   private userNameSubject = new BehaviorSubject<string>('');
   userName$ = this.userNameSubject.asObservable();
 
@@ -35,8 +38,6 @@ export class UsersDataService {
   private groupMessagesSubject = new BehaviorSubject<any>([])
   groupMessages$ = this.groupMessagesSubject.asObservable()
 
-  private groupIdSubject = new BehaviorSubject<number>(0)
-  groupId$ = this.groupIdSubject.asObservable()
 
   private userGroupDataSubject: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   userGroupData$ = this.userGroupDataSubject.asObservable()
@@ -71,17 +72,20 @@ export class UsersDataService {
   updateGroupMessages(messages: any) {
     this.groupMessagesSubject.next(messages)
   }
-
-  updateGroupId(groupId : number) {
-    this.groupIdSubject.next(groupId)
-  }
-
   updateGroupData(groups : {name: string; id: number}[]) {
     this.userGroupDataSubject.next(groups)
   }
 
   updateUserRole(role : string) {
     this.userRoleSubject.next(role)
+  }
+
+  updateUserCurrentGroupId(id : number){
+    this.userCurrentGroupIdSubject.next(id);
+  }
+
+  get getUserCurrentGroupId() {
+    return this.userCurrentGroupIdSubject.value;
   }
 
   updateGroupsList(username : string) {
@@ -102,7 +106,7 @@ export class UsersDataService {
   }
 
   updateGroupDisplay(groupId : number) {
-    this.updateGroupId(groupId)
+    this.updateUserCurrentGroupId(groupId)
 
     this.group.getUsersInGroup(groupId).pipe(
       switchMap(usersID => {

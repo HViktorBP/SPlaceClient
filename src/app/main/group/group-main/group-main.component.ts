@@ -3,7 +3,7 @@ import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@an
 import {GroupHubService} from "../../../services/group-hub.service";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
-import {forkJoin, of, switchMap, tap} from "rxjs";
+import {forkJoin, of, switchMap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../services/users-data.service";
 import {NgToastService} from "ng-angular-popup";
@@ -25,16 +25,17 @@ import {NgToastService} from "ng-angular-popup";
 })
 
 export class GroupMainComponent implements OnInit, AfterViewChecked {
-  groupHubService = inject(GroupHubService)
   userData = inject(UsersDataService)
   inputMessage= ''
   loggedInUserName!:string
-  auth = inject(UserService)
+  messages : any
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 
   constructor(private route : ActivatedRoute,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private auth : UserService,
+              private groupHubService : GroupHubService) {
 
   }
 
@@ -67,7 +68,7 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
           return this.groupHubService.saveMessage(res, +groupID, this.inputMessage, date).pipe(
             switchMap(() => {
               return forkJoin({
-                sendMessageResult: this.groupHubService.sendMessage(this.inputMessage, groupID, date),
+                sendMessageResult: this.groupHubService.sendMessage(this.auth.getUsername(), groupID, this.inputMessage, date),
                 clearInputResult: of(this.inputMessage = '')
               })
             })
