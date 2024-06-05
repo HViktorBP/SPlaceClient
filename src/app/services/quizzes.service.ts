@@ -12,7 +12,7 @@ export class QuizzesService {
   constructor(private http : HttpClient) { }
 
   getQuizzesInGroup(groupID: number) {
-    return this.http.get<QuizzesDTO[]>(`${this.baseUrl}quizes-in-group?groupID=${groupID}`)
+    return this.http.get<QuizzesDTO[]>(`${this.baseUrl}quizzes-in-group?groupID=${groupID}`)
   }
 
   submitNewQuiz(userID: number, groupID: number, role: string, quiz: any) {

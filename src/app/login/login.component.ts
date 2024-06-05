@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
+import { IconDefinition, faE, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgToastService} from "ng-angular-popup";
 
 @Component({
@@ -11,12 +13,16 @@ import {NgToastService} from "ng-angular-popup";
   imports: [
     FormsModule,
     NgIf,
+    FaIconComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 export class LoginComponent {
+  faEye : IconDefinition = faEye
+  passwordVision : string = "password"
+
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
@@ -39,5 +45,15 @@ export class LoginComponent {
 
   goToRegistration() : void {
     this.router.navigate(['registration']);
+  }
+
+  toggleEye() : void {
+    if (this.faEye == faEye) {
+      this.faEye = faEyeSlash
+      this.passwordVision = "text"
+    } else{
+      this.faEye = faEye
+      this.passwordVision = "password"
+    }
   }
 }

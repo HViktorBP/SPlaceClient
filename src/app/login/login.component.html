@@ -1,4 +1,3 @@
-<!-- login.component.html -->
 <div class="container">
   <div class="login-container">
     <h1>SPlace</h1>
@@ -10,7 +9,10 @@
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" ngModel required #password>
+        <span class="view-password">
+        <input [type]="passwordVision" id="password" name="password" ngModel required #password>
+        <fa-icon [icon]="faEye" (click)="toggleEye()"></fa-icon>
+        </span>
       </div>
       <div class="buttons">
         <button type="submit" [disabled]="!loginForm.valid">Login</button>

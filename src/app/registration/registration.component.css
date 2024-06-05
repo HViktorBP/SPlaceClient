@@ -21,7 +21,7 @@ h2 {
   font-size: xx-large;
 }
 
-.login-container, .errors {
+.register-container, .errors {
   max-width: 600px;
   border-radius: 20px;
   position: absolute;
@@ -31,7 +31,7 @@ h2 {
   box-shadow: 8px 8px rgba(0, 0, 0, 0.2);
 }
 
-.login-container {
+.register-container {
   padding: 3% 6%;
   transform: translate(-50%, -50%);
 }

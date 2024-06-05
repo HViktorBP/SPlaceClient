@@ -80,5 +80,9 @@ input {
   font-size: large;
 }
 
+fa-icon {
+  cursor: pointer;
+}
+
 
 
