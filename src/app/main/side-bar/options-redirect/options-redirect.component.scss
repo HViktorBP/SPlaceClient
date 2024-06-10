@@ -1,0 +1,30 @@
+img {
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes spin-back {
+  from {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+img:hover {
+  animation: spin 1s ;
+}
+
+img:not(:hover) {
+  animation: spin-back 1s ;
+}

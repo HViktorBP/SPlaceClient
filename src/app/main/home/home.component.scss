@@ -1,0 +1,16 @@
+:host {
+  padding: 10px;
+  overflow-y: auto;
+  flex-grow: 4;
+}
+
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.child {
+  flex-grow: 2;
+}
+
