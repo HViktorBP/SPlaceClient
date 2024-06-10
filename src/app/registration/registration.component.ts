@@ -14,7 +14,7 @@ import {NgToastService} from "ng-angular-popup";
     NgIf
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent {
   constructor(private router: Router,

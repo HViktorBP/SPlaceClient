@@ -6,7 +6,7 @@ import {UsersDataService} from "../../../services/users-data.service";
   standalone: true,
   imports: [],
   templateUrl: './group-name.component.html',
-  styleUrl: './group-name.component.css'
+  styleUrl: './group-name.component.scss'
 })
 export class GroupNameComponent implements OnInit {
   groupName! : string;

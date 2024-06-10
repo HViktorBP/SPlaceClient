@@ -17,7 +17,7 @@ import {NgIf} from "@angular/common";
     NgIf,
   ],
   templateUrl: './group-options.component.html',
-  styleUrl: './group-options.component.css'
+  styleUrl: './group-options.component.scss'
 })
 export class GroupOptionsComponent implements OnInit {
   userRole : string = ''

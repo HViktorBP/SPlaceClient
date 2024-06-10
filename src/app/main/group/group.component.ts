@@ -19,7 +19,7 @@ import {UsersDataService} from "../../services/users-data.service";
     QuizComponent
   ],
   templateUrl: './group.component.html',
-  styleUrl: './group.component.css'
+  styleUrl: './group.component.scss'
 })
 
 export class GroupComponent implements OnInit, OnDestroy{

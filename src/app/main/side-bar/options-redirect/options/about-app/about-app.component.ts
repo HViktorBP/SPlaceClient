@@ -6,7 +6,7 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
   standalone: true,
   imports: [],
   templateUrl: './about-app.component.html',
-  styleUrl: './about-app.component.css'
+  styleUrl: './about-app.component.scss'
 })
 export class AboutAppComponent {
   closeResult : string = ''

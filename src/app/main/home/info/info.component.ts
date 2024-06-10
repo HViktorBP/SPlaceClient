@@ -7,7 +7,7 @@ import {UserService} from "../../../services/user.service";
   standalone: true,
   imports: [],
   templateUrl: './info.component.html',
-  styleUrl: './info.component.css'
+  styleUrl: './info.component.scss'
 })
 export class InfoComponent {
   quote: Quote = {

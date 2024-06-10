@@ -15,7 +15,7 @@ import {ActivatedRoute} from "@angular/router";
     FaIconComponent
   ],
   templateUrl: './delete-group.component.html',
-  styleUrl: './delete-group.component.css'
+  styleUrl: './delete-group.component.scss'
 })
 export class DeleteGroupComponent {
   icon = faTrashArrowUp

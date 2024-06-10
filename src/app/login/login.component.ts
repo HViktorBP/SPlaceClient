@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
-import { IconDefinition, faE, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgToastService} from "ng-angular-popup";
 
@@ -16,7 +16,7 @@ import {NgToastService} from "ng-angular-popup";
     FaIconComponent
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss'
 })
 
 export class LoginComponent {

@@ -12,7 +12,7 @@ import {GroupsInfoComponent} from "./groups-info/groups-info.component";
     GroupsInfoComponent
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
 

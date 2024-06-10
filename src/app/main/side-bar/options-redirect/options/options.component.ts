@@ -16,7 +16,7 @@ import {ChangeEmailComponent} from "./change-email/change-email.component";
     ChangeEmailComponent
   ],
   templateUrl: './options.component.html',
-  styleUrl: './options.component.css'
+  styleUrl: './options.component.scss'
 })
 export class OptionsComponent {
 

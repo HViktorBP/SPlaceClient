@@ -16,7 +16,7 @@ import {NgToastService} from "ng-angular-popup";
     FaIconComponent
   ],
   templateUrl: './leave-group.component.html',
-  styleUrl: './leave-group.component.css'
+  styleUrl: './leave-group.component.scss'
 })
 export class LeaveGroupComponent {
   icon = faRightFromBracket

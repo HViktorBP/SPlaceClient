@@ -9,7 +9,7 @@ import {UsersDataService} from "../../../../services/users-data.service";
     NgForOf
   ],
   templateUrl: './participants.component.html',
-  styleUrl: './participants.component.css'
+  styleUrl: './participants.component.scss'
 })
 export class ParticipantsComponent implements OnInit {
   participants! : string[];

@@ -11,7 +11,7 @@ import {NgToastModule} from "ng-angular-popup";
   standalone: true,
   imports: [RouterOutlet, MenuComponent, MainBarComponent, SideBarComponent, MainComponent, NgToastModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
 
 export class AppComponent{

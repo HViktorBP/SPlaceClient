@@ -20,7 +20,7 @@ import {AppHubService} from "../services/app-hub.service";
     HomeComponent
   ],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+  styleUrl: './main.component.scss'
 })
 export class MainComponent implements OnInit {
   constructor(private auth : UserService,

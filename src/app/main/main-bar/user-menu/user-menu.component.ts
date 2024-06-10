@@ -16,7 +16,7 @@ import {GroupHubService} from "../../../services/group-hub.service";
     FaIconComponent
   ],
   templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.css'
+  styleUrl: './user-menu.component.scss'
 })
 
 export class UserMenuComponent implements OnInit{

@@ -19,7 +19,7 @@ import {NgToastService} from "ng-angular-popup";
     FormsModule
   ],
   templateUrl: './remove-user.component.html',
-  styleUrl: './remove-user.component.css'
+  styleUrl: './remove-user.component.scss'
 })
 export class RemoveUserComponent {
   icon = faUserMinus;

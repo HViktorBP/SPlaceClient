@@ -10,7 +10,7 @@ import {RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './options-redirect.component.html',
-  styleUrl: './options-redirect.component.css'
+  styleUrl: './options-redirect.component.scss'
 })
 export class OptionsRedirectComponent {
 

@@ -21,7 +21,7 @@ import {NgToastService} from "ng-angular-popup";
     NgForOf
   ],
   templateUrl: './group-main.component.html',
-  styleUrl: './group-main.component.css'
+  styleUrl: './group-main.component.scss'
 })
 
 export class GroupMainComponent implements OnInit, AfterViewChecked {

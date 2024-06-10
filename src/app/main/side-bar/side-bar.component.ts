@@ -10,7 +10,7 @@ import {OptionsRedirectComponent} from "./options-redirect/options-redirect.comp
     OptionsRedirectComponent
   ],
   templateUrl: './side-bar.component.html',
-  styleUrl: './side-bar.component.css'
+  styleUrl: './side-bar.component.scss'
 })
 export class SideBarComponent {
 

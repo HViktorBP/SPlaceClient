@@ -31,7 +31,7 @@ import {ConfirmQuizComponent} from "../../../../../custom/confirm-quiz/confirm-q
     FaIconComponent
   ],
   templateUrl: './quiz.component.html',
-  styleUrl: './quiz.component.css'
+  styleUrl: './quiz.component.scss'
 })
 export class QuizComponent implements OnInit {
   @ViewChild('quizContent') quizContent!: ElementRef

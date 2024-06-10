@@ -17,7 +17,7 @@ import {UsersDataService} from "../../../services/users-data.service";
     FaIconComponent
   ],
   templateUrl: './groups-info.component.html',
-  styleUrl: './groups-info.component.css'
+  styleUrl: './groups-info.component.scss'
 })
 export class GroupsInfoComponent implements OnInit {
   icon = faUsers

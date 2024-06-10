@@ -12,7 +12,7 @@ import {UserMenuComponent} from "./user-menu/user-menu.component";
     UserMenuComponent
   ],
   templateUrl: './main-bar.component.html',
-  styleUrl: './main-bar.component.css'
+  styleUrl: './main-bar.component.scss'
 })
 
 export class MainBarComponent {
