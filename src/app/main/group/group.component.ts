@@ -7,6 +7,7 @@ import {QuizComponent} from "./group-main/quiz/quiz.component";
 import {ActivatedRoute} from "@angular/router";
 import {GroupHubService} from "../../services/group-hub.service";
 import {UsersDataService} from "../../services/users-data.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-group',
@@ -23,19 +24,21 @@ import {UsersDataService} from "../../services/users-data.service";
 })
 
 export class GroupComponent implements OnInit, OnDestroy{
+  routeSubscription !: Subscription;
   constructor(private groupHub : GroupHubService,
               private route : ActivatedRoute,
               private usersDataService: UsersDataService) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(() => {
+    this.routeSubscription = this.route.params.subscribe(() => { // -- ?
       this.usersDataService.updateGroupDisplay(+this.route.snapshot.paramMap.get('id')!)
       this.groupHub.getMessages(+this.route.snapshot.paramMap.get('id')!)
     })
   }
 
   ngOnDestroy() {
+    this.routeSubscription.unsubscribe() // -- ?
     this.usersDataService.updateUserRole('')
     this.usersDataService.updateUserCurrentGroupId(0)
     console.log('Here')

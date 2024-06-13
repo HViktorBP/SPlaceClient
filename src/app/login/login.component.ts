@@ -6,6 +6,7 @@ import {NgIf} from "@angular/common";
 import { IconDefinition, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgToastService} from "ng-angular-popup";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -20,38 +21,40 @@ import {NgToastService} from "ng-angular-popup";
 })
 
 export class LoginComponent {
-  faEye : IconDefinition = faEye
-  passwordVision : string = "password"
+  faEye: IconDefinition = faEye
+  passwordVision: string = "password"
 
   constructor(private router: Router,
-              private auth : UserService,
-              private toast : NgToastService) { }
-
-  onLogin(username: string, password: string){
-    this.auth.logIn(username.trim(), password.trim()).subscribe(
-      {
-        next: res =>{
-          this.toast.success({detail:"Success", summary: res.message, duration:3000})
-          this.auth.storeUsername(username)
-          this.auth.storeToken(res.token)
-          this.router.navigate(['/main/home']);
-        },
-        error: err => {
-          this.toast.error({detail:"Error", summary: err.error.message, duration:3000})
-        }
-      }
-    );
+              private auth: UserService,
+              private toast: NgToastService) {
   }
 
-  goToRegistration() : void {
+  onLogin(username: string, password: string) {
+    const authorisation : Subscription = this.auth.logIn(username.trim(), password.trim()).subscribe(
+      {
+        next: res => {
+          this.toast.success({detail: "Success", summary: res.message, duration: 3000})
+          this.auth.storeUsername(username)
+          this.auth.storeToken(res.token)
+          this.router.navigate(['/main/home'])
+          authorisation.unsubscribe()
+        },
+        error: err => {
+          this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+        }
+      }
+    )
+  }
+
+  goToRegistration(): void {
     this.router.navigate(['registration']);
   }
 
-  toggleEye() : void {
+  toggleEye(): void {
     if (this.faEye == faEye) {
       this.faEye = faEyeSlash
       this.passwordVision = "text"
-    } else{
+    } else {
       this.faEye = faEye
       this.passwordVision = "password"
     }

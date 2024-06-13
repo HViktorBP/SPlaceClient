@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-registration',
@@ -16,19 +17,20 @@ import {NgToastService} from "ng-angular-popup";
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
-export class RegistrationComponent {
+export class RegistrationComponent{
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
   register(username:string, password:string, email:string, passwordCheck:string) {
     if (passwordCheck == password) {
-      this.auth.signUp(username, password, email).subscribe(
+      const registration : Subscription = this.auth.signUp(username, password, email).subscribe(
         {
           next: res =>{
             this.toast.success({detail: "Success", summary: res.message, duration: 3000})
             this.auth.storeUsername(username.trim())
             this.auth.storeToken(res.token)
             this.router.navigate(['/main/home'])
+            registration.unsubscribe()
           },
           error: err => {
             this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})

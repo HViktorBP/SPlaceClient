@@ -1,14 +1,17 @@
-:host {
-  background-color: #2B2D42;
-  width: 11vh;
-
+.sidenav-container {
+  height: 100%;
 }
 
-div {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }

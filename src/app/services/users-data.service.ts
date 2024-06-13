@@ -38,7 +38,6 @@ export class UsersDataService {
   private groupMessagesSubject = new BehaviorSubject<any>([])
   groupMessages$ = this.groupMessagesSubject.asObservable()
 
-
   private userGroupDataSubject: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
   userGroupData$ = this.userGroupDataSubject.asObservable()
   constructor(private auth : UserService,
