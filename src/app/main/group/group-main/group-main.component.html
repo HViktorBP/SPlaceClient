@@ -4,7 +4,7 @@
         <div
           [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
           <div *ngIf="message.username != loggedInUserName" class="incoming_msg_img">
-            <img ngSrc="assets/random_user_pick.png" height="60" width="60" alt="user">
+            <img ngSrc="../../../../assets/random_user_pick.png" height="60" width="60" alt="user">
           </div>
           <div *ngIf="message.username != loggedInUserName" class="received_msg">
             <div class="received_withd_msg">
@@ -23,7 +23,9 @@
     <div class="input_msg_write">
       <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"
              placeholder="Type a message" />
-      <button (click)="sendMessage()" class="msg_send_btn" type="button"><p>Send</p></button>
+      <button [disabled]="inputMessage.trim().length == 0" (click)="sendMessage()" class="msg_send_btn" type="button">
+        <p>Send</p>
+      </button>
     </div>
   </div>
 </div>

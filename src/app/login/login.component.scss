@@ -27,7 +27,7 @@ h2 {
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: #2B2D42;
+  //background-color: #2B2D42;
   box-shadow: 8px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -84,5 +84,21 @@ fa-icon {
   cursor: pointer;
 }
 
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
 
 

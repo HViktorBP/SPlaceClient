@@ -1,19 +1,12 @@
 import { Routes } from '@angular/router';
 import {LoginComponent} from "./login/login.component";
-import {MainComponent} from "./main/main.component";
-import {RegistrationComponent} from "./registration/registration.component";
 import {authGuard} from "./guard/auth.guard";
-import {GroupComponent} from "./main/group/group.component";
-import {HomeComponent} from "./main/home/home.component";
-import {NotFoundComponent} from "./not-found/not-found.component";
+
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'registration', component: RegistrationComponent},
-  {path: 'main', component: MainComponent, canActivate:[authGuard], children:[
-      {path:'home', component: HomeComponent, canActivate:[authGuard]},
-      {path:'group/:id', component: GroupComponent, canActivate:[authGuard]},
-    ]},
-  {path: '**', component: NotFoundComponent},
+  {path: 'registration', loadComponent: () => import('./registration/registration.component').then(m => m.RegistrationComponent)},
+  {path: 'main', loadChildren: () => import('./main/main-routes').then(routes => routes.MAIN_ROUTES), canActivate:[authGuard]},
+  {path: '**', loadComponent: () => import('./not-found/not-found.component').then(m => m.NotFoundComponent)},
 ];

@@ -2,25 +2,25 @@
   <div class="register-container">
     <h1>SPlace</h1>
     <h2>Registration</h2>
-    <form (ngSubmit)="register(username.value, password.value, email.value, passwordCheck.value)" #loginForm="ngForm">
+    <form (ngSubmit)="register(passwordCheck.value)" #loginForm="ngForm">
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" ngModel required #username>
+        <input type="text" id="username" name="username" [(ngModel)] = "user.username" required>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" ngModel required #password>
+        <input type="password" id="password" name="password" [(ngModel)] = "user.password" required>
       </div>
       <div class="form-group">
-        <label for="password">Repeat the password</label>
-        <input type="password" id="passwordCheck" name="password" ngModel required #passwordCheck>
+        <label for="passwordCheck">Repeat the password</label>
+        <input type="password" id="passwordCheck" name="passwordCheck" ngModel #passwordCheck required>
       </div>
       <div class="form-group">
         <label for="password">Email</label>
-        <input type="email" id="email" name="password" ngModel #email>
+        <input type="email" id="email" name="password" [(ngModel)] = "user.email">
       </div>
       <div class="buttons">
-        <button type="submit" [disabled]="!loginForm.valid">Register</button>
+        <button type="submit" [disabled]="loginForm.invalid">Register</button>
         <button type="submit" (click)="goToLogin()">I have an account!</button>
       </div>
     </form>

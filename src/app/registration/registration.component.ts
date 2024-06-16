@@ -5,6 +5,7 @@ import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
 import {Subscription} from "rxjs";
+import {User} from "../interfaces/user";
 
 @Component({
   selector: 'app-registration',
@@ -18,16 +19,22 @@ import {Subscription} from "rxjs";
   styleUrl: './registration.component.scss'
 })
 export class RegistrationComponent{
+  user : User = {
+    username : '',
+    password : '',
+    email : '',
+    status : null
+  }
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
-  register(username:string, password:string, email:string, passwordCheck:string) {
-    if (passwordCheck == password) {
-      const registration : Subscription = this.auth.signUp(username, password, email).subscribe(
+  register(passwordCheck:string) {
+    if (passwordCheck == this.user.password) {
+      const registration : Subscription = this.auth.signUp(this.user.username, this.user.password, this.user.email).subscribe(
         {
-          next: res =>{
+          next: res => {
             this.toast.success({detail: "Success", summary: res.message, duration: 3000})
-            this.auth.storeUsername(username.trim())
+            this.auth.storeUsername(this.user.username)
             this.auth.storeToken(res.token)
             this.router.navigate(['/main/home'])
             registration.unsubscribe()

@@ -81,7 +81,7 @@ describe('Http testing UserService', () => {
   })
 
   it('should retrieve user by name', () => {
-    const mockUser = {username: 'testuser', email: 'test@example.com', status: "Curious"}
+    const mockUser = {username: 'testuser', password: '', email: 'test@example.com', status: "Curious"}
 
     service.getUserByName('testuser').subscribe(user => {
       expect(user).toEqual(mockUser)
@@ -93,7 +93,7 @@ describe('Http testing UserService', () => {
   })
 
   it('should retrieve user by ID', () => {
-    const mockUser = {username: 'testuser', email: 'test@example.com', status: 'Curious'}
+    const mockUser = {username: 'testuser', password: '', email: 'test@example.com', status: 'Curious'}
     service.getUserByID(1).subscribe(user => {
       expect(user).toEqual(mockUser)
     })

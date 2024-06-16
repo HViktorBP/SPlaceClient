@@ -151,7 +151,7 @@ describe('UsersDataService subjects testing', () => {
 
     groupsServiceSpy.getUsersInGroup.and.returnValue(of(usersID))
     userServiceSpy.getUserByID.and.callFake((id: number) => {
-      return of({ username: userNames[id - 1], email: 'test@gmail.com', status: 'happy' })
+      return of({ username: userNames[id - 1], password : '', email: 'test@gmail.com', status: 'happy' })
     })
     groupsServiceSpy.getGroupById.and.returnValue(of(groupName))
     quizzesServiceSpy.getQuizzesInGroup.and.returnValue(of(quizzesList))

@@ -1,4 +1,30 @@
-  <app-side-bar></app-side-bar>
-
-
-
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Groups</mat-toolbar>
+    <mat-nav-list>
+        <a *ngFor="let group of groups$ | async" [routerLink]="['/main/group', group.id]">
+          {{ group.name }}
+        </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">people</mat-icon>
+      </button>
+      }
+      <span [routerLink]="['/main/home']">SPlace</span>
+    </mat-toolbar>
+    <div class="main-info">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

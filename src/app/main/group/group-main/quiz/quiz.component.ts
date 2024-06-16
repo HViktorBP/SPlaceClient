@@ -15,7 +15,6 @@ import {NgToastService} from "ng-angular-popup";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import { MatDialog } from '@angular/material/dialog';
-import {ConfirmQuizComponent} from "../../../../../custom/confirm-quiz/confirm-quiz.component";
 
 @Component({
   selector: 'app-quiz',
@@ -316,12 +315,6 @@ export class QuizComponent implements OnInit {
   }
 
   openConfirmationDialog(quiz: QuizzesDTO): void {
-    const dialogRef = this.dialog.open(ConfirmQuizComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteQuiz(quiz);
-      }
-    });
+    this.deleteQuiz(quiz);
   }
 }

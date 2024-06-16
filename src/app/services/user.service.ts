@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
-  signUp(username: string, password: string, email: string) {
+  signUp(username: string, password: string, email: string | null) {
     const formData = { username, password, email};
     return this.http.post<any>(`${this.baseUrl}register`, formData)
   }
