@@ -1,6 +1,6 @@
 <div class="mesgs">
   <div #scrollMe class="msg_history">
-    <ng-container *ngFor="let message of this.userData.groupMessages$ | async">
+    <ng-container *ngFor="let message of messages$| async">
         <div
           [ngClass]="{'incoming_msg': message.username != loggedInUserName, 'outgoing_msg': message.username === loggedInUserName}">
           <div *ngIf="message.username != loggedInUserName" class="incoming_msg_img">

@@ -38,9 +38,9 @@ describe('Http testing UserService', () => {
 
   it('should sign up a user', () => {
     const mockResponse = {message: 'User registered successfully'}
-    const formData = {username: 'testuser', password: 'testpass', email: 'test@example.com'}
+    const formData = {username: 'testuser', password: 'testpass'}
 
-    service.signUp(formData.username, formData.password, formData.email).subscribe(response => {
+    service.signUp(formData.username, formData.password).subscribe(response => {
       expect(response).toEqual(mockResponse)
     })
 

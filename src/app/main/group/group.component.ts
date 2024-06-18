@@ -31,14 +31,14 @@ export class GroupComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe(() => { // -- ?
+    this.routeSubscription = this.route.params.subscribe(() => {
       this.usersDataService.updateGroupDisplay(+this.route.snapshot.paramMap.get('id')!)
       this.groupHub.getMessages(+this.route.snapshot.paramMap.get('id')!)
     })
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe() // -- ?
+    this.routeSubscription.unsubscribe()
     this.usersDataService.updateUserRole('')
     this.usersDataService.updateUserCurrentGroupId(0)
     console.log('Here')

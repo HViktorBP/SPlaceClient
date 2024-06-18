@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -20,7 +20,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrl: './add-user.component.scss'
 })
 export class AddUserComponent {
-  icon = faUserPlus;
+  icon = faUserPlus
   closeResult : string = ''
 
   constructor(private auth : UserService,
@@ -50,24 +50,25 @@ export class AddUserComponent {
 
   onSubmit(userName : string, role: string) {
     const groupId : number = +this.route.snapshot.paramMap.get('id')!
-      this.auth.getUserID(userName).subscribe( {
-        next: userID => {
-          this.auth.getUserID(this.auth.getUsername()).subscribe(userIDCurrent => {
-            this.group.getUserRole(userIDCurrent, groupId).subscribe(currentUserRole => {
-              this.group.addUserInGroup(userID, groupId, role, currentUserRole).subscribe({
-                next: () => {
-                  this.modalService.dismissAll()
-                },
-                error: err => {
-                  this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-                }
-              })
+    const addUserSubscription = this.auth.getUserID(userName).subscribe( {
+      next: userID => {
+        this.auth.getUserID(this.auth.getUsername()).subscribe(userIDCurrent => {
+          this.group.getUserRole(userIDCurrent, groupId).subscribe(currentUserRole => {
+            this.group.addUserInGroup(userID, groupId, role, currentUserRole).subscribe({
+              next: () => {
+                this.modalService.dismissAll()
+                addUserSubscription.unsubscribe()
+              },
+              error: err => {
+                this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+              }
             })
           })
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-        }
-      })
-    }
+        })
+      },
+      error : err => {
+        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+      }
+    })
+  }
 }

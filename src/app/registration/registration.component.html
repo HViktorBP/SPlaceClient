@@ -15,10 +15,6 @@
         <label for="passwordCheck">Repeat the password</label>
         <input type="password" id="passwordCheck" name="passwordCheck" ngModel #passwordCheck required>
       </div>
-      <div class="form-group">
-        <label for="password">Email</label>
-        <input type="email" id="email" name="password" [(ngModel)] = "user.email">
-      </div>
       <div class="buttons">
         <button type="submit" [disabled]="loginForm.invalid">Register</button>
         <button type="submit" (click)="goToLogin()">I have an account!</button>

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../../services/user.service";
 import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {UsersDataService} from "../../../services/users-data.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-groups-info',
@@ -21,11 +21,12 @@ import {UsersDataService} from "../../../services/users-data.service";
 })
 export class GroupsInfoComponent implements OnInit {
   icon = faUsers
-  constructor(private auth: UserService,
-              public userData : UsersDataService) {
+  group$ !: Observable<{ name: string, id : number }[]>
+
+  constructor(private userData : UsersDataService) {
 
   }
   ngOnInit(): void {
-    this.userData.updateGroupsList(this.auth.getUsername())
+    this.group$ = this.userData.userGroupData$
   }
 }

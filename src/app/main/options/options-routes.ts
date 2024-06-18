@@ -1,5 +1,5 @@
 import {Routes} from "@angular/router";
-import {authGuard} from "../../guard/auth.guard";
+import {authGuard} from "../../guards/auth.guard";
 import {OptionsComponent} from "./options.component";
 
 export const OPTIONS_ROUTES : Routes = [
@@ -12,7 +12,6 @@ export const OPTIONS_ROUTES : Routes = [
       {path:'change-username', loadComponent: () => import('./change-username/change-username.component').then(m => m.ChangeUsernameComponent), canActivate:[authGuard]},
       {path:'change-password', loadComponent: () => import('./change-password/change-password.component').then(m => m.ChangePasswordComponent), canActivate:[authGuard]},
       {path:'change-status', loadComponent: () => import('./change-status/change-status.component').then(m => m.ChangeStatusComponent), canActivate:[authGuard]},
-      {path:'change-email', loadComponent: () => import('./change-email/change-email.component').then(m => m.ChangeEmailComponent), canActivate:[authGuard]},
       {path:'about-app', loadComponent: () => import('./about-app/about-app.component').then(m => m.AboutAppComponent), canActivate:[authGuard]},
     ]
   },

@@ -3,7 +3,7 @@
   <ul>
     <div>
       <div class="quiz-list" *ngFor="let quiz of quizzes">
-        <li  (click)="onQuizOpened(quiz, quizContent)">{{quiz.name}}</li>
+        <li (click)="onQuizOpened(quiz, quizContent)">{{quiz.name}}</li>
         <fa-icon [icon]="trash" title="Remove quiz" (click)="openConfirmationDialog(quiz)"></fa-icon>
       </div>
     </div>
@@ -21,20 +21,17 @@
   <div class="modal-body">
     <form (ngSubmit)="onSubmitNewQuiz()" [formGroup]="newQuizForm">
       <div class="form-group">
+        {{this.newQuizForm.value | json}}
         <h5>New quiz's name:</h5>
         <input formControlName="name" type="text" id="quiz-name" name="quiz-name">
         <h5 style="padding-top: 22px">Questions:</h5>
-
         <div formArrayName="questions">
           <div *ngFor="let questionControl of questions.controls; let questionIndex = index">
             <hr/>
               <div [formGroupName]="questionIndex">
-
                 <label for="question{{questionIndex}}">Question {{questionIndex + 1}}:</label>
                 <input formControlName="question" type="text" placeholder="Your question" id="question{{questionIndex}}">
-
                 <button class="delete-button" (click)="onDeleteQuestion(questionIndex)">Delete</button>
-
                 <div *ngIf="answers(questionControl)?.length != 0">
                   <div formArrayName="answers">
                     <div *ngFor="let answersControl of answers(questionControl).controls; let answerIndex = index">
@@ -49,9 +46,7 @@
                     </div>
                   </div>
                 </div>
-
                 <div><p (click)="onAddAnswers(questionControl)">Add Answers</p></div>
-
               </div>
           </div>
         </div>
@@ -104,7 +99,6 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
   <h4 style="text-align: center">You scored {{getUserScore}} point(s) on this quiz!</h4>
 </ng-template>
 

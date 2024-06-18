@@ -12,16 +12,24 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon">people</mat-icon>
-      </button>
-      }
-      <span [routerLink]="['/main/home']">SPlace</span>
+<!--      @if (isHandset$ | async) {-->
+<!--      <button-->
+<!--        type="button"-->
+<!--        aria-label="Toggle sidenav"-->
+<!--        mat-icon-button-->
+<!--        (click)="drawer.toggle()">-->
+<!--        <mat-icon aria-label="Side nav toggle icon">people</mat-icon>-->
+<!--      </button>-->
+<!--      }-->
+
+            <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()">
+              <mat-icon aria-label="Side nav toggle icon">people</mat-icon>
+            </button>
+      <span [routerLink]="['/main']">SPlace</span>
     </mat-toolbar>
     <div class="main-info">
       <router-outlet></router-outlet>

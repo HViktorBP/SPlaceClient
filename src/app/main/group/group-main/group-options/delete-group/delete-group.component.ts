@@ -30,12 +30,16 @@ export class DeleteGroupComponent {
   }
 
   deleteGroup() {
-    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+    const deleteUserSubscription = this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
       this.group.deleteGroup(userID, this.userData.getUserCurrentGroupId).subscribe({
         next:res => {
           this.toast.success({detail:'Success', summary: res.message, duration: 3000})
-          this.groupHub.deleteGroup(this.userData.getUserCurrentGroupId).catch(e => {
-            this.toast.error({detail:'Error', summary: e.message, duration: 3000})
+          this.groupHub.deleteGroup(this.userData.getUserCurrentGroupId).then(
+            () => {
+              deleteUserSubscription.unsubscribe()
+            }
+          ).catch(error => {
+            this.toast.error({detail:'Error', summary: error, duration: 3000})
           })
         },
         error:err => {

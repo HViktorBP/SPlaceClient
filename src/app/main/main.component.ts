@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, switchMap} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -62,14 +62,17 @@ export class MainComponent implements OnInit, OnDestroy{
 
     this.userData = this.userService.getUserByName(this.userService.getUsername()).subscribe(data => {
       this.userDataService.updateUsername(data.username)
-      this.userDataService.updateStatus(data.status!)
+      this.userDataService.updateStatus(data.status)
     })
 
-    this.userGroupConnection = this.userService.getUserID(this.userService.getUsername()).subscribe(userID => {
-      this.group.getGroups(userID).subscribe(groups => {
-        groups.forEach(groupID => {
-          this.groupHub.joinChat(this.userService.getUsername(), groupID.toString()).then(() => {
-          })
+    this.userGroupConnection = this.userService.getUserID(this.userService.getUsername()).pipe(
+      switchMap(
+        userID => this.group.getGroups(userID)
+      )
+    ).subscribe(groups => {
+      groups.forEach(groupID => {
+        this.groupHub.joinChat(this.userService.getUsername(), groupID.toString()).catch(error => {
+          console.log(error)
         })
       })
     })

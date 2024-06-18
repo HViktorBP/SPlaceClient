@@ -1,6 +1,6 @@
 <div>
   <h3>Participants:</h3>
   <ul>
-    <li *ngFor="let users of this.participants">{{users}}</li>
+    <li *ngFor="let users of participants$ | async">{{users}}</li>
   </ul>
 </div>

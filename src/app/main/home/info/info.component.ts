@@ -1,23 +1,34 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Quote} from "../../../interfaces/quote";
 import {UserService} from "../../../services/user.service";
+import {Subscription} from "rxjs";
+import {AsyncPipe} from "@angular/common";
 
 @Component({
   selector: 'app-info',
   standalone: true,
-  imports: [],
+  imports: [
+    AsyncPipe
+  ],
   templateUrl: './info.component.html',
   styleUrl: './info.component.scss'
 })
-export class InfoComponent {
-  quote: Quote = {
-    quoteText : '',
-    quoteAuthor : ''
-  }
+
+export class InfoComponent implements OnInit, OnDestroy {
+  quoteSubscription !: Subscription
+  quote !: Quote
 
   constructor(private auth : UserService) {
-    this.auth.getQuote().subscribe(data => {
-      this.quote = data
-    });
+
+  }
+
+  ngOnInit() {
+    this.quoteSubscription = this.auth.getQuote().subscribe(quote => {
+      this.quote = quote
+    })
+  }
+
+  ngOnDestroy() {
+    this.quoteSubscription.unsubscribe()
   }
 }

@@ -11,8 +11,8 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
-  signUp(username: string, password: string, email: string | null) {
-    const formData = { username, password, email};
+  signUp(username: string, password: string) {
+    const formData = { username, password};
     return this.http.post<any>(`${this.baseUrl}register`, formData)
   }
 
@@ -21,11 +21,11 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}authentication`, formData);
   }
 
-  storeToken(tokenValue: string) { //singleton service
+  storeToken(tokenValue: string) {
     sessionStorage.setItem("token", tokenValue)
   }
 
-  storeUsername(username: string) { //singleton service
+  storeUsername(username: string) {
     sessionStorage.setItem("username", username)
   }
 
@@ -66,6 +66,6 @@ export class UserService {
   }
 
   isLoggedIn(): boolean {
-    return !!sessionStorage.getItem("token") // converts to bool
+    return !!sessionStorage.getItem("token")
   }
 }

@@ -9,6 +9,7 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {GroupHubService} from "../../../../../services/group-hub.service";
 import {NgToastService} from "ng-angular-popup";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-remove-user',
@@ -53,7 +54,7 @@ export class RemoveUserComponent {
   onSubmit(userName : string, usersRole: string) {
     const groupId : number = +this.route.snapshot.paramMap.get('id')!
 
-    this.auth.getUserID(userName).subscribe({
+    const removeUserSubscription : Subscription = this.auth.getUserID(userName).subscribe({
       next:userToDeleteID => {
         this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
           this.group.getUserRole(userID, groupId).subscribe(role => {
@@ -64,6 +65,7 @@ export class RemoveUserComponent {
                     .then(() => {
                       this.modalService.dismissAll()
                       this.toast.info({detail:"Info", summary: "User successfully removed!", duration:3000})
+                      removeUserSubscription.unsubscribe()
                     })
                 })
               },

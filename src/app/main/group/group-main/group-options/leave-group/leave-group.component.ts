@@ -30,13 +30,15 @@ export class LeaveGroupComponent {
   }
 
   leaveGroup() {
-    this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
+    const leaveGroupSubscription = this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
       const groupID : number = +this.route.snapshot.paramMap.get('id')!
         this.group.leaveGroup(userID, groupID).subscribe({
           next: res => {
             this.toast.info({detail: "Info", summary: res.message, duration: 3000})
             this.groupHub.leaveChat(groupID.toString()).then(() => {
-              this.router.navigate(['main/home'])
+              this.router.navigate(['main/home']).then(() => {
+                leaveGroupSubscription.unsubscribe()
+              })
             }).catch(e => {
               this.toast.error({detail: "Error", summary: e.message, duration: 3000})
             })

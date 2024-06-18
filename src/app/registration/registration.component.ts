@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user.service";
@@ -18,38 +18,43 @@ import {User} from "../interfaces/user";
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss'
 })
-export class RegistrationComponent{
+
+export class RegistrationComponent implements OnDestroy {
   user : User = {
     username : '',
     password : '',
-    email : '',
-    status : null
+    status : 'Curious'
   }
+  registration !: Subscription;
+
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
   register(passwordCheck:string) {
     if (passwordCheck == this.user.password) {
-      const registration : Subscription = this.auth.signUp(this.user.username, this.user.password, this.user.email).subscribe(
+      this.registration = this.auth.signUp(this.user.username, this.user.password).subscribe(
         {
           next: res => {
             this.toast.success({detail: "Success", summary: res.message, duration: 3000})
             this.auth.storeUsername(this.user.username)
             this.auth.storeToken(res.token)
-            this.router.navigate(['/main/home'])
-            registration.unsubscribe()
+            this.router.navigate(['main'])
           },
           error: err => {
             this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
           }
         }
-      );
+      )
     } else {
       this.toast.error({detail: "Error", summary: "Passwords are not matching!", duration: 3000})
     }
   }
 
   goToLogin() : void {
-    this.router.navigate(['login']);
+    this.router.navigate(['login'])
+  }
+
+  ngOnDestroy() {
+    this.registration.unsubscribe()
   }
 }

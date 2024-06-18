@@ -1,9 +1,9 @@
-import {AfterViewChecked, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {GroupHubService} from "../../../services/group-hub.service";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
-import {forkJoin, of, switchMap} from "rxjs";
+import {forkJoin, Observable, of, Subscription, switchMap} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {UsersDataService} from "../../../services/users-data.service";
 import {NgToastService} from "ng-angular-popup";
@@ -24,29 +24,33 @@ import {NgToastService} from "ng-angular-popup";
   styleUrl: './group-main.component.scss'
 })
 
-export class GroupMainComponent implements OnInit, AfterViewChecked {
-  userData = inject(UsersDataService)
+export class GroupMainComponent implements OnInit, AfterViewChecked, OnDestroy {
+  messages$ !: Observable<any>
+  messagesSubscription !: Subscription
   inputMessage= ''
   loggedInUserName!:string
-  messages : any
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 
   constructor(private route : ActivatedRoute,
               private toast : NgToastService,
               private auth : UserService,
-              private groupHubService : GroupHubService) {
+              private groupHubService : GroupHubService,
+              private userDataService : UsersDataService) {
 
   }
 
   ngOnInit () {
-    this.userData.groupMessages$.subscribe(() => {
+    this.messages$ = this.userDataService.groupMessages$
+
+    this.messagesSubscription = this.messages$.subscribe(() => {
       try {
         this.canBeScrolled = !this.canBeScrolled
       } catch (e) {
         this.toast.error({detail:"Error", summary: "Error when loading the messages!", duration: 3000})
       }
     })
+
     this.loggedInUserName = this.auth.getUsername()
   }
 
@@ -82,5 +86,9 @@ export class GroupMainComponent implements OnInit, AfterViewChecked {
     } else {
       this.toast.info({detail:"Info", summary: "If you want to send message, type it in", duration: 3000})
     }
+  }
+
+  ngOnDestroy() {
+    this.messagesSubscription.unsubscribe()
   }
 }
