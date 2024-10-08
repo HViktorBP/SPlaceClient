@@ -31,25 +31,25 @@ import {HoverDirective} from "../custom/directives/hover.directive";
 
 export class LoginComponent implements OnDestroy{
   hide = signal(false);
-  user : User = {
+
+  user : any = {
     username : '',
-    password : '',
-    status : '',
+    password : ''
   }
+
   authorisation !: Subscription;
 
   constructor(private router: Router,
-              private auth: UserService,
+              private userService: UserService,
               private toast: NgToastService) {
   }
 
   onLogin() {
-    this.authorisation = this.auth.logIn(this.user.username, this.user.password).subscribe(
+    this.authorisation = this.userService.logIn(this.user).subscribe(
       {
         next: res => {
           this.toast.success({detail: "Success", summary: res.message, duration: 3000})
-          this.auth.storeUsername(this.user.username)
-          this.auth.storeToken(res.token)
+          this.userService.storeUserData(res.token)
           this.router.navigate(['main'])
         },
         error: err => {

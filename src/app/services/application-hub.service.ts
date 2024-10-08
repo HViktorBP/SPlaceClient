@@ -11,11 +11,12 @@ import {GroupHubService} from "./group-hub.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AppHubService {
+export class ApplicationHubService {
   public connection : signalR.HubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:7149/app")
+    .withUrl("https://localhost:7149/application")
     .configureLogging(signalR.LogLevel.Information)
     .build()
+
   constructor(private auth : UserService,
               private group : GroupsService,
               private toast : NgToastService,

@@ -20,28 +20,26 @@ import {User} from "../interfaces/user";
 })
 
 export class RegistrationComponent implements OnDestroy {
-  user : User = {
+  user : any = {
     username : '',
     password : '',
-    status : 'Curious'
   }
   registration !: Subscription;
 
   constructor(private router: Router,
               private auth : UserService,
               private toast : NgToastService) { }
+
   register(passwordCheck:string) {
     if (passwordCheck == this.user.password) {
-      this.registration = this.auth.signUp(this.user.username, this.user.password).subscribe(
+      this.registration = this.auth.signUp(this.user).subscribe(
         {
           next: res => {
             this.toast.success({detail: "Success", summary: res.message, duration: 3000})
-            this.auth.storeUsername(this.user.username)
-            this.auth.storeToken(res.token)
-            this.router.navigate(['main'])
+            this.router.navigate(['login'])
           },
           error: err => {
-            this.toast.error({detail: "Error", summary: err.error.message, duration: 3000})
+            this.toast.error({detail: "Error", summary: err.message, duration: 3000})
           }
         }
       )

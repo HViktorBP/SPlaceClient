@@ -1,32 +1,33 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../interfaces/user";
-import {Quote} from "../interfaces/quote";
+import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
-  private baseUrl:string = "https://localhost:7149/api/User/"
+  private baseUrl:string = "https://localhost:7149/api/Users/"
 
   constructor(private http : HttpClient) { }
 
-  signUp(username: string, password: string) {
-    const formData = { username, password};
-    return this.http.post<any>(`${this.baseUrl}register`, formData)
+  signUp(user: any) {
+    return this.http.post<any>(`${this.baseUrl}register`, user)
   }
 
-  logIn(username: string, password: string) {
-    const formData = { username, password };
-    return this.http.post<any>(`${this.baseUrl}authentication`, formData);
+  logIn(userData : any) {
+    return this.http.post<any>(`${this.baseUrl}login`, userData);
   }
 
   storeToken(tokenValue: string) {
-    sessionStorage.setItem("token", tokenValue)
+    localStorage.setItem("token", tokenValue)
   }
 
-  storeUsername(username: string) {
-    sessionStorage.setItem("username", username)
+  storeUserData(token: string) {
+    const decodedJwt : any = this.decodeJwtToken(token)
+    localStorage.setItem("userId", decodedJwt['userId'])
+    localStorage.setItem("token", token)
   }
 
   getUserByName(username:string) {
@@ -43,10 +44,6 @@ export class UserService {
 
   getUsername() {
     return sessionStorage.getItem("username")!!
-  }
-
-  getQuote() {
-    return this.http.get<Quote>(`${this.baseUrl}quote`)
   }
 
   changeUsername(username : string, userID: number) {
@@ -66,6 +63,35 @@ export class UserService {
   }
 
   isLoggedIn(): boolean {
-    return !!sessionStorage.getItem("token")
+    return !!localStorage.getItem("token")
+  }
+
+  logOut(): void {
+    localStorage.removeItem("token")
+    localStorage.removeItem("userId")
+  }
+
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem("token")
+    if (!token) return true;
+
+    let isTokenExpired : boolean = true
+
+    const decodedJwt = this.decodeJwtToken(token);
+    if (decodedJwt.exp !== undefined)
+      isTokenExpired = Date.now() >= decodedJwt.exp * 1000;
+
+    if (isTokenExpired)
+      this.logOut()
+
+    return isTokenExpired;
+  }
+
+  private decodeJwtToken(token : string) : JwtPayload {
+    try {
+      return jwtDecode(token);
+    } catch (e) {
+      throw e;
+    }
   }
 }
