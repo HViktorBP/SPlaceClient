@@ -4,7 +4,6 @@ import {FormsModule} from "@angular/forms";
 import {UserService} from "../services/user.service";
 import {NgToastService} from "ng-angular-popup";
 import {Subscription} from "rxjs";
-import {User} from "../interfaces/user";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatHint} from "@angular/material/input";

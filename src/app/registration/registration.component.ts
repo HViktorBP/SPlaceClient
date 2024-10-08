@@ -5,7 +5,6 @@ import {UserService} from "../services/user.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
 import {Subscription} from "rxjs";
-import {User} from "../interfaces/user";
 
 @Component({
   selector: 'app-registration',

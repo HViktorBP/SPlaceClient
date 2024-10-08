@@ -6,13 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import {Observable, Subscription, switchMap} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserService} from "../services/user.service";
 import {UsersDataService} from "../services/users-data.service";
-import {GroupHubService} from "../services/group-hub.service";
 import {ApplicationHubService} from "../services/application-hub.service";
 import {GroupsService} from "../services/groups.service";
 
