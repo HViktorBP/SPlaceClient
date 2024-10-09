@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { UserService } from './user.service';
 import { GroupsService } from './groups.service';
 import { QuizzesService } from './quizzes.service';
-import {QuizzesDTO} from "../interfaces/quizzes-dto";
+import {QuizzesDTO} from "../dtos/quizzes-dto";
 
 describe('UsersDataService', () => {
   let service: UsersDataService

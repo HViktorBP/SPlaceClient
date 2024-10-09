@@ -5,7 +5,7 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Groups</mat-toolbar>
     <mat-nav-list>
-        <a *ngFor="let group of groups$ | async" [routerLink]="['/main/group', group.id]">
+        <a *ngFor="let group of userDataService.getUserGroups() | async" [routerLink]="['/main/group', group.id]">
           {{ group.name }}
         </a>
     </mat-nav-list>

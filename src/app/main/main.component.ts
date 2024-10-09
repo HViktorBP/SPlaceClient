@@ -13,7 +13,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserService} from "../services/user.service";
 import {UsersDataService} from "../services/users-data.service";
 import {ApplicationHubService} from "../services/application-hub.service";
-import {GroupsService} from "../services/groups.service";
+import {NgToastService} from "ng-angular-popup";
 
 @Component({
   selector: 'app-main',
@@ -36,9 +36,7 @@ import {GroupsService} from "../services/groups.service";
 })
 export class MainComponent implements OnInit, OnDestroy{
   private breakpointObserver = inject(BreakpointObserver);
-  public groups$ !: Observable<{ name: string; id: number }[]>;
   userData !: Subscription
-  userGroupConnection !: Subscription
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -47,37 +45,31 @@ export class MainComponent implements OnInit, OnDestroy{
     );
 
   constructor(private userService : UserService,
-              private userDataService : UsersDataService,
+              public userDataService : UsersDataService,
               private applicationHub : ApplicationHubService,
-              private group : GroupsService) {
+              private toast : NgToastService) {
     this.applicationHub.start().then(()=> {console.log('Connected to the app hub!')})
   }
 
   ngOnInit() {
-    //this.userDataService.updateGroupsList(this.userService.getUsername())
-    //this.groups$ = this.userDataService.userGroupData$
+    try {
+      const userId = this.userService.getUserId();
 
-    //this.userData = this.userService.getUserByName(this.userService.getUsername()).subscribe(data => {
-      //this.userDataService.updateUsername(data.username)
-      //this.userDataService.updateStatus(data.status)
-    //})
-
-    //this.userGroupConnection = this.userService.getUserID(this.userService.getUsername()).pipe(
-      //switchMap(
-        //userID => this.group.getGroups(userID)
-      //)
-    //).subscribe(groups => {
-      //groups.forEach(groupID => {
-        //this.groupHub.joinChat(this.userService.getUsername(), groupID.toString()).catch(error => {
-          //console.log(error)
-        //})
-      //})
-    //})
+      this.userData = this.userService.getUserAccount(userId).subscribe(user => {
+        this.userDataService.updateUsername(user.username)
+        this.userDataService.updateStatus(user.status)
+        this.userDataService.updateGroupData(user.groups)
+        this.userDataService.updateCreatedGroupData(user.createdGroups)
+        this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+        this.userDataService.updateUserScores(user.scores)
+      })
+    } catch (e : any) {
+      this.toast.error({detail: "Error", summary: e, duration: 3000})
+    }
   }
 
   ngOnDestroy() {
-    //this.userData.unsubscribe()
-    //this.userGroupConnection.unsubscribe()
+    this.userData.unsubscribe()
     this.applicationHub.leave().then(() => {console.log('Disconnected from the group hub!')})
   }
 }

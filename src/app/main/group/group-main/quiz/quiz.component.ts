@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {UsersDataService} from "../../../../services/users-data.service";
-import {QuizzesDTO} from "../../../../interfaces/quizzes-dto";
+import {QuizzesDTO} from "../../../../dtos/quizzes-dto";
 import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "../../../../services/user.service";
 import {GroupsService} from "../../../../services/groups.service";
@@ -10,7 +10,7 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {catchError, switchMap, throwError} from "rxjs";
-import {QuizModel} from "../../../../interfaces/quiz-model";
+import {QuizModel} from "../../../../dtos/quiz-model";
 import {NgToastService} from "ng-angular-popup";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";

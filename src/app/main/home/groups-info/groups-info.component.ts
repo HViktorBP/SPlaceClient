@@ -4,7 +4,6 @@ import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {UsersDataService} from "../../../services/users-data.service";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-groups-info',
@@ -21,12 +20,10 @@ import {Observable} from "rxjs";
 })
 export class GroupsInfoComponent implements OnInit {
   icon = faUsers
-  group$ !: Observable<{ name: string, id : number }[]>
 
-  constructor(private userData : UsersDataService) {
+  constructor(public userData : UsersDataService) {
 
   }
   ngOnInit(): void {
-    this.group$ = this.userData.userGroupData$
   }
 }

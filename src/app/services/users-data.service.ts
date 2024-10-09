@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
-import {QuizzesDTO} from "../interfaces/quizzes-dto";
+import {QuizzesDTO} from "../dtos/quizzes-dto";
 import {UserService} from "./user.service";
 import {GroupsService} from "./groups.service";
-import {User} from "../interfaces/user";
+import {User} from "../dtos/user";
 import {QuizzesService} from "./quizzes.service";
+import {GroupIdentifier} from "../dtos/group/group-identifier";
+import {QuizIdentifier} from "../dtos/quiz/quiz-identifier";
+import {UserScore} from "../dtos/score/user-score";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +23,19 @@ export class UsersDataService {
   private userStatusSubject = new BehaviorSubject<string>('');
   userStatus$ = this.userStatusSubject.asObservable();
 
+  private userGroupDataSubject: BehaviorSubject<GroupIdentifier[]> = new BehaviorSubject<GroupIdentifier[]>([])
+  userGroupData$ = this.userGroupDataSubject.asObservable()
+
+  private userCreatedGroupDataSubject: BehaviorSubject<GroupIdentifier[]> = new BehaviorSubject<GroupIdentifier[]>([])
+  userCreatedGroupData$ = this.userCreatedGroupDataSubject.asObservable()
+
+  private userCreatedQuizzesDataSubject: BehaviorSubject<QuizIdentifier[]> = new BehaviorSubject<QuizIdentifier[]>([])
+  userCreatedQuizzesData$ = this.userCreatedQuizzesDataSubject.asObservable()
+
+  private userScoresDataSubject: BehaviorSubject<UserScore[]> = new BehaviorSubject<UserScore[]>([])
+  userScoresData$ = this.userScoresDataSubject.asObservable()
+
+  // -------- old ------- //
   private userCountSubject = new BehaviorSubject<number>(0);
   userCount$ = this.userCountSubject.asObservable();
 
@@ -38,12 +54,40 @@ export class UsersDataService {
   private groupMessagesSubject = new BehaviorSubject<any>([])
   groupMessages$ = this.groupMessagesSubject.asObservable()
 
-  private userGroupDataSubject: BehaviorSubject<{ name: string; id: number }[]> = new BehaviorSubject<{name: string; id: number}[]>([])
-  userGroupData$ = this.userGroupDataSubject.asObservable()
+
   constructor(private auth : UserService,
               private group : GroupsService,
               private quizzes : QuizzesService) { }
 
+  updateUsername(username: string) {
+    this.userNameSubject.next(username)
+  }
+
+  updateStatus(status: string) {
+    this.userStatusSubject.next(status)
+  }
+
+  updateGroupData(groups : GroupIdentifier[]) {
+    this.userGroupDataSubject.next(groups)
+  }
+
+  public getUserGroups() : Observable<GroupIdentifier[]> {
+    return this.userGroupData$
+  }
+
+  updateCreatedGroupData(createdGroups : GroupIdentifier[]) {
+    this.userCreatedGroupDataSubject.next(createdGroups)
+  }
+
+  updateCreatedQuizzesData(createdQuizzes : QuizIdentifier[]) {
+    this.userCreatedQuizzesDataSubject.next(createdQuizzes)
+  }
+
+  updateUserScores(scores : UserScore[]) {
+    this.userScoresDataSubject.next(scores)
+  }
+
+  // ----- old ----- //
   updateUserCount(count: number) {
     this.userCountSubject.next(count)
   }
@@ -60,19 +104,8 @@ export class UsersDataService {
     this.quizListSubject.next(quizzesList)
   }
 
-  updateUsername(username: string) {
-    this.userNameSubject.next(username)
-  }
-
-  updateStatus(status: string) {
-    this.userStatusSubject.next(status)
-  }
-
   updateGroupMessages(messages: any) {
     this.groupMessagesSubject.next(messages)
-  }
-  updateGroupData(groups : {name: string; id: number}[]) {
-    this.userGroupDataSubject.next(groups)
   }
 
   updateUserRole(role : string) {

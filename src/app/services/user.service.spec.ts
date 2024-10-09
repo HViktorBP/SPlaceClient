@@ -40,7 +40,7 @@ describe('Http testing UserService', () => {
     const mockResponse = {message: 'User registered successfully'}
     const formData = {username: 'testuser', password: 'testpass'}
 
-    service.signUp(formData.username, formData.password).subscribe(response => {
+    service.signUp(formData).subscribe(response => {
       expect(response).toEqual(mockResponse)
     })
 
@@ -54,7 +54,7 @@ describe('Http testing UserService', () => {
     const mockResponse = {token: 'test-token'}
     const formData = {username: 'testuser', password: 'testpass'}
 
-    service.logIn(formData.username, formData.password).subscribe(response => {
+    service.logIn(formData.username).subscribe(response => {
       expect(response.token).toBe(mockResponse.token)
     })
 
@@ -62,22 +62,6 @@ describe('Http testing UserService', () => {
     expect(req.request.method).toBe('POST')
     expect(req.request.body).toEqual(formData)
     req.flush(mockResponse)
-  })
-
-  it('should store token in session storage', () => {
-    const tokenValue = 'test-token'
-    spyOn(sessionStorage, 'setItem')
-
-    service.storeToken(tokenValue)
-    expect(sessionStorage.setItem).toHaveBeenCalledWith('token', tokenValue)
-  })
-
-  it('should store username in session storage', () => {
-    const username = 'testuser'
-    spyOn(sessionStorage, 'setItem')
-
-    service.storeUsername(username)
-    expect(sessionStorage.setItem).toHaveBeenCalledWith('username', username)
   })
 
   it('should retrieve user by name', () => {
@@ -121,74 +105,6 @@ describe('Http testing UserService', () => {
 
     const result = service.getUsername()
     expect(result).toBe(username)
-  })
-
-  it('should return quote', () => {
-    const mockQuote = {quoteText: 'This is a test quote', quoteAuthor: 'Me'}
-
-    service.getQuote().subscribe(quote => {
-      expect(quote).toEqual(mockQuote)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}quote`)
-    expect(req.request.method).toBe('GET')
-    req.flush(mockQuote)
-  })
-
-  it('should change username', () => {
-    const mockResponse = {message: 'Username changed successfully'}
-    const newUsername = 'newuser'
-    const userID = 1
-
-    service.changeUsername(newUsername, userID).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}change-username?username=${newUsername}&userID=${userID}`)
-    expect(req.request.method).toBe('PUT')
-    req.flush(mockResponse)
-  })
-
-  it('should change password', () => {
-    const mockResponse = {message: 'Password changed successfully'}
-    const newPassword = 'newpass'
-    const userID = 1
-
-    service.changePassword(newPassword, userID).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}change-password?password=${newPassword}&userID=${userID}`)
-    expect(req.request.method).toBe('PUT')
-    req.flush(mockResponse)
-  })
-
-  it('should change status', () => {
-    const mockResponse = {message: 'Status changed successfully'}
-    const newStatus = 'active'
-    const userID = 1
-
-    service.changeStatus(newStatus, userID).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}change-status?status=${newStatus}&userID=${userID}`)
-    expect(req.request.method).toBe('PUT')
-    req.flush(mockResponse)
-  })
-
-  it('should change email', () => {
-    const mockResponse = {message: 'Email changed successfully'}
-    const newEmail = 'new@example.com'
-    const userID = 1
-
-    service.changeEmail(newEmail, userID).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}change-email?email=${newEmail}&userID=${userID}`)
-    expect(req.request.method).toBe('PUT')
-    req.flush(mockResponse)
   })
 
   it('should return logged in true based on token', () => {

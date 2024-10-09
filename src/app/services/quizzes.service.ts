@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {QuizzesDTO} from "../interfaces/quizzes-dto";
-import {QuizModel} from "../interfaces/quiz-model";
+import {QuizzesDTO} from "../dtos/quizzes-dto";
+import {QuizModel} from "../dtos/quiz-model";
 
 @Injectable({
   providedIn: 'root'

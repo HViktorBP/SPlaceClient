@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../interfaces/user";
+import {User} from "../dtos/user";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
+import {UserAccount} from "../dtos/user/user-account";
+import {Observable} from "rxjs";
+import {UserDataChange} from "../dtos/user/user-data-change";
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +23,50 @@ export class UserService {
     return this.http.post<any>(`${this.baseUrl}login`, userData);
   }
 
-  storeToken(tokenValue: string) {
-    localStorage.setItem("token", tokenValue)
-  }
-
   storeUserData(token: string) {
     const decodedJwt : any = this.decodeJwtToken(token)
     localStorage.setItem("userId", decodedJwt['userId'])
     localStorage.setItem("token", token)
   }
+
+  getUserAccount(id : number) : Observable<UserAccount> {
+    return this.http.get<UserAccount>(`${this.baseUrl}${id}`)
+  }
+
+  getUserId() : number {
+    const userId = localStorage.getItem('userId');
+
+    if (userId === null) {
+      throw new Error("No ID stored in localStorage");
+    }
+
+    const parsedUserId = Number(userId);
+
+    if (isNaN(parsedUserId)) {
+      throw new Error("Stored ID is not a valid number");
+    }
+
+    return parsedUserId;
+  }
+
+  changeUsername(userDataChange : UserDataChange) {
+    return this.http.put<string>(`${this.baseUrl}username`, {userDataChange})
+  }
+
+  changePassword(userDataChange : UserDataChange) {
+    return this.http.put<string>(`${this.baseUrl}password`, {userDataChange})
+  }
+
+  changeStatus(userDataChange : UserDataChange) {
+    return this.http.put<string>(`${this.baseUrl}status`, {userDataChange})
+  }
+
+  deleteAccount() {
+    const userId = this.getUserId();
+    return this.http.delete<any>(`${this.baseUrl}${userId}`)
+  }
+
+  // --- old --- //
 
   getUserByName(username:string) {
     return this.http.get<User>(`${this.baseUrl}user-by-name?username=${username}`)
@@ -44,22 +82,6 @@ export class UserService {
 
   getUsername() {
     return sessionStorage.getItem("username")!!
-  }
-
-  changeUsername(username : string, userID: number) {
-    return this.http.put<any>(`${this.baseUrl}change-username?username=${username}&userID=${userID}`, {})
-  }
-
-  changePassword(password : string, userID: number) {
-    return this.http.put<any>(`${this.baseUrl}change-password?password=${password}&userID=${userID}`, {})
-  }
-
-  changeStatus(status : string, userID: number) {
-    return this.http.put<any>(`${this.baseUrl}change-status?status=${status}&userID=${userID}`, {})
-  }
-
-  changeEmail(email : string, userID: number) {
-    return this.http.put<any>(`${this.baseUrl}change-email?email=${email}&userID=${userID}`, {})
   }
 
   isLoggedIn(): boolean {

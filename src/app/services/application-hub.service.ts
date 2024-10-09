@@ -5,7 +5,7 @@ import {GroupsService} from "./groups.service";
 import {NgToastService} from "ng-angular-popup";
 import {UsersDataService} from "./users-data.service";
 import {forkJoin, map, Observable, switchMap} from "rxjs";
-import {User} from "../interfaces/user";
+import {User} from "../dtos/user";
 import {GroupHubService} from "./group-hub.service";
 
 @Injectable({

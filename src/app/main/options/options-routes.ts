@@ -13,6 +13,7 @@ export const OPTIONS_ROUTES : Routes = [
       {path:'change-password', loadComponent: () => import('./change-password/change-password.component').then(m => m.ChangePasswordComponent), canActivate:[authGuard]},
       {path:'change-status', loadComponent: () => import('./change-status/change-status.component').then(m => m.ChangeStatusComponent), canActivate:[authGuard]},
       {path:'about-app', loadComponent: () => import('./about-app/about-app.component').then(m => m.AboutAppComponent), canActivate:[authGuard]},
+      {path:'delete-account', loadComponent: () => import('./delete-account/delete-account.component').then(m => m.DeleteAccountComponent), canActivate:[authGuard]},
     ]
   },
 ]
