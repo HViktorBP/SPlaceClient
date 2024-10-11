@@ -5,7 +5,6 @@ import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute} from "@angular/router";
 import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
 import {ChangeRole} from "../../../../../contracts/group/change-role";
 import {GroupDataService} from "../../../../../states/group-data.service";
@@ -28,8 +27,7 @@ export class ChangeRoleComponent {
               private groupService : GroupsService,
               public popUpService : PopUpService,
               private toast : NgToastService,
-              private groupDataService : GroupDataService,
-              private route : ActivatedRoute) {
+              private groupDataService : GroupDataService) {
   }
 
   open(content: any) {

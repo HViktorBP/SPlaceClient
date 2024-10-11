@@ -5,7 +5,6 @@ import {faUserMinus} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
-import {ActivatedRoute} from "@angular/router";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {RemoveUser} from "../../../../../contracts/group/remove-user";
@@ -29,8 +28,7 @@ export class RemoveUserComponent {
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
               public popUpService : PopUpService,
-              private toast : NgToastService,
-              private route : ActivatedRoute) {
+              private toast : NgToastService) {
   }
 
   open(content: any) {

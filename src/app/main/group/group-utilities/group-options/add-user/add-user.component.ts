@@ -6,7 +6,6 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute} from "@angular/router";
 import {AddUser} from "../../../../../contracts/group/add-user";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
@@ -29,8 +28,7 @@ export class AddUserComponent {
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
               public popUpService : PopUpService,
-              private toast : NgToastService,
-              private route : ActivatedRoute) {
+              private toast : NgToastService) {
   }
 
   open(content: any) {

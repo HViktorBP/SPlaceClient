@@ -26,9 +26,9 @@ export class GroupsService {
     return this.http.get<Role>(`${this.baseUrl}role?userId=${userId}&groupId=${groupId}`)
   }
 
-  getCreator(id:number) {
-    return this.http.get<number>(`${this.baseUrl}creator`)
-  }
+  // getCreator(id:number) {
+  //   return this.http.get<number>(`${this.baseUrl}creator`)
+  // }
 
   changeRole(changeRoleRequest : ChangeRole) {
     return this.http.put<string>(`${this.baseUrl}role`, changeRoleRequest)

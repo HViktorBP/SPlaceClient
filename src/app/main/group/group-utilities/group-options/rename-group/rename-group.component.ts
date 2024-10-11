@@ -3,7 +3,6 @@ import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute} from "@angular/router";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -29,8 +28,7 @@ export class RenameGroupComponent {
               private groupService : GroupsService,
               public popUpService : PopUpService,
               private toast : NgToastService,
-              private groupDataService : GroupDataService,
-              private route : ActivatedRoute) { }
+              private groupDataService : GroupDataService) { }
 
   open(content: any) {
     this.popUpService.openModal(content).then(
