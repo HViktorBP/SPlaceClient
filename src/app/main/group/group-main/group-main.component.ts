@@ -2,7 +2,7 @@ import {AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild} f
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {GroupHubService} from "../../../services/group-hub.service";
 import {FormsModule} from "@angular/forms";
-import {UserService} from "../../../services/user.service";
+import {UsersService} from "../../../services/users.service";
 import {forkJoin, Observable, of, Subscription, switchMap} from "rxjs";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {UsersDataService} from "../../../states/users-data.service";
@@ -30,16 +30,15 @@ import {User} from "../../../dtos/user";
 export class GroupMainComponent implements OnInit{
   messages$ !: Observable<any>
   messagesSubscription !: Subscription
-  inputMessage= ''
   loggedInUserName!: number
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   private canBeScrolled = false
 
   constructor(private route : ActivatedRoute,
               private toast : NgToastService,
-              private auth : UserService,
+              private auth : UsersService,
               private groupHubService : GroupHubService,
-              private userService : UserService,
+              private userService : UsersService,
               public groupDataService : GroupDataService) {
 
   }

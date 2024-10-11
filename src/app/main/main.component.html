@@ -5,14 +5,16 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Groups</mat-toolbar>
     <mat-nav-list>
-        <a *ngFor="let group of userDataService.getUserGroups() | async" [routerLink]="['/main/group', group.id]">
+      <ul>
+        <li *ngFor="let group of userDataService.userGroupsAsync | async" [routerLink]="['/main/group', group.id]">
           {{ group.name }}
-        </a>
+        </li>
+      </ul>
       <app-create-group></app-create-group>
     </mat-nav-list>
-    <button>
-      <a [routerLink]="['/main/options']">Options</a>
-    </button>
+
+    <app-log-out></app-log-out>
+
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
@@ -27,7 +29,9 @@
       }
       <div id="main-header">
         <span [routerLink]="['/main']">SPlace</span>
-        <app-log-out></app-log-out>
+        <button>
+          <a [routerLink]="['/main/options']">Options</a>
+        </button>
       </div>
     </mat-toolbar>
     <div class="main-info">

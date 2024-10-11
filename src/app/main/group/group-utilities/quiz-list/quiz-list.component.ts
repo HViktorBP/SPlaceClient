@@ -3,7 +3,7 @@ import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common"
 import {UsersDataService} from "../../../../states/users-data.service";
 import {QuizzesDTO} from "../../../../dtos/quizzes-dto";
 import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UserService} from "../../../../services/user.service";
+import {UsersService} from "../../../../services/users.service";
 import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -43,7 +43,7 @@ export class QuizListComponent implements OnInit {
   trash = faTrash;
 
   constructor(public groupDataService : GroupDataService,
-              private auth : UserService,
+              private auth : UsersService,
               private group : GroupsService,
               private route : ActivatedRoute,
               private modalService: NgbModal,
@@ -147,31 +147,31 @@ export class QuizListComponent implements OnInit {
   get getUserScore() {
     return this.userScore;
   }
-  onSubmitNewQuiz() {
-    const groupID = +this.route.snapshot.paramMap.get('id')!;
-    const submitQuizSubscription = this.auth.getUserID(this.auth.getUsername()).pipe(
-      switchMap(userID => {
-        return this.group.getUserRole(userID, groupID).pipe(
-          switchMap(role => {
-            return this.quiz.submitNewQuiz(userID, groupID, role, this.newQuizForm.value).pipe(
-              catchError(err => {
-                this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
-                return throwError(err);
-              })
-            );
-          }),
-          catchError(err => {
-            this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
-            return throwError(err);
-          })
-        );
-      })
-    ).subscribe(() => {
-      this.resetQuiz()
-      submitQuizSubscription.unsubscribe()
-      this.toast.success({detail: "Success",summary: "New quiz-list uploaded!", duration: 3000});
-    });
-  }
+  // onSubmitNewQuiz() {
+  //   const groupID = +this.route.snapshot.paramMap.get('id')!;
+  //   const submitQuizSubscription = this.auth.getUserID(this.auth.getUsername()).pipe(
+  //     switchMap(userID => {
+  //       return this.group.getUserRole(userID, groupID).pipe(
+  //         switchMap(role => {
+  //           return this.quiz.submitNewQuiz(userID, groupID, role, this.newQuizForm.value).pipe(
+  //             catchError(err => {
+  //               this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+  //               return throwError(err);
+  //             })
+  //           );
+  //         }),
+  //         catchError(err => {
+  //           this.toast.error({detail: "Error",summary: err.error.message, duration: 3000});
+  //           return throwError(err);
+  //         })
+  //       );
+  //     })
+  //   ).subscribe(() => {
+  //     this.resetQuiz()
+  //     submitQuizSubscription.unsubscribe()
+  //     this.toast.success({detail: "Success",summary: "New quiz-list uploaded!", duration: 3000});
+  //   });
+  // }
 
   async initializeNewQuiz(quiz: QuizModel) {
     this.resetQuiz()
@@ -269,31 +269,31 @@ export class QuizListComponent implements OnInit {
     this.resetQuiz()
   }
 
-  deleteQuiz(quiz: QuizzesDTO) {
-    const deleteQuizSubscription = this.auth.getUserID(this.auth.getUsername()).subscribe({
-      next:userID => {
-        this.group.getUserRole(userID, quiz.groupID!).subscribe({
-          next: role => {
-            this.quiz.deleteQuiz(quiz, userID, role).subscribe({
-              next:res => {
-                this.toast.success({detail:"Success", summary: res.message, duration: 3000})
-                deleteQuizSubscription.unsubscribe()
-              },
-              error:err => {
-                this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-              }
-            })
-          },
-          error:err => {
-            this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-          }
-        })
-      },
-      error:err => {
-        this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
-      }
-    })
-  }
+  // deleteQuiz(quiz: QuizzesDTO) {
+  //   const deleteQuizSubscription = this.auth.getUserID(this.auth.getUsername()).subscribe({
+  //     next:userID => {
+  //       this.group.getUserRole(userID, quiz.groupID!).subscribe({
+  //         next: role => {
+  //           this.quiz.deleteQuiz(quiz, userID, role).subscribe({
+  //             next:res => {
+  //               this.toast.success({detail:"Success", summary: res.message, duration: 3000})
+  //               deleteQuizSubscription.unsubscribe()
+  //             },
+  //             error:err => {
+  //               this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+  //             }
+  //           })
+  //         },
+  //         error:err => {
+  //           this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+  //         }
+  //       })
+  //     },
+  //     error:err => {
+  //       this.toast.error({detail:"Error", summary: err.error.message, duration: 3000})
+  //     }
+  //   })
+  // }
 
   private getDismissReason(reason: any): string {
     sessionStorage.setItem('quiz-list', 'none')
@@ -313,7 +313,7 @@ export class QuizListComponent implements OnInit {
     this.modalService.dismissAll()
   }
 
-  openConfirmationDialog(quiz: QuizzesDTO): void {
-    this.deleteQuiz(quiz);
-  }
+  // openConfirmationDialog(quiz: QuizzesDTO): void {
+  //   this.deleteQuiz(quiz);
+  // }
 }

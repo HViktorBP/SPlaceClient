@@ -1,6 +1,6 @@
 <div class="mesgs">
   <div #scrollMe class="msg_history">
-    <ng-container *ngFor="let message of groupDataService.groupMessages| async">
+    <ng-container *ngFor="let message of groupDataService.groupMessagesAsync| async">
       <div
         [ngClass]="{'incoming_msg': message.userId != loggedInUserName, 'outgoing_msg': message.userId === loggedInUserName}">
         <div *ngIf="message.userId != loggedInUserName" class="incoming_msg_img">
@@ -21,11 +21,11 @@
   </div>
   <div class="type_msg">
     <div class="input_msg_write">
-      <!--      <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"-->
-      <!--             placeholder="Type a message" />-->
-      <!--      <button [disabled]="inputMessage.trim().length == 0" (click)="sendMessage()" class="msg_send_btn" type="button">-->
+      <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"
+           placeholder="Type a message" />
+      <button [disabled]="inputMessage.trim().length == 0" (click)="sendMessage()" class="msg_send_btn" type="button">
       <p>Send</p>
-      <!--      </button>-->
+            </button>
     </div>
   </div>
 </div>

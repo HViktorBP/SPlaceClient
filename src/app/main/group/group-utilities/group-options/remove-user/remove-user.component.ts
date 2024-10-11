@@ -4,7 +4,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUserMinus} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule, NgForm} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserService} from "../../../../../services/user.service";
+import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {GroupHubService} from "../../../../../services/group-hub.service";
@@ -13,6 +13,7 @@ import {Subscription} from "rxjs";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {AddUser} from "../../../../../contracts/group/add-user";
 import {RemoveUser} from "../../../../../contracts/group/remove-user";
+import {GroupDataService} from "../../../../../states/group-data.service";
 
 @Component({
   selector: 'app-remove-user',
@@ -28,8 +29,9 @@ import {RemoveUser} from "../../../../../contracts/group/remove-user";
 export class RemoveUserComponent {
   icon = faUserMinus;
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private groupDataService : GroupDataService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private route : ActivatedRoute) {
@@ -47,7 +49,7 @@ export class RemoveUserComponent {
   }
 
   onSubmit(form: NgForm) {
-    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     const removeUserRequest : RemoveUser = {

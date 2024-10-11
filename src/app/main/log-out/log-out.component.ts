@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UserService} from "../../services/user.service";
+import {UsersService} from "../../services/users.service";
 import {PopUpService} from "../../services/pop-up.service";
 import {faDoorOpen} from "@fortawesome/free-solid-svg-icons/faDoorOpen";
 import {Router} from "@angular/router";
@@ -20,7 +20,7 @@ import {Router} from "@angular/router";
 export class LogOutComponent {
   icon = faDoorOpen
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               public popUpService : PopUpService,
               private router : Router) {
   }

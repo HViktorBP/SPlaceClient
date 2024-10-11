@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserService} from "../../../../../services/user.service";
+import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
@@ -8,6 +8,7 @@ import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroup} from "../../../../../contracts/group/rename-group";
+import {GroupDataService} from "../../../../../states/group-data.service";
 
 @Component({
   selector: 'app-rename-group',
@@ -24,10 +25,11 @@ import {RenameGroup} from "../../../../../contracts/group/rename-group";
 export class RenameGroupComponent {
   icon = faPenToSquare
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               private groupService : GroupsService,
               public popUpService : PopUpService,
               private toast : NgToastService,
+              private groupDataService : GroupDataService,
               private route : ActivatedRoute) { }
 
   open(content: any) {
@@ -42,7 +44,7 @@ export class RenameGroupComponent {
   }
 
   onSubmit(form: NgForm) {
-    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     const renameGroupRequest : RenameGroup = {

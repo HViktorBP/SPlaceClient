@@ -1,6 +1,6 @@
 <div>
   <h3>Participants:</h3>
   <ul>
-    <li *ngFor="let users of groupDataService.userList | async">{{users}}</li>
+    <li *ngFor="let users of groupDataService.userListAsync | async">{{users}}</li>
   </ul>
 </div>

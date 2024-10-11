@@ -1,0 +1,4 @@
+<p class="groups">Some of your scores:</p>
+<ul>
+  <li *ngFor="let score of userData.userScoresAsync | async"> {{score.quizName}} - {{score.score}} </li>
+</ul>

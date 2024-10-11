@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
-import {QuizInfoComponent} from "./quiz-info/quiz-info.component";
-import {GroupsInfoComponent} from "./groups-info/groups-info.component";
+import {CreatedQuizzesComponent} from "./created-quizzes/created-quizzes.component";
+import {CreatedGroupsComponent} from "./created-groups/created-groups.component";
+import {UserScoresComponent} from "./user-scores/user-scores.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    QuizInfoComponent,
-    GroupsInfoComponent
+    CreatedQuizzesComponent,
+    CreatedGroupsComponent,
+    UserScoresComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

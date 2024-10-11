@@ -9,6 +9,9 @@ import {MessageDto} from "../dtos/message/message-dto";
 })
 
 export class GroupDataService {
+  private currentGroupIdSubject = new BehaviorSubject<number>(0);
+  currentGroupId$ = this.currentGroupIdSubject.asObservable();
+
   private userCountSubject = new BehaviorSubject<number>(0);
   userCount$ = this.userCountSubject.asObservable();
 
@@ -33,7 +36,7 @@ export class GroupDataService {
     this.userCountSubject.next(count)
   }
 
-  get userCount() {
+  get userCountAsync() {
     return this.userCount$
   }
 
@@ -41,7 +44,7 @@ export class GroupDataService {
     this.userListSubject.next(users)
   }
 
-  get userList() {
+  get userListAsync() {
     return this.userList$
   }
 
@@ -49,7 +52,7 @@ export class GroupDataService {
     this.groupNameSubject.next(groupName)
   }
 
-  get groupName() {
+  get groupNameAsync() {
     return this.groupName$
   }
 
@@ -57,7 +60,7 @@ export class GroupDataService {
     this.quizListSubject.next(quizzesList)
   }
 
-  get quizzesList() {
+  get quizzesListAsync() {
     return this.quizList$
   }
 
@@ -65,16 +68,28 @@ export class GroupDataService {
     this.groupMessagesSubject.next(messages)
   }
 
-  get groupMessages() {
+  get groupMessagesAsync() {
     return this.groupMessages$
+  }
+
+  get groupMessages() {
+    return this.groupMessagesSubject.value
   }
 
   updateUserRole(role : Role) {
     this.userRoleSubject.next(role)
   }
 
-  get userRole() {
+  get userRoleAsync() {
     return this.userRole$
+  }
+
+  updateUserCurrentGroupId(id : number){
+    this.currentGroupIdSubject.next(id);
+  }
+
+  get currentGroupId() {
+    return this.currentGroupIdSubject.value
   }
 
   // updateGroupDisplay(groupId : number) {

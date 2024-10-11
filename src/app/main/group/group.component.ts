@@ -9,8 +9,9 @@ import {GroupHubService} from "../../services/group-hub.service";
 import {forkJoin, Subscription, switchMap} from "rxjs";
 import {GroupsService} from "../../services/groups.service";
 import {GroupDataService} from "../../states/group-data.service";
-import {UserService} from "../../services/user.service";
+import {UsersService} from "../../services/users.service";
 import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.component";
+import {ApplicationHubService} from "../../services/application-hub.service";
 
 @Component({
   selector: 'app-group',
@@ -31,10 +32,9 @@ import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.compone
 export class GroupComponent implements OnInit, OnDestroy{
   routeSubscription !: Subscription;
 
-  constructor(private groupHub : GroupHubService,
-              private route : ActivatedRoute,
+  constructor(private route : ActivatedRoute,
               private groupsService : GroupsService,
-              private userService : UserService,
+              private userService : UsersService,
               private groupDataService : GroupDataService) {
   }
 
@@ -42,7 +42,8 @@ export class GroupComponent implements OnInit, OnDestroy{
     this.routeSubscription = this.route.params
       .pipe(
         switchMap(() => {
-          const groupId = +this.route.snapshot.paramMap.get('id')!;
+          const groupId = +this.route.snapshot.paramMap.get('groupId')!;
+          this.groupDataService.updateUserCurrentGroupId(groupId)
           const userId = this.userService.getUserId();
           return forkJoin({
             group: this.groupsService.getGroup(groupId),
@@ -68,6 +69,7 @@ export class GroupComponent implements OnInit, OnDestroy{
       this.routeSubscription.unsubscribe();
     }
 
+    this.groupDataService.updateUserCurrentGroupId(0)
     console.log('Group destroyed');
   }
 }

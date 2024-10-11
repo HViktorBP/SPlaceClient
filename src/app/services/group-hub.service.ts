@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {UserService} from "./user.service";
+import {UsersService} from "./users.service";
 import {MessageDto} from "../dtos/message/message-dto";
 import * as signalR from "@microsoft/signalr";
 import {forkJoin, map, Observable, switchMap} from "rxjs";
@@ -25,7 +25,7 @@ export class GroupHubService {
     .build()
   // public messages: any[] = []
   // constructor(private http : HttpClient,
-  //             private auth : UserService,
+  //             private auth : UsersService,
   //             private userData : UsersDataService,
   //             private toast : NgToastService,
   //             private quizzes : QuizzesService,

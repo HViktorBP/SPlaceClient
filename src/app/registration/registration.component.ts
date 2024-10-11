@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router} from "@angular/router";
-import {UserService} from "../services/user.service";
+import {UsersService} from "../services/users.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
 import {Subscription} from "rxjs";
@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnDestroy {
   registration !: Subscription;
 
   constructor(private router: Router,
-              private auth : UserService,
+              private auth : UsersService,
               private toast : NgToastService) { }
 
   register(passwordCheck:string) {

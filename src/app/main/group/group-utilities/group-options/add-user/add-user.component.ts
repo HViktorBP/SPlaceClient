@@ -5,11 +5,12 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UserService} from "../../../../../services/user.service";
+import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute} from "@angular/router";
 import {AddUser} from "../../../../../contracts/group/add-user";
 import {PopUpService} from "../../../../../services/pop-up.service";
+import {GroupDataService} from "../../../../../states/group-data.service";
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -24,8 +25,9 @@ import {PopUpService} from "../../../../../services/pop-up.service";
 export class AddUserComponent {
   icon = faUserPlus
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private groupDataService : GroupDataService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private route : ActivatedRoute) {
@@ -43,7 +45,7 @@ export class AddUserComponent {
   }
 
   onSubmit(form: NgForm) {
-    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     const addUserRequest : AddUser = {

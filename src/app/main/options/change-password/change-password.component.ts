@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {UserService} from "../../../services/user.service";
+import {UsersService} from "../../../services/users.service";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
@@ -19,7 +19,7 @@ import {ChangePassword} from "../../../contracts/user/change-password";
 export class ChangePasswordComponent {
   constructor(private popUpService : PopUpService,
               private toast : NgToastService,
-              private userService : UserService) { }
+              private userService : UsersService) { }
 
   open(content: any) {
     this.popUpService.openModal(content).then(

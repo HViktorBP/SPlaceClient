@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
 import {QuizzesDTO} from "../dtos/quizzes-dto";
-import {UserService} from "../services/user.service";
+import {UsersService} from "../services/users.service";
 import {GroupsService} from "../services/groups.service";
 import {User} from "../dtos/user";
 import {QuizzesService} from "../services/quizzes.service";
@@ -35,7 +35,7 @@ export class UsersDataService {
   private userScoresDataSubject: BehaviorSubject<UserScore[]> = new BehaviorSubject<UserScore[]>([])
   userScoresData$ = this.userScoresDataSubject.asObservable()
 
-  constructor(private auth : UserService,
+  constructor(private auth : UsersService,
               private group : GroupsService,
               private quizzes : QuizzesService) { }
 
@@ -51,7 +51,7 @@ export class UsersDataService {
     this.userGroupDataSubject.next(groups)
   }
 
-  public getUserGroups() : Observable<GroupIdentifier[]> {
+  get userGroupsAsync() : Observable<GroupIdentifier[]> {
     return this.userGroupData$
   }
 
@@ -59,40 +59,23 @@ export class UsersDataService {
     this.userCreatedGroupDataSubject.next(createdGroups)
   }
 
+  get createdGroupsAsync() {
+    return this.userCreatedGroupData$
+  }
+
   updateCreatedQuizzesData(createdQuizzes : QuizIdentifier[]) {
     this.userCreatedQuizzesDataSubject.next(createdQuizzes)
+  }
+
+  get createdQuizzesAsync() {
+    return this.userCreatedQuizzesData$
   }
 
   updateUserScores(scores : UserScore[]) {
     this.userScoresDataSubject.next(scores)
   }
 
-  // ----- old ----- //
-
-  updateUserCurrentGroupId(id : number){
-    this.userCurrentGroupIdSubject.next(id);
+  get userScoresAsync() {
+    return this.userScoresData$
   }
-
-  get getUserCurrentGroupId() {
-    return this.userCurrentGroupIdSubject.value;
-  }
-
-  updateGroupsList(username : string) {
-    this.updateGroupData([])
-    this.auth.getUserID(username).pipe(
-      switchMap(userID => this.group.getGroups(userID)),
-      switchMap(groups => {
-        const observables: Observable<{ name: string; id: number }>[] = groups.map(groupID => {
-          return this.group.getGroupById(groupID).pipe(
-            map(groupName => ({ id: groupID, name: groupName }))
-          );
-        });
-        return forkJoin(observables);
-      })
-    ).subscribe(groupInfos => {
-      this.updateGroupData(groupInfos)
-    })
-  }
-
-
 }

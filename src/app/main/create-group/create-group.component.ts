@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {GroupsService} from "../../services/groups.service";
-import {UserService} from "../../services/user.service";
+import {UsersService} from "../../services/users.service";
 import {CreateGroup} from "../../contracts/group/create-group";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
@@ -19,7 +19,7 @@ export class CreateGroupComponent {
   constructor(private groupService : GroupsService,
               private popUpService : PopUpService,
               private toast : NgToastService,
-              private userService : UserService) {
+              private userService : UsersService) {
 
   }
 

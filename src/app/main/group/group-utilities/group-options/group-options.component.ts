@@ -38,7 +38,7 @@ export class GroupOptionsComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
-    this.roleSubscription = this.groupDataService.userRole.subscribe(role => {
+    this.roleSubscription = this.groupDataService.userRoleAsync.subscribe(role => {
       this.setUserRole(role)
     })
   }
@@ -48,7 +48,7 @@ export class GroupOptionsComponent implements OnInit, OnDestroy{
     this.roleSubscription.unsubscribe()
   }
 
-  private   setUserRole(role: Role) {
+  private setUserRole(role: Role) {
     switch (role) {
       case Role.Creator:
         this.isCreator = true;

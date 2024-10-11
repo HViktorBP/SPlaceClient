@@ -1,7 +1,7 @@
 import {Component, OnDestroy, signal} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {UserService} from "../services/user.service";
+import {UsersService} from "../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {Subscription} from "rxjs";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -39,7 +39,7 @@ export class LoginComponent implements OnDestroy{
   authorisation !: Subscription;
 
   constructor(private router: Router,
-              private userService: UserService,
+              private userService: UsersService,
               private toast: NgToastService) {
   }
 

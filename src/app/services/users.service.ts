@@ -12,7 +12,7 @@ import {ChangeStatus} from "../contracts/user/change-status";
   providedIn: 'root'
 })
 
-export class UserService {
+export class UsersService {
   private baseUrl:string = "https://localhost:7149/api/Users/"
 
   constructor(private http : HttpClient) { }
@@ -28,6 +28,7 @@ export class UserService {
   storeUserData(token: string) {
     const decodedJwt : any = this.decodeJwtToken(token)
     sessionStorage.setItem("userId", decodedJwt['userId'])
+    sessionStorage.setItem("userName", decodedJwt['userName'])
     sessionStorage.setItem("token", token)
   }
 
@@ -49,6 +50,16 @@ export class UserService {
     }
 
     return parsedUserId;
+  }
+
+  getUserName() : string {
+    const userName = sessionStorage.getItem('userName');
+
+    if (userName === null) {
+      throw new Error("No ID stored in localStorage");
+    }
+
+    return userName;
   }
 
   changeUsername(userDataChange : ChangeUsername) {

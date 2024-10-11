@@ -10,7 +10,7 @@ import {Observable, Subscription} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {UserService} from "../services/user.service";
+import {UsersService} from "../services/users.service";
 import {UsersDataService} from "../states/users-data.service";
 import {ApplicationHubService} from "../services/application-hub.service";
 import {NgToastService} from "ng-angular-popup";
@@ -48,11 +48,10 @@ export class MainComponent implements OnInit, OnDestroy{
       shareReplay()
     );
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               public userDataService : UsersDataService,
               private applicationHub : ApplicationHubService,
               private toast : NgToastService) {
-    this.applicationHub.start().then(()=> {console.log('Connected to the app hub!')})
   }
 
   ngOnInit() {
@@ -66,6 +65,28 @@ export class MainComponent implements OnInit, OnDestroy{
         this.userDataService.updateCreatedGroupData(user.createdGroups)
         this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
         this.userDataService.updateUserScores(user.scores)
+
+        this.applicationHub.start().then(
+          () => {
+            console.log('Connected to the application hub!')
+            this.applicationHub.addUserConnection(this.userService.getUserName()).then(
+              () => {
+                console.log('Connection established!')
+                user.groups.forEach(g => {
+                  this.applicationHub.setGroupConnection(g.id).catch(
+                    (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+                  )
+                })
+              }
+            ).catch(
+              (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+            ).finally(
+              () => console.log('Connection to groups established!')
+            )
+          }
+        ).catch(
+          (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+        )
       })
     } catch (e : any) {
       this.toast.error({detail: "Error", summary: e, duration: 3000})

@@ -3,7 +3,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faTrashArrowUp} from "@fortawesome/free-solid-svg-icons/faTrashArrowUp";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersDataService} from "../../../../../states/users-data.service";
-import {UserService} from "../../../../../services/user.service";
+import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {GroupHubService} from "../../../../../services/group-hub.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {ChangeRole} from "../../../../../contracts/group/change-role";
 import {UserGroup} from "../../../../../contracts/group/user-group";
+import {GroupDataService} from "../../../../../states/group-data.service";
 
 @Component({
   selector: 'app-delete-group',
@@ -27,8 +28,9 @@ import {UserGroup} from "../../../../../contracts/group/user-group";
 export class DeleteGroupComponent {
   icon = faTrashArrowUp
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private groupDataService : GroupDataService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private route : ActivatedRoute,
@@ -47,7 +49,7 @@ export class DeleteGroupComponent {
   }
 
   onSubmit() {
-    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     const deleteGroupRequest : UserGroup = {

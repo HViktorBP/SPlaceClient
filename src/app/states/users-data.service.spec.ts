@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule} from "@angular/common/http/testing";
 import { UsersDataService } from './users-data.service';
-import { UserService } from '../services/user.service';
+import { UsersService } from '../services/users.service';
 import { GroupsService } from '../services/groups.service';
 import { QuizzesService } from '../services/quizzes.service';
 
@@ -29,7 +29,7 @@ describe('UsersDataService subjects testing', () => {
     TestBed.configureTestingModule({
       providers: [
         UsersDataService,
-        { provide: UserService, useValue: userServiceMock },
+        { provide: UsersService, useValue: userServiceMock },
         { provide: GroupsService, useValue: groupsServiceMock },
         { provide: QuizzesService, useValue: quizzesServiceMock }
       ]

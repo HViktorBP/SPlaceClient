@@ -4,13 +4,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
-import {UserService} from "../../../../../services/user.service";
+import {UsersService} from "../../../../../services/users.service";
 import {GroupHubService} from "../../../../../services/group-hub.service";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {AddUser} from "../../../../../contracts/group/add-user";
 import {UserGroup} from "../../../../../contracts/group/user-group";
+import {GroupDataService} from "../../../../../states/group-data.service";
 
 @Component({
   selector: 'app-leave-group',
@@ -27,8 +28,9 @@ import {UserGroup} from "../../../../../contracts/group/user-group";
 export class LeaveGroupComponent {
   icon = faRightFromBracket
 
-  constructor(private userService : UserService,
+  constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private groupDataService : GroupDataService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private route : ActivatedRoute,
@@ -47,7 +49,7 @@ export class LeaveGroupComponent {
   }
 
   onSubmit() {
-    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     const leaveGroupRequest : UserGroup = {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
@@ -6,7 +6,7 @@ import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {UsersDataService} from "../../../states/users-data.service";
 
 @Component({
-  selector: 'app-groups-info',
+  selector: 'app-created-groups',
   standalone: true,
   imports: [
     NgForOf,
@@ -15,15 +15,13 @@ import {UsersDataService} from "../../../states/users-data.service";
     SlicePipe,
     FaIconComponent
   ],
-  templateUrl: './groups-info.component.html',
-  styleUrl: './groups-info.component.scss'
+  templateUrl: './created-groups.component.html',
+  styleUrl: './created-groups.component.scss'
 })
-export class GroupsInfoComponent implements OnInit {
+export class CreatedGroupsComponent {
   icon = faUsers
 
   constructor(public userData : UsersDataService) {
 
-  }
-  ngOnInit(): void {
   }
 }
