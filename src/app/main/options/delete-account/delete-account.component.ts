@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {UsersService} from "../../../services/users.service";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 
@@ -22,7 +22,7 @@ export class DeleteAccountComponent {
 
   open(content: any) {
     this.popUpService.openModal(content).then(
-      (result) => {
+      () => {
         this.onSubmit();
       },
       (reason) => {

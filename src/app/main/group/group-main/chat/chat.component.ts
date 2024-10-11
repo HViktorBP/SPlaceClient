@@ -3,9 +3,7 @@ import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@an
 import {UsersService} from "../../../../services/users.service";
 import {GroupDataService} from "../../../../states/group-data.service";
 import {FormsModule} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
 import {MessagesService} from "../../../../services/messages.service";
-import {MessageDto} from "../../../../dtos/message/message-dto";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {SaveMessage} from "../../../../contracts/message/save-message";
@@ -33,8 +31,7 @@ export class ChatComponent implements OnInit {
               private userService : UsersService,
               private applicationHub : ApplicationHubService,
               public groupDataService : GroupDataService,
-              private toast : NgToastService,
-              private route : ActivatedRoute) {
+              private toast : NgToastService) {
   }
 
   ngOnInit() {
