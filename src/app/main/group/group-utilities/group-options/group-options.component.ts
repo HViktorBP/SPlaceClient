@@ -1,4 +1,4 @@
-import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AddUserComponent} from "./add-user/add-user.component";
 import {RemoveUserComponent} from "./remove-user/remove-user.component";
 import {LeaveGroupComponent} from "./leave-group/leave-group.component";
