@@ -1,0 +1,29 @@
+<fa-icon [icon]="icon" title="Change user's role" (click)="open(content)"></fa-icon>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change role</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit(changeRole)" #changeRole="ngForm">
+      <div class="user-name">
+        <label for="user-name">User's name:</label>
+        <input type="text" id="user-name" name="userName" ngModel required>
+      </div>
+      <div class="user-role">
+        <label for="user-role">User's role:</label>
+        <select id="user-role" name="userRole" ngModel required>
+          <option value="1">Administrator</option>
+          <option value="2">Moderator</option>
+          <option value="3">Participant</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button type="submit" [disabled]="!changeRole.valid">Change</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

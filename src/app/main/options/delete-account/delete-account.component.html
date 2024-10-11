@@ -1,1 +1,20 @@
-<p>delete-account works!</p>
+<button (click)="open(content)">
+  Delete account
+</button>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete account</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit()">
+      <h2>You sure you want to delete your account?</h2>
+      <div class="buttons">
+        <button type="submit">Delete</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

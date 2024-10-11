@@ -4,7 +4,9 @@ import {User} from "../dtos/user";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import {UserAccount} from "../dtos/user/user-account";
 import {Observable} from "rxjs";
-import {UserDataChange} from "../dtos/user/user-data-change";
+import {ChangeUsername} from "../contracts/user/change-username";
+import {ChangePassword} from "../contracts/user/change-password";
+import {ChangeStatus} from "../contracts/user/change-status";
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +27,8 @@ export class UserService {
 
   storeUserData(token: string) {
     const decodedJwt : any = this.decodeJwtToken(token)
-    localStorage.setItem("userId", decodedJwt['userId'])
-    localStorage.setItem("token", token)
+    sessionStorage.setItem("userId", decodedJwt['userId'])
+    sessionStorage.setItem("token", token)
   }
 
   getUserAccount(id : number) : Observable<UserAccount> {
@@ -34,7 +36,7 @@ export class UserService {
   }
 
   getUserId() : number {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId');
 
     if (userId === null) {
       throw new Error("No ID stored in localStorage");
@@ -49,21 +51,46 @@ export class UserService {
     return parsedUserId;
   }
 
-  changeUsername(userDataChange : UserDataChange) {
-    return this.http.put<string>(`${this.baseUrl}username`, {userDataChange})
+  changeUsername(userDataChange : ChangeUsername) {
+    return this.http.put<string>(`${this.baseUrl}username`, userDataChange)
   }
 
-  changePassword(userDataChange : UserDataChange) {
-    return this.http.put<string>(`${this.baseUrl}password`, {userDataChange})
+  changePassword(userDataChange : ChangePassword) {
+    return this.http.put<string>(`${this.baseUrl}password`, userDataChange)
   }
 
-  changeStatus(userDataChange : UserDataChange) {
-    return this.http.put<string>(`${this.baseUrl}status`, {userDataChange})
+  changeStatus(userDataChange : ChangeStatus) {
+    return this.http.put<string>(`${this.baseUrl}status`, userDataChange)
   }
 
   deleteAccount() {
     const userId = this.getUserId();
     return this.http.delete<any>(`${this.baseUrl}${userId}`)
+  }
+
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem("token")
+  }
+
+  logOut(): void {
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("userId")
+  }
+
+  isTokenExpired(): boolean {
+    const token = sessionStorage.getItem("token")
+    if (!token) return true;
+
+    let isTokenExpired : boolean = true
+
+    const decodedJwt = this.decodeJwtToken(token);
+    if (decodedJwt.exp !== undefined)
+      isTokenExpired = Date.now() >= decodedJwt.exp * 1000;
+
+    if (isTokenExpired)
+      this.logOut()
+
+    return isTokenExpired;
   }
 
   // --- old --- //
@@ -84,30 +111,7 @@ export class UserService {
     return sessionStorage.getItem("username")!!
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem("token")
-  }
 
-  logOut(): void {
-    localStorage.removeItem("token")
-    localStorage.removeItem("userId")
-  }
-
-  isTokenExpired(): boolean {
-    const token = localStorage.getItem("token")
-    if (!token) return true;
-
-    let isTokenExpired : boolean = true
-
-    const decodedJwt = this.decodeJwtToken(token);
-    if (decodedJwt.exp !== undefined)
-      isTokenExpired = Date.now() >= decodedJwt.exp * 1000;
-
-    if (isTokenExpired)
-      this.logOut()
-
-    return isTokenExpired;
-  }
 
   private decodeJwtToken(token : string) : JwtPayload {
     try {

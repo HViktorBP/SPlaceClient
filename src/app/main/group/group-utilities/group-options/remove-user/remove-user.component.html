@@ -1,0 +1,21 @@
+<fa-icon [icon]="icon" title="Remove user" (click)="open(content)"></fa-icon>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Remove User</h4>
+    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit(removeUserForm)" #removeUserForm="ngForm">
+      <div class="user-name">
+        <label for="user-name">User's name:</label>
+        <input type="text" id="user-name" name="userName" ngModel required>
+      </div>
+      <div class="buttons">
+        <button type="submit" [disabled]="!removeUserForm.valid">Delete</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

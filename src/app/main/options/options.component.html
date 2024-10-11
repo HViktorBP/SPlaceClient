@@ -1,10 +1,7 @@
 <div>
-  <ul>
-    <li [routerLink]="['change-username']">Change username</li>
-    <li [routerLink]="['change-password']">Change password</li>
-    <li [routerLink]="['change-status']">Change status</li>
-    <li [routerLink]="['about-app']">About app</li>
-    <li [routerLink]="['delete-account']">Delete account</li>
-  </ul>
-  <router-outlet></router-outlet>
+  <app-change-username></app-change-username>
+  <app-change-password></app-change-password>
+  <app-change-status></app-change-status>
+  <app-about-app></app-about-app>
+  <app-delete-account></app-delete-account>
 </div>

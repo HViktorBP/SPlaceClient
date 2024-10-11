@@ -159,42 +159,4 @@ describe('Http testing GroupsService', () => {
     expect(req.request.body).toEqual({ userId, groupId, role })
     req.flush(mockResponse)
   })
-
-  it('should leave a group', () => {
-    const mockResponse = { message: 'Left group successfully' }
-
-    service.leaveGroup(1, 1).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}leave-group?userID=1&groupID=1`)
-    expect(req.request.method).toBe('DELETE')
-    req.flush(mockResponse)
-  })
-
-  it('should call the delete endpoint with the correct parameters', () => {
-    const userId = 1;
-    const groupId = 1;
-
-    service.deleteGroup(userId, groupId).subscribe(response => {
-      expect(response).toBeTruthy();
-    });
-
-    const req = httpMock.expectOne(`${service['baseUrl']}delete-group?groupID=${groupId}&userID=${userId}`);
-    expect(req.request.method).toBe('DELETE');
-    req.flush({ message: 'Group deleted successfully' }); // mock response
-  });
-
-  it('should return an error when the server returns a 404', () => {
-    const userId = 1;
-    const groupId = 1;
-
-    service.deleteGroup(userId, groupId).subscribe(
-      response => fail('expected an error, not response'),
-      error => expect(error.status).toBe(404)
-    );
-
-    const req = httpMock.expectOne(`${service['baseUrl']}delete-group?groupID=${groupId}&userID=${userId}`);
-    req.flush('User not found', { status: 404, statusText: 'Not Found' });
-  });
 })

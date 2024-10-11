@@ -1,0 +1,4 @@
+export interface CreateGroup {
+  userId : number;
+  groupName : string;
+}

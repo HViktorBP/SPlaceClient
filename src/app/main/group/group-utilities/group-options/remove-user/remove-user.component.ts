@@ -1,0 +1,69 @@
+import { Component } from '@angular/core';
+import {NgOptimizedImage} from "@angular/common";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {faUserMinus} from "@fortawesome/free-solid-svg-icons";
+import {FormsModule, NgForm} from "@angular/forms";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {UserService} from "../../../../../services/user.service";
+import {GroupsService} from "../../../../../services/groups.service";
+import {ActivatedRoute} from "@angular/router";
+import {GroupHubService} from "../../../../../services/group-hub.service";
+import {NgToastService} from "ng-angular-popup";
+import {Subscription} from "rxjs";
+import {PopUpService} from "../../../../../services/pop-up.service";
+import {AddUser} from "../../../../../contracts/group/add-user";
+import {RemoveUser} from "../../../../../contracts/group/remove-user";
+
+@Component({
+  selector: 'app-remove-user',
+  standalone: true,
+  imports: [
+    NgOptimizedImage,
+    FaIconComponent,
+    FormsModule
+  ],
+  templateUrl: './remove-user.component.html',
+  styleUrl: './remove-user.component.scss'
+})
+export class RemoveUserComponent {
+  icon = faUserMinus;
+
+  constructor(private userService : UserService,
+              private groupService : GroupsService,
+              public popUpService : PopUpService,
+              private toast : NgToastService,
+              private route : ActivatedRoute) {
+  }
+
+  open(content: any) {
+    this.popUpService.openModal(content).then(
+      (result) => {
+        this.onSubmit(result);
+      },
+      (reason) => {
+        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
+      }
+    );
+  }
+
+  onSubmit(form: NgForm) {
+    const groupId : number = +this.route.snapshot.paramMap.get('id')!
+    const userId : number = this.userService.getUserId()
+
+    const removeUserRequest : RemoveUser = {
+      userId : userId,
+      groupId : groupId,
+      userToDeleteName : form.value.userName,
+    }
+
+    const removeUserSubscription = this.groupService.removeUser(removeUserRequest).subscribe({
+      next : res => {
+        this.toast.success({detail:"Info", summary: res, duration:3000})
+        this.popUpService.dismissThePopup()
+      },
+      error : err => {
+        this.toast.error({detail:"Error", summary: err, duration:3000})
+      }
+    })
+  }
+}

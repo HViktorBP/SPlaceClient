@@ -1,13 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GroupNameComponent} from "./group-name/group-name.component";
+import {GroupNameComponent} from "./group-utilities/group-name/group-name.component";
 import {GroupMainComponent} from "./group-main/group-main.component";
-import {ParticipantsComponent} from "./group-main/participants/participants.component";
-import {GroupOptionsComponent} from "./group-main/group-options/group-options.component";
-import {QuizComponent} from "./group-main/quiz/quiz.component";
-import {ActivatedRoute} from "@angular/router";
+import {ParticipantsComponent} from "./group-utilities/participants/participants.component";
+import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
+import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
+import {ActivatedRoute, RouterOutlet} from "@angular/router";
 import {GroupHubService} from "../../services/group-hub.service";
-import {UsersDataService} from "../../services/users-data.service";
-import {Subscription} from "rxjs";
+import {forkJoin, Subscription, switchMap} from "rxjs";
+import {GroupsService} from "../../services/groups.service";
+import {GroupDataService} from "../../states/group-data.service";
+import {UserService} from "../../services/user.service";
+import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.component";
 
 @Component({
   selector: 'app-group',
@@ -17,7 +20,9 @@ import {Subscription} from "rxjs";
     GroupMainComponent,
     ParticipantsComponent,
     GroupOptionsComponent,
-    QuizComponent
+    QuizListComponent,
+    RouterOutlet,
+    GroupUtilitiesComponent
   ],
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss'
@@ -25,22 +30,44 @@ import {Subscription} from "rxjs";
 
 export class GroupComponent implements OnInit, OnDestroy{
   routeSubscription !: Subscription;
+
   constructor(private groupHub : GroupHubService,
               private route : ActivatedRoute,
-              private usersDataService: UsersDataService) {
+              private groupsService : GroupsService,
+              private userService : UserService,
+              private groupDataService : GroupDataService) {
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe(() => {
-      this.usersDataService.updateGroupDisplay(+this.route.snapshot.paramMap.get('id')!)
-      this.groupHub.getMessages(+this.route.snapshot.paramMap.get('id')!)
-    })
+    this.routeSubscription = this.route.params
+      .pipe(
+        switchMap(() => {
+          const groupId = +this.route.snapshot.paramMap.get('id')!;
+          const userId = this.userService.getUserId();
+          return forkJoin({
+            group: this.groupsService.getGroup(groupId),
+            role: this.groupsService.getRole(userId, groupId)
+          });
+        })
+      )
+      .subscribe({
+        next: ({ group, role }) => {
+          this.groupDataService.updateGroupName(group.name);
+          this.groupDataService.updateUserCount(group.users.length);
+          this.groupDataService.updateUsersList(group.users);
+          this.groupDataService.updateQuizzesList(group.quizzes);
+          this.groupDataService.updateGroupMessages(group.messages);
+          this.groupDataService.updateUserRole(role)
+        },
+        error: (err) => console.error('Failed to load group data:', err)
+      });
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe()
-    this.usersDataService.updateUserRole('')
-    this.usersDataService.updateUserCurrentGroupId(0)
-    console.log('Here')
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+
+    console.log('Group destroyed');
   }
 }

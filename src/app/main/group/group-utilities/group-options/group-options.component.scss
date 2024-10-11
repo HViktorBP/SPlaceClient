@@ -1,0 +1,17 @@
+:host {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width:100%;
+  background-color: #edf2f4;
+  color: #2B2D42;
+  border-radius: 10px;
+  box-shadow: 5px 6px 2px 1px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.child {
+  cursor: pointer;
+  margin: 3px;
+}

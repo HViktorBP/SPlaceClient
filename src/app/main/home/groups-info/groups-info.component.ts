@@ -3,7 +3,7 @@ import {AsyncPipe, NgForOf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
-import {UsersDataService} from "../../../services/users-data.service";
+import {UsersDataService} from "../../../states/users-data.service";
 
 @Component({
   selector: 'app-groups-info',

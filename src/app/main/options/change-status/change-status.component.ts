@@ -1,24 +1,53 @@
 import { Component } from '@angular/core';
 import {UserService} from "../../../services/user.service";
-import {UserDataChange} from "../../../dtos/user/user-data-change";
+import {PopUpService} from "../../../services/pop-up.service";
+import {NgToastService} from "ng-angular-popup";
+import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {ChangeStatus} from "../../../contracts/user/change-status";
 
 @Component({
   selector: 'app-change-status',
   standalone: true,
-  imports: [],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './change-status.component.html',
   styleUrl: './change-status.component.scss'
 })
 export class ChangeStatusComponent {
-  newStatus!: string;
 
-  constructor(private userService : UserService) { }
+  constructor(private popUpService : PopUpService,
+              private toast : NgToastService,
+              private userService : UserService) { }
 
-  onClick() {
-    let userId = this.userService.getUserId();
+  open(content: any) {
+    this.popUpService.openModal(content).then(
+      (result) => {
+        this.onSubmit(result);
+      },
+      (reason) => {
+        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
+      }
+    );
+  }
 
-    let dataToChange : UserDataChange = {userId: userId, dataToChange: this.newStatus};
+  onSubmit(form : NgForm) {
+    const userId = this.userService.getUserId()
 
-    this.userService.changeStatus(dataToChange)
+    const changeStatusRequest : ChangeStatus = {
+      userId : userId,
+      newStatus : form.value.newStatus
+    }
+
+    const changeStatusSubscription = this.userService.changeStatus(changeStatusRequest).subscribe({
+      next : res => {
+        this.toast.success({detail:"Info", summary: res, duration:3000})
+        this.popUpService.dismissThePopup()
+      },
+      error : err => {
+        this.toast.error({detail:"Error", summary: err, duration:3000})
+      }
+    })
   }
 }

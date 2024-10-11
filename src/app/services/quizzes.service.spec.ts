@@ -51,7 +51,7 @@ describe('Http testing QuizzesService', () => {
     req.flush(mockQuizzes)
   })
 
-  it('should submit a new quiz', () => {
+  it('should submit a new quiz-list', () => {
     const mockResponse = { message: 'Quiz added successfully' }
     const quizData = { name: 'New Quiz', questions: [] }
 
@@ -65,7 +65,7 @@ describe('Http testing QuizzesService', () => {
     req.flush(mockResponse)
   })
 
-  it('should retrieve quiz ID', () => {
+  it('should retrieve quiz-list ID', () => {
     const mockQuizId = 1
 
     service.getQuizId(1, 'Quiz 1').subscribe(id => {
@@ -77,7 +77,7 @@ describe('Http testing QuizzesService', () => {
     req.flush(mockQuizId)
   })
 
-  it('should retrieve quiz', () => {
+  it('should retrieve quiz-list', () => {
     const mockQuiz = { id: 1, name: 'Quiz 1', groupId: 1, questions: [] }
 
     service.getQuiz(1, 1).subscribe(quiz => {
@@ -89,7 +89,7 @@ describe('Http testing QuizzesService', () => {
     req.flush(mockQuiz)
   })
 
-  it('should submit quiz result', () => {
+  it('should submit quiz-list result', () => {
     const mockResponse = { message: 'Quiz result submitted successfully' }
     const quizResult = { answers: [] }
 
@@ -103,7 +103,7 @@ describe('Http testing QuizzesService', () => {
     req.flush(mockResponse)
   })
 
-  it('should delete quiz', () => {
+  it('should delete quiz-list', () => {
     const mockResponse = { message: 'Quiz deleted successfully' }
     const quizBody = { name: 'Quiz 1', groupID: 1, creatorID : 1 }
 

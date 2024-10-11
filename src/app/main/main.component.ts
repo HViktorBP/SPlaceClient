@@ -11,9 +11,11 @@ import { map, shareReplay } from 'rxjs/operators';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserService} from "../services/user.service";
-import {UsersDataService} from "../services/users-data.service";
+import {UsersDataService} from "../states/users-data.service";
 import {ApplicationHubService} from "../services/application-hub.service";
 import {NgToastService} from "ng-angular-popup";
+import {CreateGroupComponent} from "./create-group/create-group.component";
+import {LogOutComponent} from "./log-out/log-out.component";
 
 @Component({
   selector: 'app-main',
@@ -32,6 +34,8 @@ import {NgToastService} from "ng-angular-popup";
     NgForOf,
     SlicePipe,
     RouterLink,
+    CreateGroupComponent,
+    LogOutComponent,
   ]
 })
 export class MainComponent implements OnInit, OnDestroy{

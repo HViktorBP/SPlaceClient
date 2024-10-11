@@ -1,0 +1,6 @@
+<app-add-user class="child" *ngIf="isCreator || isAdministrator || isModerator"></app-add-user>
+<app-remove-user class="child" *ngIf="isCreator || isAdministrator || isModerator"></app-remove-user>
+<app-change-role class="child" *ngIf="isCreator|| isAdministrator"></app-change-role>
+<app-rename-group class="child" *ngIf="isCreator"></app-rename-group>
+<app-delete-group class="child" *ngIf="isCreator"></app-delete-group>
+<app-leave-group class="child" *ngIf="!isCreator"></app-leave-group>
