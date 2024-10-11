@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {GroupDataService} from "../states/group-data.service";
-import {ActivatedRoute} from "@angular/router";
 import {MessageDto} from "../dtos/message/message-dto";
 
 @Injectable({
@@ -17,8 +16,7 @@ export class ApplicationHubService {
 
   public messages: any[] = []
 
-  constructor(private groupDataService : GroupDataService,
-              private route : ActivatedRoute) {
+  constructor(private groupDataService : GroupDataService) {
 
       this.connection.on("MessageSent", (messageDto : MessageDto) => {
         const groupId = this.groupDataService.currentGroupId
