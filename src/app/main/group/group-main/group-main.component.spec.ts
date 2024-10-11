@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from "@angular/router/testing";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {RouterTestingModule} from "@angular/router/testing";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-import { GroupMainComponent } from './group-main.component';
+import {GroupMainComponent} from './group-main.component';
 
 describe('GroupMainComponent', () => {
   let component: GroupMainComponent;

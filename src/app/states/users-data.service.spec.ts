@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule} from "@angular/common/http/testing";
-import { UsersDataService } from './users-data.service';
-import { UsersService } from '../services/users.service';
-import { GroupsService } from '../services/groups.service';
-import { QuizzesService } from '../services/quizzes.service';
+import {TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {UsersDataService} from './users-data.service';
+import {UsersService} from '../services/users.service';
+import {GroupsService} from '../services/groups.service';
+import {QuizzesService} from '../services/quizzes.service';
 
 describe('UsersDataService', () => {
   let service: UsersDataService

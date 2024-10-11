@@ -4,13 +4,13 @@ import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule, NgForm} from "@angular/forms";
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute} from "@angular/router";
 import {AddUser} from "../../../../../contracts/group/add-user";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
+
 @Component({
   selector: 'app-add-user',
   standalone: true,

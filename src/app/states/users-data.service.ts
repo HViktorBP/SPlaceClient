@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, forkJoin, map, Observable, switchMap} from "rxjs";
-import {QuizzesDTO} from "../dtos/quizzes-dto";
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from "rxjs";
 import {UsersService} from "../services/users.service";
 import {GroupsService} from "../services/groups.service";
-import {User} from "../dtos/user";
 import {QuizzesService} from "../services/quizzes.service";
 import {GroupIdentifier} from "../dtos/group/group-identifier";
 import {QuizIdentifier} from "../dtos/quiz/quiz-identifier";

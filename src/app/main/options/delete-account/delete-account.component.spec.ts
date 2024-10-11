@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DeleteAccountComponent } from './delete-account.component';
+import {DeleteAccountComponent} from './delete-account.component';
 
 describe('DeleteAccountComponent', () => {
   let component: DeleteAccountComponent;
@@ -11,7 +11,7 @@ describe('DeleteAccountComponent', () => {
       imports: [DeleteAccountComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(DeleteAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

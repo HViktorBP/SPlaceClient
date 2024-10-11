@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {GroupsService} from "../../services/groups.service";
 import {UsersService} from "../../services/users.service";
 import {CreateGroup} from "../../contracts/group/create-group";

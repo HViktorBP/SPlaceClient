@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import {HomeComponent} from './home.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('HomeComponent', () => {

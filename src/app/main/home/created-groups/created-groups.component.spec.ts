@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreatedGroupsComponent } from './created-groups.component';
+import {CreatedGroupsComponent} from './created-groups.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('GroupsInfoComponent', () => {

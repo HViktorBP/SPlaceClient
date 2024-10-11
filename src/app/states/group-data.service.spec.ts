@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { GroupDataService } from './group-data.service';
+import {GroupDataService} from './group-data.service';
 
 describe('GroupDataService', () => {
   let service: GroupDataService;

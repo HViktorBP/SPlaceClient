@@ -5,13 +5,11 @@ import {ParticipantsComponent} from "./group-utilities/participants/participants
 import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
 import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
-import {GroupHubService} from "../../services/group-hub.service";
 import {forkJoin, Subscription, switchMap} from "rxjs";
 import {GroupsService} from "../../services/groups.service";
 import {GroupDataService} from "../../states/group-data.service";
 import {UsersService} from "../../services/users.service";
 import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.component";
-import {ApplicationHubService} from "../../services/application-hub.service";
 
 @Component({
   selector: 'app-group',

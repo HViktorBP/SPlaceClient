@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../../services/users.service";

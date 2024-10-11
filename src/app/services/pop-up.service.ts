@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Injectable({

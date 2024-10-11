@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {GroupMainComponent} from "../group-main/group-main.component";
 import {ParticipantsComponent} from "./participants/participants.component";
 import {GroupOptionsComponent} from "./group-options/group-options.component";

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LeaveGroupComponent } from './leave-group.component';
+import {LeaveGroupComponent} from './leave-group.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('LeaveGroupComponent', () => {

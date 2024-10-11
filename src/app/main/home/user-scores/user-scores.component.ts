@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {UsersDataService} from "../../../states/users-data.service";
 

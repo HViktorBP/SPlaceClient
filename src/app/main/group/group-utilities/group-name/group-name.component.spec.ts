@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GroupNameComponent } from './group-name.component';
+import {GroupNameComponent} from './group-name.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('GroupNameComponent', () => {

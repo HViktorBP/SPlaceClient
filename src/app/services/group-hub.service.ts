@@ -1,16 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {UsersService} from "./users.service";
-import {MessageDto} from "../dtos/message/message-dto";
 import * as signalR from "@microsoft/signalr";
-import {forkJoin, map, Observable, switchMap} from "rxjs";
-import {UsersDataService} from "../states/users-data.service";
-import {NgToastService} from "ng-angular-popup";
-import {QuizzesService} from "./quizzes.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {User} from "../dtos/user";
-import {GroupsService} from "./groups.service";
-import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {UsersDataService} from "../../../../states/users-data.service";
-import {Observable} from "rxjs";
+import {Component} from '@angular/core';
 import {AsyncPipe} from "@angular/common";
 import {GroupDataService} from "../../../../states/group-data.service";
 

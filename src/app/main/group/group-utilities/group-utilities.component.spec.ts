@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GroupUtilitiesComponent } from './group-utilities.component';
+import {GroupUtilitiesComponent} from './group-utilities.component';
 
 describe('GroupInfoComponent', () => {
   let component: GroupUtilitiesComponent;

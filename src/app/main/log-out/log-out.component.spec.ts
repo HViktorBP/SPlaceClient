@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { LogOutComponent } from './log-out.component';
+import {LogOutComponent} from './log-out.component';
 
 describe('LogOutComponent', () => {
   let component: LogOutComponent;
@@ -11,7 +11,7 @@ describe('LogOutComponent', () => {
       imports: [LogOutComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(LogOutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

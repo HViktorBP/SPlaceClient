@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DeleteGroupComponent } from './delete-group.component';
+import {DeleteGroupComponent} from './delete-group.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('DeleteGroupComponent', () => {

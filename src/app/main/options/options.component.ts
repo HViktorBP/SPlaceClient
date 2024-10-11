@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {ChangeUsernameComponent} from "./change-username/change-username.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";

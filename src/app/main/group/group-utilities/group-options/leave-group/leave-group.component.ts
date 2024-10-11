@@ -5,11 +5,9 @@ import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
-import {GroupHubService} from "../../../../../services/group-hub.service";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {AddUser} from "../../../../../contracts/group/add-user";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroup} from "../../../../../contracts/group/user-group";
 import {GroupDataService} from "../../../../../states/group-data.service";
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";

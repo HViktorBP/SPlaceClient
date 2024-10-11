@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ApplicationHubService } from './application-hub.service';
+import {ApplicationHubService} from './application-hub.service';
 import {RouterTestingModule} from "@angular/router/testing";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 

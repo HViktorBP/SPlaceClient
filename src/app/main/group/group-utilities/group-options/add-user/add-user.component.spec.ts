@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddUserComponent } from './add-user.component';
+import {AddUserComponent} from './add-user.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('AddUserComponent', () => {

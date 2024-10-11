@@ -1,18 +1,17 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {QuizzesDTO} from "../../../../dtos/quizzes-dto";
-import {AbstractControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../../../../services/users.service";
 import {GroupsService} from "../../../../services/groups.service";
 import {ActivatedRoute} from "@angular/router";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {QuizModel} from "../../../../dtos/quiz-model";
 import {NgToastService} from "ng-angular-popup";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../states/group-data.service";
 
 @Component({

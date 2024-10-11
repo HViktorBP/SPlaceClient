@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChangeUsernameComponent } from './change-username.component';
+import {ChangeUsernameComponent} from './change-username.component';
 
 describe('ChangeUsernameComponent', () => {
   let component: ChangeUsernameComponent;
@@ -11,7 +11,7 @@ describe('ChangeUsernameComponent', () => {
       imports: [ChangeUsernameComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ChangeUsernameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";

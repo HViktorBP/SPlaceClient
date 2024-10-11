@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {GroupDataService} from "../states/group-data.service";
 import {MessageDto} from "../dtos/message/message-dto";

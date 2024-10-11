@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OptionsComponent } from './options.component';
+import {OptionsComponent} from './options.component';
 
 describe('OptionsComponent', () => {
   let component: OptionsComponent;
@@ -11,7 +11,7 @@ describe('OptionsComponent', () => {
       imports: [OptionsComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(OptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

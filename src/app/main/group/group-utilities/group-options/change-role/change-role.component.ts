@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {faUserPlus} from "@fortawesome/free-solid-svg-icons";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute} from "@angular/router";
-import {AddUser} from "../../../../../contracts/group/add-user";
 import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
 import {ChangeRole} from "../../../../../contracts/group/change-role";
 import {GroupDataService} from "../../../../../states/group-data.service";
