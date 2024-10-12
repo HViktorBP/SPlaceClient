@@ -4,7 +4,7 @@ import {faTrashArrowUp} from "@fortawesome/free-solid-svg-icons/faTrashArrowUp";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroup} from "../../../../../contracts/group/user-group";
@@ -29,7 +29,6 @@ export class DeleteGroupComponent {
               private groupDataService : GroupDataService,
               public popUpService : PopUpService,
               private toast : NgToastService,
-              private route : ActivatedRoute,
               private router : Router) {
   }
 

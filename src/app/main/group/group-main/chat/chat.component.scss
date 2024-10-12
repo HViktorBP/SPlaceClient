@@ -1,108 +1,119 @@
-:host {
-  flex-grow: 6;
-  height: 65vh;
-  font-size: 23px;
+/* Main chat container */
+.msg_history {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  padding-bottom: 60px; /* Adds padding to avoid hiding messages behind the input */
 }
 
-img {
-  max-width: 100%;
+/* Message component layout */
+app-message {
+  margin-bottom: 12px;
 }
 
-.incoming_msg_img {
-  display: inline-block;
-  width: 6%;
+/* Chat input section */
+.type_msg {
+  position: sticky; /* Sticky positioning to stay at the bottom */
+  bottom: 0; /* Sticks to the bottom of its container */
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
 }
 
-.received_msg {
-  display: inline-block;
-  padding: 0 0 0 10px;
-  vertical-align: top;
-  width: 92%;
-}
-
-.received_withd_msg p, .sent_msg p {
-  background-color: #edf2f4;
-  color: #2B2D42;
-  border-radius: 3px;
-  margin: 0;
-  padding: 5px 10px 5px 12px;
+/* Input area */
+.input_msg_write {
+  display: flex;
+  align-items: center;
   width: 100%;
-  overflow-x: auto;
-  text-align: left
-}
-
-.time_date {
-  color: #2B2D42;
-  font-size: 15px;
-  display: block;
-  margin: 8px 0 6px;
-}
-
-.received_withd_msg {
-  width: 40%;
-}
-
-.mesgs {
-  float: left;
-  padding: 40px 30px 10px;
-  width: 90%;
-}
-
-
-.outgoing_msg {
-  overflow: hidden;
-  margin: 8px 0 8px;
-}
-
-.sent_msg {
-  color: #edf2f4;
-  float: right;
-  width: 40%;
 }
 
 .input_msg_write input {
-  background: rgba(0, 0, 0, 0) none repeat scroll;
-  border: none;
-  color: #2B2D42;
-  min-height: 48px;
-  width: 100%;
+  width: 90%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  margin-right: 10px;
 }
 
-.type_msg {
-  border-top: 2px solid #c4c4c4;
-  position: relative;
+.input_msg_write input::placeholder {
+  color: #999;
 }
 
+/* Send button */
 .msg_send_btn {
-  background: #edf2f4 none repeat scroll 0 0;
-  color: #2B2D42;
+  background-color: #4CAF50;
+  color: white;
   border: none;
+  padding: 12px 20px;
+  border-radius: 50%;
   cursor: pointer;
-  height: 33px;
-  position: absolute;
-  right: 4px;
-  top: 8px;
-  width: 8vh;
-  transition: 0.3s;
-  border-radius: 30px;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.msg_send_btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.msg_send_btn p {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .msg_send_btn:hover {
-  background: #2B2D42 none repeat scroll 0 0;
-  color: #edf2f4;
-  transition: 0.3s;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #45a049;
 }
 
-.messaging {
-  padding: 0 0 50px 0;
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
+  /* For smaller screens like tablets and mobile phones */
+  .msg_history {
+    height: 70vh;
+    padding: 8px;
+  }
+
+  .input_msg_write input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .msg_send_btn {
+    padding: 10px 15px;
+  }
+
+  .msg_send_btn p {
+    font-size: 1rem;
+  }
 }
 
-.msg_history {
-  height: 73vh;
-  overflow-y: auto;
-}
+@media only screen and (max-width: 480px) {
+  /* For very small screens */
+  .msg_history {
+    height: 65vh;
+  }
 
-input {
-  border: none;
+  .input_msg_write input {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+
+  .msg_send_btn {
+    padding: 8px 12px;
+  }
+
+  .msg_send_btn p {
+    font-size: 0.9rem;
+  }
 }

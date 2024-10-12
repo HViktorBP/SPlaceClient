@@ -1,0 +1,14 @@
+<div class="message-container">
+  <div class="message-header">
+    <strong class="message-sender">{{ userName }}</strong>
+    <small class="message-timestamp">{{ timestamp | date: 'shortTime' }}</small>
+  </div>
+  <div class="message-content">
+    <p>{{ message }}</p>
+  </div>
+  <div class="message-actions">
+    <p *ngIf="this.edited">Edited</p>
+    <button class="edit-btn" (click)="editMessage()" *ngIf="this.own">Edit</button>
+    <button class="delete-btn" (click)="deleteMessage()" *ngIf="this.own">Delete</button>
+  </div>
+</div>

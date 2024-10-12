@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {UsersService} from "../../../../services/users.service";
 import {GroupDataService} from "../../../../states/group-data.service";
@@ -7,6 +7,7 @@ import {MessagesService} from "../../../../services/messages.service";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {SaveMessage} from "../../../../contracts/message/save-message";
+import {MessageComponent} from "./message/message.component";
 
 @Component({
   selector: 'app-chat',
@@ -18,7 +19,8 @@ import {SaveMessage} from "../../../../contracts/message/save-message";
     NgIf,
     NgOptimizedImage,
     NgClass,
-    FormsModule
+    FormsModule,
+    MessageComponent
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -26,6 +28,8 @@ import {SaveMessage} from "../../../../contracts/message/save-message";
 export class ChatComponent implements OnInit {
   loggedInUserName!: number;
   inputMessage= ''
+
+  @ViewChild('messageContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
 
   constructor(private messagesService : MessagesService,
               private userService : UsersService,
