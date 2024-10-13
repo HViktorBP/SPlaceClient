@@ -5,4 +5,5 @@ export interface MessageDto {
   groupId: number;
   message: string;
   timestamp: Date;
+  isEdited : boolean
 }

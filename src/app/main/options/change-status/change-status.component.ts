@@ -4,6 +4,7 @@ import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {ChangeStatus} from "../../../contracts/user/change-status";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-change-status',
@@ -40,14 +41,16 @@ export class ChangeStatusComponent {
       newStatus : form.value.newStatus
     }
 
-    const changeStatusSubscription = this.userService.changeStatus(changeStatusRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.userService.changeStatus(changeStatusRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

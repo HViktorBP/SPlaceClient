@@ -4,6 +4,7 @@ import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {ChangeUsername} from "../../../contracts/user/change-username";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-change-username',
@@ -40,14 +41,16 @@ export class ChangeUsernameComponent {
       newUsername : form.value.newUsername
     }
 
-    const changeUsernameSubscription = this.userService.changeUsername(changeUsernameRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.userService.changeUsername(changeUsernameRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

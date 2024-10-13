@@ -9,6 +9,7 @@ import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroup} from "../../../../../contracts/group/user-group";
 import {GroupDataService} from "../../../../../states/group-data.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-delete-group',
@@ -52,16 +53,18 @@ export class DeleteGroupComponent {
       groupId : groupId,
     }
 
-    const deleteGroupSubscription = this.groupService.deleteGroup(deleteGroupRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.router.navigate(['main/home']).then(
-          () => this.popUpService.dismissThePopup()
-        )
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.groupService.deleteGroup(deleteGroupRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.router.navigate(['main/home']).then(
+            () => this.popUpService.dismissThePopup()
+          )
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

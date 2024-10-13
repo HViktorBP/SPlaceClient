@@ -9,6 +9,7 @@ import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {RemoveUser} from "../../../../../contracts/group/remove-user";
 import {GroupDataService} from "../../../../../states/group-data.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-remove-user',
@@ -52,14 +53,16 @@ export class RemoveUserComponent {
       userToDeleteName : form.value.userName,
     }
 
-    const removeUserSubscription = this.groupService.removeUser(removeUserRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.groupService.removeUser(removeUserRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

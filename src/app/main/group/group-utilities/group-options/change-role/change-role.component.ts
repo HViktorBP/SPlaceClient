@@ -8,6 +8,7 @@ import {NgToastService} from "ng-angular-popup";
 import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
 import {ChangeRole} from "../../../../../contracts/group/change-role";
 import {GroupDataService} from "../../../../../states/group-data.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-change-role',
@@ -52,14 +53,16 @@ export class ChangeRoleComponent {
       role : +form.value.userRole
     }
 
-    const changeUserRoleSubscription = this.groupService.changeRole(addUserRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.groupService.changeRole(addUserRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

@@ -8,6 +8,7 @@ import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroup} from "../../../../../contracts/group/rename-group";
 import {GroupDataService} from "../../../../../states/group-data.service";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-rename-group',
@@ -51,14 +52,16 @@ export class RenameGroupComponent {
       newGroupName : form.value.groupName,
     }
 
-    const renameGroupSubscription = this.groupService.renameGroup(renameGroupRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.groupService.renameGroup(renameGroupRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

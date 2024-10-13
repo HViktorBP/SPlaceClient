@@ -4,6 +4,7 @@ import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {ChangePassword} from "../../../contracts/user/change-password";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-change-password',
@@ -40,14 +41,16 @@ export class ChangePasswordComponent {
       newPassword : form.value.newPassword
     }
 
-    const changePasswordSubscription = this.userService.changePassword(changePasswordRequest).subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.userService.changePassword(changePasswordRequest)
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }

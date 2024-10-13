@@ -3,6 +3,7 @@ import {UsersService} from "../../../services/users.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-delete-account',
@@ -32,14 +33,16 @@ export class DeleteAccountComponent {
   }
 
   onSubmit() {
-    const deleteAccountSubscription = this.userService.deleteAccount().subscribe({
-      next : res => {
-        this.toast.success({detail:"Info", summary: res, duration:3000})
-        this.popUpService.dismissThePopup()
-      },
-      error : err => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
-    })
+    this.userService.deleteAccount()
+      .pipe(take(1))
+      .subscribe({
+        next : res => {
+          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.popUpService.dismissThePopup()
+        },
+        error : err => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
+      })
   }
 }
