@@ -112,7 +112,7 @@ export class GroupHubService {
   //       const exists = groupData.find(group => group.id == groupID)?.name
   //       if (exists != undefined) {
   //         this.userData.updateGroupsList(this.auth.getUsername())
-  //         this.toast.info({detail:"Info", summary: `Group ${exists} was deleted!`, duration: 3000})
+  //         this.toast.info({detail:"Info", summary: `GroupDto ${exists} was deleted!`, duration: 3000})
   //       }
   //     })
   //   })

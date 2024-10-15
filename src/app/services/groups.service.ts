@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Group} from "../dtos/group/group";
+import {GroupDto} from "../dtos/group/group-dto";
 import {Role} from "../enums/role";
-import {ChangeRole} from "../contracts/group/change-role";
-import {CreateGroup} from "../contracts/group/create-group";
-import {AddUser} from "../contracts/group/add-user";
-import {RenameGroup} from "../contracts/group/rename-group";
-import {UserGroup} from "../contracts/group/user-group";
-import {RemoveUser} from "../contracts/group/remove-user";
+import {ChangeRoleRequest} from "../contracts/group/change-role-request";
+import {CreateGroupRequest} from "../contracts/group/create-group-request";
+import {AddUserRequest} from "../contracts/group/add-user-request";
+import {RenameGroupRequest} from "../contracts/group/rename-group-request";
+import {UserGroupRequest} from "../contracts/group/user-group-request";
+import {RemoveUserRequest} from "../contracts/group/remove-user-request";
 
 @Injectable({
   providedIn: 'root'
@@ -19,42 +19,38 @@ export class GroupsService {
   constructor(private http : HttpClient) { }
 
   getGroup(id:number) {
-    return this.http.get<Group>(`${this.baseUrl}${id}`)
+    return this.http.get<GroupDto>(`${this.baseUrl}${id}`)
   }
 
   getRole(userId : number, groupId : number) {
     return this.http.get<Role>(`${this.baseUrl}role?userId=${userId}&groupId=${groupId}`)
   }
 
-  // getCreator(id:number) {
-  //   return this.http.get<number>(`${this.baseUrl}creator`)
-  // }
-
-  changeRole(changeRoleRequest : ChangeRole) {
+  changeRole(changeRoleRequest : ChangeRoleRequest) {
     return this.http.put<string>(`${this.baseUrl}role`, changeRoleRequest)
   }
 
-  createGroup (createGroupRequest : CreateGroup) {
+  createGroup (createGroupRequest : CreateGroupRequest) {
     return this.http.post<string>(`${this.baseUrl}create`, createGroupRequest)
   }
 
-  addUser (addUserRequest : AddUser) {
+  addUser (addUserRequest : AddUserRequest) {
     return this.http.post<string>(`${this.baseUrl}add`, addUserRequest)
   }
 
-  renameGroup (renameGroupRequest : RenameGroup) {
+  renameGroup (renameGroupRequest : RenameGroupRequest) {
     return this.http.put<string>(`${this.baseUrl}rename`, renameGroupRequest)
   }
 
-  leaveGroup(leaveGroupRequest : UserGroup) {
+  leaveGroup(leaveGroupRequest : UserGroupRequest) {
     return this.http.delete<string>(`${this.baseUrl}rename`, {"body": leaveGroupRequest})
   }
 
-  removeUser(removeUserRequest : RemoveUser) {
+  removeUser(removeUserRequest : RemoveUserRequest) {
     return this.http.delete<string>(`${this.baseUrl}remove`, {"body" : removeUserRequest})
   }
 
-  deleteGroup(deleteGroupRequest : UserGroup) {
+  deleteGroup(deleteGroupRequest : UserGroupRequest) {
     return this.http.delete<string>(`${this.baseUrl}group`, {"body" : deleteGroupRequest})
   }
 

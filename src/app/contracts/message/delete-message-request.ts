@@ -1,4 +1,4 @@
-export interface DeleteMessage {
+export interface DeleteMessageRequest {
   userId: number;
   groupId: number;
   messageId: number;

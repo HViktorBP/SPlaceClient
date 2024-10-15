@@ -3,7 +3,7 @@ import {UsersService} from "../../../services/users.service";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {ChangeUsername} from "../../../contracts/user/change-username";
+import {ChangeUsernameRequest} from "../../../contracts/user/change-username-request";
 import {take} from "rxjs";
 
 @Component({
@@ -36,7 +36,7 @@ export class ChangeUsernameComponent {
   onSubmit(form : NgForm) {
     const userId = this.userService.getUserId()
 
-    const changeUsernameRequest : ChangeUsername = {
+    const changeUsernameRequest : ChangeUsernameRequest = {
       userId : userId,
       newUsername : form.value.newUsername
     }

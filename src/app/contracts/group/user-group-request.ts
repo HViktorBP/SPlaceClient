@@ -1,4 +1,4 @@
-export interface UserGroup {
+export interface UserGroupRequest {
   userId : number;
   groupId : number;
 }

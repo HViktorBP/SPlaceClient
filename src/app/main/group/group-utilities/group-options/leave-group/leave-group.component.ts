@@ -8,7 +8,7 @@ import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UserGroup} from "../../../../../contracts/group/user-group";
+import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 
@@ -51,7 +51,7 @@ export class LeaveGroupComponent {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
-    const leaveGroupRequest : UserGroup = {
+    const leaveGroupRequest : UserGroupRequest = {
       userId : userId,
       groupId : groupId
     }

@@ -1,4 +1,4 @@
-export interface ChangeStatus {
+export interface ChangeStatusRequest {
   userId : number;
   newStatus : string;
 }

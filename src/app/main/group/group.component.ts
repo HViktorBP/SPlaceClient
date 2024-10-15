@@ -68,6 +68,6 @@ export class GroupComponent implements OnInit, OnDestroy{
     }
 
     this.groupDataService.updateUserCurrentGroupId(0)
-    console.log('Group destroyed');
+    console.log('GroupDto destroyed');
   }
 }

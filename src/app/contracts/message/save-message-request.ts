@@ -1,4 +1,4 @@
-export interface SaveMessage {
+export interface SaveMessageRequest {
   userId : number;
   groupId : number;
   message : string

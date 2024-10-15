@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {SaveMessage} from "../contracts/message/save-message";
+import {SaveMessageRequest} from "../contracts/message/save-message-request";
 import {MessageDto} from "../dtos/message/message-dto";
-import {DeleteMessage} from "../contracts/message/delete-message";
+import {DeleteMessageRequest} from "../contracts/message/delete-message-request";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class MessagesService {
 
   constructor(private http : HttpClient) { }
 
-  saveMessage(message: SaveMessage) {
+  saveMessage(message: SaveMessageRequest) {
     return this.http.post<MessageDto>(`${this.baseUrl}save`, message)
   }
 
@@ -20,7 +20,7 @@ export class MessagesService {
     return this.http.put<string>(`${this.baseUrl}edit`, message)
   }
 
-  deleteMessage(message : DeleteMessage) {
+  deleteMessage(message : DeleteMessageRequest) {
     return this.http.delete<string>(`${this.baseUrl}delete`, {"body": message})
   }
 }

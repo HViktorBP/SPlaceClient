@@ -4,9 +4,9 @@ import {User} from "../dtos/user";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import {UserAccount} from "../dtos/user/user-account";
 import {Observable} from "rxjs";
-import {ChangeUsername} from "../contracts/user/change-username";
-import {ChangePassword} from "../contracts/user/change-password";
-import {ChangeStatus} from "../contracts/user/change-status";
+import {ChangeUsernameRequest} from "../contracts/user/change-username-request";
+import {ChangePasswordRequest} from "../contracts/user/change-password-request";
+import {ChangeStatusRequest} from "../contracts/user/change-status-request";
 
 @Injectable({
   providedIn: 'root'
@@ -62,15 +62,15 @@ export class UsersService {
     return userName;
   }
 
-  changeUsername(userDataChange : ChangeUsername) {
+  changeUsername(userDataChange : ChangeUsernameRequest) {
     return this.http.put<string>(`${this.baseUrl}username`, userDataChange)
   }
 
-  changePassword(userDataChange : ChangePassword) {
+  changePassword(userDataChange : ChangePasswordRequest) {
     return this.http.put<string>(`${this.baseUrl}password`, userDataChange)
   }
 
-  changeStatus(userDataChange : ChangeStatus) {
+  changeStatus(userDataChange : ChangeStatusRequest) {
     return this.http.put<string>(`${this.baseUrl}status`, userDataChange)
   }
 

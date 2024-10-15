@@ -50,21 +50,6 @@ describe('Http testing QuizzesService', () => {
     expect(req.request.method).toBe('GET')
     req.flush(mockQuizzes)
   })
-
-  it('should submit a new quiz-list', () => {
-    const mockResponse = { message: 'Quiz added successfully' }
-    const quizData = { name: 'New Quiz', questions: [] }
-
-    service.submitNewQuiz(1, 1, 'admin', quizData).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}add-new-quiz?userID=1&groupID=1&role=admin`)
-    expect(req.request.method).toBe('POST')
-    expect(req.request.body).toEqual(quizData)
-    req.flush(mockResponse)
-  })
-
   it('should retrieve quiz-list ID', () => {
     const mockQuizId = 1
 

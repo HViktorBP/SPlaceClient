@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Create Quiz</h2>
+
+<form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="quiz-name">Quiz Name:</label>
+    <input id="quiz-name" formControlName="name" placeholder="Enter quiz name">
+  </div>
+
+  <div formArrayName="questions">
+    <div *ngFor="let question of questions.controls; let qIndex = index" [formGroupName]="qIndex">
+      <label>Question {{ qIndex + 1 }}:</label>
+      <input formControlName="question" placeholder="Enter question">
+
+      <label>Type:</label>
+      <select formControlName="type">
+        <option value="0">Multiple Choice</option>
+        <option value="1">True/False</option>
+      </select>
+
+      <div formArrayName="answers">
+        <div *ngFor="let answer of getAnswers(qIndex).controls; let aIndex = index" [formGroupName]="aIndex">
+          <label>Answer {{ aIndex + 1 }}:</label>
+          <input formControlName="answer" placeholder="Enter answer">
+          <label>
+            <input type="checkbox" formControlName="status"> Correct
+          </label>
+          <button type="button" (click)="removeAnswer(qIndex, aIndex)">Remove Answer</button>
+        </div>
+
+        <button type="button" (click)="addAnswer(qIndex)">Add Answer</button>
+      </div>
+
+      <button type="button" (click)="removeQuestion(qIndex)">Remove Question</button>
+    </div>
+
+    <button type="button" (click)="addQuestion()">Add Question</button>
+  </div>
+
+  <button type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
+</form>
+
+<button mat-button (click)="closeDialog()">Cancel</button>

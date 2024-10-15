@@ -1,4 +1,4 @@
-export interface ChangeUsername {
+export interface ChangeUsernameRequest {
   userId : number;
   newUsername : string;
 }

@@ -6,7 +6,7 @@ import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {RenameGroup} from "../../../../../contracts/group/rename-group";
+import {RenameGroupRequest} from "../../../../../contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 
@@ -46,7 +46,7 @@ export class RenameGroupComponent {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
-    const renameGroupRequest : RenameGroup = {
+    const renameGroupRequest : RenameGroupRequest = {
       userId : userId,
       groupId : groupId,
       newGroupName : form.value.groupName,

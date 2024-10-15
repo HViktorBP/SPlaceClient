@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {GroupsService} from "../../services/groups.service";
 import {UsersService} from "../../services/users.service";
-import {CreateGroup} from "../../contracts/group/create-group";
+import {CreateGroupRequest} from "../../contracts/group/create-group-request";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../services/pop-up.service";
@@ -37,7 +37,7 @@ export class CreateGroupComponent {
   onSubmit(form : NgForm) {
     const userId = this.userService.getUserId()
 
-    const createGroupRequest : CreateGroup = {
+    const createGroupRequest : CreateGroupRequest = {
       userId : userId,
       groupName : form.value.groupName
     }

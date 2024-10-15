@@ -6,7 +6,7 @@ import {FormsModule} from "@angular/forms";
 import {MessagesService} from "../../../../services/messages.service";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
-import {SaveMessage} from "../../../../contracts/message/save-message";
+import {SaveMessageRequest} from "../../../../contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
 
 @Component({
@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit {
     const userId = this.userService.getUserId()
     const groupId = this.groupDataService.currentGroupId
 
-    const saveMessageRequest : SaveMessage = {
+    const saveMessageRequest : SaveMessageRequest = {
       userId: userId,
       groupId: groupId,
       message: this.inputMessage.trim(),

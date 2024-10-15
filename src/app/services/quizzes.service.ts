@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {QuizzesDTO} from "../dtos/quizzes-dto";
 import {QuizModel} from "../dtos/quiz-model";
+import {CreateQuizRequest} from "../contracts/quiz/create-quiz-request";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class QuizzesService {
     return this.http.get<QuizzesDTO[]>(`${this.baseUrl}quizzes-in-group?groupID=${groupID}`)
   }
 
-  submitNewQuiz(userID: number, groupID: number, role: string, quiz: any) {
-    return this.http.post<any>(`${this.baseUrl}add-new-quiz?userID=${userID}&groupID=${groupID}&role=${role}`, quiz)
+  createNewQuiz(createQuizRequest : CreateQuizRequest) {
+    return this.http.post<any>(`${this.baseUrl}create`, createQuizRequest)
   }
 
   getQuizId(groupID:number, quizName: string) {

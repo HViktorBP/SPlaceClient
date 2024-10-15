@@ -7,7 +7,7 @@ import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
 import {PopUpService} from "../../../../../services/pop-up.service";
-import {RemoveUser} from "../../../../../contracts/group/remove-user";
+import {RemoveUserRequest} from "../../../../../contracts/group/remove-user-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 
@@ -47,7 +47,7 @@ export class RemoveUserComponent {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
-    const removeUserRequest : RemoveUser = {
+    const removeUserRequest : RemoveUserRequest = {
       userId : userId,
       groupId : groupId,
       userToDeleteName : form.value.userName,

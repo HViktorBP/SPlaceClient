@@ -6,7 +6,7 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {AddUser} from "../../../../../contracts/group/add-user";
+import {AddUserRequest} from "../../../../../contracts/group/add-user-request";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
@@ -47,7 +47,7 @@ export class AddUserComponent {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
-    const addUserRequest : AddUser = {
+    const addUserRequest : AddUserRequest = {
       userId : userId,
       groupId : groupId,
       userToAddName : form.value.userName,

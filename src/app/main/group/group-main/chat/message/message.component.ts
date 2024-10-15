@@ -4,7 +4,7 @@ import {MessagesService} from "../../../../../services/messages.service";
 import {UsersService} from "../../../../../services/users.service";
 import {MessageDto} from "../../../../../dtos/message/message-dto";
 import {NgToastService} from "ng-angular-popup";
-import {DeleteMessage} from "../../../../../contracts/message/delete-message";
+import {DeleteMessageRequest} from "../../../../../contracts/message/delete-message-request";
 import {FormsModule} from "@angular/forms";
 import {take} from "rxjs";
 
@@ -76,7 +76,7 @@ export class MessageComponent implements OnInit {
   }
 
   deleteMessage() {
-    const deleteMessage : DeleteMessage = {
+    const deleteMessage : DeleteMessageRequest = {
       userId: this.userId,
       groupId: this.groupId,
       messageId: this.id

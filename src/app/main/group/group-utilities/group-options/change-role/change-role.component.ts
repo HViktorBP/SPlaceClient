@@ -6,7 +6,7 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
-import {ChangeRole} from "../../../../../contracts/group/change-role";
+import {ChangeRoleRequest} from "../../../../../contracts/group/change-role-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 
@@ -46,7 +46,7 @@ export class ChangeRoleComponent {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
-    const addUserRequest : ChangeRole = {
+    const addUserRequest : ChangeRoleRequest = {
       userId : userId,
       groupId : groupId,
       userName : form.value.userName,

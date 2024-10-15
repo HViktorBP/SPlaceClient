@@ -1,6 +1,6 @@
 import {Role} from "../../enums/role";
 
-export interface AddUser {
+export interface AddUserRequest {
   userId : number;
   groupId : number;
   userToAddName : string;

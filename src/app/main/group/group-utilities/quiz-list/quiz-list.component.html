@@ -3,11 +3,10 @@
   <ul>
     <div>
       <div class="quiz-list" *ngFor="let quiz of groupDataService.quizzesListAsync | async">
-<!--        <li (click)="onQuizOpened(quiz-list, quizContent)">{{quiz-list.name}}</li>-->
-<!--        <fa-icon [icon]="trash" title="Remove quiz-list" (click)="openConfirmationDialog(quiz-list)"></fa-icon>-->
+        <li>{{quiz.name}}</li>
       </div>
     </div>
-<!--    <div><p (click)="onAddQuiz(newQuizContent)">Add quiz</p></div>-->
+    <button (click)="createQuiz()">Create quiz</button>
   </ul>
 </div>
 

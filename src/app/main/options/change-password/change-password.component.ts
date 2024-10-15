@@ -3,7 +3,7 @@ import {UsersService} from "../../../services/users.service";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
-import {ChangePassword} from "../../../contracts/user/change-password";
+import {ChangePasswordRequest} from "../../../contracts/user/change-password-request";
 import {take} from "rxjs";
 
 @Component({
@@ -36,7 +36,7 @@ export class ChangePasswordComponent {
   onSubmit(form : NgForm) {
     const userId = this.userService.getUserId()
 
-    const changePasswordRequest : ChangePassword = {
+    const changePasswordRequest : ChangePasswordRequest = {
       userId : userId,
       newPassword : form.value.newPassword
     }
