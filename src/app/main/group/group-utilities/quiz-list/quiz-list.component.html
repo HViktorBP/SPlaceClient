@@ -2,7 +2,7 @@
   <h3> Quizzes </h3>
   <ul>
     <div>
-      <div class="quiz-list" *ngFor="let quiz of groupDataService.quizzesListAsync | async">
+      <div class="quiz-list" *ngFor="let quiz of groupDataService.quizzesListAsync | async" [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">
         <li>{{quiz.name}}</li>
       </div>
     </div>

@@ -5,6 +5,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {MatDialog} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../states/group-data.service";
 import { CreateQuizComponent } from "./create-quiz/create-quiz.component";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-quiz-list',
@@ -17,12 +18,13 @@ import { CreateQuizComponent } from "./create-quiz/create-quiz.component";
     NgIf,
     KeyValuePipe,
     AsyncPipe,
-    FaIconComponent
+    FaIconComponent,
+    RouterLink
   ],
   templateUrl: './quiz-list.component.html',
   styleUrl: './quiz-list.component.scss'
 })
-export class QuizListComponent  {
+export class QuizListComponent {
 
   constructor(public groupDataService : GroupDataService,
               public dialog: MatDialog) {

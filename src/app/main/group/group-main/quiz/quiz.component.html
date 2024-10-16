@@ -1,1 +1,29 @@
-<p>quiz works!</p>
+
+<div class="loading-overlay" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="quizForm" (ngSubmit)="onSubmit()" *ngIf="quizForm && !isLoading">
+  <h1>{{ quizForm.get('name')?.value }}</h1>
+
+  <div formArrayName="questions" *ngFor="let question of questions.controls; let i = index">
+    <div [formGroupName]="i">
+      <h3>Question {{ i + 1 }} : {{ question.get('question')?.value }}</h3>
+
+      <label>Type:</label>
+      <select formControlName="type">
+        <option value="0">Multiple Choice</option>
+        <option value="1">True/False</option>
+      </select>
+
+      <div formArrayName="answers" *ngFor="let answer of getAnswers(i).controls; let j = index">
+        <div [formGroupName]="j">
+          <input type="checkbox" formControlName="status" />
+          <label>{{ answer.get('answer')?.value }} </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!quizForm.valid">Submit Quiz</button>
+</form>
