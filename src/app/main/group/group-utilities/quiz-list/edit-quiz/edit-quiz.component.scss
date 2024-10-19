@@ -1,0 +1,30 @@
+.quiz-editor {
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.question-box, .answer-box {
+  margin-bottom: 15px;
+}
+
+.answer-box {
+  display: flex;
+  align-items: center;
+}
+
+.answer-field {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+form {
+  max-height: 80vh;
+  overflow-y: auto;
+}

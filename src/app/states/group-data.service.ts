@@ -91,37 +91,4 @@ export class GroupDataService {
   get currentGroupId() {
     return this.currentGroupIdSubject.value
   }
-
-  // updateGroupDisplay(groupId : number) {
-  //   this.updateUserCurrentGroupId(groupId)
-  //
-  //   this.group.getUsersInGroup(groupId).pipe(
-  //     switchMap(usersID => {
-  //       const observables: Observable<User>[] = usersID.map(id => this.auth.getUserByID(id))
-  //       return forkJoin(observables).pipe(
-  //         map(usersData => usersData.map(user => user.username))
-  //       )
-  //     })
-  //   ).subscribe(userUsernames => {
-  //     this.updateUsersList(userUsernames);
-  //     this.updateUserCount(userUsernames.length);
-  //   })
-  //
-  //   this.group.getGroupById(groupId).subscribe(res => {
-  //     this.updateGroupName(res);
-  //
-  //     this.auth.getUserID(this.auth.getUsername()).subscribe(userID => {
-  //       this.group.getUserRole(userID, groupId).subscribe(role => {
-  //         this.updateUserRole(role)
-  //         console.log(`${this.auth.getUsername()} is now active!`)
-  //       })
-  //     })
-  //   }, error => {
-  //     console.log("Error occurred while joining chat:", error)
-  //   })
-  //
-  //   this.quizzes.getQuizzesInGroup(groupId).subscribe(quizzesList => {
-  //     this.updateQuizzesList(quizzesList)
-  //   })
-  // }
 }
