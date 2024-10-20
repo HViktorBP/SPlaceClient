@@ -4,12 +4,12 @@ import {faTrashArrowUp} from "@fortawesome/free-solid-svg-icons/faTrashArrowUp";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {Router} from "@angular/router";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-delete-group',
@@ -28,9 +28,9 @@ export class DeleteGroupComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
+              private applicationHubService : ApplicationHubService,
               public popUpService : PopUpService,
-              private toast : NgToastService,
-              private router : Router) {
+              private toast : NgToastService) {
   }
 
   open(content: any) {
@@ -56,15 +56,17 @@ export class DeleteGroupComponent {
     this.groupService.deleteGroup(deleteGroupRequest)
       .pipe(take(1))
       .subscribe({
-        next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
-          this.router.navigate(['main/home']).then(
-            () => this.popUpService.dismissThePopup()
-          )
+        next : () => {
+          this.applicationHubService.deleteGroup(deleteGroupRequest.groupId)
+            .catch(error => {
+              this.toast.success({detail:"Error", summary: error, duration:3000})
+            })
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
+
+    this.popUpService.dismissThePopup();
   }
 }

@@ -10,6 +10,7 @@ import {AddUserRequest} from "../../../../../contracts/group/add-user-request";
 import {PopUpService} from "../../../../../services/pop-up.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-add-user',
@@ -28,8 +29,9 @@ export class AddUserComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
-              public popUpService : PopUpService,
-              private toast : NgToastService) {
+              private toast : NgToastService,
+              private applicationHubService : ApplicationHubService,
+              public popUpService : PopUpService) {
   }
 
   open(content: any) {
@@ -58,7 +60,16 @@ export class AddUserComponent {
       .pipe(take(1))
       .subscribe({
         next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.applicationHubService.addToGroup(addUserRequest.groupId, addUserRequest.userToAddName)
+            .then(
+              () => {
+                this.toast.success({detail:"Info", summary: res, duration:3000})
+              }
+            )
+            .catch(error => {
+              this.toast.success({detail:"Error", summary: error, duration:3000})
+            })
+
           this.popUpService.dismissThePopup()
         },
         error : err => {

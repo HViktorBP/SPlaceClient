@@ -48,14 +48,26 @@ export class GroupUtilitiesComponent implements OnInit, OnDestroy {
     switch (role) {
       case Role.Creator:
         this.isCreator = true;
+        this.isAdministrator = false;
+        this.isModerator = false;
+        this.isParticipant = false;
         break
       case Role.Administrator:
+        this.isCreator = false;
         this.isAdministrator = true;
+        this.isModerator = false;
+        this.isParticipant = false;
         break
       case Role.Moderator:
+        this.isCreator = false;
+        this.isAdministrator = false;
         this.isModerator = true;
+        this.isParticipant = false;
         break
       default:
+        this.isCreator = false;
+        this.isAdministrator = false;
+        this.isModerator = false;
         this.isParticipant = true;
     }
   }

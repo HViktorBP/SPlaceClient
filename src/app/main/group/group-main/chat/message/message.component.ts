@@ -7,6 +7,7 @@ import {NgToastService} from "ng-angular-popup";
 import {DeleteMessageRequest} from "../../../../../contracts/message/delete-message-request";
 import {FormsModule} from "@angular/forms";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-message',
@@ -35,6 +36,7 @@ export class MessageComponent implements OnInit {
 
   constructor(private messagesService : MessagesService,
               private userService : UsersService,
+              private applicationHubService : ApplicationHubService,
               private toast : NgToastService) {
   }
 
@@ -66,7 +68,13 @@ export class MessageComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
       next: (message) => {
-        this.toast.success({detail:"Success", summary: message, duration:3000})
+        this.applicationHubService.editMessage(messageDto)
+          .then(() => {
+            this.toast.success({detail:"Success", summary: message, duration:3000})
+          })
+          .catch(err => {
+            this.toast.error({detail:"Error", summary: err, duration:3000})
+          })
         this.isEditing = false;
       },
       error: (err) => {
@@ -76,21 +84,27 @@ export class MessageComponent implements OnInit {
   }
 
   deleteMessage() {
-    const deleteMessage : DeleteMessageRequest = {
+    const deleteMessageRequest : DeleteMessageRequest = {
       userId: this.userId,
       groupId: this.groupId,
       messageId: this.id
     }
 
-    this.messagesService.deleteMessage(deleteMessage)
+    this.messagesService.deleteMessage(deleteMessageRequest)
       .pipe(take(1))
       .subscribe({
-      next: (message) => {
-        this.toast.success({detail:"Success", summary: message, duration:3000})
-      },
-      error: (err) => {
-        this.toast.error({detail:"Error", summary: err, duration:3000})
-      }
+        next: (message) => {
+          this.applicationHubService.deleteMessage(deleteMessageRequest.groupId, deleteMessageRequest.messageId)
+            .then(() => {
+              this.toast.success({detail:"Success", summary: message, duration:3000})
+            })
+            .catch(err => {
+              this.toast.error({detail:"Error", summary: err, duration:3000})
+            })
+        },
+        error: (err) => {
+          this.toast.error({detail:"Error", summary: err, duration:3000})
+        }
     })
   }
 }

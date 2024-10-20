@@ -9,6 +9,7 @@ import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
 import {ChangeRoleRequest} from "../../../../../contracts/group/change-role-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-change-role',
@@ -26,6 +27,7 @@ export class ChangeRoleComponent {
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private applicationHubService : ApplicationHubService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private groupDataService : GroupDataService) {
@@ -56,13 +58,21 @@ export class ChangeRoleComponent {
     this.groupService.changeRole(addUserRequest)
       .pipe(take(1))
       .subscribe({
-        next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
-          this.popUpService.dismissThePopup()
+        next : (res) => {
+          this.applicationHubService.changeRole(addUserRequest.userName, addUserRequest.role, addUserRequest.groupId)
+            .then(() => {
+              this.toast.error({detail:"Success", summary: res, duration:3000})
+            })
+            .catch(error => {
+              this.toast.error({detail:"Error", summary: error, duration:3000})
+            })
         },
         error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
+            this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
+
+    this.popUpService.dismissThePopup()
+
   }
 }

@@ -9,6 +9,7 @@ import {UsersService} from "../../../../../services/users.service";
 import {CreateQuizRequest} from "../../../../../contracts/quiz/create-quiz-request";
 import {take} from "rxjs";
 import {NgToastService} from "ng-angular-popup";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-create-quiz',
@@ -31,6 +32,7 @@ export class CreateQuizComponent implements OnInit {
     private usersService : UsersService,
     private groupDataService : GroupDataService,
     private toast : NgToastService,
+    private applicationHubService : ApplicationHubService,
     public dialogRef: MatDialogRef<CreateQuizComponent>
   ) {}
 
@@ -98,7 +100,13 @@ export class CreateQuizComponent implements OnInit {
         .pipe(take(1))
         .subscribe({
           next : (res) => {
-            this.toast.success({detail:"Success", summary: res, duration:3000})
+            this.applicationHubService.createQuiz(createQuizRequest.groupId)
+              .then(() => {
+                this.toast.success({detail:"Success", summary: res, duration:3000})
+              })
+              .catch(err => {
+                this.toast.error({detail:"Error", summary: err, duration:3000})
+              })
           },
           error: (err) => {
             this.toast.error({detail:"Error", summary: err, duration:3000})

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
@@ -10,7 +10,10 @@ import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
-import {take} from "rxjs";
+import {switchMap, take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {map} from "rxjs/operators";
+import {UsersDataService} from "../../../../../states/users-data.service";
 
 @Component({
   selector: 'app-leave-group',
@@ -30,9 +33,10 @@ export class LeaveGroupComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
+              private userDataService : UsersDataService,
+              private applicationHubService : ApplicationHubService,
               public popUpService : PopUpService,
               private toast : NgToastService,
-              private route : ActivatedRoute,
               private router : Router) {
   }
 
@@ -57,10 +61,27 @@ export class LeaveGroupComponent {
     }
 
     this.groupService.leaveGroup(leaveGroupRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap(() => {
+          return this.userService.getUserAccount(this.userService.getUserId())
+            .pipe(
+              map(user => user.groups)
+            )
+        })
+      )
       .subscribe({
-        next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
+        next : groups => {
+          this.userDataService.updateGroupData(groups)
+          this.applicationHubService.leaveTheGroup(leaveGroupRequest.groupId)
+            .then(
+              () => {
+                this.toast.info({detail:"Info", summary: 'You left the group', duration:3000})
+              }
+            )
+            .catch(error => {
+              this.toast.success({detail:"Error", summary: error, duration:3000})
+            })
           this.router.navigate(['main/home']).then(
             () => this.popUpService.dismissThePopup()
           )

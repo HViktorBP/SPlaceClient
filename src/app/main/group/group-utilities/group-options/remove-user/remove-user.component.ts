@@ -10,6 +10,7 @@ import {PopUpService} from "../../../../../services/pop-up.service";
 import {RemoveUserRequest} from "../../../../../contracts/group/remove-user-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-remove-user',
@@ -28,6 +29,7 @@ export class RemoveUserComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
+              private applicationHubService : ApplicationHubService,
               public popUpService : PopUpService,
               private toast : NgToastService) {
   }
@@ -57,6 +59,15 @@ export class RemoveUserComponent {
       .pipe(take(1))
       .subscribe({
         next : res => {
+          this.applicationHubService.removeUser(removeUserRequest.userToDeleteName, removeUserRequest.groupId)
+            .then(
+              () => {
+                this.toast.success({detail:"Info", summary: res, duration:3000})
+              }
+            )
+            .catch(error => {
+              this.toast.success({detail:"Error", summary: error, duration:3000})
+            })
           this.toast.success({detail:"Info", summary: res, duration:3000})
           this.popUpService.dismissThePopup()
         },

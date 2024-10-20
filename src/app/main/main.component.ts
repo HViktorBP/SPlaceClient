@@ -67,10 +67,11 @@ export class MainComponent implements OnInit, OnDestroy{
           this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
           this.userDataService.updateUserScores(user.scores)
 
-          this.applicationHub.start().then(
-            () => {
+          this.applicationHub.start()
+            .then(() => {
               console.log('Connected to the application hub!')
-              this.applicationHub.addUserConnection(this.userService.getUserName()).then(
+              this.applicationHub.addUserConnection(this.userService.getUserName())
+                .then(
                 () => {
                   console.log('Connection established!')
                   user.groups.forEach(g => {
@@ -78,17 +79,17 @@ export class MainComponent implements OnInit, OnDestroy{
                       (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
                     )
                   })
-                }
-              ).catch(
-                (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-              ).finally(
-                () => console.log('Connection to groups established!')
-              )
-            }
-          ).catch(
-            (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-          )
-        })
+                })
+                .catch(
+                  (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+                )
+              }
+            )
+            .catch(
+              (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+            )
+          }
+        )
     } catch (e : any) {
       this.toast.error({detail: "Error", summary: e, duration: 3000})
     }

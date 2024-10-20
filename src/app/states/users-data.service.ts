@@ -47,7 +47,6 @@ export class UsersDataService {
   get userGroupsAsync() : Observable<GroupIdentifier[]> {
     return this.userGroupData$
   }
-
   updateCreatedGroupData(createdGroups : GroupIdentifier[]) {
     this.userCreatedGroupDataSubject.next(createdGroups)
   }
@@ -55,6 +54,11 @@ export class UsersDataService {
   get createdGroupsAsync() {
     return this.userCreatedGroupData$
   }
+
+  get createdGroups() : GroupIdentifier[] {
+    return this.userCreatedGroupDataSubject.value
+  }
+
 
   updateCreatedQuizzesData(createdQuizzes : QuizIdentifier[]) {
     this.userCreatedQuizzesDataSubject.next(createdQuizzes)

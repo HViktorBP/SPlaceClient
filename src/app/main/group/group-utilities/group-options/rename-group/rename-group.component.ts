@@ -9,6 +9,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroupRequest} from "../../../../../contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-rename-group',
@@ -27,6 +28,7 @@ export class RenameGroupComponent {
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
+              private applicationHubService : ApplicationHubService,
               public popUpService : PopUpService,
               private toast : NgToastService,
               private groupDataService : GroupDataService) { }
@@ -56,7 +58,15 @@ export class RenameGroupComponent {
       .pipe(take(1))
       .subscribe({
         next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
+          this.applicationHubService.renameGroup(renameGroupRequest.groupId)
+            .then(
+              () => {
+                this.toast.info({detail:"Info", summary: res, duration:3000})
+              }
+            )
+            .catch(error => {
+              this.toast.success({detail:"Error", summary: error, duration:3000})
+            })
           this.popUpService.dismissThePopup()
         },
         error : err => {

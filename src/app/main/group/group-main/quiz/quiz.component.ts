@@ -14,6 +14,8 @@ import {SubmitQuizRequest} from "../../../../contracts/quiz/submit-quiz-request"
 import {UsersService} from "../../../../services/users.service";
 import {GroupDataService} from "../../../../states/group-data.service";
 import {Question} from "../../../../enums/question";
+import {ApplicationHubService} from "../../../../services/application-hub.service";
+import {UsersDataService} from "../../../../states/users-data.service";
 
 @Component({
   selector: 'app-quiz',
@@ -39,6 +41,8 @@ export class QuizComponent implements OnInit, OnDestroy {
     private toast: NgToastService,
     private usersService: UsersService,
     private groupDataService: GroupDataService,
+    private applicationHubService: ApplicationHubService,
+    private userDataService : UsersDataService,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
@@ -79,10 +83,24 @@ export class QuizComponent implements OnInit, OnDestroy {
 
 
       this.quizzesService.submitQuiz(submitQuizRequest)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          switchMap(() => this.usersService.getUserAccount(this.usersService.getUserId())),
+          take(1),
+          tap(user => {
+            this.userDataService.updateUserScores(user.scores);
+            this.toast.success({ detail: "Success", summary: "Quiz submitted successfully!", duration: 3000 });
+          })
+        )
         .subscribe({
-          next: (res) => {
-            this.toast.success({ detail: "Success", summary: res, duration: 3000 });
+          next: () => {
+            this.applicationHubService.submitQuiz(submitQuizRequest.groupId)
+              .then(() => {
+                this.toast.success({ detail: "Success", summary: 'Quiz submitted successfully', duration: 3000 });
+              })
+              .catch(err => {
+                this.toast.error({ detail: "Error", summary: err, duration: 3000 });
+              })
           },
           error: (err) => {
             this.toast.error({ detail: "Error", summary: err, duration: 3000 });

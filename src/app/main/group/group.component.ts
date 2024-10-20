@@ -57,6 +57,7 @@ export class GroupComponent implements OnInit, OnDestroy{
           this.groupDataService.updateQuizzesList(group.quizzes);
           this.groupDataService.updateGroupMessages(group.messages);
           this.groupDataService.updateUserRole(role)
+          this.groupDataService.updateGroupScores(group.scores);
         },
         error: (err) => console.error('Failed to load group data:', err)
       });

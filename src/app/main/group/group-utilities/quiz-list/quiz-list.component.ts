@@ -15,6 +15,7 @@ import {DeleteQuizComponent} from "./delete-quiz/delete-quiz.component";
 import {DeleteQuizRequest} from "../../../../contracts/quiz/delete-quiz-request";
 import {take} from "rxjs";
 import {EditQuizComponent} from "./edit-quiz/edit-quiz.component";
+import {ApplicationHubService} from "../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-quiz-list',
@@ -42,6 +43,7 @@ export class QuizListComponent {
   constructor(public groupDataService : GroupDataService,
               public dialog: MatDialog,
               public popUpService : PopUpService,
+              public applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private usersService : UsersService,
               private quizzesService : QuizzesService) {
@@ -77,7 +79,13 @@ export class QuizListComponent {
           .pipe(take(1))
           .subscribe({
             next: (res) => {
-              this.toast.success({detail: 'Success', summary: res, duration: 3000});
+              this.applicationHubService.deleteQuiz(deleteQuizRequest.groupId)
+                .then(() => {
+                  this.toast.success({detail: 'Success', summary: res, duration: 3000});
+                })
+                .catch(err => {
+                  this.toast.error({detail: 'Error', summary: err, duration: 3000});
+                })
             },
             error: (err) => {
               this.toast.error({detail: 'Error', summary: err, duration: 3000});

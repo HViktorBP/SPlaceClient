@@ -22,6 +22,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {SubmitQuizRequest} from "../../../../../contracts/quiz/submit-quiz-request";
+import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({
   selector: 'app-edit-quiz',
@@ -55,6 +56,7 @@ export class EditQuizComponent implements OnInit{
               private quizzesService : QuizzesService,
               private usersService : UsersService,
               private groupDataService : GroupDataService,
+              private applicationHub : ApplicationHubService,
               private toast : NgToastService,
               public dialogRef: MatDialogRef<EditQuizComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -157,7 +159,13 @@ export class EditQuizComponent implements OnInit{
         .pipe(take(1))
         .subscribe({
           next : (res) => {
-            this.toast.success({detail: 'Success', summary: res, duration: 3000});
+            this.applicationHub.editQuiz(editQuizRequest.groupId, editQuizRequest.quiz.id)
+              .then(() => {
+                this.toast.success({detail: 'Success', summary: res, duration: 3000});
+              })
+              .catch((err) => {
+                this.toast.error({detail: 'Error', summary: err, duration: 3000});
+              })
           },
           error : (err) => {
             this.toast.error({detail: 'Error', summary: err, duration: 3000});

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../dtos/user";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import {UserAccount} from "../dtos/user/user-account";
 import {Observable} from "rxjs";
@@ -63,7 +62,7 @@ export class UsersService {
   }
 
   changeUsername(userDataChange : ChangeUsernameRequest) {
-    return this.http.put<string>(`${this.baseUrl}username`, userDataChange)
+    return this.http.put<any>(`${this.baseUrl}username`, userDataChange)
   }
 
   changePassword(userDataChange : ChangePasswordRequest) {
@@ -103,26 +102,6 @@ export class UsersService {
 
     return isTokenExpired;
   }
-
-  // --- old --- //
-
-  getUserByName(username:string) {
-    return this.http.get<User>(`${this.baseUrl}user-by-name?username=${username}`)
-  }
-
-  getUserByID(id:number) {
-    return this.http.get<User>(`${this.baseUrl}user-by-id?id=${id}`)
-  }
-
-  getUserID(username:string)  {
-    return this.http.get<number>(`${this.baseUrl}id?username=${username}`)
-  }
-
-  getUsername() {
-    return sessionStorage.getItem("username")!!
-  }
-
-
 
   private decodeJwtToken(token : string) : JwtPayload {
     try {

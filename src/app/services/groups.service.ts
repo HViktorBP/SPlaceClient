@@ -43,7 +43,7 @@ export class GroupsService {
   }
 
   leaveGroup(leaveGroupRequest : UserGroupRequest) {
-    return this.http.delete<string>(`${this.baseUrl}rename`, {"body": leaveGroupRequest})
+    return this.http.delete<string>(`${this.baseUrl}leave`, {"body": leaveGroupRequest})
   }
 
   removeUser(removeUserRequest : RemoveUserRequest) {

@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {Role} from "../enums/role";
 import {QuizIdentifier} from "../dtos/quiz/quiz-identifier";
 import {MessageDto} from "../dtos/message/message-dto";
+import {UserScore} from "../dtos/score/user-score";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,9 @@ export class GroupDataService {
 
   private groupMessagesSubject = new BehaviorSubject<MessageDto[]>([])
   groupMessages$ = this.groupMessagesSubject.asObservable()
+
+  private groupScoresSubject = new BehaviorSubject<UserScore[]>([])
+  groupScores$ = this.groupScoresSubject.asObservable()
 
   constructor() { }
 
@@ -64,6 +68,22 @@ export class GroupDataService {
     return this.quizList$
   }
 
+  updateMessage(message : MessageDto) {
+    const index = this.groupMessagesSubject.value.findIndex(m => m.id === message.id)
+
+    if (index !== -1) {
+      this.groupMessagesSubject.value[index] = message
+    }
+  }
+
+  deleteMessage(messageId : number) {
+    const index = this.groupMessagesSubject.value.findIndex(m => m.id === messageId)
+
+    if (index !== -1) {
+      this.groupMessagesSubject.value.splice(index, 1)
+    }
+  }
+
   updateGroupMessages(messages: MessageDto[]) {
     this.groupMessagesSubject.next(messages)
   }
@@ -90,5 +110,9 @@ export class GroupDataService {
 
   get currentGroupId() {
     return this.currentGroupIdSubject.value
+  }
+
+  updateGroupScores(scores : UserScore[]) {
+    this.groupScoresSubject.next(scores);
   }
 }
