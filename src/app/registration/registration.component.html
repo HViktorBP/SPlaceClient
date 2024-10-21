@@ -1,26 +1,37 @@
-<div class="container">
-  <div class="register-container">
-    <h1>SPlace</h1>
-    <h2>Registration</h2>
-    <form (ngSubmit)="register(passwordCheck.value)" #loginForm="ngForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)] = "user.username" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)] = "user.password" required>
-      </div>
-      <div class="form-group">
-        <label for="passwordCheck">Repeat the password</label>
-        <input type="password" id="passwordCheck" name="passwordCheck" ngModel #passwordCheck required>
-      </div>
-      <div class="buttons">
-        <button type="submit" [disabled]="loginForm.invalid">Register</button>
-        <button type="submit" (click)="goToLogin()">I have an account!</button>
-      </div>
-    </form>
-  </div>
-</div>
+<div class="registration-container">
+  <mat-card class="registration-card">
+    <mat-card-title>SPlace</mat-card-title>
+    <mat-card-subtitle>Registration</mat-card-subtitle>
+    <mat-card-content>
+      <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="userName" placeholder="Enter your username" type="text" required>
+          <mat-error *ngIf="registrationForm.get('userName')?.invalid && registrationForm.get('userName')?.touched">
+            Please enter a valid username.
+          </mat-error>
+        </mat-form-field>
 
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" placeholder="Enter your password" type="password" required>
+          <mat-error *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+            Password is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm your password</mat-label>
+          <input matInput formControlName="confirmedPassword" placeholder="Enter your password once again" type="password" required>
+          <mat-error *ngIf="registrationForm.get('confirmedPassword')?.invalid && registrationForm.get('confirmedPassword')?.touched">
+            Type in the password once again.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Create account</button>
+        <button mat-raised-button color="primary" type="button" (click)="goToLogin()">I have an account already!</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
 

@@ -85,6 +85,7 @@ export class UsersService {
   logOut(): void {
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("userId")
+    sessionStorage.removeItem("userName")
   }
 
   isTokenExpired(): boolean {

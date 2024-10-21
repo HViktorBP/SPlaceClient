@@ -1,29 +1,28 @@
-<div class="container">
-  <div class="login-container">
-    <h1>SPlace</h1>
-    <h2>Login</h2>
-    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)] = "user.username" required>
-      </div>
-        <label for="password">Password</label>
-        <input [type]="hide() ? 'password' : 'text'" name="password" id="password" [(ngModel)] = "user.password" required placeholder="Your password">
-<!--        <mat-label>Enter your password</mat-label>-->
-<!--        <input [type]="hide() ? 'password' : 'text'" name="password" id="password" [(ngModel)] = "user.password" required placeholder="Your password">-->
-<!--        <button-->
-<!--          mat-icon-button-->
-<!--          matSuffix-->
-<!--          (click)="clickEvent($event)"-->
-<!--          [attr.aria-label]="'Hide password'"-->
-<!--          [attr.aria-pressed]="hide()"-->
-<!--        >-->
-<!--          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>-->
-<!--        </button>-->
-      <div class="buttons">
-        <button appHover type="submit" [disabled]="loginForm.invalid">Login</button>
-        <button appHover type="submit" (click)="goToRegistration()">Create an account!</button>
-      </div>
-    </form>
-  </div>
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-title>SPlace</mat-card-title>
+    <mat-card-subtitle>Login</mat-card-subtitle>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="userName" placeholder="Enter your username" type="text" required>
+          <mat-error *ngIf="loginForm.get('userName')?.invalid && loginForm.get('userName')?.touched">
+            Please enter a valid username.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" placeholder="Enter your password" type="password" required>
+          <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Log in</button>
+        <button mat-raised-button color="primary" type="button" (click)="goToRegistration()">Create account</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
