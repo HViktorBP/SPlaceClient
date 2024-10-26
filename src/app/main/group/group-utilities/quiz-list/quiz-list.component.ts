@@ -1,7 +1,7 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../states/group-data.service";
 import { CreateQuizComponent } from "./create-quiz/create-quiz.component";
 import {RouterLink} from "@angular/router";

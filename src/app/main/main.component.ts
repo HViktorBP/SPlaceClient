@@ -1,5 +1,4 @@
 import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {BreakpointObserver} from '@angular/cdk/layout';
 import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
