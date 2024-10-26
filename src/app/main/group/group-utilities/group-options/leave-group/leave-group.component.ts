@@ -1,12 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {Router} from "@angular/router";
-import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
@@ -14,6 +12,8 @@ import {switchMap, take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {map} from "rxjs/operators";
 import {UsersDataService} from "../../../../../states/users-data.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-leave-group',
@@ -22,33 +22,25 @@ import {UsersDataService} from "../../../../../states/users-data.service";
     NgOptimizedImage,
     FaIconComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle
   ],
   templateUrl: './leave-group.component.html',
   styleUrl: './leave-group.component.scss'
 })
 export class LeaveGroupComponent {
-  icon = faRightFromBracket
+  readonly dialogRef = inject(MatDialogRef<LeaveGroupComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
               private userDataService : UsersDataService,
               private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService,
               private toast : NgToastService,
               private router : Router) {
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      () => {
-        this.onSubmit();
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
   }
 
   onSubmit() {
@@ -77,14 +69,14 @@ export class LeaveGroupComponent {
             .then(
               () => {
                 this.toast.info({detail:"Info", summary: 'You left the group', duration:3000})
+                this.router.navigate(['main/home']).then(
+                  () => this.dialogRef.close()
+                )
               }
             )
             .catch(error => {
               this.toast.success({detail:"Error", summary: error, duration:3000})
             })
-          this.router.navigate(['main/home']).then(
-            () => this.popUpService.dismissThePopup()
-          )
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})

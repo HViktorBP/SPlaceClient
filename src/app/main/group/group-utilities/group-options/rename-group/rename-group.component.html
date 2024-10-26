@@ -1,21 +1,14 @@
-<fa-icon [icon]="icon" title="Rename group" (click)="open(content)"></fa-icon>
+<h2 mat-dialog-title>Rename group</h2>
+<form (ngSubmit)="onSubmit(renameGroup)" #renameGroup="ngForm">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Group's new name</mat-label>
+      <input matInput type="text" id="group-name" name="groupName" ngModel required>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!renameGroup.valid">Rename</button>
+    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+</form>
 
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Rename group</h4>
-    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form (ngSubmit)="onSubmit(renameGroup)" #renameGroup="ngForm">
-      <div class="group-name">
-        <label for="group-name">New group name:</label>
-        <input type="text" id="group-name" name="groupName" ngModel required>
-      </div>
-      <div class="buttons">
-        <button type="submit" [disabled]="!renameGroup.valid">Rename</button>
-      </div>
-    </form>
-  </div>
-</ng-template>

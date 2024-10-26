@@ -1,5 +1,5 @@
 <div class="messages">
-  <div #scrollMe class="msg_history">
+  <div class="msg_history">
     <ng-container *ngFor="let message of groupDataService.groupMessagesAsync| async">
       <app-message
         [id] = "message.id"

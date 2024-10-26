@@ -9,9 +9,6 @@ import {UserScore} from "../dtos/score/user-score";
 })
 
 export class UsersDataService {
-  private userCurrentGroupIdSubject = new BehaviorSubject<number>(0);
-  userCurrentGroupId$ = this.userCurrentGroupIdSubject.asObservable();
-
   private userNameSubject = new BehaviorSubject<string>('');
   userName$ = this.userNameSubject.asObservable();
 
@@ -36,8 +33,16 @@ export class UsersDataService {
     this.userNameSubject.next(username)
   }
 
+  get userNameAsync() {
+    return this.userName$
+  }
+
   updateStatus(status: string) {
     this.userStatusSubject.next(status)
+  }
+
+  get userStatusAsync() {
+    return this.userStatus$
   }
 
   updateGroupData(groups : GroupIdentifier[]) {
@@ -58,7 +63,6 @@ export class UsersDataService {
   get createdGroups() : GroupIdentifier[] {
     return this.userCreatedGroupDataSubject.value
   }
-
 
   updateCreatedQuizzesData(createdQuizzes : QuizIdentifier[]) {
     this.userCreatedQuizzesDataSubject.next(createdQuizzes)

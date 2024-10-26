@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UsersService} from "../services/users.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
 import {finalize, take} from "rxjs";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-registration',
@@ -25,14 +26,19 @@ import {MatInput} from "@angular/material/input";
     MatError,
     MatFormField,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatIcon,
+    MatIconButton,
+    MatSuffix
   ],
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.scss'
+  styleUrl: '../custom/styles/authorization-form.scss'
 })
 
 export class RegistrationComponent implements OnInit, OnDestroy {
   registrationForm!: FormGroup;
+
+  hide = signal(true);
 
   constructor(private router: Router,
               private auth : UsersService,
@@ -77,6 +83,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   goToLogin() : void {
     this.router.navigate(['login'])
+  }
+
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 
   ngOnDestroy() {

@@ -1,15 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faTrashArrowUp} from "@fortawesome/free-solid-svg-icons/faTrashArrowUp";
 import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
-import {take} from "rxjs";
+import {switchMap, take, tap} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
+import {UsersDataService} from "../../../../../states/users-data.service";
 
 @Component({
   selector: 'app-delete-group',
@@ -17,31 +21,28 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
   imports: [
     FaIconComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatFormField,
+    MatLabel,
+    MatOption,
+    MatSelect,
+    MatDialogTitle
   ],
   templateUrl: './delete-group.component.html',
   styleUrl: './delete-group.component.scss'
 })
 export class DeleteGroupComponent {
-  icon = faTrashArrowUp
+  readonly dialogRef = inject(MatDialogRef<DeleteGroupComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
+              private userDataService : UsersDataService,
               private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService,
               private toast : NgToastService) {
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      () => {
-        this.onSubmit();
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
   }
 
   onSubmit() {
@@ -54,12 +55,25 @@ export class DeleteGroupComponent {
     }
 
     this.groupService.deleteGroup(deleteGroupRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap(() =>
+          this.userService.getUserAccount(this.userService.getUserId()).pipe(
+            take(1),
+            tap(user => {
+              this.userDataService.updateCreatedGroupData(user.createdGroups);
+            })
+          )
+        )
+      )
       .subscribe({
         next : () => {
           this.applicationHubService.deleteGroup(deleteGroupRequest.groupId)
+            .then(() => {
+              this.dialogRef.close();
+            })
             .catch(error => {
-              this.toast.success({detail:"Error", summary: error, duration:3000})
+              this.toast.error({detail:"Error", summary: error, duration:3000})
             })
         },
         error : err => {
@@ -67,6 +81,5 @@ export class DeleteGroupComponent {
         }
       })
 
-    this.popUpService.dismissThePopup();
   }
 }

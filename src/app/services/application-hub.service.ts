@@ -171,7 +171,7 @@ export class ApplicationHubService {
         .subscribe({
           next : () => {
             if (this.groupDataService.currentGroupId == groupId) {
-              this.toast.info({detail:"Info", summary: `This group has been deleted!`, duration:3000})
+              this.toast.info({detail:"Info", summary: `Group has been deleted!`, duration:3000})
               this.router.navigate(['main']).catch(
                 err => {
                   this.toast.error({detail:"Error", summary: err, duration:3000})

@@ -1,13 +1,12 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {AsyncPipe, NgForOf, SlicePipe} from '@angular/common';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {Observable, take} from 'rxjs';
-import {map, shareReplay} from 'rxjs/operators';
+import {take} from 'rxjs';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../services/users.service";
@@ -15,7 +14,11 @@ import {UsersDataService} from "../states/users-data.service";
 import {ApplicationHubService} from "../services/application-hub.service";
 import {NgToastService} from "ng-angular-popup";
 import {CreateGroupComponent} from "./create-group/create-group.component";
-import {LogOutComponent} from "./log-out/log-out.component";
+import {LogOutComponent} from "./user-menu/log-out/log-out.component";
+import {faUserGroup} from "@fortawesome/free-solid-svg-icons/faUserGroup";
+import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
+import {UserMenuComponent} from "./user-menu/user-menu.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-main',
@@ -36,16 +39,18 @@ import {LogOutComponent} from "./log-out/log-out.component";
     RouterLink,
     CreateGroupComponent,
     LogOutComponent,
+    NgIf,
+    NgClass,
+    UserMenuComponent,
   ]
 })
 export class MainComponent implements OnInit, OnDestroy{
-  private breakpointObserver = inject(BreakpointObserver);
-
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  title = 'material-responsive-sidenav';
+  readonly dialog = inject(MatDialog);
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  listIcon = faUserGroup
+  menuIcon = faBars;
 
   constructor(private userService : UsersService,
               public userDataService : UsersDataService,
@@ -95,7 +100,13 @@ export class MainComponent implements OnInit, OnDestroy{
     }
   }
 
+
   ngOnDestroy() {
     this.applicationHub.leave().then(() => {console.log('Disconnected from the group hub!')})
   }
+
+  onCreateNewGroup() {
+    this.dialog.open(CreateGroupComponent)
+  }
+
 }

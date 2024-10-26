@@ -1,16 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../services/groups.service";
 import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {AddUserRequest} from "../../../../../contracts/group/add-user-request";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatOption, MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-add-user',
@@ -18,31 +21,28 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
   imports: [
     NgOptimizedImage,
     FaIconComponent,
-    FormsModule
+    FormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './add-user.component.html',
   styleUrl: './add-user.component.scss'
 })
 export class AddUserComponent {
-  icon = faUserPlus
+  readonly dialogRef = inject(MatDialogRef<AddUserComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
               private toast : NgToastService,
-              private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService) {
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
+              private applicationHubService : ApplicationHubService) {
   }
 
   onSubmit(form: NgForm) {
@@ -63,14 +63,14 @@ export class AddUserComponent {
           this.applicationHubService.addToGroup(addUserRequest.groupId, addUserRequest.userToAddName)
             .then(
               () => {
-                this.toast.success({detail:"Info", summary: res, duration:3000})
+                this.toast.success({detail:"Info", summary: res.message, duration:3000})
               }
             )
             .catch(error => {
               this.toast.success({detail:"Error", summary: error, duration:3000})
             })
 
-          this.popUpService.dismissThePopup()
+          this.dialogRef.close()
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})

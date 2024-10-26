@@ -27,31 +27,31 @@ export class GroupsService {
   }
 
   changeRole(changeRoleRequest : ChangeRoleRequest) {
-    return this.http.put<string>(`${this.baseUrl}role`, changeRoleRequest)
+    return this.http.put<any>(`${this.baseUrl}role`, changeRoleRequest)
   }
 
   createGroup (createGroupRequest : CreateGroupRequest) {
-    return this.http.post<string>(`${this.baseUrl}create`, createGroupRequest)
+    return this.http.post<any>(`${this.baseUrl}create`, createGroupRequest)
   }
 
   addUser (addUserRequest : AddUserRequest) {
-    return this.http.post<string>(`${this.baseUrl}add`, addUserRequest)
+    return this.http.post<any>(`${this.baseUrl}add`, addUserRequest)
   }
 
   renameGroup (renameGroupRequest : RenameGroupRequest) {
-    return this.http.put<string>(`${this.baseUrl}rename`, renameGroupRequest)
+    return this.http.put<any>(`${this.baseUrl}rename`, renameGroupRequest)
   }
 
   leaveGroup(leaveGroupRequest : UserGroupRequest) {
-    return this.http.delete<string>(`${this.baseUrl}leave`, {"body": leaveGroupRequest})
+    return this.http.delete<any>(`${this.baseUrl}leave`, {"body": leaveGroupRequest})
   }
 
   removeUser(removeUserRequest : RemoveUserRequest) {
-    return this.http.delete<string>(`${this.baseUrl}remove`, {"body" : removeUserRequest})
+    return this.http.delete<any>(`${this.baseUrl}remove`, {"body" : removeUserRequest})
   }
 
   deleteGroup(deleteGroupRequest : UserGroupRequest) {
-    return this.http.delete<string>(`${this.baseUrl}group`, {"body" : deleteGroupRequest})
+    return this.http.delete<any>(`${this.baseUrl}group`, {"body" : deleteGroupRequest})
   }
 
   // leaveGroup(userId:number, groupId:number) {

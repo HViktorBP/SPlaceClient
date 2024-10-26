@@ -1,25 +1,25 @@
-/* Main chat container */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.messages{
+  height: 100%;
+}
+
 .msg_history {
   display: flex;
+  height: 90%;
   flex-direction: column;
-  height: 80vh;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 16px;
   background-color: #f9f9f9;
   overflow-y: auto;
-  padding-bottom: 60px; /* Adds padding to avoid hiding messages behind the input */
 }
 
-/* Message component layout */
-app-message {
-  margin-bottom: 12px;
-}
-
-/* Chat input section */
 .type_msg {
-  position: sticky; /* Sticky positioning to stay at the bottom */
-  bottom: 0; /* Sticks to the bottom of its container */
+  position: sticky;
+  bottom: 0;
   left: 0;
   right: 0;
   padding: 12px;
@@ -27,7 +27,6 @@ app-message {
   border-top: 1px solid #ccc;
 }
 
-/* Input area */
 .input_msg_write {
   display: flex;
   align-items: center;
@@ -48,7 +47,6 @@ app-message {
   color: #999;
 }
 
-/* Send button */
 .msg_send_btn {
   background-color: #4CAF50;
   color: white;
@@ -76,9 +74,7 @@ app-message {
   background-color: #45a049;
 }
 
-/* Responsive adjustments */
 @media only screen and (max-width: 768px) {
-  /* For smaller screens like tablets and mobile phones */
   .msg_history {
     height: 70vh;
     padding: 8px;
@@ -99,7 +95,6 @@ app-message {
 }
 
 @media only screen and (max-width: 480px) {
-  /* For very small screens */
   .msg_history {
     height: 65vh;
   }

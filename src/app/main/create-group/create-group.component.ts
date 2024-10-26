@@ -1,42 +1,42 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {GroupsService} from "../../services/groups.service";
 import {UsersService} from "../../services/users.service";
 import {CreateGroupRequest} from "../../contracts/group/create-group-request";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {PopUpService} from "../../services/pop-up.service";
 import {switchMap, take} from "rxjs";
 import {UsersDataService} from "../../states/users-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
+import {MatButton} from "@angular/material/button";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-create-group',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel
   ],
   templateUrl: './create-group.component.html',
   styleUrl: './create-group.component.scss'
 })
 export class CreateGroupComponent {
+  readonly dialogRef = inject(MatDialogRef<CreateGroupComponent>);
+
   constructor(private groupService : GroupsService,
-              private popUpService : PopUpService,
               private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
               private usersDataService : UsersDataService,
               private userService : UsersService) {
 
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
   }
 
   onSubmit(form: NgForm) {
@@ -64,7 +64,7 @@ export class CreateGroupComponent {
             this.toast.success({ detail: "Success", summary: 'Group created successfully!', duration: 3000 });
           })
 
-          this.popUpService.dismissThePopup();
+          this.dialogRef.close();
         },
         error: err => {
           this.toast.error({ detail: "Error", summary: err, duration: 3000 });

@@ -1,47 +1,49 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
-import {faPeopleArrows} from "@fortawesome/free-solid-svg-icons/faPeopleArrows";
 import {ChangeRoleRequest} from "../../../../../contracts/group/change-role-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-change-role',
   standalone: true,
-    imports: [
-        FaIconComponent,
-        FormsModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    FaIconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatSelect
+  ],
   templateUrl: './change-role.component.html',
   styleUrl: './change-role.component.scss'
 })
+
 export class ChangeRoleComponent {
-  icon = faPeopleArrows
+  readonly dialogRef = inject(MatDialogRef<ChangeRoleComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService,
               private toast : NgToastService,
               private groupDataService : GroupDataService) {
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
   }
 
   onSubmit(form: NgForm) {
@@ -61,7 +63,8 @@ export class ChangeRoleComponent {
         next : (res) => {
           this.applicationHubService.changeRole(addUserRequest.userName, addUserRequest.role, addUserRequest.groupId)
             .then(() => {
-              this.toast.error({detail:"Success", summary: res, duration:3000})
+              this.toast.success({detail:"Success", summary: res.message, duration:3000})
+              this.dialogRef.close()
             })
             .catch(error => {
               this.toast.error({detail:"Error", summary: error, duration:3000})
@@ -71,8 +74,5 @@ export class ChangeRoleComponent {
             this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
-
-    this.popUpService.dismissThePopup()
-
   }
 }

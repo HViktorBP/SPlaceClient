@@ -1,4 +1,10 @@
-<p class="groups">Some of the quizzes you created: </p>
-<ul>
-  <li *ngFor="let quiz of userData.createdQuizzesAsync | async"><a [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]"><fa-icon [icon]="icon" style="padding-right: 10px"></fa-icon>{{ quiz.name }}</a></li>
-</ul>
+<mat-card>
+  <p class="info-box-label">Some of the quizzes you created: </p>
+  <mat-list>
+    <mat-list-item *ngFor="let quiz of userData.createdQuizzesAsync | async">
+      <fa-icon [icon]="icon"></fa-icon>
+      <a matLine [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{ quiz.name }}</a>
+    </mat-list-item>
+  </mat-list>
+  <mat-divider></mat-divider>
+</mat-card>

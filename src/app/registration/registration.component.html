@@ -1,5 +1,5 @@
-<div class="registration-container">
-  <mat-card class="registration-card">
+<div class="authorization-container">
+  <mat-card class="authorization-card">
     <mat-card-title>SPlace</mat-card-title>
     <mat-card-subtitle>Registration</mat-card-subtitle>
     <mat-card-content>
@@ -14,9 +14,19 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <input matInput formControlName="password" placeholder="Enter your password" type="password" required>
+          <input matInput formControlName="password" placeholder="Enter your password" [type]="hide() ? 'password' : 'text'" type="password" required>
+          <button
+            mat-icon-button
+            type="button"
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-            Password is required.
+            Password must contain at least 8 characters.
           </mat-error>
         </mat-form-field>
 
@@ -24,12 +34,14 @@
           <mat-label>Confirm your password</mat-label>
           <input matInput formControlName="confirmedPassword" placeholder="Enter your password once again" type="password" required>
           <mat-error *ngIf="registrationForm.get('confirmedPassword')?.invalid && registrationForm.get('confirmedPassword')?.touched">
-            Type in the password once again.
+            Passwords are not matching.
           </mat-error>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Create account</button>
-        <button mat-raised-button color="primary" type="button" (click)="goToLogin()">I have an account already!</button>
+        <div class="authorization-buttons">
+          <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">Register</button>
+          <button mat-raised-button color="primary" type="button" (click)="goToLogin()">Log in</button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

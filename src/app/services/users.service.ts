@@ -66,11 +66,11 @@ export class UsersService {
   }
 
   changePassword(userDataChange : ChangePasswordRequest) {
-    return this.http.put<string>(`${this.baseUrl}password`, userDataChange)
+    return this.http.put<any>(`${this.baseUrl}password`, userDataChange)
   }
 
   changeStatus(userDataChange : ChangeStatusRequest) {
-    return this.http.put<string>(`${this.baseUrl}status`, userDataChange)
+    return this.http.put<any>(`${this.baseUrl}status`, userDataChange)
   }
 
   deleteAccount() {

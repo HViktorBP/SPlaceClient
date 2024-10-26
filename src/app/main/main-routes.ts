@@ -8,6 +8,5 @@ export const MAIN_ROUTES: Routes = [{
     {path: '', redirectTo: 'home', pathMatch: 'full' },
     {path: 'group/:groupId', loadChildren: () => import('./group/group-routes').then(m => m.GROUP_ROUTES)},
     {path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)},
-    {path: 'options', loadComponent: () => import('./options/options.component').then(m => m.OptionsComponent)}
   ]}
 ];

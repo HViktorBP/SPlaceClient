@@ -8,6 +8,7 @@ import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {SaveMessageRequest} from "../../../../contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-chat',
@@ -52,11 +53,13 @@ export class ChatComponent implements OnInit {
       message: this.inputMessage.trim(),
     }
 
-    this.messagesService.saveMessage(saveMessageRequest).subscribe({
+    this.messagesService.saveMessage(saveMessageRequest)
+      .pipe(take(1))
+      .subscribe({
       next: (message) => {
-        this.applicationHub.sendMessage(message).catch(
-          (reason) => this.toast.error({detail:"Error", summary: reason, duration:3000})
-        )
+        this.applicationHub.sendMessage(message)
+          .then(() => this.inputMessage = '')
+          .catch( (reason) => this.toast.error({detail:"Error", summary: reason, duration:3000}) )
       },
       error: err => this.toast.error({detail:"Error", summary: err, duration:3000})
     })

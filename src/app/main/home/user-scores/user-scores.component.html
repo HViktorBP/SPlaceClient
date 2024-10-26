@@ -1,4 +1,10 @@
-<p class="groups">Some of your scores:</p>
-<ul>
-  <li *ngFor="let score of userData.userScoresAsync | async"> {{score.quizName}} - {{score.score}} </li>
-</ul>
+<mat-card>
+  <p class="info-box-label">Some of your scores: </p>
+  <mat-list>
+    <mat-list-item *ngFor="let score of userData.userScoresAsync | async">
+      <fa-icon [icon]="icon"></fa-icon>
+      <a>{{score.quizName}} - {{score.score}}</a>
+    </mat-list-item>
+  </mat-list>
+  <mat-divider></mat-divider>
+</mat-card>

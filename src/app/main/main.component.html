@@ -1,41 +1,27 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Groups</mat-toolbar>
-    <mat-nav-list>
-      <ul>
-        <li *ngFor="let group of userDataService.userGroupsAsync | async" [routerLink]="['/main/group', group.id]">
-          {{ group.name }}
-        </li>
-      </ul>
-      <app-create-group></app-create-group>
-    </mat-nav-list>
-
-    <app-log-out></app-log-out>
-
+<mat-sidenav-container autosize>
+  <mat-sidenav mode="over">
+    <div id="sidenav-wrapper">
+      <mat-nav-list>
+        <h3>Groups</h3>
+        <mat-divider></mat-divider>
+        <a mat-list-item *ngFor="let group of userDataService.userGroupsAsync | async">
+          <fa-icon [icon]="listIcon"></fa-icon>
+          <span [routerLink]="['/main/group', group.id]"> {{ group.name }} </span>
+        </a>
+        <mat-divider></mat-divider>
+      </mat-nav-list>
+      <button mat-raised-button color="primary" type="button" (click)="onCreateNewGroup()">Create new group</button>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon">people</mat-icon>
+      <button mat-icon-button aria-label="Menu icon" (click)="sidenav.toggle()">
+        <fa-icon [icon]="menuIcon">menu</fa-icon>
       </button>
-      }
-      <div id="main-header">
-        <span [routerLink]="['/main']">SPlace</span>
-        <button>
-          <a [routerLink]="['/main/options']">Options</a>
-        </button>
-      </div>
+      <h1 [routerLink]="['/main/home']">SPlace</h1>
+      <app-user-menu></app-user-menu>
     </mat-toolbar>
-    <div class="main-info">
-      <router-outlet></router-outlet>
-    </div>
+
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

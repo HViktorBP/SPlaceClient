@@ -1,16 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faUserMinus} from "@fortawesome/free-solid-svg-icons";
 import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {RemoveUserRequest} from "../../../../../contracts/group/remove-user-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatOption} from "@angular/material/autocomplete";
+import {MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-remove-user',
@@ -18,31 +22,28 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
   imports: [
     NgOptimizedImage,
     FaIconComponent,
-    FormsModule
+    FormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatSelect
   ],
   templateUrl: './remove-user.component.html',
   styleUrl: './remove-user.component.scss'
 })
 export class RemoveUserComponent {
-  icon = faUserMinus;
+  readonly dialogRef = inject(MatDialogRef<RemoveUserComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
               private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService,
               private toast : NgToastService) {
-  }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
   }
 
   onSubmit(form: NgForm) {
@@ -62,14 +63,13 @@ export class RemoveUserComponent {
           this.applicationHubService.removeUser(removeUserRequest.userToDeleteName, removeUserRequest.groupId)
             .then(
               () => {
-                this.toast.success({detail:"Info", summary: res, duration:3000})
+                this.toast.success({detail:"Info", summary: res.message, duration:3000})
+                this.dialogRef.close()
               }
             )
             .catch(error => {
               this.toast.success({detail:"Error", summary: error, duration:3000})
             })
-          this.toast.success({detail:"Info", summary: res, duration:3000})
-          this.popUpService.dismissThePopup()
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, signal} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../services/users.service";
@@ -36,11 +36,13 @@ import {NgIf} from "@angular/common";
     MatCardSubtitle
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: '../custom/styles/authorization-form.scss'
 })
 
 export class LoginComponent implements OnInit, OnDestroy{
   loginForm!: FormGroup;
+  hide = signal(true);
+
 
   constructor(private router: Router,
               private userService: UsersService,
@@ -83,6 +85,11 @@ export class LoginComponent implements OnInit, OnDestroy{
 
   goToRegistration(): void {
     this.router.navigate(['registration'])
+  }
+
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 
   ngOnDestroy() {

@@ -1,16 +1,18 @@
-<div class="quizzes-container">
-  <h3> Quizzes </h3>
-  <ul>
-    <div>
-      <div class="quiz-list" *ngFor="let quiz of groupDataService.quizzesListAsync | async">
-        <li [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{quiz.name}}</li>
-
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Quizzes</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let quiz of groupDataService.quizzesListAsync | async; let i = index">
+        {{i + 1}}. {{quiz}}
+        <li [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{i + 1}}. {{quiz.name}}</li>
         <div *ngIf="isCreator|| isAdministrator">
           <button mat-button (click)="openEditQuizDialog(quiz.id)">Edit Quiz</button>
           <button mat-button color="warn" (click)="openDeleteDialog(quiz.name, quiz.id)">Delete Quiz</button>
         </div>
-      </div>
-    </div>
-    <button (click)="createQuiz()">Create quiz</button>
-  </ul>
-</div>
+      </mat-list-item>
+    </mat-list>
+    <button mat-raised-button color="primary" (click)="createQuiz()">Create quiz</button>
+  </mat-card-content>
+</mat-card>

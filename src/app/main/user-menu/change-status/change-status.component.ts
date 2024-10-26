@@ -1,37 +1,35 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
-import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {ChangeStatusRequest} from "../../../contracts/user/change-status-request";
 import {take} from "rxjs";
+import {MatButton} from "@angular/material/button";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-change-status',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel
   ],
   templateUrl: './change-status.component.html',
   styleUrl: './change-status.component.scss'
 })
 export class ChangeStatusComponent {
-
-  constructor(private popUpService : PopUpService,
-              private toast : NgToastService,
+  readonly dialogRef = inject(MatDialogRef<ChangeStatusComponent>);
+  constructor(private toast : NgToastService,
               private userService : UsersService) { }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
-  }
 
   onSubmit(form : NgForm) {
     const userId = this.userService.getUserId()
@@ -45,8 +43,8 @@ export class ChangeStatusComponent {
       .pipe(take(1))
       .subscribe({
         next : res => {
-          this.toast.success({detail:"Info", summary: res, duration:3000})
-          this.popUpService.dismissThePopup()
+          this.toast.success({detail:"Info", summary: res.message, duration:3000})
+          this.dialogRef.close()
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})

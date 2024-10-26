@@ -10,6 +10,7 @@ import {GroupsService} from "../../services/groups.service";
 import {GroupDataService} from "../../states/group-data.service";
 import {UsersService} from "../../services/users.service";
 import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.component";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 
 @Component({
   selector: 'app-group',
@@ -21,7 +22,9 @@ import {GroupUtilitiesComponent} from "./group-utilities/group-utilities.compone
     GroupOptionsComponent,
     QuizListComponent,
     RouterOutlet,
-    GroupUtilitiesComponent
+    GroupUtilitiesComponent,
+    MatGridList,
+    MatGridTile
   ],
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss'

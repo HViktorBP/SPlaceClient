@@ -1,0 +1,49 @@
+.authorization-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.authorization-card {
+  width: 100vw;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+mat-card-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 1vh;
+}
+
+mat-card-subtitle {
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 1vh;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+}
+
+mat-error {
+  width: 100%;
+}
+
+.authorization-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+}
+
+.authorization-buttons button {
+  width: auto;
+}

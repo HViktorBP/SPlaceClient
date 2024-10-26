@@ -1,39 +1,45 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
-import {PopUpService} from "../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {ChangeUsernameRequest} from "../../../contracts/user/change-username-request";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../services/application-hub.service";
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatButton} from "@angular/material/button";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-change-username',
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogContent,
+    MatFormField,
+    MatDialogActions,
+    MatButton,
+    MatDialogTitle,
+    MatInput,
+    MatDialogClose,
+    MatLabel
   ],
   templateUrl: './change-username.component.html',
   styleUrl: './change-username.component.scss'
 })
 export class ChangeUsernameComponent {
+  readonly dialogRef = inject(MatDialogRef<ChangeUsernameComponent>);
 
-  constructor(private popUpService : PopUpService,
-              private toast : NgToastService,
+  constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
               private userService : UsersService) { }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
-  }
 
   onSubmit(form : NgForm) {
     const userId = this.userService.getUserId()
@@ -50,7 +56,8 @@ export class ChangeUsernameComponent {
           this.applicationHubService.changeName(changeUsernameRequest.newUsername)
             .then(
               () => {
-                this.toast.info({detail:"Info", summary: 'Username changed successfully!', duration:3000})
+                this.toast.info({detail:"Info", summary: res.message, duration:3000})
+                this.dialogRef.close();
               }
             )
             .catch(error => {
@@ -63,6 +70,5 @@ export class ChangeUsernameComponent {
         }
       })
 
-    this.popUpService.dismissThePopup()
   }
 }

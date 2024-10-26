@@ -1,11 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../states/group-data.service";
 import { CreateQuizComponent } from "./create-quiz/create-quiz.component";
 import {RouterLink} from "@angular/router";
-import {PopUpService} from "../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {UsersService} from "../../../../services/users.service";
 import {QuizzesService} from "../../../../services/quizzes.service";
@@ -16,6 +15,8 @@ import {DeleteQuizRequest} from "../../../../contracts/quiz/delete-quiz-request"
 import {take} from "rxjs";
 import {EditQuizComponent} from "./edit-quiz/edit-quiz.component";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {MatList, MatListItem} from "@angular/material/list";
 
 @Component({
   selector: 'app-quiz-list',
@@ -31,6 +32,12 @@ import {ApplicationHubService} from "../../../../services/application-hub.servic
     RouterLink,
     FaIconComponent,
     MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatList,
+    MatListItem,
   ],
   templateUrl: './quiz-list.component.html',
   styleUrl: './quiz-list.component.scss'
@@ -42,7 +49,6 @@ export class QuizListComponent {
 
   constructor(public groupDataService : GroupDataService,
               public dialog: MatDialog,
-              public popUpService : PopUpService,
               public applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private usersService : UsersService,

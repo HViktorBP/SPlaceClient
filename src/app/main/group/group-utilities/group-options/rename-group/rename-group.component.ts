@@ -1,15 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
-import {PopUpService} from "../../../../../services/pop-up.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {faPenToSquare} from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroupRequest} from "../../../../../contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-rename-group',
@@ -17,32 +19,27 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
   imports: [
     FaIconComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatButton,
+    MatDialogActions,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormField,
+    MatInput,
+    MatLabel
   ],
   templateUrl: './rename-group.component.html',
   styleUrl: './rename-group.component.scss'
 })
 
 export class RenameGroupComponent {
-  icon = faPenToSquare
+  readonly dialogRef = inject(MatDialogRef<RenameGroupComponent>);
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private applicationHubService : ApplicationHubService,
-              public popUpService : PopUpService,
               private toast : NgToastService,
               private groupDataService : GroupDataService) { }
-
-  open(content: any) {
-    this.popUpService.openModal(content).then(
-      (result) => {
-        this.onSubmit(result);
-      },
-      (reason) => {
-        console.log(`Dismissed ${this.popUpService.getDismissReason(reason)}`);
-      }
-    );
-  }
 
   onSubmit(form: NgForm) {
     const groupId : number = this.groupDataService.currentGroupId
@@ -61,13 +58,13 @@ export class RenameGroupComponent {
           this.applicationHubService.renameGroup(renameGroupRequest.groupId)
             .then(
               () => {
-                this.toast.info({detail:"Info", summary: res, duration:3000})
+                this.toast.info({detail:"Info", summary: res.message, duration:3000})
+                this.dialogRef.close()
               }
             )
             .catch(error => {
               this.toast.success({detail:"Error", summary: error, duration:3000})
             })
-          this.popUpService.dismissThePopup()
         },
         error : err => {
           this.toast.error({detail:"Error", summary: err, duration:3000})

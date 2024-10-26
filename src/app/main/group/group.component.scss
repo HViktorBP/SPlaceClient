@@ -1,11 +1,8 @@
-.main {
-  display:flex;
-  flex-direction: row;
-  margin: 10px;
-  align-items: stretch;
+:host {
+  height: inherit;
 }
-@media only screen and (min-width: 700px) {
-  .group-right-main {
-    grid-template-rows: 49% 49% 5%;
-  }
+
+.main {
+  display: flex;
+  flex-direction: row;
 }

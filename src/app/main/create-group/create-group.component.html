@@ -1,23 +1,13 @@
-<button (click)="open(content)">
-  Create new group
-</button>
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Create group</h4>
-    <button type="button" class="close border" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-      <form (ngSubmit)="onSubmit(createGroup)" #createGroup="ngForm">
-        <div class="group-name">
-          <label for="group-name">GroupDto's name:</label>
-          <input type="text" id="group-name" name="groupName" ngModel required>
-        </div>
-        <div class="buttons">
-          <button type="submit" [disabled]="!createGroup.valid">Create</button>
-        </div>
-      </form>
-  </div>
-</ng-template>
+<h2 mat-dialog-title>New group</h2>
+<form (ngSubmit)="onSubmit(createGroup)" #createGroup="ngForm">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>New group's name</mat-label>
+      <input matInput type="text" id="group-name" name="groupName" ngModel required>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!createGroup.valid">Create</button>
+    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+</form>
