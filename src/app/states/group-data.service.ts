@@ -3,7 +3,6 @@ import {BehaviorSubject} from "rxjs";
 import {Role} from "../data-transferring/enums/role";
 import {QuizIdentifier} from "../data-transferring/dtos/quiz/quiz-identifier";
 import {MessageDto} from "../data-transferring/dtos/message/message-dto";
-import {UserScore} from "../data-transferring/dtos/score/user-score";
 import {QuizScores} from "../data-transferring/dtos/score/quiz-scores";
 
 @Injectable({

@@ -1,11 +1,9 @@
 import {
   AfterViewChecked,
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
   ViewChild,
-  ViewContainerRef
 } from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {UsersService} from "../../../../services/users.service";

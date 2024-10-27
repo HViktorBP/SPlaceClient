@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {GroupIdentifier} from "../data-transferring/dtos/group/group-identifier";
 import {QuizIdentifier} from "../data-transferring/dtos/quiz/quiz-identifier";
-import {UserScore} from "../data-transferring/dtos/score/user-score";
 import {QuizScores} from "../data-transferring/dtos/score/quiz-scores";
 
 @Injectable({
