@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
-import {UserAccount} from "../dtos/user/user-account";
+import {UserAccount} from "../data-transferring/dtos/user/user-account";
 import {Observable} from "rxjs";
-import {ChangeUsernameRequest} from "../contracts/user/change-username-request";
-import {ChangePasswordRequest} from "../contracts/user/change-password-request";
-import {ChangeStatusRequest} from "../contracts/user/change-status-request";
+import {ChangeUsernameRequest} from "../data-transferring/contracts/user/change-username-request";
+import {ChangePasswordRequest} from "../data-transferring/contracts/user/change-password-request";
+import {ChangeStatusRequest} from "../data-transferring/contracts/user/change-status-request";
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import {GroupIdentifier} from "../group/group-identifier";
 import {QuizIdentifier} from "../quiz/quiz-identifier";
-import {UserScore} from "../score/user-score";
+import {QuizScores} from "../score/quiz-scores";
 
 export interface UserAccount {
   username : string;
@@ -8,5 +8,5 @@ export interface UserAccount {
   createdGroups : GroupIdentifier[];
   groups : GroupIdentifier[];
   createdQuizzes : QuizIdentifier[];
-  scores : UserScore[];
+  scores : QuizScores[];
 }

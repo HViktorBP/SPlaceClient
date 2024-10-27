@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GroupNameComponent} from "./group-utilities/group-name/group-name.component";
 import {GroupMainComponent} from "./group-main/group-main.component";
-import {ParticipantsComponent} from "./group-utilities/participants/participants.component";
+import {ParticipantsComponent} from "./group-utilities/group-tabs/participants/participants.component";
 import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
 import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";

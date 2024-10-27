@@ -1,10 +1,10 @@
 import {Component, inject} from '@angular/core';
 import {GroupsService} from "../../services/groups.service";
 import {UsersService} from "../../services/users.service";
-import {CreateGroupRequest} from "../../contracts/group/create-group-request";
+import {CreateGroupRequest} from "../../data-transferring/contracts/group/create-group-request";
 import {FormsModule, NgForm} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {switchMap, take} from "rxjs";
+import {switchMap, take, tap} from "rxjs";
 import {UsersDataService} from "../../states/users-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
 import {MatButton} from "@angular/material/button";
@@ -51,7 +51,10 @@ export class CreateGroupComponent {
       .pipe(
         take(1),
         switchMap(() => this.userService.getUserAccount(userId).pipe(
-          take(1)
+          take(1),
+          tap(account => {
+            this.usersDataService.updateCreatedQuizzesData(account.createdQuizzes);
+          })
         ))
       )
       .subscribe({

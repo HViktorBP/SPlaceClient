@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {SaveMessageRequest} from "../contracts/message/save-message-request";
-import {MessageDto} from "../dtos/message/message-dto";
-import {DeleteMessageRequest} from "../contracts/message/delete-message-request";
+import {SaveMessageRequest} from "../data-transferring/contracts/message/save-message-request";
+import {MessageDto} from "../data-transferring/dtos/message/message-dto";
+import {DeleteMessageRequest} from "../data-transferring/contracts/message/delete-message-request";
 
 @Injectable({
   providedIn: 'root'

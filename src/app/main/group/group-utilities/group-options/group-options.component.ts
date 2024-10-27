@@ -8,6 +8,8 @@ import {ChangeRoleComponent} from "./change-role/change-role.component";
 import {RenameGroupComponent} from "./rename-group/rename-group.component";
 import {MatCard, MatCardContent} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
+import {MatIconButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-group-options',
@@ -23,6 +25,8 @@ import {MatDialog} from "@angular/material/dialog";
     RenameGroupComponent,
     MatCard,
     MatCardContent,
+    MatIconButton,
+    MatIcon,
   ],
   templateUrl: './group-options.component.html',
   styleUrl: './group-options.component.scss'

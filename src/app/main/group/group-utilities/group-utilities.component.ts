@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GroupMainComponent} from "../group-main/group-main.component";
-import {ParticipantsComponent} from "./participants/participants.component";
+import {ParticipantsComponent} from "./group-tabs/participants/participants.component";
 import {GroupOptionsComponent} from "./group-options/group-options.component";
 import {QuizListComponent} from "./quiz-list/quiz-list.component";
 import {GroupNameComponent} from "./group-name/group-name.component";
 import {Subscription} from "rxjs";
 import {GroupDataService} from "../../../states/group-data.service";
-import {Role} from "../../../enums/role";
+import {Role} from "../../../data-transferring/enums/role";
+import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
 
 @Component({
   selector: 'app-group-utilities',
@@ -16,7 +17,8 @@ import {Role} from "../../../enums/role";
     ParticipantsComponent,
     GroupOptionsComponent,
     QuizListComponent,
-    GroupNameComponent
+    GroupNameComponent,
+    GroupTabsComponent
   ],
   templateUrl: './group-utilities.component.html',
   styleUrl: './group-utilities.component.scss'

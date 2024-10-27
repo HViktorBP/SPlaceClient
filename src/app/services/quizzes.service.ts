@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {QuizDto} from "../dtos/quiz/quiz-dto";
-import {CreateQuizRequest} from "../contracts/quiz/create-quiz-request";
-import {SubmitQuizRequest} from "../contracts/quiz/submit-quiz-request";
-import {DeleteQuizRequest} from "../contracts/quiz/delete-quiz-request";
+import {QuizDto} from "../data-transferring/dtos/quiz/quiz-dto";
+import {CreateQuizRequest} from "../data-transferring/contracts/quiz/create-quiz-request";
+import {SubmitQuizRequest} from "../data-transferring/contracts/quiz/submit-quiz-request";
+import {DeleteQuizRequest} from "../data-transferring/contracts/quiz/delete-quiz-request";
 import {FormBuilder, Validators} from "@angular/forms";
-import {QuestionDto} from "../dtos/question/question-dto";
-import {Question} from "../enums/question";
-import {AnswerDto} from "../dtos/answer/answer-dto";
+import {QuestionDto} from "../data-transferring/dtos/question/question-dto";
+import {Question} from "../data-transferring/enums/question";
+import {AnswerDto} from "../data-transferring/dtos/answer/answer-dto";
 
 @Injectable({
   providedIn: 'root'

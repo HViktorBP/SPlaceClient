@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {GroupDataService} from "../states/group-data.service";
-import {MessageDto} from "../dtos/message/message-dto";
+import {MessageDto} from "../data-transferring/dtos/message/message-dto";
 import {UsersDataService} from "../states/users-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
@@ -141,6 +141,7 @@ export class ApplicationHubService {
           take(1),
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
+            this.usersDataService.updateUserScores(user.scores)
           })
         )
         .subscribe({
@@ -295,7 +296,7 @@ export class ApplicationHubService {
       }
     })
 
-    this.connection.on("QuizSubmitted", (groupId : number) => {
+    this.connection.on("UpdateScores", (groupId : number) => {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(

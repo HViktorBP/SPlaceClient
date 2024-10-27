@@ -9,14 +9,16 @@ import {NgToastService} from "ng-angular-popup";
 import {UsersService} from "../../../../services/users.service";
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {DeleteQuizComponent} from "./delete-quiz/delete-quiz.component";
-import {DeleteQuizRequest} from "../../../../contracts/quiz/delete-quiz-request";
-import {take} from "rxjs";
+import {DeleteQuizRequest} from "../../../../data-transferring/contracts/quiz/delete-quiz-request";
+import {switchMap, take, tap} from "rxjs";
 import {EditQuizComponent} from "./edit-quiz/edit-quiz.component";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
+import {UsersDataService} from "../../../../states/users-data.service";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-quiz-list',
@@ -38,6 +40,8 @@ import {MatList, MatListItem} from "@angular/material/list";
     MatCardTitle,
     MatList,
     MatListItem,
+    MatIconButton,
+    MatIcon,
   ],
   templateUrl: './quiz-list.component.html',
   styleUrl: './quiz-list.component.scss'
@@ -48,6 +52,7 @@ export class QuizListComponent {
   @Input()isAdministrator!: boolean;
 
   constructor(public groupDataService : GroupDataService,
+              private userDataService : UsersDataService,
               public dialog: MatDialog,
               public applicationHubService : ApplicationHubService,
               private toast : NgToastService,
@@ -82,12 +87,22 @@ export class QuizListComponent {
         }
 
         this.quizzesService.deleteQuiz(deleteQuizRequest)
-          .pipe(take(1))
+          .pipe(
+            take(1),
+            switchMap(() =>
+              this.usersService.getUserAccount(this.usersService.getUserId()).pipe(
+                take(1),
+                tap(user => {
+                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+                })
+              )
+            )
+          )
           .subscribe({
-            next: (res) => {
+            next: () => {
               this.applicationHubService.deleteQuiz(deleteQuizRequest.groupId)
                 .then(() => {
-                  this.toast.success({detail: 'Success', summary: res, duration: 3000});
+                  this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000});
                 })
                 .catch(err => {
                   this.toast.error({detail: 'Error', summary: err, duration: 3000});

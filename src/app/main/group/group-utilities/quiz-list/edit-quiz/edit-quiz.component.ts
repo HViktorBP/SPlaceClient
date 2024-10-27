@@ -21,7 +21,7 @@ import {NgToastService} from "ng-angular-popup";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
-import {SubmitQuizRequest} from "../../../../../contracts/quiz/submit-quiz-request";
+import {SubmitQuizRequest} from "../../../../../data-transferring/contracts/quiz/submit-quiz-request";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 
 @Component({

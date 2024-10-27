@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {GroupIdentifier} from "../dtos/group/group-identifier";
-import {QuizIdentifier} from "../dtos/quiz/quiz-identifier";
-import {UserScore} from "../dtos/score/user-score";
+import {GroupIdentifier} from "../data-transferring/dtos/group/group-identifier";
+import {QuizIdentifier} from "../data-transferring/dtos/quiz/quiz-identifier";
+import {UserScore} from "../data-transferring/dtos/score/user-score";
+import {QuizScores} from "../data-transferring/dtos/score/quiz-scores";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class UsersDataService {
   private userCreatedQuizzesDataSubject: BehaviorSubject<QuizIdentifier[]> = new BehaviorSubject<QuizIdentifier[]>([])
   userCreatedQuizzesData$ = this.userCreatedQuizzesDataSubject.asObservable()
 
-  private userScoresDataSubject: BehaviorSubject<UserScore[]> = new BehaviorSubject<UserScore[]>([])
+  private userScoresDataSubject: BehaviorSubject<QuizScores[]> = new BehaviorSubject<QuizScores[]>([])
   userScoresData$ = this.userScoresDataSubject.asObservable()
 
   constructor() { }
@@ -72,7 +73,7 @@ export class UsersDataService {
     return this.userCreatedQuizzesData$
   }
 
-  updateUserScores(scores : UserScore[]) {
+  updateUserScores(scores : QuizScores[]) {
     this.userScoresDataSubject.next(scores)
   }
 

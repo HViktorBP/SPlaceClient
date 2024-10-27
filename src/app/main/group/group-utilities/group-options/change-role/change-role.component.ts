@@ -4,7 +4,7 @@ import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
-import {ChangeRoleRequest} from "../../../../../contracts/group/change-role-request";
+import {ChangeRoleRequest} from "../../../../../data-transferring/contracts/group/change-role-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";

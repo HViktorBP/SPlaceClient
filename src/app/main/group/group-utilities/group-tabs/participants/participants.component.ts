@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
-import {GroupDataService} from "../../../../states/group-data.service";
+import {GroupDataService} from "../../../../../states/group-data.service";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
 

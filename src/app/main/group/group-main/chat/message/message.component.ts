@@ -2,12 +2,14 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DatePipe, NgIf} from "@angular/common";
 import {MessagesService} from "../../../../../services/messages.service";
 import {UsersService} from "../../../../../services/users.service";
-import {MessageDto} from "../../../../../dtos/message/message-dto";
+import {MessageDto} from "../../../../../data-transferring/dtos/message/message-dto";
 import {NgToastService} from "ng-angular-popup";
-import {DeleteMessageRequest} from "../../../../../contracts/message/delete-message-request";
+import {DeleteMessageRequest} from "../../../../../data-transferring/contracts/message/delete-message-request";
 import {FormsModule} from "@angular/forms";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
+import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-message',
@@ -15,7 +17,10 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
   imports: [
     DatePipe,
     NgIf,
-    FormsModule
+    FormsModule,
+    MatIconButton,
+    MatIcon,
+    MatButton
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'

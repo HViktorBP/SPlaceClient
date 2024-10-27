@@ -4,7 +4,7 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {RenameGroupRequest} from "../../../../../contracts/group/rename-group-request";
+import {RenameGroupRequest} from "../../../../../data-transferring/contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";

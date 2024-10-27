@@ -41,16 +41,16 @@
             <button mat-raised-button color="success" type="button" (click)="addAnswer(qIndex)">Add Answer</button>
           </div>
 
-          <button mat-raised-button color="warn" (click)="removeQuestion(qIndex)">Remove Question</button>
+          <button mat-raised-button type="button" color="warn" (click)="removeQuestion(qIndex)">Remove Question</button>
         </mat-card-content>
       </mat-card>
     </div>
 
-    <button mat-raised-button color="success" (click)="addQuestion()">Add Question</button>
+    <button mat-raised-button type="button" color="success" (click)="addQuestion()">Add Question</button>
+  </div>
+  <div class="action-buttons">
+    <button mat-raised-button color="success" type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
+    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
   </div>
 </form>
-<div class="action-buttons">
-  <button mat-raised-button color="success" type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
-  <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
-</div>
 

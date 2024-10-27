@@ -2,7 +2,7 @@
   border: 1px solid #e1e1e1;
   border-radius: 8px;
   padding: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0.3rem;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@
 
 .message-sender {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.25rem;
   color: #333;
 }
 
@@ -37,6 +37,7 @@
 
 .message-content p {
   margin: 0;
+  font-size: 1rem;
   color: #555;
   word-wrap: break-word;
 }
@@ -51,29 +52,8 @@
   padding: 4px 10px;
   border: none;
   border-radius: 4px;
-  font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
-
-.edit-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.edit-btn:hover {
-  background-color: #45a049;
-}
-
-.delete-btn {
-  background-color: #f44336;
-  color: white;
-}
-
-.delete-btn:hover {
-  background-color: #e53935;
-}
-
 
 .edit-input {
   flex-grow: 1;
@@ -87,26 +67,7 @@
 .cancel-btn {
   margin-left: 10px;
   padding: 6px 12px;
-  font-size: 0.9rem;
   border: none;
   cursor: pointer;
   border-radius: 4px;
-}
-
-.save-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.cancel-btn {
-  background-color: #ccc;
-  color: black;
-}
-
-.save-btn:hover {
-  background-color: #45a049;
-}
-
-.cancel-btn:hover {
-  background-color: #999;
 }

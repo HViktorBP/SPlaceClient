@@ -5,17 +5,21 @@ import {
 } from '@angular/core';
 import {QuizzesService} from "../../../../services/quizzes.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {Subscription, switchMap, take, tap} from "rxjs";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SubmitQuizRequest} from "../../../../contracts/quiz/submit-quiz-request";
+import {SubmitQuizRequest} from "../../../../data-transferring/contracts/quiz/submit-quiz-request";
 import {UsersService} from "../../../../services/users.service";
 import {GroupDataService} from "../../../../states/group-data.service";
-import {Question} from "../../../../enums/question";
+import {Question} from "../../../../data-transferring/enums/question";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {UsersDataService} from "../../../../states/users-data.service";
+import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-quiz',
@@ -25,7 +29,17 @@ import {UsersDataService} from "../../../../states/users-data.service";
     NgIf,
     JsonPipe,
     MatProgressSpinner,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatCardSubtitle,
+    MatCardTitle,
+    MatRadioGroup,
+    MatRadioButton,
+    MatCheckbox,
+    MatButton,
+    RouterLink,
   ],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.scss'
@@ -40,7 +54,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     private quizzesService: QuizzesService,
     private toast: NgToastService,
     private usersService: UsersService,
-    private groupDataService: GroupDataService,
+    public groupDataService: GroupDataService,
     private applicationHubService: ApplicationHubService,
     private userDataService : UsersDataService,
     private route: ActivatedRoute,
@@ -124,6 +138,7 @@ export class QuizComponent implements OnInit, OnDestroy {
   private loadQuiz() {
     this.routerSubscription = this.route.params
       .pipe(
+        take(1),
         switchMap(() => {
           const quizId = +this.route.snapshot.paramMap.get('quizId')!;
           return this.quizzesService.getQuiz(quizId).pipe(

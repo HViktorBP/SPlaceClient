@@ -1,4 +1,4 @@
 export interface UserScore {
-  quizName : string;
+  userName: string;
   score : number;
 }

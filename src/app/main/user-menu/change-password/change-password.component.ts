@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {ChangePasswordRequest} from "../../../contracts/user/change-password-request";
+import {ChangePasswordRequest} from "../../../data-transferring/contracts/user/change-password-request";
 import {take} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
@@ -24,7 +24,7 @@ import {MatInput} from "@angular/material/input";
     MatLabel
   ],
   templateUrl: './change-password.component.html',
-  styleUrl: './change-password.component.scss'
+  styleUrl: './change-password.component.scss',
 })
 
 export class ChangePasswordComponent {

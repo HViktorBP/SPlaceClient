@@ -1,4 +1,12 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {UsersService} from "../../../../services/users.service";
 import {GroupDataService} from "../../../../states/group-data.service";
@@ -6,7 +14,7 @@ import {FormsModule} from "@angular/forms";
 import {MessagesService} from "../../../../services/messages.service";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
-import {SaveMessageRequest} from "../../../../contracts/message/save-message-request";
+import {SaveMessageRequest} from "../../../../data-transferring/contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
 import {take} from "rxjs";
 
@@ -26,11 +34,12 @@ import {take} from "rxjs";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
   loggedInUserName!: number;
   inputMessage= ''
+  messagesContainer !: HTMLElement;
 
-  @ViewChild('messageContainer', { read: ViewContainerRef }) container!: ViewContainerRef;
+  @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
 
   constructor(private messagesService : MessagesService,
               private userService : UsersService,
@@ -41,6 +50,12 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.loggedInUserName = this.userService.getUserId()
+    this.scrollToBottom()
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom()
+
   }
 
   sendMessage() {
@@ -63,5 +78,13 @@ export class ChatComponent implements OnInit {
       },
       error: err => this.toast.error({detail:"Error", summary: err, duration:3000})
     })
+  }
+
+  private scrollToBottom() {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) {
+      console.log(err);
+    }
   }
 }

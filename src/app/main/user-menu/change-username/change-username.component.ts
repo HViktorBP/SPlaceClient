@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {ChangeUsernameRequest} from "../../../contracts/user/change-username-request";
+import {ChangeUsernameRequest} from "../../../data-transferring/contracts/user/change-username-request";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../services/application-hub.service";
 import {

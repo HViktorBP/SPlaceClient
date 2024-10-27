@@ -5,14 +5,19 @@
   <mat-card-content>
     <mat-list>
       <mat-list-item *ngFor="let quiz of groupDataService.quizzesListAsync | async; let i = index">
-        {{i + 1}}. {{quiz}}
-        <li [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{i + 1}}. {{quiz.name}}</li>
-        <div *ngIf="isCreator|| isAdministrator">
-          <button mat-button (click)="openEditQuizDialog(quiz.id)">Edit Quiz</button>
-          <button mat-button color="warn" (click)="openDeleteDialog(quiz.name, quiz.id)">Delete Quiz</button>
+        <div class="list-item-wrapper">
+          <a [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{i + 1}}. {{quiz.name}}</a>
+          <div *ngIf="isCreator|| isAdministrator">
+            <button mat-icon-button (click)="openEditQuizDialog(quiz.id)" title="Edit Quiz">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="openDeleteDialog(quiz.name, quiz.id)" title="Delete Quiz">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-list-item>
     </mat-list>
-    <button mat-raised-button color="primary" (click)="createQuiz()">Create quiz</button>
+    <button mat-raised-button color="primary" (click)="createQuiz()" *ngIf="isCreator|| isAdministrator">Create quiz</button>
   </mat-card-content>
 </mat-card>

@@ -6,7 +6,7 @@ import {GroupsService} from "../../../../../services/groups.service";
 import {UsersService} from "../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UserGroupRequest} from "../../../../../contracts/group/user-group-request";
+import {UserGroupRequest} from "../../../../../data-transferring/contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {switchMap, take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";

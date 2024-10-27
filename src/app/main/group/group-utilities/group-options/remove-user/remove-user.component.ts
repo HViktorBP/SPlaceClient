@@ -5,7 +5,7 @@ import {FormsModule, NgForm} from "@angular/forms";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
-import {RemoveUserRequest} from "../../../../../contracts/group/remove-user-request";
+import {RemoveUserRequest} from "../../../../../data-transferring/contracts/group/remove-user-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {take} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";

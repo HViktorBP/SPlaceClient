@@ -1,7 +1,11 @@
 <div class="message-container">
   <div class="message-header" >
     <strong class="message-sender">{{ userName }}</strong>
-    <small class="message-timestamp">{{ timestamp | date: 'shortTime' }}</small>
+    <small class="message-timestamp">{{ timestamp | date: 'shortTime' }}
+      <small *ngIf="this.isEdited">
+        (edited)
+      </small>
+    </small>
   </div>
 
   <div *ngIf="!isEditing">
@@ -9,9 +13,13 @@
       <p>{{ message }}</p>
     </div>
     <div class="message-actions">
-      <p *ngIf="this.isEdited">Edited</p>
-      <button class="edit-btn" (click)="toggleEdit()" *ngIf="this.own">Edit</button>
-      <button class="delete-btn" (click)="deleteMessage()" *ngIf="this.own">Delete</button>
+
+      <button mat-icon-button class="edit-btn" (click)="toggleEdit()" *ngIf="this.own" title="Edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" class="delete-btn" (click)="deleteMessage()" *ngIf="this.own" title="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
   </div>
 
@@ -20,8 +28,12 @@
       <input [(ngModel)]="editableMessage" class="edit-input" />
     </div>
     <div class="message-actions">
-      <button class="save-btn" (click)="editMessage()">Save</button>
-      <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+      <button mat-icon-button class="edit-btn" color="success" (click)="editMessage()" title="Save">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-icon-button class="cancel-btn" color="primary" (click)="cancelEdit()" title="Cancel">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
   </div>
 </div>

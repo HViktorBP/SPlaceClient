@@ -3,11 +3,11 @@
   height: 100%;
 }
 
-.messages{
-  height: 100%;
+#messages{
+  height: inherit;
 }
 
-.msg_history {
+#msg_history {
   display: flex;
   height: 90%;
   flex-direction: column;
@@ -72,43 +72,4 @@
 
 .msg_send_btn:hover {
   background-color: #45a049;
-}
-
-@media only screen and (max-width: 768px) {
-  .msg_history {
-    height: 70vh;
-    padding: 8px;
-  }
-
-  .input_msg_write input {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-
-  .msg_send_btn {
-    padding: 10px 15px;
-  }
-
-  .msg_send_btn p {
-    font-size: 1rem;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .msg_history {
-    height: 65vh;
-  }
-
-  .input_msg_write input {
-    font-size: 0.8rem;
-    padding: 6px;
-  }
-
-  .msg_send_btn {
-    padding: 8px 12px;
-  }
-
-  .msg_send_btn p {
-    font-size: 0.9rem;
-  }
 }

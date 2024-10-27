@@ -1,38 +1,4 @@
-fa-icon {
-  font-size: 32px;
-}
-
-.user-name, .user-role {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 10px;
-}
-
-.modal-body button {
-  margin: 5px;
-  background-color: #8D99AE;
-  transition: 0.3s;
-  cursor: pointer;
-  color: #2B2D42;
-}
-
-.modal-body button:hover {
-  transition: 0.3s;
-  background-color: #2B2D42;
-  color: #8D99AE;
-}
-
-.modal-header {
-  display: flex;
-  flex-direction: row;
-}
-
-.modal-title {
-  flex-grow: 6;
-}
-
-form{
+mat-dialog-content{
   display: flex;
   flex-direction: column;
   align-items: center;

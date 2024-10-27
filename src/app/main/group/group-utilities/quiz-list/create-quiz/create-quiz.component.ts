@@ -6,8 +6,8 @@ import {NgForOf} from "@angular/common";
 import {QuizzesService} from "../../../../../services/quizzes.service";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {UsersService} from "../../../../../services/users.service";
-import {CreateQuizRequest} from "../../../../../contracts/quiz/create-quiz-request";
-import {take} from "rxjs";
+import {CreateQuizRequest} from "../../../../../data-transferring/contracts/quiz/create-quiz-request";
+import {switchMap, take, tap} from "rxjs";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -15,6 +15,7 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {UsersDataService} from "../../../../../states/users-data.service";
 
 @Component({
   selector: 'app-create-quiz',
@@ -41,6 +42,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/mat
   templateUrl: './create-quiz.component.html',
   styleUrl: './create-quiz.component.scss'
 })
+
 export class CreateQuizComponent implements OnInit {
   quizForm!: FormGroup;
 
@@ -51,6 +53,7 @@ export class CreateQuizComponent implements OnInit {
     private groupDataService : GroupDataService,
     private toast : NgToastService,
     private applicationHubService : ApplicationHubService,
+    private userDataService : UsersDataService,
     public dialogRef: MatDialogRef<CreateQuizComponent>
   ) {}
 
@@ -115,12 +118,23 @@ export class CreateQuizComponent implements OnInit {
       }
 
       this.quizzesService.createNewQuiz(createQuizRequest)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+            switchMap(() =>
+              this.usersService.getUserAccount(this.usersService.getUserId()).pipe(
+                take(1),
+                tap(user => {
+                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+                })
+              )
+            )
+          )
         .subscribe({
-          next : (res) => {
+          next : () => {
             this.applicationHubService.createQuiz(createQuizRequest.groupId)
               .then(() => {
-                this.toast.success({detail:"Success", summary: res, duration:3000})
+                this.toast.success({detail:"Success", summary: "Quiz is created!", duration:3000})
+                this.dialogRef.close(quizDto);
               })
               .catch(err => {
                 this.toast.error({detail:"Error", summary: err, duration:3000})
@@ -130,8 +144,6 @@ export class CreateQuizComponent implements OnInit {
             this.toast.error({detail:"Error", summary: err, duration:3000})
           }
         })
-
-      this.dialogRef.close(quizDto);
     }
   }
 }

@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
-import {ChangeStatusRequest} from "../../../contracts/user/change-status-request";
+import {ChangeStatusRequest} from "../../../data-transferring/contracts/user/change-status-request";
 import {take} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";

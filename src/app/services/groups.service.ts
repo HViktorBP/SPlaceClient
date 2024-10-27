@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {GroupDto} from "../dtos/group/group-dto";
-import {Role} from "../enums/role";
-import {ChangeRoleRequest} from "../contracts/group/change-role-request";
-import {CreateGroupRequest} from "../contracts/group/create-group-request";
-import {AddUserRequest} from "../contracts/group/add-user-request";
-import {RenameGroupRequest} from "../contracts/group/rename-group-request";
-import {UserGroupRequest} from "../contracts/group/user-group-request";
-import {RemoveUserRequest} from "../contracts/group/remove-user-request";
+import {GroupDto} from "../data-transferring/dtos/group/group-dto";
+import {Role} from "../data-transferring/enums/role";
+import {ChangeRoleRequest} from "../data-transferring/contracts/group/change-role-request";
+import {CreateGroupRequest} from "../data-transferring/contracts/group/create-group-request";
+import {AddUserRequest} from "../data-transferring/contracts/group/add-user-request";
+import {RenameGroupRequest} from "../data-transferring/contracts/group/rename-group-request";
+import {UserGroupRequest} from "../data-transferring/contracts/group/user-group-request";
+import {RemoveUserRequest} from "../data-transferring/contracts/group/remove-user-request";
 
 @Injectable({
   providedIn: 'root'
