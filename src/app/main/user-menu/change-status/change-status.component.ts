@@ -1,13 +1,16 @@
 import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ChangeStatusRequest} from "../../../data-transferring/contracts/user/change-status-request";
-import {take} from "rxjs";
+import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {UsersDataService} from "../../../states/users-data.service";
+import {NgIf} from "@angular/common";
+import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
 
 @Component({
   selector: 'app-change-status',
@@ -21,34 +24,67 @@ import {MatInput} from "@angular/material/input";
     MatDialogTitle,
     MatFormField,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatError,
+    NgIf
   ],
   templateUrl: './change-status.component.html',
   styleUrl: './change-status.component.scss'
 })
-export class ChangeStatusComponent {
-  readonly dialogRef = inject(MatDialogRef<ChangeStatusComponent>);
-  constructor(private toast : NgToastService,
-              private userService : UsersService) { }
+export class ChangeStatusComponent implements CustomPopUpForm {
+  readonly dialogRef = inject(MatDialogRef<ChangeStatusComponent>)
+  isLoading! : boolean
+  newStatusForm!: FormGroup
 
-  onSubmit(form : NgForm) {
+  constructor(private toast : NgToastService,
+              private userService : UsersService,
+              private userDataService : UsersDataService,
+              private fb : FormBuilder) { }
+
+  ngOnInit() {
+    this.newStatusForm = this.fb.group({
+      newStatus: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    })
+  }
+
+  onSubmit() {
     const userId = this.userService.getUserId()
+
+    this.isLoading = true;
+    this.newStatusForm.disable()
 
     const changeStatusRequest : ChangeStatusRequest = {
       userId : userId,
-      newStatus : form.value.newStatus
+      newStatus : this.newStatusForm.get('newStatus')!.value
     }
 
     this.userService.changeStatus(changeStatusRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        switchMap(() => {
+          return this.userService.getUserAccount(this.userService.getUserId())
+        }),
+        tap(userAccount => {
+          this.userDataService.updateStatus(userAccount.status)
+        }),
+        catchError(error => {
+          return throwError(() => error)
+        }),
+        finalize (() => {
+          this.newStatusForm.enable()
+          this.isLoading = false
+        })
+      )
       .subscribe({
-        next : res => {
-          this.toast.success({detail:"Info", summary: res.message, duration:3000})
+        next : () => {
+          this.toast.success({detail:"Success", summary: 'Status updated', duration:3000})
           this.dialogRef.close()
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
+
+  }
+
+  ngOnDestroy() {
+    this.newStatusForm.reset()
   }
 }

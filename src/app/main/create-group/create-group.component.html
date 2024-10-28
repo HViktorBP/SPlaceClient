@@ -1,13 +1,16 @@
 <h2 mat-dialog-title>New group</h2>
-<form (ngSubmit)="onSubmit(createGroup)" #createGroup="ngForm">
+<form [formGroup]="newGroupForm" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>New group's name</mat-label>
-      <input matInput type="text" id="group-name" name="groupName" ngModel required>
+      <input matInput type="text" formControlName="groupName" required>
+      <mat-error *ngIf="newGroupForm.get('groupName')?.invalid && newGroupForm.get('groupName')?.touched">
+        Group name must contain from 3 to 20 characters.
+      </mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!createGroup.valid">Create</button>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="newGroupForm.invalid || this.isLoading">Create</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="this.isLoading">Cancel</button>
   </mat-dialog-actions>
 </form>

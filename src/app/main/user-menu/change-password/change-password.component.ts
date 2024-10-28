@@ -1,13 +1,15 @@
 import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {ChangePasswordRequest} from "../../../data-transferring/contracts/user/change-password-request";
-import {take} from "rxjs";
+import {catchError, finalize, take, throwError} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {NgIf} from "@angular/common";
+import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
 
 @Component({
   selector: 'app-change-password',
@@ -21,38 +23,65 @@ import {MatInput} from "@angular/material/input";
     MatDialogTitle,
     MatFormField,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatError,
+    NgIf
   ],
   templateUrl: './change-password.component.html',
   styleUrl: './change-password.component.scss',
 })
 
-export class ChangePasswordComponent {
-  readonly dialogRef = inject(MatDialogRef<ChangePasswordComponent>);
+export class ChangePasswordComponent implements CustomPopUpForm {
+  readonly dialogRef = inject(MatDialogRef<ChangePasswordComponent>)
+  newPasswordForm!: FormGroup
+  isLoading!: boolean
+
   constructor(private toast : NgToastService,
-              private userService : UsersService) { }
+              private userService : UsersService,
+              private fb : FormBuilder) { }
 
-  onSubmit(form : NgForm) {
+  ngOnInit() {
+    this.newPasswordForm = this.fb.group({
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+      submitNewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+    })
+  }
 
-    if (form.value.newPassword != form.value.submitNewPassword) {
+  onSubmit() {
+    if (this.newPasswordForm.get('newPassword')!.value == this.newPasswordForm.get('submitNewPassword')!.value) {
       const userId = this.userService.getUserId()
+
+      this.isLoading = true
+      this.newPasswordForm.disable()
 
       const changePasswordRequest : ChangePasswordRequest = {
         userId : userId,
-        newPassword : form.value.newPassword
+        newPassword : this.newPasswordForm.get('newPassword')!.value
       }
 
       this.userService.changePassword(changePasswordRequest)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          catchError(error => {
+            return throwError(() => error)
+          }),
+          finalize(() => {
+            this.newPasswordForm.enable()
+            this.isLoading = false
+          })
+        )
         .subscribe({
           next : res => {
-            this.toast.success({detail:"Info", summary: res, duration:3000})
+            this.toast.success({detail:"Success", summary: res.message, duration:3000})
             this.dialogRef.close()
-          },
-          error : err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
           }
         })
+    } else {
+      this.toast.error({detail:"Info", summary: "Passwords doesn't match.", duration:3000})
     }
+  }
+
+  ngOnDestroy() {
+    this.newPasswordForm.reset()
   }
 }

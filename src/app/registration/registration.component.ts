@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {UsersService} from "../services/users.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
-import {finalize, take} from "rxjs";
+import {catchError, finalize, take, throwError} from "rxjs";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -56,23 +56,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   onRegister() {
     if (this.registrationForm.valid) {
       if (this.registrationForm.get('confirmedPassword')?.value == this.registrationForm.get('password')?.value) {
+        this.registrationForm.disable()
+
         this.auth.signUp(this.registrationForm.value)
           .pipe(
             take(1),
+            catchError(error => {
+              return throwError(() => error)
+            }),
             finalize(() => this.registrationForm.enable())
           )
           .subscribe({
-              next: res => {
-                this.toast.success({detail: "Success", summary: res.message, duration: 3000})
-                this.router.navigate(['login'])
-              },
-              error: err => {
-                this.toast.error({detail: "Error", summary: err.message, duration: 3000})
-              }
-            })
-
-        this.registrationForm.disable()
-
+            next: res => {
+              this.toast.success({detail: "Success", summary: res.message, duration: 3000})
+              this.router.navigate(['login'])
+            }
+          })
       } else {
         this.toast.error({detail: "Error", summary: "Passwords are not matching!", duration: 3000})
       }

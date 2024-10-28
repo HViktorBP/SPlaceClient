@@ -8,6 +8,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {QuestionDto} from "../data-transferring/dtos/question/question-dto";
 import {Question} from "../data-transferring/enums/question";
 import {AnswerDto} from "../data-transferring/dtos/answer/answer-dto";
+import {catchError, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -20,23 +21,43 @@ export class QuizzesService {
               private fb : FormBuilder) { }
 
   getQuiz(quizId: number) {
-    return this.http.get<QuizDto>(`${this.baseUrl}${quizId}`)
+    return this.http.get<QuizDto>(`${this.baseUrl}${quizId}`).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   createNewQuiz(createQuizRequest : CreateQuizRequest) {
-    return this.http.post<any>(`${this.baseUrl}create`, createQuizRequest)
+    return this.http.post<any>(`${this.baseUrl}create`, createQuizRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   submitQuiz(submitQuizRequest : SubmitQuizRequest) {
-    return this.http.put<string>(`${this.baseUrl}submit`, submitQuizRequest)
+    return this.http.put<string>(`${this.baseUrl}submit`, submitQuizRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   deleteQuiz (deleteQuizRequest : DeleteQuizRequest) {
-    return this.http.delete<any>(`${this.baseUrl}quiz`, {body: deleteQuizRequest})
+    return this.http.delete<any>(`${this.baseUrl}quiz`, {body: deleteQuizRequest}).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   editQuiz(editQuizRequest : SubmitQuizRequest) {
-    return this.http.put<any>(`${this.baseUrl}edit`, editQuizRequest)
+    return this.http.put<any>(`${this.baseUrl}edit`, editQuizRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   buildQuiz(quiz : QuizDto) {
@@ -54,18 +75,18 @@ export class QuizzesService {
       question: [question.question, Validators.required],
       type: [question.type],
       answers: this.fb.array(question.answers.map(answer => this.createAnswerFormGroup(answer)))
-    };
+    }
 
     if (question.type === Question.SingleAnswer) {
       const answer = question.answers.find(a => a.status)
       if (answer) {
-        formGroupConfig.selectedAnswer = [answer.answer, Validators.required];
+        formGroupConfig.selectedAnswer = [answer.answer, Validators.required]
       } else {
-        formGroupConfig.selectedAnswer = [null, Validators.required];
+        formGroupConfig.selectedAnswer = [null, Validators.required]
       }
     }
 
-    return this.fb.group(formGroupConfig);
+    return this.fb.group(formGroupConfig)
   }
 
   createAnswerFormGroup(answer: AnswerDto) {
@@ -73,7 +94,7 @@ export class QuizzesService {
       id: [answer.id],
       answer: [answer.answer, Validators.required],
       status: [answer.status]
-    });
+    })
   }
 
 }

@@ -3,12 +3,11 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {finalize, take} from "rxjs";
+import {catchError, finalize, take, throwError} from "rxjs";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatHint, MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {HoverDirective} from "../custom/directives/hover.directive";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {NgIf} from "@angular/common";
 
@@ -24,7 +23,6 @@ import {NgIf} from "@angular/common";
     MatIcon,
     MatLabel,
     MatSuffix,
-    HoverDirective,
     MatCard,
     MatCardTitle,
     MatCardContent,
@@ -40,9 +38,8 @@ import {NgIf} from "@angular/common";
 })
 
 export class LoginComponent implements OnInit, OnDestroy{
-  loginForm!: FormGroup;
-  hide = signal(true);
-
+  loginForm!: FormGroup
+  hide = signal(true)
 
   constructor(private router: Router,
               private userService: UsersService,
@@ -52,34 +49,34 @@ export class LoginComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      userName: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-    });
+      userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+    })
   }
 
   onLogin() {
     if (this.loginForm.valid) {
+      this.loginForm.disable()
+
       this.userService.logIn(this.loginForm.value)
         .pipe(
           take(1),
+          catchError(error => {
+            return throwError(() => error)
+          }),
           finalize(() => this.loginForm.enable())
         )
         .subscribe(
           {
             next: res => {
-              this.toast.success({detail: "Success", summary: res.message, duration: 3000});
-              this.userService.storeUserData(res.token);
-              this.router.navigate(['main']);
-            },
-            error: err => {
-              this.toast.error({detail: "Error", summary: err.error.message, duration: 3000});
+              this.toast.success({detail: "Success", summary: res.message, duration: 3000})
+              this.userService.storeUserData(res.token)
+              this.router.navigate(['main'])
             }
           }
-        );
-
-      this.loginForm.disable();
+        )
     } else {
-      this.toast.warning({detail: "Warning", summary: "Please fill out the form correctly.", duration: 3000});
+      this.toast.warning({detail: "Warning", summary: "Please fill out the form correctly.", duration: 3000})
     }
   }
 
@@ -88,8 +85,8 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
 
   clickEvent(event: MouseEvent) {
-    this.hide.set(!this.hide());
-    event.stopPropagation();
+    this.hide.set(!this.hide())
+    event.stopPropagation()
   }
 
   ngOnDestroy() {

@@ -1,13 +1,16 @@
 <h2 mat-dialog-title>Change username</h2>
-<form (ngSubmit)="onSubmit(changeUsername)" #changeUsername="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="newUserNameForm">
   <mat-dialog-content>
       <mat-form-field appearance="fill">
         <mat-label>New username</mat-label>
-        <input matInput type="text" id="new-username" name="newUsername" ngModel required>
+        <input matInput type="text" formControlName="newUsername" required>
+        <mat-error *ngIf="newUserNameForm.get('newUsername')?.invalid && newUserNameForm.get('newUsername')?.touched">
+          Username must contain from 3 to 25 characters.
+        </mat-error>
       </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!changeUsername.valid">Change</button>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="newUserNameForm.invalid || isLoading">Change</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="isLoading">Cancel</button>
   </mat-dialog-actions>
 </form>

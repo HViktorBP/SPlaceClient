@@ -5,7 +5,7 @@ import {MessageDto} from "../data-transferring/dtos/message/message-dto";
 import {UsersDataService} from "../states/users-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
-import {take, tap} from "rxjs";
+import {catchError, take, tap} from "rxjs";
 import {map} from "rxjs/operators";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -66,11 +66,6 @@ export class ApplicationHubService {
             this.usersDataService.updateUsername(user.username)
           })
         )
-        .subscribe({
-          error : err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
-          }
-        })
     })
     //#endregion
 
@@ -167,6 +162,9 @@ export class ApplicationHubService {
           take(1),
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
+          }),
+          catchError(err => {
+            throw err
           })
         )
         .subscribe({
@@ -193,6 +191,9 @@ export class ApplicationHubService {
             take(1),
             tap(role => {
               this.groupDataService.updateUserRole(role)
+            }),
+            catchError(err => {
+              throw err
             })
           ).subscribe({
             next : () => {
@@ -209,7 +210,10 @@ export class ApplicationHubService {
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),
-          tap(user => this.usersDataService.updateGroupData(user.groups))
+          tap(user => this.usersDataService.updateGroupData(user.groups)),
+          catchError(err => {
+            throw err
+          })
         )
         .subscribe({
           error : err => {
@@ -224,7 +228,10 @@ export class ApplicationHubService {
             tap(group => {
               this.groupDataService.updateGroupName(group.name)
             }),
-            map(group => group.name)
+            map(group => group.name),
+            catchError(err => {
+              throw err
+            })
           ).subscribe({
             next : (name) => {
               this.toast.info({detail:"Info", summary: `This group name changed to ${name}`, duration:3000})
@@ -244,6 +251,9 @@ export class ApplicationHubService {
           take(1),
           tap(user => {
             this.usersDataService.updateUserScores(user.scores)
+          }),
+          catchError(err => {
+            throw err
           })
         )
         .subscribe({
@@ -260,6 +270,9 @@ export class ApplicationHubService {
             take(1),
             tap(group => {
               this.groupDataService.updateGroupScores(group.scores)
+            }),
+            catchError(err => {
+              throw err
             })
           )
           .subscribe({
@@ -286,8 +299,11 @@ export class ApplicationHubService {
             take(1),
             tap(group => {
               this.groupDataService.updateQuizzesList(group.quizzes)
+            }),
+            catchError(err => {
+              throw err
             })
-            )
+          )
           .subscribe({
             error : err => {
               this.toast.error({detail:"Error", summary: err, duration:3000})
@@ -303,6 +319,9 @@ export class ApplicationHubService {
             take(1),
             tap(group => {
               this.groupDataService.updateGroupScores(group.scores)
+            }),
+            catchError(err => {
+              throw err
             })
           )
           .subscribe({
@@ -319,6 +338,9 @@ export class ApplicationHubService {
           take(1),
           tap(user => {
             this.usersDataService.updateUserScores(user.scores)
+          }),
+          catchError(err => {
+            throw err
           })
         )
         .subscribe({

@@ -27,7 +27,7 @@ import {MatInput} from "@angular/material/input";
   styleUrl: './log-out.component.scss'
 })
 export class LogOutComponent {
-  readonly dialogRef = inject(MatDialogRef<LogOutComponent>);
+  readonly dialogRef = inject(MatDialogRef<LogOutComponent>)
 
   constructor(private userService : UsersService,
               private router : Router) {

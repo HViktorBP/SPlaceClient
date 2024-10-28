@@ -8,6 +8,7 @@ import {AddUserRequest} from "../data-transferring/contracts/group/add-user-requ
 import {RenameGroupRequest} from "../data-transferring/contracts/group/rename-group-request";
 import {UserGroupRequest} from "../data-transferring/contracts/group/user-group-request";
 import {RemoveUserRequest} from "../data-transferring/contracts/group/remove-user-request";
+import {catchError, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,46 +20,74 @@ export class GroupsService {
   constructor(private http : HttpClient) { }
 
   getGroup(id:number) {
-    return this.http.get<GroupDto>(`${this.baseUrl}${id}`)
+    return this.http.get<GroupDto>(`${this.baseUrl}${id}`).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   getRole(userId : number, groupId : number) {
-    return this.http.get<Role>(`${this.baseUrl}role?userId=${userId}&groupId=${groupId}`)
+    return this.http.get<Role>(`${this.baseUrl}role?userId=${userId}&groupId=${groupId}`).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   changeRole(changeRoleRequest : ChangeRoleRequest) {
-    return this.http.put<any>(`${this.baseUrl}role`, changeRoleRequest)
+    return this.http.put<any>(`${this.baseUrl}role`, changeRoleRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   createGroup (createGroupRequest : CreateGroupRequest) {
-    return this.http.post<any>(`${this.baseUrl}create`, createGroupRequest)
+    return this.http.post<any>(`${this.baseUrl}create`, createGroupRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   addUser (addUserRequest : AddUserRequest) {
-    return this.http.post<any>(`${this.baseUrl}add`, addUserRequest)
+    return this.http.post<any>(`${this.baseUrl}add`, addUserRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   renameGroup (renameGroupRequest : RenameGroupRequest) {
-    return this.http.put<any>(`${this.baseUrl}rename`, renameGroupRequest)
+    return this.http.put<any>(`${this.baseUrl}rename`, renameGroupRequest).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   leaveGroup(leaveGroupRequest : UserGroupRequest) {
-    return this.http.delete<any>(`${this.baseUrl}leave`, {"body": leaveGroupRequest})
+    return this.http.delete<any>(`${this.baseUrl}leave`, {"body": leaveGroupRequest}).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   removeUser(removeUserRequest : RemoveUserRequest) {
-    return this.http.delete<any>(`${this.baseUrl}remove`, {"body" : removeUserRequest})
+    return this.http.delete<any>(`${this.baseUrl}remove`, {"body" : removeUserRequest}).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
 
   deleteGroup(deleteGroupRequest : UserGroupRequest) {
-    return this.http.delete<any>(`${this.baseUrl}group`, {"body" : deleteGroupRequest})
+    return this.http.delete<any>(`${this.baseUrl}group`, {"body" : deleteGroupRequest}).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
   }
-
-  // leaveGroup(userId:number, groupId:number) {
-  //   return this.http.delete<any>(`${this.baseUrl}leave-group?userID=${userId}&groupID=${groupId}`)
-  // }
-
-  // deleteGroup(userId:number, groupId:number) {
-  //   return this.http.delete<any>(`${this.baseUrl}delete-group?groupID=${groupId}&userID=${userId}`)
-  // }
 }

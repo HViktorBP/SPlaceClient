@@ -24,7 +24,7 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "
   styleUrl: './delete-account.component.scss'
 })
 export class DeleteAccountComponent {
-  readonly dialogRef = inject(MatDialogRef<DeleteAccountComponent>);
+  readonly dialogRef = inject(MatDialogRef<DeleteAccountComponent>)
 
   constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
@@ -34,26 +34,21 @@ export class DeleteAccountComponent {
 
   onSubmit() {
     const groupToDelete = this.usersDataService.createdGroups.map(g => g.id)
+
     this.userService.deleteAccount()
       .pipe(take(1))
       .subscribe({
         next : res => {
           this.applicationHubService.deleteUser(groupToDelete)
-            .then(
-              () => {
+            .then(() => {
                 this.toast.info({detail:"Info", summary: res.message, duration:3000})
-              }
-            )
-            .catch(error => {
-              this.toast.success({detail:"Error", summary: error, duration:3000})
-            })
-          this.dialogRef.close()
-          this.router.navigate(['login']).then(
-            () => sessionStorage.clear()
-          );
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
+              })
+
+          this.router.navigate(['login'])
+            .then(() => {
+              sessionStorage.clear()
+              this.dialogRef.close()
+            });
         }
       })
   }

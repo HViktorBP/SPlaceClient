@@ -62,6 +62,7 @@ export class DeleteGroupComponent {
             take(1),
             tap(user => {
               this.userDataService.updateCreatedGroupData(user.createdGroups);
+              this.userDataService.updateCreatedQuizzesData(user.createdQuizzes);
             })
           )
         )

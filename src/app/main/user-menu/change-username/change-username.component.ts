@@ -1,9 +1,15 @@
 import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from "@angular/forms";
 import {ChangeUsernameRequest} from "../../../data-transferring/contracts/user/change-username-request";
-import {take} from "rxjs";
+import {catchError, finalize, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../services/application-hub.service";
 import {
   MatDialogActions,
@@ -12,9 +18,12 @@ import {
   MatDialogRef,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
+import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
+import {NgIf} from "@angular/common";
+import {UsersDataService} from "../../../states/users-data.service";
 
 @Component({
   selector: 'app-change-username',
@@ -29,46 +38,77 @@ import {MatInput} from "@angular/material/input";
     MatDialogTitle,
     MatInput,
     MatDialogClose,
-    MatLabel
+    MatLabel,
+    MatError,
+    NgIf
   ],
   templateUrl: './change-username.component.html',
   styleUrl: './change-username.component.scss'
 })
-export class ChangeUsernameComponent {
-  readonly dialogRef = inject(MatDialogRef<ChangeUsernameComponent>);
+export class ChangeUsernameComponent implements CustomPopUpForm {
+  readonly dialogRef = inject(MatDialogRef<ChangeUsernameComponent>)
+  newUserNameForm!: FormGroup
+  isLoading!: boolean
 
   constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
-              private userService : UsersService) { }
+              private userService : UsersService,
+              private userDataService : UsersDataService,
+              private fb : FormBuilder) { }
 
-  onSubmit(form : NgForm) {
+  ngOnInit(): void {
+    this.newUserNameForm = this.fb.group({
+      newUsername: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+    })
+  }
+
+  onSubmit() {
     const userId = this.userService.getUserId()
+
+    this.isLoading = true
+    this.newUserNameForm.disable()
 
     const changeUsernameRequest : ChangeUsernameRequest = {
       userId : userId,
-      newUsername : form.value.newUsername
+      newUsername : this.newUserNameForm.get('newUsername')?.value
     }
 
     this.userService.changeUsername(changeUsernameRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        tap(() => {
+          this.userService.getUserAccount(this.userService.getUserId())
+            .pipe(
+              take(1),
+            ).subscribe({
+              next : account => {
+                this.userDataService.updateUsername(account.username)
+              }
+          })
+        }),
+        catchError(error => {
+          return throwError(() => error)
+        }),
+        finalize(() => {
+          this.newUserNameForm.enable()
+          this.isLoading = false
+        })
+      )
       .subscribe({
         next : res => {
           this.applicationHubService.changeName(changeUsernameRequest.newUsername)
             .then(
               () => {
-                this.toast.info({detail:"Info", summary: res.message, duration:3000})
+                this.toast.success({detail:"Info", summary: res.message, duration:3000})
+                this.userService.storeUserData(res.token)
                 this.dialogRef.close();
               }
             )
-            .catch(error => {
-              this.toast.error({detail:"Error", summary: error, duration:3000})
-            })
-          this.userService.storeUserData(res.token)
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
+  }
 
+  ngOnDestroy(): void {
+    this.newUserNameForm.reset()
   }
 }
