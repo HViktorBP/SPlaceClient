@@ -2,16 +2,18 @@ import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../../../services/users.service";
 import {GroupsService} from "../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
-import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroupRequest} from "../../../../../data-transferring/contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
-import {take} from "rxjs";
+import {catchError, finalize, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {CustomPopUpForm} from "../../../../../custom/interfaces/CustomPopUpForm";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-rename-group',
@@ -26,33 +28,56 @@ import {MatInput} from "@angular/material/input";
     MatDialogTitle,
     MatFormField,
     MatInput,
-    MatLabel
+    MatLabel,
+    MatError,
+    NgIf
   ],
   templateUrl: './rename-group.component.html',
   styleUrl: './rename-group.component.scss'
 })
 
-export class RenameGroupComponent {
-  readonly dialogRef = inject(MatDialogRef<RenameGroupComponent>);
+export class RenameGroupComponent implements CustomPopUpForm{
+  readonly dialogRef = inject(MatDialogRef<RenameGroupComponent>)
+  isLoading!: boolean
+  renameGroupForm!: FormGroup
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private applicationHubService : ApplicationHubService,
               private toast : NgToastService,
-              private groupDataService : GroupDataService) { }
+              private groupDataService : GroupDataService,
+              private fb : FormBuilder) { }
 
-  onSubmit(form: NgForm) {
+  ngOnInit(): void {
+    this.renameGroupForm = this.fb.group({
+      groupName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]]
+    })
+  }
+
+  onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
+
+    this.renameGroupForm.disable()
+    this.isLoading = true
 
     const renameGroupRequest : RenameGroupRequest = {
       userId : userId,
       groupId : groupId,
-      newGroupName : form.value.groupName,
+      newGroupName : this.renameGroupForm.get('groupName')!.value
     }
 
     this.groupService.renameGroup(renameGroupRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError(error => {
+          return throwError(() => error)
+        }),
+        finalize(() => {
+          this.renameGroupForm.enable()
+          this.isLoading = false
+        })
+      )
       .subscribe({
         next : res => {
           this.applicationHubService.renameGroup(renameGroupRequest.groupId)
@@ -62,13 +87,11 @@ export class RenameGroupComponent {
                 this.dialogRef.close()
               }
             )
-            .catch(error => {
-              this.toast.success({detail:"Error", summary: error, duration:3000})
-            })
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
+  }
+
+  ngOnDestroy(): void {
+    this.renameGroupForm.reset()
   }
 }

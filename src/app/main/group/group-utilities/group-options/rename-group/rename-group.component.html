@@ -1,14 +1,17 @@
 <h2 mat-dialog-title>Rename group</h2>
-<form (ngSubmit)="onSubmit(renameGroup)" #renameGroup="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="renameGroupForm">
   <mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>Group's new name</mat-label>
-      <input matInput type="text" id="group-name" name="groupName" ngModel required>
+      <input matInput type="text" formControlName="groupName" required>
+      <mat-error *ngIf="renameGroupForm.get('userName')?.invalid && renameGroupForm.get('userName')?.touched">
+        Group name must contain from 3 to 20 characters.
+      </mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!renameGroup.valid">Rename</button>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="renameGroupForm.invalid || isLoading">Rename</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]=" isLoading">Cancel</button>
   </mat-dialog-actions>
 </form>
 

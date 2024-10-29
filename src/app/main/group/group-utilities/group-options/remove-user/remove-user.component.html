@@ -1,14 +1,17 @@
 <h2 mat-dialog-title>Remove user</h2>
-<form (ngSubmit)="onSubmit(removeUserForm)" #removeUserForm="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="removeUserForm">
   <mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>User's name</mat-label>
-      <input matInput type="text" id="user-name" name="userName" ngModel required>
+      <input matInput type="text" formControlName="userName" required>
+      <mat-error *ngIf="removeUserForm.get('userName')?.invalid && removeUserForm.get('userName')?.touched">
+        User name must contain from 3 to 25 characters.
+      </mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="warn" type="submit" [disabled]="!removeUserForm.valid">Remove</button>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="warn" type="submit" [disabled]="removeUserForm.invalid || isLoading">Remove</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="isLoading">Cancel</button>
   </mat-dialog-actions>
 </form>
 

@@ -1,22 +1,28 @@
 <h2 mat-dialog-title>Change user's role</h2>
-<form (ngSubmit)="onSubmit(changeRole)" #changeRole="ngForm">
+<form (ngSubmit)="onSubmit()" [formGroup]="changeRoleForm">
   <mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>User</mat-label>
-      <input matInput type="text" id="user-name" name="userName" ngModel required>
+      <input matInput type="text" formControlName="userName" required>
+      <mat-error *ngIf="changeRoleForm.get('userName')?.invalid && changeRoleForm.get('userName')?.touched">
+        User name must contain from 3 to 25 characters.
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>New role</mat-label>
-      <mat-select id="user-role" name="userRole" ngModel required>
+      <mat-select formControlName="userRole" required>
         <mat-option value="1">Administrator</mat-option>
         <mat-option value="2">Moderator</mat-option>
         <mat-option value="3">Participant</mat-option>
       </mat-select>
+      <mat-error *ngIf="changeRoleForm.get('userRole')?.invalid && changeRoleForm.get('userRole')?.touched">
+        Specify the user's role.
+      </mat-error>
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!changeRole.valid">Change</button>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="changeRoleForm.invalid || isLoading">Change</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="isLoading">Cancel</button>
   </mat-dialog-actions>
 </form>
 

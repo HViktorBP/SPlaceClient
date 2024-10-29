@@ -8,7 +8,7 @@ import {NgToastService} from "ng-angular-popup";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../data-transferring/contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../states/group-data.service";
-import {switchMap, take} from "rxjs";
+import {catchError, switchMap, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {map} from "rxjs/operators";
 import {UsersDataService} from "../../../../../states/users-data.service";
@@ -32,7 +32,7 @@ import {MatButton} from "@angular/material/button";
   styleUrl: './leave-group.component.scss'
 })
 export class LeaveGroupComponent {
-  readonly dialogRef = inject(MatDialogRef<LeaveGroupComponent>);
+  readonly dialogRef = inject(MatDialogRef<LeaveGroupComponent>)
 
   constructor(private userService : UsersService,
               private groupService : GroupsService,
@@ -60,26 +60,22 @@ export class LeaveGroupComponent {
             .pipe(
               map(user => user.groups)
             )
+        }),
+        catchError(error => {
+          return throwError(() => error)
         })
       )
       .subscribe({
         next : groups => {
           this.userDataService.updateGroupData(groups)
           this.applicationHubService.leaveTheGroup(leaveGroupRequest.groupId)
-            .then(
-              () => {
+            .then(() => {
                 this.toast.info({detail:"Info", summary: 'You left the group', duration:3000})
                 this.router.navigate(['main/home']).then(
                   () => this.dialogRef.close()
                 )
               }
             )
-            .catch(error => {
-              this.toast.success({detail:"Error", summary: error, duration:3000})
-            })
-        },
-        error : err => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
         }
       })
   }
