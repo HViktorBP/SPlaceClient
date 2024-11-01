@@ -34,8 +34,10 @@
           </div>
         </div>
       </div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Submit Quiz</button>
-      <button mat-raised-button color="warn" type="button" [routerLink]="['/main/group', this.groupDataService.currentGroupId]">Cancel</button>
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Submit Quiz</button>
+        <button mat-raised-button color="warn" type="button" [routerLink]="['/main/group', this.groupDataService.currentGroupId]">Cancel</button>
+      </div>
     </mat-card-content>
   </mat-card>
 </form>

@@ -74,7 +74,7 @@ export class QuizzesService {
       id: [question.id],
       question: [question.question, Validators.required],
       type: [question.type],
-      answers: this.fb.array(question.answers.map(answer => this.createAnswerFormGroup(answer)))
+      answers: this.fb.array(question.answers.map(answer => this.createAnswerFormGroup(answer))),
     }
 
     if (question.type === Question.SingleAnswer) {
@@ -96,5 +96,4 @@ export class QuizzesService {
       status: [answer.status]
     })
   }
-
 }

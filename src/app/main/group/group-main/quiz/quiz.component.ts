@@ -71,10 +71,6 @@ export class QuizComponent implements OnInit, OnDestroy {
     this.loadQuiz();
   }
 
-  ngOnDestroy() {
-    this.routerSubscription.unsubscribe();
-  }
-
   get questions() {
     return this.quizForm.get('questions') as FormArray;
   }
@@ -138,7 +134,6 @@ export class QuizComponent implements OnInit, OnDestroy {
   private loadQuiz() {
     this.routerSubscription = this.route.params
       .pipe(
-        take(1),
         switchMap(() => {
           const quizId = +this.route.snapshot.paramMap.get('quizId')!;
           return this.quizzesService.getQuiz(quizId).pipe(
@@ -160,4 +155,9 @@ export class QuizComponent implements OnInit, OnDestroy {
       });
   }
 
+
+  ngOnDestroy() {
+    this.quizForm.reset();
+    this.routerSubscription.unsubscribe();
+  }
 }

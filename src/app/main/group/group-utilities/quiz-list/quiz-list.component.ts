@@ -61,22 +61,13 @@ export class QuizListComponent {
   }
 
   createQuiz() {
-    const dialogRef = this.dialog.open(CreateQuizComponent, {
-      width: '600px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Quiz Data:', result);
-      }
+    this.dialog.open(CreateQuizComponent, {
+      width: '50vw'
     });
   }
 
   openDeleteDialog(quizName: string, quizId: number): void {
-    const dialogRef = this.dialog.open(DeleteQuizComponent, {
-      width: '300px',
-      data: { quizName: quizName }
-    });
+    const dialogRef = this.dialog.open(DeleteQuizComponent);
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -104,12 +95,6 @@ export class QuizListComponent {
                 .then(() => {
                   this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000});
                 })
-                .catch(err => {
-                  this.toast.error({detail: 'Error', summary: err, duration: 3000});
-                })
-            },
-            error: (err) => {
-              this.toast.error({detail: 'Error', summary: err, duration: 3000});
             }
           });
       }
@@ -118,7 +103,7 @@ export class QuizListComponent {
 
   openEditQuizDialog(quizId : number) {
     this.dialog.open(EditQuizComponent, {
-      width: '600px',
+      width: '50vw',
       data: { quizId: quizId }
     });
   }

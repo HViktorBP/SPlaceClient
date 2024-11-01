@@ -1,75 +1,77 @@
-<div class="quiz-editor" *ngIf="!isLoading">
-  <form [formGroup]="quizForm" (ngSubmit)="onEdit()">
+<div class="quiz-editor">
+  <h2 mat-dialog-actions>Edit Quiz</h2>
+  <div *ngIf="!isLoading">
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <mat-label>Quiz Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter quiz name">
+      </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Quiz Name</mat-label>
-      <input matInput formControlName="name" placeholder="Enter quiz name">
-    </mat-form-field>
+      <div formArrayName="questions">
+        <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="question-box">
+          <mat-form-field class="full-width">
+            <mat-label>Question {{ i + 1 }}</mat-label>
+            <input matInput formControlName="question" placeholder="Enter question">
+          </mat-form-field>
 
-    <div formArrayName="questions">
-      <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="question-box">
-        <mat-form-field class="full-width">
-          <mat-label>Question {{ i + 1 }}</mat-label>
-          <input matInput formControlName="question" placeholder="Enter question">
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Question type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option [value]="0" (click)="addSingleAnswer(i)">Single Answer</mat-option>
+              <mat-option [value]="1" (click)="removeSingleAnswer(i)">Multiple Answer</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Question type</mat-label>
-          <mat-select formControlName="type">
-            <mat-option [value]="0" (click)="addSingleAnswer(i)">Single Answer</mat-option>
-            <mat-option [value]="1" (click)="removeSingleAnswer(i)">Multiple Answer</mat-option>
-          </mat-select>
-        </mat-form-field>
-          @if (question.get('type')?.value == 0) {
-            <mat-radio-group class="answer-box" formControlName="selectedAnswer">
+          <ng-container *ngIf="question.get('type')?.value === 0; else multipleAnswerTemplate">
+            <mat-radio-group formControlName="selectedAnswer">
               <div formArrayName="answers">
-                <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j">
+                <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j" class="answer-box">
                   <mat-form-field class="answer-field">
                     <mat-label>Answer {{ j + 1 }}</mat-label>
                     <input matInput formControlName="answer" placeholder="Enter answer">
                   </mat-form-field>
 
-                  <mat-radio-button [value]="answer.get('answer')?.value || false" [checked]="answer.get('status')?.value || false">Correct Answer</mat-radio-button>
+                  <mat-radio-button
+                    [value]="answer.get('answer')?.value"
+                    [checked]="answer.get('status')?.value"
+                    (change)="onSingleAnswerSelection(i, j)">
+                    Correct Answer
+                  </mat-radio-button>
 
-                  <button mat-icon-button color="warn" (click)="removeAnswer(i, j)">
+                  <button mat-icon-button color="warn" (click)="removeAnswer(i, j)" class="remove-answer">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </div>
               </div>
             </mat-radio-group>
-            <button mat-raised-button color="primary" (click)="addAnswer(i)">
-              Add Answer
-            </button>
-          } @else {
+            <button mat-raised-button color="primary" (click)="addAnswer(i)">Add Answer</button>
+          </ng-container>
+
+          <ng-template #multipleAnswerTemplate>
             <div formArrayName="answers">
               <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j" class="answer-box">
                 <mat-form-field class="answer-field">
                   <mat-label>Answer {{ j + 1 }}</mat-label>
                   <input matInput formControlName="answer" placeholder="Enter answer">
                 </mat-form-field>
-
                 <mat-checkbox formControlName="status">Correct Answer</mat-checkbox>
-
-                <button mat-icon-button color="warn" (click)="removeAnswer(i, j)">
+                <button mat-icon-button color="warn" (click)="removeAnswer(i, j)" class="remove-answer">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
             </div>
-            <button mat-raised-button color="primary" (click)="addAnswer(i)">
-              Add Answer
-            </button>
-          }
-        <button mat-icon-button color="warn" (click)="removeQuestion(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
+            <button mat-raised-button color="primary" (click)="addAnswer(i)">Add Answer</button>
+          </ng-template>
+
+          <button mat-raised-button color="warn" (click)="removeQuestion(i)" class="remove-question-btn">Remove question</button>
+        </div>
+        <button mat-raised-button color="primary" (click)="addQuestion()" class="add-question-btn">Add Question</button>
       </div>
-      <button mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
 
-    </div>
-
-    <div class="action-buttons">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Save Quiz</button>
-      <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
-    </div>
-  </form>
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Save Quiz</button>
+        <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>

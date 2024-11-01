@@ -1,56 +1,63 @@
-<h2 mat-dialog-actions>Create Quiz</h2>
-<form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Quiz name</mat-label>
-    <input matInput id="quiz-name" formControlName="name" required>
-  </mat-form-field>
+<div class="quiz-editor">
+  <h2 mat-dialog-actions>Create Quiz</h2>
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Quiz name</mat-label>
+      <input matInput id="quiz-name" formControlName="name" required />
+    </mat-form-field>
 
-  <div formArrayName="questions">
-    <div *ngFor="let question of questions.controls; let qIndex = index" [formGroupName]="qIndex" class="question-card">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            Question {{ qIndex + 1 }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Question</mat-label>
-            <input matInput formControlName="question" required>
-          </mat-form-field>
+    <div formArrayName="questions">
+      <div *ngFor="let question of questions.controls; let qIndex = index" [formGroupName]="qIndex" class="question-card">
+        <mat-card>
+            <mat-card-title>
+              <mat-card-header>Question {{ qIndex + 1 }}</mat-card-header>
+            </mat-card-title>
+          <mat-card-content>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Question</mat-label>
+              <input matInput formControlName="question" required />
+            </mat-form-field>
 
-          <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Type</mat-label>
-            <mat-select formControlName="type" required>
-              <mat-option value="0">True/False</mat-option>
-              <mat-option value="1">Multiple Choice</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type" required>
+                <mat-option value="0">True/False</mat-option>
+                <mat-option value="1">Multiple Choice</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <div formArrayName="answers">
-            <div *ngFor="let answer of getAnswers(qIndex).controls; let aIndex = index" [formGroupName]="aIndex" class="answer-row">
-              <mat-form-field appearance="fill" class="answer-field">
-                <mat-label>Answer {{ aIndex + 1 }}</mat-label>
-                <input matInput formControlName="answer" required>
-              </mat-form-field>
-              <mat-checkbox formControlName="status"></mat-checkbox>
+            <div formArrayName="answers" class="answer-section">
+              <div *ngFor="let answer of getAnswers(qIndex).controls; let aIndex = index" [formGroupName]="aIndex" class="answer-row">
+                <mat-form-field appearance="fill" class="answer-field">
+                  <mat-label>Answer {{ aIndex + 1 }}</mat-label>
+                  <input matInput formControlName="answer" required />
+                </mat-form-field>
+                <mat-checkbox formControlName="status" class="status-checkbox"></mat-checkbox>
 
-              <button mat-raised-button color="warn" type="button" (click)="removeAnswer(qIndex, aIndex)">Remove Answer</button>
+                <button mat-icon-button color="warn" type="button" (click)="removeAnswer(qIndex, aIndex)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+
+              <button mat-raised-button color="primary" type="button" (click)="addAnswer(qIndex)">Add Answer</button>
             </div>
 
-            <button mat-raised-button color="success" type="button" (click)="addAnswer(qIndex)">Add Answer</button>
-          </div>
+            <button mat-raised-button type="button" color="warn" (click)="removeQuestion(qIndex)">Remove Question</button>
+          </mat-card-content>
 
-          <button mat-raised-button type="button" color="warn" (click)="removeQuestion(qIndex)">Remove Question</button>
-        </mat-card-content>
-      </mat-card>
+        </mat-card>
+        <mat-error *ngIf="question.hasError('multipleCorrectAnswers')">
+          Only one answer can be correct for True/False questions.
+        </mat-error>
+      </div>
+
+      <button mat-raised-button type="button" color="primary" (click)="addQuestion()">Add Question</button>
     </div>
 
-    <button mat-raised-button type="button" color="success" (click)="addQuestion()">Add Question</button>
-  </div>
-  <div class="action-buttons">
-    <button mat-raised-button color="success" type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
-    <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
-  </div>
-</form>
 
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
+      <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
+    </div>
+  </form>
+</div>
