@@ -5,7 +5,7 @@ import {MessageDto} from "../data-transferring/dtos/message/message-dto";
 import {UsersDataService} from "../states/users-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
-import {catchError, take, tap} from "rxjs";
+import {catchError, take, tap, throwError} from "rxjs";
 import {map} from "rxjs/operators";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -120,7 +120,8 @@ export class ApplicationHubService {
             take(1),
             tap(group => {
               this.groupDataService.updateGroupMessages(group.messages)
-            })
+            }),
+
           )
           .subscribe({
             error : err => {
@@ -137,6 +138,9 @@ export class ApplicationHubService {
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
             this.usersDataService.updateUserScores(user.scores)
+          }),
+          catchError(err => {
+            return throwError(() => err)
           })
         )
         .subscribe({
@@ -164,7 +168,7 @@ export class ApplicationHubService {
             this.usersDataService.updateGroupData(user.groups)
           }),
           catchError(err => {
-            throw err
+            return throwError(() => err)
           })
         )
         .subscribe({
@@ -193,7 +197,7 @@ export class ApplicationHubService {
               this.groupDataService.updateUserRole(role)
             }),
             catchError(err => {
-              throw err
+              return throwError(() => err)
             })
           ).subscribe({
             next : () => {
@@ -212,7 +216,7 @@ export class ApplicationHubService {
           take(1),
           tap(user => this.usersDataService.updateGroupData(user.groups)),
           catchError(err => {
-            throw err
+            return throwError(() => err)
           })
         )
         .subscribe({
@@ -284,8 +288,8 @@ export class ApplicationHubService {
         if (currentQuizId != null) {
           if (+currentQuizId == quizId) {
             this.router.navigate(['main/group' + groupId + 'chat'])
-              .catch(err => {
-                this.toast.error({detail:"Error", summary: err, duration:3000})
+              .then(() => {
+                this.toast.info({detail:"Info", summary: "This quiz has been edited.", duration:3000})
               })
           }
         }
@@ -386,6 +390,10 @@ export class ApplicationHubService {
   //region User
   public async changeName(newUserName : string){
     return this.connection.invoke("ChangeName", newUserName)
+  }
+
+  public async changeStatus(){
+    return this.connection.invoke("ChangeStatus")
   }
 
   public async deleteUser(groupsToDelete : number[]){

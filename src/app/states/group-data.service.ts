@@ -4,6 +4,7 @@ import {Role} from "../data-transferring/enums/role";
 import {QuizIdentifier} from "../data-transferring/dtos/quiz/quiz-identifier";
 import {MessageDto} from "../data-transferring/dtos/message/message-dto";
 import {QuizScores} from "../data-transferring/dtos/score/quiz-scores";
+import {UserPublicData} from "../data-transferring/dtos/user/user-public-data";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class GroupDataService {
   private groupNameSubject = new BehaviorSubject<string>('');
   groupName$ = this.groupNameSubject.asObservable();
 
-  private userListSubject = new BehaviorSubject<string[]>([]);
+  private userListSubject = new BehaviorSubject<UserPublicData[]>([]);
   userList$ = this.userListSubject.asObservable();
 
   private quizListSubject = new BehaviorSubject<QuizIdentifier[]>([]);
@@ -44,7 +45,7 @@ export class GroupDataService {
     return this.userCount$
   }
 
-  updateUsersList(users: string[]) {
+  updateUsersList(users: UserPublicData[]) {
     this.userListSubject.next(users)
   }
 

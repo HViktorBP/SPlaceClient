@@ -3,6 +3,7 @@ import {AsyncPipe, NgForOf} from "@angular/common";
 import {GroupDataService} from "../../../../../states/group-data.service";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-participants',
@@ -17,6 +18,7 @@ import {MatList, MatListItem} from "@angular/material/list";
     MatList,
     MatListItem,
     MatCardTitle,
+    MatTooltip,
   ],
   templateUrl: './participants.component.html',
   styleUrl: './participants.component.scss'
@@ -24,4 +26,7 @@ import {MatList, MatListItem} from "@angular/material/list";
 export class ParticipantsComponent {
   constructor(public groupDataService : GroupDataService) { }
 
+  showStatus(status : string) {
+    console.log(status);
+  }
 }

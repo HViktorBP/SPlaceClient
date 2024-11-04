@@ -11,6 +11,7 @@ import {MatInput} from "@angular/material/input";
 import {UsersDataService} from "../../../states/users-data.service";
 import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
+import {ApplicationHubService} from "../../../services/application-hub.service";
 
 @Component({
   selector: 'app-change-status',
@@ -39,6 +40,7 @@ export class ChangeStatusComponent implements CustomPopUpForm {
   constructor(private toast : NgToastService,
               private userService : UsersService,
               private userDataService : UsersDataService,
+              private applicationHub : ApplicationHubService,
               private fb : FormBuilder) { }
 
   ngOnInit() {
@@ -77,8 +79,12 @@ export class ChangeStatusComponent implements CustomPopUpForm {
       )
       .subscribe({
         next : () => {
-          this.toast.success({detail:"Success", summary: 'Status updated', duration:3000})
-          this.dialogRef.close()
+          this.applicationHub.changeStatus().then(
+            () => {
+              this.toast.success({detail:"Success", summary: 'Status updated', duration:3000})
+              this.dialogRef.close()
+            }
+          )
         }
       })
 
