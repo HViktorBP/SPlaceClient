@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
-import {GroupDataService} from "../states/group-data.service";
+import {GroupDataService} from "./states/group-data.service";
 import {MessageDto} from "../data-transferring/dtos/message/message-dto";
-import {UsersDataService} from "../states/users-data.service";
+import {UsersDataService} from "./states/users-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
 import {catchError, take, tap, throwError} from "rxjs";
@@ -214,7 +214,11 @@ export class ApplicationHubService {
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),
-          tap(user => this.usersDataService.updateGroupData(user.groups)),
+          tap(user => {
+            this.usersDataService.updateGroupData(user.groups)
+            if (this.usersDataService.createdGroups.some(group => group.id  == groupId))
+              this.usersDataService.updateCreatedGroupData(user.createdGroups)
+          }),
           catchError(err => {
             return throwError(() => err)
           })
