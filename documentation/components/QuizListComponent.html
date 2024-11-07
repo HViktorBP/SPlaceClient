@@ -1,0 +1,983 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>splace-client documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">splace-client documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  QuizListComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-quiz-list</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgForOf</code>
+                            <code>FormsModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>JsonPipe</code>
+                            <code>NgIf</code>
+                            <code>KeyValuePipe</code>
+                            <code>AsyncPipe</code>
+                            <code>RouterLink</code>
+                            <code>FaIconComponent</code>
+                            <code>MatButton</code>
+                            <code>MatCard</code>
+                            <code>MatCardContent</code>
+                            <code>MatCardHeader</code>
+                            <code>MatCardTitle</code>
+                            <code>MatList</code>
+                            <code>MatListItem</code>
+                            <code>MatIconButton</code>
+                            <code>MatIcon</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./quiz-list.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./quiz-list.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#applicationHubService" >applicationHubService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupDataService" >groupDataService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createQuiz" >createQuiz</a>
+                            </li>
+                            <li>
+                                <a href="#openDeleteDialog" >openDeleteDialog</a>
+                            </li>
+                            <li>
+                                <a href="#openEditQuizDialog" >openEditQuizDialog</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isAdministrator" >isAdministrator</a>
+                            </li>
+                            <li>
+                                <a href="#isCreator" >isCreator</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(groupDataService: <a href="../injectables/GroupDataService.html" target="_self">GroupDataService</a>, userDataService: <a href="../injectables/UsersDataService.html" target="_self">UsersDataService</a>, dialog: MatDialog, applicationHubService: <a href="../injectables/ApplicationHubService.html" target="_self">ApplicationHubService</a>, toast: NgToastService, usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, quizzesService: <a href="../injectables/QuizzesService.html" target="_self">QuizzesService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>groupDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersDataService.html" target="_self" >UsersDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>applicationHubService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ApplicationHubService.html" target="_self" >ApplicationHubService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>toast</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgToastService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>usersService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>quizzesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/QuizzesService.html" target="_self" >QuizzesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isAdministrator"></a>
+                        <b>isAdministrator</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:52</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isCreator"></a>
+                        <b>isCreator</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:51</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createQuiz"></a>
+                    <span class="name">
+                        <span ><b>createQuiz</b></span>
+                        <a href="#createQuiz"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createQuiz()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="63"
+                                    class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDeleteDialog"></a>
+                    <span class="name">
+                        <span ><b>openDeleteDialog</b></span>
+                        <a href="#openDeleteDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDeleteDialog(quizName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, quizId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>quizName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>quizId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openEditQuizDialog"></a>
+                    <span class="name">
+                        <span ><b>openEditQuizDialog</b></span>
+                        <a href="#openEditQuizDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openEditQuizDialog(quizId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>quizId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applicationHubService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>applicationHubService</b></span>
+                        <a href="#applicationHubService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ApplicationHubService.html" target="_self" >ApplicationHubService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>groupDataService</b></span>
+                        <a href="#groupDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/components/main/group/group-utilities/quiz-list/quiz-list.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &#x27;@angular/core&#x27;;
+import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from &quot;@angular/common&quot;;
+import {FormsModule, ReactiveFormsModule} from &quot;@angular/forms&quot;;
+import {MatDialog} from &#x27;@angular/material/dialog&#x27;;
+import {GroupDataService} from &quot;../../../../../services/states/group-data.service&quot;;
+import { CreateQuizComponent } from &quot;./create-quiz/create-quiz.component&quot;;
+import {RouterLink} from &quot;@angular/router&quot;;
+import {NgToastService} from &quot;ng-angular-popup&quot;;
+import {UsersService} from &quot;../../../../../services/users.service&quot;;
+import {QuizzesService} from &quot;../../../../../services/quizzes.service&quot;;
+import {FaIconComponent} from &quot;@fortawesome/angular-fontawesome&quot;;
+import {MatButton, MatIconButton} from &quot;@angular/material/button&quot;;
+import {DeleteQuizComponent} from &quot;./delete-quiz/delete-quiz.component&quot;;
+import {DeleteQuizRequest} from &quot;../../../../../data-transferring/contracts/quiz/delete-quiz-request&quot;;
+import {switchMap, take, tap} from &quot;rxjs&quot;;
+import {EditQuizComponent} from &quot;./edit-quiz/edit-quiz.component&quot;;
+import {ApplicationHubService} from &quot;../../../../../services/application-hub.service&quot;;
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from &quot;@angular/material/card&quot;;
+import {MatList, MatListItem} from &quot;@angular/material/list&quot;;
+import {UsersDataService} from &quot;../../../../../services/states/users-data.service&quot;;
+import {MatIcon} from &quot;@angular/material/icon&quot;;
+
+@Component({
+  selector: &#x27;app-quiz-list&#x27;,
+  standalone: true,
+  imports: [
+    NgForOf,
+    FormsModule,
+    ReactiveFormsModule,
+    JsonPipe,
+    NgIf,
+    KeyValuePipe,
+    AsyncPipe,
+    RouterLink,
+    FaIconComponent,
+    MatButton,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatList,
+    MatListItem,
+    MatIconButton,
+    MatIcon,
+  ],
+  templateUrl: &#x27;./quiz-list.component.html&#x27;,
+  styleUrl: &#x27;./quiz-list.component.scss&#x27;
+})
+
+export class QuizListComponent {
+  @Input()isCreator!: boolean;
+  @Input()isAdministrator!: boolean;
+
+  constructor(public groupDataService : GroupDataService,
+              private userDataService : UsersDataService,
+              public dialog: MatDialog,
+              public applicationHubService : ApplicationHubService,
+              private toast : NgToastService,
+              private usersService : UsersService,
+              private quizzesService : QuizzesService) {
+  }
+
+  createQuiz() {
+    this.dialog.open(CreateQuizComponent, {
+      width: &#x27;50vw&#x27;
+    });
+  }
+
+  openDeleteDialog(quizName: string, quizId: number): void {
+    const dialogRef &#x3D; this.dialog.open(DeleteQuizComponent);
+
+    dialogRef.afterClosed().subscribe(result &#x3D;&gt; {
+      if (result) {
+        const deleteQuizRequest : DeleteQuizRequest &#x3D; {
+          userId: this.usersService.getUserId(),
+          groupId: this.groupDataService.currentGroupId,
+          quizId: quizId
+        }
+
+        this.quizzesService.deleteQuiz(deleteQuizRequest)
+          .pipe(
+            take(1),
+            switchMap(() &#x3D;&gt;
+              this.usersService.getUserAccount(this.usersService.getUserId()).pipe(
+                take(1),
+                tap(user &#x3D;&gt; {
+                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+                })
+              )
+            )
+          )
+          .subscribe({
+            next: () &#x3D;&gt; {
+              this.applicationHubService.deleteQuiz(deleteQuizRequest.groupId)
+                .then(() &#x3D;&gt; {
+                  this.toast.success({detail: &#x27;Success&#x27;, summary: &#x27;Quiz deleted!&#x27;, duration: 3000});
+                })
+            }
+          });
+      }
+    });
+  }
+
+  openEditQuizDialog(quizId : number) {
+    this.dialog.open(EditQuizComponent, {
+      width: &#x27;50vw&#x27;,
+      data: { quizId: quizId }
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-card appearance&#x3D;&quot;outlined&quot;&gt;
+  &lt;mat-card-header&gt;
+    &lt;mat-card-title&gt;Quizzes&lt;/mat-card-title&gt;
+  &lt;/mat-card-header&gt;
+  &lt;mat-card-content&gt;
+    &lt;mat-list&gt;
+      &lt;mat-list-item *ngFor&#x3D;&quot;let quiz of groupDataService.quizzesListAsync | async; let i &#x3D; index&quot;&gt;
+        &lt;div class&#x3D;&quot;list-item-wrapper&quot;&gt;
+          &lt;a [routerLink]&#x3D;&quot;[&#x27;/main/group&#x27;, quiz.groupId, &#x27;quiz&#x27;, quiz.id]&quot;&gt;{{i + 1}}. {{quiz.name}}&lt;/a&gt;
+          &lt;div *ngIf&#x3D;&quot;isCreator|| isAdministrator&quot;&gt;
+            &lt;button mat-icon-button (click)&#x3D;&quot;openEditQuizDialog(quiz.id)&quot; title&#x3D;&quot;Edit Quiz&quot;&gt;
+              &lt;mat-icon&gt;edit&lt;/mat-icon&gt;
+            &lt;/button&gt;
+            &lt;button mat-icon-button color&#x3D;&quot;warn&quot; (click)&#x3D;&quot;openDeleteDialog(quiz.name, quiz.id)&quot; title&#x3D;&quot;Delete Quiz&quot;&gt;
+              &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/mat-list-item&gt;
+    &lt;/mat-list&gt;
+    &lt;button mat-raised-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;createQuiz()&quot; *ngIf&#x3D;&quot;isCreator|| isAdministrator&quot;&gt;Create quiz&lt;/button&gt;
+  &lt;/mat-card-content&gt;
+&lt;/mat-card&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-card appearance="outlined">  <mat-card-header>    <mat-card-title>Quizzes</mat-card-title>  </mat-card-header>  <mat-card-content>    <mat-list>      <mat-list-item *ngFor="let quiz of groupDataService.quizzesListAsync | async; let i = index">        <div class="list-item-wrapper">          <a [routerLink]="[\'/main/group\', quiz.groupId, \'quiz\', quiz.id]">{{i + 1}}. {{quiz.name}}</a>          <div *ngIf="isCreator|| isAdministrator">            <button mat-icon-button (click)="openEditQuizDialog(quiz.id)" title="Edit Quiz">              <mat-icon>edit</mat-icon>            </button>            <button mat-icon-button color="warn" (click)="openDeleteDialog(quiz.name, quiz.id)" title="Delete Quiz">              <mat-icon>delete</mat-icon>            </button>          </div>        </div>      </mat-list-item>    </mat-list>    <button mat-raised-button color="primary" (click)="createQuiz()" *ngIf="isCreator|| isAdministrator">Create quiz</button>  </mat-card-content></mat-card></div>'
+    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-name'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'QuizListComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QuizListComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1225 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>splace-client documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">splace-client documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  QuizComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/main/group/group-main/quiz/quiz.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-quiz</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>NgForOf</code>
+                            <code>NgIf</code>
+                            <code>JsonPipe</code>
+                            <code>MatProgressSpinner</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>MatCard</code>
+                            <code>MatCardHeader</code>
+                            <code>MatCardContent</code>
+                            <code>MatCardSubtitle</code>
+                            <code>MatCardTitle</code>
+                            <code>MatRadioGroup</code>
+                            <code>MatRadioButton</code>
+                            <code>MatCheckbox</code>
+                            <code>MatButton</code>
+                            <code>RouterLink</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./quiz.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./quiz.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupDataService" >groupDataService</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#Question" >Question</a>
+                            </li>
+                            <li>
+                                <a href="#quizForm" >quizForm</a>
+                            </li>
+                            <li>
+                                <a href="#routerSubscription" >routerSubscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getAnswers" >getAnswers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadQuiz" >loadQuiz</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit" >onSubmit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processQuizBeforeSubmit" >processQuizBeforeSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#questions" >questions</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(quizzesService: <a href="../injectables/QuizzesService.html" target="_self">QuizzesService</a>, toast: NgToastService, usersService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, groupDataService: <a href="../injectables/GroupDataService.html" target="_self">GroupDataService</a>, applicationHubService: <a href="../injectables/ApplicationHubService.html" target="_self">ApplicationHubService</a>, userDataService: <a href="../injectables/UsersDataService.html" target="_self">UsersDataService</a>, route: ActivatedRoute, fb: FormBuilder)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>quizzesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/QuizzesService.html" target="_self" >QuizzesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>toast</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgToastService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>usersService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>groupDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>applicationHubService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ApplicationHubService.html" target="_self" >ApplicationHubService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersDataService.html" target="_self" >UsersDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                    <code>ActivatedRoute</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAnswers"></a>
+                    <span class="name">
+                        <span ><b>getAnswers</b></span>
+                        <a href="#getAnswers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAnswers(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>i</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>FormArray</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadQuiz"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadQuiz</b></span>
+                        <a href="#loadQuiz"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadQuiz()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <span ><b>onSubmit</b></span>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processQuizBeforeSubmit"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>processQuizBeforeSubmit</b></span>
+                        <a href="#processQuizBeforeSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processQuizBeforeSubmit(quiz: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="124"
+                                    class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>quiz</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>groupDataService</b></span>
+                        <a href="#groupDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isLoading"></a>
+                    <span class="name">
+                        <span ><b>isLoading</b></span>
+                        <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Question"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>Question</b></span>
+                        <a href="#Question"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Question</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="quizForm"></a>
+                    <span class="name">
+                        <span ><b>quizForm</b></span>
+                        <a href="#quizForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="routerSubscription"></a>
+                    <span class="name">
+                        <span ><b>routerSubscription</b></span>
+                        <a href="#routerSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-accessors">
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questions"></a>
+                        <span class="name"><b>questions</b><a href="#questions"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>questions()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/app/components/main/group/group-main/quiz/quiz.component.ts:76</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  OnDestroy,
+  OnInit
+} from &#x27;@angular/core&#x27;;
+import {QuizzesService} from &quot;../../../../../services/quizzes.service&quot;;
+import {NgToastService} from &quot;ng-angular-popup&quot;;
+import {ActivatedRoute, RouterLink} from &quot;@angular/router&quot;;
+import {Subscription, switchMap, take, tap} from &quot;rxjs&quot;;
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from &quot;@angular/forms&quot;;
+import {JsonPipe, NgForOf, NgIf} from &quot;@angular/common&quot;;
+import {MatProgressSpinner} from &quot;@angular/material/progress-spinner&quot;;
+import {SubmitQuizRequest} from &quot;../../../../../data-transferring/contracts/quiz/submit-quiz-request&quot;;
+import {UsersService} from &quot;../../../../../services/users.service&quot;;
+import {GroupDataService} from &quot;../../../../../services/states/group-data.service&quot;;
+import {Question} from &quot;../../../../../data-transferring/enums/question&quot;;
+import {ApplicationHubService} from &quot;../../../../../services/application-hub.service&quot;;
+import {UsersDataService} from &quot;../../../../../services/states/users-data.service&quot;;
+import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from &quot;@angular/material/card&quot;;
+import {MatRadioButton, MatRadioGroup} from &quot;@angular/material/radio&quot;;
+import {MatCheckbox} from &quot;@angular/material/checkbox&quot;;
+import {MatButton} from &quot;@angular/material/button&quot;;
+
+@Component({
+  selector: &#x27;app-quiz&#x27;,
+  standalone: true,
+  imports: [
+    NgForOf,
+    NgIf,
+    JsonPipe,
+    MatProgressSpinner,
+    ReactiveFormsModule,
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatCardSubtitle,
+    MatCardTitle,
+    MatRadioGroup,
+    MatRadioButton,
+    MatCheckbox,
+    MatButton,
+    RouterLink,
+  ],
+  templateUrl: &#x27;./quiz.component.html&#x27;,
+  styleUrl: &#x27;./quiz.component.scss&#x27;
+})
+export class QuizComponent implements OnInit, OnDestroy {
+  routerSubscription!: Subscription;
+  quizForm!: FormGroup;
+  isLoading!: boolean;
+  protected readonly Question &#x3D; Question;
+
+  constructor(
+    private quizzesService: QuizzesService,
+    private toast: NgToastService,
+    private usersService: UsersService,
+    public groupDataService: GroupDataService,
+    private applicationHubService: ApplicationHubService,
+    private userDataService : UsersDataService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.quizForm &#x3D; this.fb.group({
+      name: [&#x27;&#x27;, Validators.required],
+      questions: this.fb.array([])
+    });
+
+    this.isLoading &#x3D; true;
+    this.loadQuiz();
+  }
+
+  get questions() {
+    return this.quizForm.get(&#x27;questions&#x27;) as FormArray;
+  }
+
+  getAnswers(i: number) {
+    return this.questions.at(i).get(&#x27;answers&#x27;) as FormArray;
+  }
+
+  onSubmit() {
+    if (this.quizForm.valid) {
+      const unprocessedQuiz &#x3D; this.quizForm.value
+
+      this.processQuizBeforeSubmit(unprocessedQuiz);
+
+      const submitQuizRequest: SubmitQuizRequest &#x3D; {
+        userId: this.usersService.getUserId(),
+        groupId: this.groupDataService.currentGroupId,
+        quiz: unprocessedQuiz
+      };
+
+
+      this.quizzesService.submitQuiz(submitQuizRequest)
+        .pipe(
+          take(1),
+          switchMap(() &#x3D;&gt; this.usersService.getUserAccount(this.usersService.getUserId())),
+          take(1),
+          tap(user &#x3D;&gt; {
+            this.userDataService.updateUserScores(user.scores);
+            this.toast.success({ detail: &quot;Success&quot;, summary: &quot;Quiz submitted successfully!&quot;, duration: 3000 });
+          })
+        )
+        .subscribe({
+          next: () &#x3D;&gt; {
+            this.applicationHubService.submitQuiz(submitQuizRequest.groupId)
+              .then(() &#x3D;&gt; {
+                this.toast.success({ detail: &quot;Success&quot;, summary: &#x27;Quiz submitted successfully&#x27;, duration: 3000 });
+              })
+              .catch(err &#x3D;&gt; {
+                this.toast.error({ detail: &quot;Error&quot;, summary: err, duration: 3000 });
+              })
+          },
+          error: (err) &#x3D;&gt; {
+            this.toast.error({ detail: &quot;Error&quot;, summary: err, duration: 3000 });
+          }
+        });
+    }
+  }
+
+  private processQuizBeforeSubmit(quiz: any) {
+    quiz.questions.forEach((question: any) &#x3D;&gt; {
+      if (question.selectedAnswer) {
+        question.answers.forEach((answer: any) &#x3D;&gt; {
+          answer.status &#x3D; answer.answer &#x3D;&#x3D;&#x3D; question.selectedAnswer;
+        });
+
+        delete question.selectedAnswer;
+      }
+    });
+  }
+
+  private loadQuiz() {
+    this.routerSubscription &#x3D; this.route.params
+      .pipe(
+        switchMap(() &#x3D;&gt; {
+          const quizId &#x3D; +this.route.snapshot.paramMap.get(&#x27;quizId&#x27;)!;
+          return this.quizzesService.getQuiz(quizId).pipe(
+            tap(quiz &#x3D;&gt; {
+              quiz.questions.forEach(question &#x3D;&gt; {
+                question.answers.forEach(answer &#x3D;&gt; {
+                  answer.status &#x3D; false;
+                })
+              })
+              return quiz;
+            })
+          );
+        })
+      )
+      .subscribe(quiz &#x3D;&gt; {
+        console.log(quiz)
+        this.quizForm &#x3D; this.quizzesService.buildQuiz(quiz)
+        this.isLoading &#x3D; false;
+      });
+  }
+
+
+  ngOnDestroy() {
+    this.quizForm.reset();
+    this.routerSubscription.unsubscribe();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-spinner color&#x3D;&quot;primary&quot; *ngIf&#x3D;&quot;isLoading&quot;&gt;&lt;/mat-spinner&gt;
+
+&lt;form [formGroup]&#x3D;&quot;quizForm&quot; (ngSubmit)&#x3D;&quot;onSubmit()&quot; *ngIf&#x3D;&quot;!isLoading&quot;&gt;
+  &lt;mat-card&gt;
+    &lt;mat-card-header&gt;
+      &lt;mat-card-title&gt;
+        {{ quizForm.get(&#x27;name&#x27;)?.value }}
+      &lt;/mat-card-title&gt;
+    &lt;/mat-card-header&gt;
+    &lt;mat-card-content&gt;
+      &lt;div formArrayName&#x3D;&quot;questions&quot; *ngFor&#x3D;&quot;let question of questions.controls; let i &#x3D; index&quot;&gt;
+        &lt;div [formGroupName]&#x3D;&quot;i&quot;&gt;
+          &lt;h2&gt;Question {{ i + 1 }}: {{ question.get(&#x27;question&#x27;)?.value }}&lt;/h2&gt;
+
+          &lt;div *ngIf&#x3D;&quot;question.get(&#x27;type&#x27;)?.value &#x3D;&#x3D;&#x3D; Question.SingleAnswer&quot;&gt;
+            &lt;mat-radio-group formControlName&#x3D;&quot;selectedAnswer&quot;&gt;
+              &lt;div *ngFor&#x3D;&quot;let answer of getAnswers(i).controls; let j &#x3D; index&quot;&gt;
+                &lt;mat-radio-button [value]&#x3D;&quot;answer.get(&#x27;answer&#x27;)?.value&quot; id&#x3D;&quot;questions{{i}}-answer{{j}}&quot;&gt;
+                  {{ answer.get(&#x27;answer&#x27;)?.value }}
+                &lt;/mat-radio-button&gt;
+              &lt;/div&gt;
+            &lt;/mat-radio-group&gt;
+          &lt;/div&gt;
+
+          &lt;div *ngIf&#x3D;&quot;question.get(&#x27;type&#x27;)?.value !&#x3D;&#x3D; Question.SingleAnswer&quot;&gt;
+            &lt;div formArrayName&#x3D;&quot;answers&quot; *ngFor&#x3D;&quot;let answer of getAnswers(i).controls; let j &#x3D; index&quot;&gt;
+              &lt;div [formGroupName]&#x3D;&quot;j&quot;&gt;
+                &lt;mat-checkbox
+                  formControlName&#x3D;&quot;status&quot;&gt;
+                  {{ answer.get(&#x27;answer&#x27;)?.value }}
+                &lt;/mat-checkbox&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;action-buttons&quot;&gt;
+        &lt;button mat-raised-button color&#x3D;&quot;primary&quot; type&#x3D;&quot;submit&quot; [disabled]&#x3D;&quot;!quizForm.valid&quot;&gt;Submit Quiz&lt;/button&gt;
+        &lt;button mat-raised-button color&#x3D;&quot;warn&quot; type&#x3D;&quot;button&quot; [routerLink]&#x3D;&quot;[&#x27;/main/group&#x27;, this.groupDataService.currentGroupId]&quot;&gt;Cancel&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/mat-card-content&gt;
+  &lt;/mat-card&gt;
+&lt;/form&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-spinner color="primary" *ngIf="isLoading"></mat-spinner><form [formGroup]="quizForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">  <mat-card>    <mat-card-header>      <mat-card-title>        {{ quizForm.get(\'name\')?.value }}      </mat-card-title>    </mat-card-header>    <mat-card-content>      <div formArrayName="questions" *ngFor="let question of questions.controls; let i = index">        <div [formGroupName]="i">          <h2>Question {{ i + 1 }}: {{ question.get(\'question\')?.value }}</h2>          <div *ngIf="question.get(\'type\')?.value === Question.SingleAnswer">            <mat-radio-group formControlName="selectedAnswer">              <div *ngFor="let answer of getAnswers(i).controls; let j = index">                <mat-radio-button [value]="answer.get(\'answer\')?.value" id="questions{{i}}-answer{{j}}">                  {{ answer.get(\'answer\')?.value }}                </mat-radio-button>              </div>            </mat-radio-group>          </div>          <div *ngIf="question.get(\'type\')?.value !== Question.SingleAnswer">            <div formArrayName="answers" *ngFor="let answer of getAnswers(i).controls; let j = index">              <div [formGroupName]="j">                <mat-checkbox                  formControlName="status">                  {{ answer.get(\'answer\')?.value }}                </mat-checkbox>              </div>            </div>          </div>        </div>      </div>      <div class="action-buttons">        <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Submit Quiz</button>        <button mat-raised-button color="warn" type="button" [routerLink]="[\'/main/group\', this.groupDataService.currentGroupId]">Cancel</button>      </div>    </mat-card-content>  </mat-card></form></div>'
+    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-name'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'QuizComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'QuizComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,922 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>splace-client documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">splace-client documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MainComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/main/main.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-main</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>MatToolbarModule</code>
+                            <code>MatButtonModule</code>
+                            <code>MatSidenavModule</code>
+                            <code>MatListModule</code>
+                            <code>MatIconModule</code>
+                            <code>AsyncPipe</code>
+                            <code>RouterOutlet</code>
+                            <code>FaIconComponent</code>
+                            <code>NgForOf</code>
+                            <code>SlicePipe</code>
+                            <code>RouterLink</code>
+                                <code><a href="../components/CreateGroupComponent.html" target="_self" >CreateGroupComponent</a></code>
+                                <code><a href="../components/LogOutComponent.html" target="_self" >LogOutComponent</a></code>
+                            <code>NgIf</code>
+                            <code>NgClass</code>
+                                <code><a href="../components/UserMenuComponent.html" target="_self" >UserMenuComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./main.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./main.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                <a href="#listIcon" >listIcon</a>
+                            </li>
+                            <li>
+                                <a href="#menuIcon" >menuIcon</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#sidenav" >sidenav</a>
+                            </li>
+                            <li>
+                                <a href="#title" >title</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userDataService" >userDataService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCreateNewGroup" >onCreateNewGroup</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, userDataService: <a href="../injectables/UsersDataService.html" target="_self">UsersDataService</a>, applicationHub: <a href="../injectables/ApplicationHubService.html" target="_self">ApplicationHubService</a>, toast: NgToastService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/main/main.component.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersDataService.html" target="_self" >UsersDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>applicationHub</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ApplicationHubService.html" target="_self" >ApplicationHubService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>toast</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgToastService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/app/components/main/main.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/components/main/main.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCreateNewGroup"></a>
+                    <span class="name">
+                        <span ><b>onCreateNewGroup</b></span>
+                        <a href="#onCreateNewGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCreateNewGroup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/app/components/main/main.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MatDialog)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/components/main/main.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="listIcon"></a>
+                    <span class="name">
+                        <span ><b>listIcon</b></span>
+                        <a href="#listIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>faUserGroup</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/components/main/main.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="menuIcon"></a>
+                    <span class="name">
+                        <span ><b>menuIcon</b></span>
+                        <a href="#menuIcon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>faBars</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/components/main/main.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sidenav"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>sidenav</b></span>
+                        <a href="#sidenav"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatSidenav</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatSidenav)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/components/main/main.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="title"></a>
+                    <span class="name">
+                        <span ><b>title</b></span>
+                        <a href="#title"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;material-responsive-sidenav&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/components/main/main.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userDataService</b></span>
+                        <a href="#userDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UsersDataService.html" target="_self" >UsersDataService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/components/main/main.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, inject, OnDestroy, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from &#x27;@angular/common&#x27;;
+import {MatToolbarModule} from &#x27;@angular/material/toolbar&#x27;;
+import {MatButtonModule} from &#x27;@angular/material/button&#x27;;
+import {MatSidenav, MatSidenavModule} from &#x27;@angular/material/sidenav&#x27;;
+import {MatListModule} from &#x27;@angular/material/list&#x27;;
+import {MatIconModule} from &#x27;@angular/material/icon&#x27;;
+import {take} from &#x27;rxjs&#x27;;
+import {RouterLink, RouterOutlet} from &quot;@angular/router&quot;;
+import {FaIconComponent} from &quot;@fortawesome/angular-fontawesome&quot;;
+import {UsersService} from &quot;../../services/users.service&quot;;
+import {UsersDataService} from &quot;../../services/states/users-data.service&quot;;
+import {ApplicationHubService} from &quot;../../services/application-hub.service&quot;;
+import {NgToastService} from &quot;ng-angular-popup&quot;;
+import {CreateGroupComponent} from &quot;./create-group/create-group.component&quot;;
+import {LogOutComponent} from &quot;./user-menu/log-out/log-out.component&quot;;
+import {faUserGroup} from &quot;@fortawesome/free-solid-svg-icons/faUserGroup&quot;;
+import {faBars} from &quot;@fortawesome/free-solid-svg-icons/faBars&quot;;
+import {UserMenuComponent} from &quot;./user-menu/user-menu.component&quot;;
+import {MatDialog} from &quot;@angular/material/dialog&quot;;
+
+@Component({
+  selector: &#x27;app-main&#x27;,
+  templateUrl: &#x27;./main.component.html&#x27;,
+  styleUrl: &#x27;./main.component.scss&#x27;,
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    AsyncPipe,
+    RouterOutlet,
+    FaIconComponent,
+    NgForOf,
+    SlicePipe,
+    RouterLink,
+    CreateGroupComponent,
+    LogOutComponent,
+    NgIf,
+    NgClass,
+    UserMenuComponent,
+  ]
+})
+export class MainComponent implements OnInit, OnDestroy{
+  title &#x3D; &#x27;material-responsive-sidenav&#x27;;
+  readonly dialog &#x3D; inject(MatDialog);
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  listIcon &#x3D; faUserGroup
+  menuIcon &#x3D; faBars;
+
+  constructor(private userService : UsersService,
+              public userDataService : UsersDataService,
+              private applicationHub : ApplicationHubService,
+              private toast : NgToastService) {
+  }
+
+  ngOnInit() {
+    try {
+      const userId &#x3D; this.userService.getUserId();
+
+      this.userService.getUserAccount(userId)
+        .pipe(take(1))
+        .subscribe(user &#x3D;&gt; {
+          this.userDataService.updateUsername(user.username)
+          this.userDataService.updateStatus(user.status)
+          this.userDataService.updateGroupData(user.groups)
+          this.userDataService.updateCreatedGroupData(user.createdGroups)
+          this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+          this.userDataService.updateUserScores(user.scores)
+
+          this.applicationHub.start()
+            .then(() &#x3D;&gt; {
+              console.log(&#x27;Connected to the application hub!&#x27;)
+              this.applicationHub.addUserConnection(this.userService.getUserName())
+                .then(
+                () &#x3D;&gt; {
+                  console.log(&#x27;Connection established!&#x27;)
+                  user.groups.forEach(g &#x3D;&gt; {
+                    this.applicationHub.setGroupConnection(g.id).catch(
+                      (reason) &#x3D;&gt; this.toast.error({detail: &quot;Error&quot;, summary: reason, duration: 3000})
+                    )
+                  })
+                })
+                .catch(
+                  (reason) &#x3D;&gt; this.toast.error({detail: &quot;Error&quot;, summary: reason, duration: 3000})
+                )
+              }
+            )
+            .catch(
+              (reason) &#x3D;&gt; this.toast.error({detail: &quot;Error&quot;, summary: reason, duration: 3000})
+            )
+          }
+        )
+    } catch (e : any) {
+      this.toast.error({detail: &quot;Error&quot;, summary: e, duration: 3000})
+    }
+  }
+
+
+  ngOnDestroy() {
+    this.applicationHub.leave().then(() &#x3D;&gt; {console.log(&#x27;Disconnected from the group hub!&#x27;)})
+  }
+
+  onCreateNewGroup() {
+    this.dialog.open(CreateGroupComponent)
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-sidenav-container autosize&gt;
+  &lt;mat-sidenav mode&#x3D;&quot;over&quot;&gt;
+    &lt;div id&#x3D;&quot;sidenav-wrapper&quot;&gt;
+      &lt;mat-nav-list&gt;
+        &lt;h3&gt;Groups&lt;/h3&gt;
+        &lt;mat-divider&gt;&lt;/mat-divider&gt;
+        &lt;a mat-list-item *ngFor&#x3D;&quot;let group of userDataService.userGroupsAsync | async&quot;&gt;
+          &lt;fa-icon [icon]&#x3D;&quot;listIcon&quot;&gt;&lt;/fa-icon&gt;
+          &lt;span [routerLink]&#x3D;&quot;[&#x27;/main/group&#x27;, group.id]&quot;&gt; {{ group.name }} &lt;/span&gt;
+        &lt;/a&gt;
+        &lt;mat-divider&gt;&lt;/mat-divider&gt;
+      &lt;/mat-nav-list&gt;
+      &lt;button mat-raised-button color&#x3D;&quot;primary&quot; type&#x3D;&quot;button&quot; (click)&#x3D;&quot;onCreateNewGroup()&quot;&gt;Create new group&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/mat-sidenav&gt;
+  &lt;mat-sidenav-content&gt;
+    &lt;mat-toolbar color&#x3D;&quot;primary&quot;&gt;
+      &lt;button mat-icon-button aria-label&#x3D;&quot;Menu icon&quot; (click)&#x3D;&quot;sidenav.toggle()&quot;&gt;
+        &lt;fa-icon [icon]&#x3D;&quot;menuIcon&quot;&gt;menu&lt;/fa-icon&gt;
+      &lt;/button&gt;
+      &lt;h1 [routerLink]&#x3D;&quot;[&#x27;/main/home&#x27;]&quot;&gt;SPlace&lt;/h1&gt;
+      &lt;app-user-menu&gt;&lt;/app-user-menu&gt;
+    &lt;/mat-toolbar&gt;
+
+    &lt;router-outlet&gt;&lt;/router-outlet&gt;
+  &lt;/mat-sidenav-content&gt;
+&lt;/mat-sidenav-container&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-sidenav-container autosize>  <mat-sidenav mode="over">    <div id="sidenav-wrapper">      <mat-nav-list>        <h3>Groups</h3>        <mat-divider></mat-divider>        <a mat-list-item *ngFor="let group of userDataService.userGroupsAsync | async">          <fa-icon [icon]="listIcon"></fa-icon>          <span [routerLink]="[\'/main/group\', group.id]"> {{ group.name }} </span>        </a>        <mat-divider></mat-divider>      </mat-nav-list>      <button mat-raised-button color="primary" type="button" (click)="onCreateNewGroup()">Create new group</button>    </div>  </mat-sidenav>  <mat-sidenav-content>    <mat-toolbar color="primary">      <button mat-icon-button aria-label="Menu icon" (click)="sidenav.toggle()">        <fa-icon [icon]="menuIcon">menu</fa-icon>      </button>      <h1 [routerLink]="[\'/main/home\']">SPlace</h1>      <app-user-menu></app-user-menu>    </mat-toolbar>    <router-outlet></router-outlet>  </mat-sidenav-content></mat-sidenav-container></div>'
+    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-name'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MainComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MainComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

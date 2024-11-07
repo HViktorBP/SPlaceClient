@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../../services/users.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {take} from "rxjs";
+import {catchError, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {UsersDataService} from "../../../../services/states/users-data.service";
 import {Router} from "@angular/router";
@@ -36,7 +36,12 @@ export class DeleteAccountComponent {
     const groupToDelete = this.usersDataService.createdGroups.map(g => g.id)
 
     this.userService.deleteAccount()
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError(err => {
+          return throwError(() => err)
+        })
+      )
       .subscribe({
         next : res => {
           this.applicationHubService.deleteUser(groupToDelete)

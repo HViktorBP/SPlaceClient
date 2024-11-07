@@ -1,0 +1,918 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>splace-client documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">splace-client documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ChatComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/main/group/group-main/chat/chat.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>AfterViewChecked</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-chat</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>AsyncPipe</code>
+                            <code>DatePipe</code>
+                            <code>NgForOf</code>
+                            <code>NgIf</code>
+                            <code>NgOptimizedImage</code>
+                            <code>NgClass</code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/MessageComponent.html" target="_self" >MessageComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./chat.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./chat.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#groupDataService" >groupDataService</a>
+                            </li>
+                            <li>
+                                <a href="#inputMessage" >inputMessage</a>
+                            </li>
+                            <li>
+                                <a href="#loggedInUserName" >loggedInUserName</a>
+                            </li>
+                            <li>
+                                <a href="#messagesContainer" >messagesContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Private</span>
+                                <a href="#myScrollContainer" >myScrollContainer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngAfterViewChecked" >ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scrollToBottom" >scrollToBottom</a>
+                            </li>
+                            <li>
+                                <a href="#sendMessage" >sendMessage</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(messagesService: <a href="../injectables/MessagesService.html" target="_self">MessagesService</a>, userService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, applicationHub: <a href="../injectables/ApplicationHubService.html" target="_self">ApplicationHubService</a>, groupDataService: <a href="../injectables/GroupDataService.html" target="_self">GroupDataService</a>, toast: NgToastService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>messagesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessagesService.html" target="_self" >MessagesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>applicationHub</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ApplicationHubService.html" target="_self" >ApplicationHubService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>groupDataService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>toast</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgToastService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewChecked"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewChecked</b></span>
+                        <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollToBottom"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>scrollToBottom</b></span>
+                        <a href="#scrollToBottom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scrollToBottom()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendMessage"></a>
+                    <span class="name">
+                        <span ><b>sendMessage</b></span>
+                        <a href="#sendMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="59"
+                                    class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupDataService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>groupDataService</b></span>
+                        <a href="#groupDataService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inputMessage"></a>
+                    <span class="name">
+                        <span ><b>inputMessage</b></span>
+                        <a href="#inputMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loggedInUserName"></a>
+                    <span class="name">
+                        <span ><b>loggedInUserName</b></span>
+                        <a href="#loggedInUserName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messagesContainer"></a>
+                    <span class="name">
+                        <span ><b>messagesContainer</b></span>
+                        <a href="#messagesContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HTMLElement</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="myScrollContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Private</span>
+                        <span ><b>myScrollContainer</b></span>
+                        <a href="#myScrollContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;scrollMe&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/components/main/group/group-main/chat/chat.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
+import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from &quot;@angular/common&quot;;
+import {UsersService} from &quot;../../../../../services/users.service&quot;;
+import {GroupDataService} from &quot;../../../../../services/states/group-data.service&quot;;
+import {FormsModule} from &quot;@angular/forms&quot;;
+import {MessagesService} from &quot;../../../../../services/messages.service&quot;;
+import {NgToastService} from &quot;ng-angular-popup&quot;;
+import {ApplicationHubService} from &quot;../../../../../services/application-hub.service&quot;;
+import {SaveMessageRequest} from &quot;../../../../../data-transferring/contracts/message/save-message-request&quot;;
+import {MessageComponent} from &quot;./message/message.component&quot;;
+import {take} from &quot;rxjs&quot;;
+
+@Component({
+  selector: &#x27;app-chat&#x27;,
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    DatePipe,
+    NgForOf,
+    NgIf,
+    NgOptimizedImage,
+    NgClass,
+    FormsModule,
+    MessageComponent
+  ],
+  templateUrl: &#x27;./chat.component.html&#x27;,
+  styleUrl: &#x27;./chat.component.scss&#x27;
+})
+export class ChatComponent implements OnInit, AfterViewChecked {
+  loggedInUserName!: number;
+  inputMessage&#x3D; &#x27;&#x27;
+  messagesContainer !: HTMLElement;
+
+  @ViewChild(&#x27;scrollMe&#x27;) private myScrollContainer!: ElementRef;
+
+  constructor(private messagesService : MessagesService,
+              private userService : UsersService,
+              private applicationHub : ApplicationHubService,
+              public groupDataService : GroupDataService,
+              private toast : NgToastService) {
+  }
+
+  ngOnInit() {
+    this.loggedInUserName &#x3D; this.userService.getUserId()
+    this.scrollToBottom()
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom()
+
+  }
+
+  sendMessage() {
+    const userId &#x3D; this.userService.getUserId()
+    const groupId &#x3D; this.groupDataService.currentGroupId
+
+    const saveMessageRequest : SaveMessageRequest &#x3D; {
+      userId: userId,
+      groupId: groupId,
+      message: this.inputMessage.trim(),
+    }
+
+    this.messagesService.saveMessage(saveMessageRequest)
+      .pipe(take(1))
+      .subscribe({
+      next: (message) &#x3D;&gt; {
+        this.applicationHub.sendMessage(message)
+          .then(() &#x3D;&gt; this.inputMessage &#x3D; &#x27;&#x27;)
+          .catch( (reason) &#x3D;&gt; this.toast.error({detail:&quot;Error&quot;, summary: reason, duration:3000}) )
+      },
+      error: err &#x3D;&gt; this.toast.error({detail:&quot;Error&quot;, summary: err, duration:3000})
+    })
+  }
+
+  private scrollToBottom() {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop &#x3D; this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) {
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;messages&quot;&gt;
+  &lt;div #scrollMe id&#x3D;&quot;msg_history&quot;&gt;
+    &lt;ng-container *ngFor&#x3D;&quot;let message of groupDataService.groupMessagesAsync| async&quot;&gt;
+      &lt;app-message
+        [id] &#x3D; &quot;message.id&quot;
+        [groupId]&#x3D;&quot;message.groupId&quot;
+        [userId]&#x3D;&quot;message.userId&quot;
+        [message]&#x3D;&quot;message.message&quot;
+        [userName]&#x3D;&quot;message.userName&quot;
+        [timestamp]&#x3D;&quot;message.timestamp&quot;
+        [isEdited]&#x3D;&quot;message.isEdited&quot;&gt;
+      &lt;/app-message&gt;
+    &lt;/ng-container&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;type_msg&quot;&gt;
+    &lt;div class&#x3D;&quot;input_msg_write&quot;&gt;
+      &lt;input (keydown.enter)&#x3D;&quot;sendMessage()&quot; [(ngModel)]&#x3D;&quot;inputMessage&quot; type&#x3D;&quot;text&quot;
+             placeholder&#x3D;&quot;Type a message&quot; /&gt;
+      &lt;button [disabled]&#x3D;&quot;inputMessage.trim().length &#x3D;&#x3D; 0&quot; (click)&#x3D;&quot;sendMessage()&quot; class&#x3D;&quot;msg_send_btn&quot; type&#x3D;&quot;button&quot;&gt;
+        &lt;p&gt;Send&lt;/p&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="messages">  <div #scrollMe id="msg_history">    <ng-container *ngFor="let message of groupDataService.groupMessagesAsync| async">      <app-message        [id] = "message.id"        [groupId]="message.groupId"        [userId]="message.userId"        [message]="message.message"        [userName]="message.userName"        [timestamp]="message.timestamp"        [isEdited]="message.isEdited">      </app-message>    </ng-container>  </div>  <div class="type_msg">    <div class="input_msg_write">      <input (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage" type="text"             placeholder="Type a message" />      <button [disabled]="inputMessage.trim().length == 0" (click)="sendMessage()" class="msg_send_btn" type="button">        <p>Send</p>      </button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-name'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ChatComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
