@@ -27,6 +27,11 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
 import {QuizValidators} from "../../../../../../custom/valiators/QuizValidators";
 import {MatIcon} from "@angular/material/icon";
 
+
+/**
+ * CreateQuizComponent handles the logic and UI for creating a quiz.
+ */
+
 @Component({
   selector: 'app-create-quiz',
   standalone: true,
@@ -58,9 +63,15 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class CreateQuizComponent implements CustomPopUpForm {
+  /**
+   * Description: Form for new quiz.
+   */
   quizForm!: FormGroup
+
+  /**
+   * Description: Reference to the CreateQuizComponent that will be opened in MatDialog.
+   */
   dialogRef = inject(MatDialogRef<CreateQuizComponent>)
-  isLoading!: boolean
 
   constructor(
     private fb: FormBuilder,
@@ -74,61 +85,105 @@ export class CreateQuizComponent implements CustomPopUpForm {
 
   ngOnInit() {
     this.quizForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions: this.fb.array([this.newQuestion()],[QuizValidators.questionsValidator, QuizValidators.quizHasQuestionsValidator()])
     });
   }
 
+  /**
+   * Description: getter for questions in the form.
+   * @memberOf CreateQuizComponent
+   */
   get questions(): FormArray {
     return this.quizForm.get('questions') as FormArray;
   }
 
+  /**
+   * Description: creates new question in form.
+   * @memberOf CreateQuizComponent
+   */
   newQuestion(): FormGroup {
     return this.fb.group({
-      question: ['', Validators.required],
+      question: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       type: [1, Validators.required],
       answers: this.fb.array([])
     }, { validators: [QuizValidators.trueFalseSingleCorrectValidator()] });
   }
 
+  /**
+   * Description: adds new question to the arrays of form's question.
+   * @memberOf CreateQuizComponent
+   */
   addQuestion() {
     this.questions.push(this.newQuestion());
   }
 
+  /**
+   * Description: removes question from the arrays of form's question.
+   * @memberOf CreateQuizComponent
+   */
   removeQuestion(index: number) {
     this.questions.removeAt(index);
   }
 
-  getAnswers(questionIndex: number): FormArray {
-    return this.questions.at(questionIndex).get('answers') as FormArray;
+  /**
+   * Description: getter for answers in form's questions.
+   * @param {number} index - question's index
+   * @memberOf CreateQuizComponent
+   */
+  getAnswers(index: number): FormArray {
+    return this.questions.at(index).get('answers') as FormArray;
   }
 
+  /**
+   * Description: creates new answer in form.
+   * @memberOf CreateQuizComponent
+   */
   newAnswer(): FormGroup {
     return this.fb.group({
-      answer: ['', Validators.required],
+      answer: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       status: [false]
     });
   }
 
-  addAnswer(questionIndex: number) {
-    this.getAnswers(questionIndex).push(this.newAnswer());
+  /**
+   * Description: adds new answer to the arrays of answers that belong to specific question.
+   * @memberOf CreateQuizComponent
+   * @param {number} index - question's index
+   */
+  addAnswer(index: number) {
+    this.getAnswers(index).push(this.newAnswer());
   }
 
+  /**
+   * Description: removes from the question.
+   * @memberOf CreateQuizComponent
+   * @param {number} questionIndex - question's index
+   * @param {number} answerIndex - answer's index
+   */
   removeAnswer(questionIndex: number, answerIndex: number) {
     this.getAnswers(questionIndex).removeAt(answerIndex);
   }
 
+  /**
+   * Description: closes the MatDialog and resets the form.
+   * @memberOf CreateQuizComponent
+   */
   closeDialog() {
     this.quizForm.reset()
     this.dialogRef.close();
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for creating a new quiz in the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group by calling applicationHub's createNewQuiz method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     if (this.quizForm.valid) {
       const quizDto = this.quizForm.value
 
       this.quizForm.disable()
-      this.isLoading = true
 
       const createQuizRequest : CreateQuizRequest = {
         userId: this.usersService.getUserId(),
@@ -140,24 +195,26 @@ export class CreateQuizComponent implements CustomPopUpForm {
         .pipe(
           take(1),
           switchMap(() =>
-            this.usersService.getUserAccount(this.usersService.getUserId()).pipe(
-              take(1),
-              tap(user => {
-                this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
-              })
-            )
+            this.usersService
+              .getUserAccount(this.usersService.getUserId())
+              .pipe(
+                take(1),
+                tap(user => {
+                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+                })
+              )
           ),
           catchError(error => {
             return throwError(() => error)
           }),
           finalize(() => {
             this.quizForm.enable()
-            this.isLoading = false
           })
         )
         .subscribe({
           next : () => {
-            this.applicationHubService.createQuiz(createQuizRequest.groupId)
+            this.applicationHubService
+              .createQuiz(createQuizRequest.groupId)
               .then(() => {
                 this.toast.success({detail: "Success", summary: "Quiz is created!", duration: 3000})
                 this.dialogRef.close();

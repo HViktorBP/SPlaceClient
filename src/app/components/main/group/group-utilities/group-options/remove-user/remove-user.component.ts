@@ -16,6 +16,10 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 
+/**
+ * RemoveUserComponent provides UI for removing user from the group.
+ */
+
 @Component({
   selector: 'app-remove-user',
   standalone: true,
@@ -39,9 +43,16 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
   templateUrl: './remove-user.component.html',
   styleUrl: './remove-user.component.scss'
 })
+
 export class RemoveUserComponent implements CustomPopUpForm {
+  /**
+   * Description: MatDialog reference to RemoveUserComponent
+   */
   readonly dialogRef = inject(MatDialogRef<RemoveUserComponent>)
-  isLoading!: boolean
+
+  /**
+   * Description: Form for removing user
+   */
   removeUserForm!: FormGroup
 
   constructor(private userService : UsersService,
@@ -59,12 +70,16 @@ export class RemoveUserComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for removing user from the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group and also for user who has been removed by calling an applicationHub's removeUser method.
+   @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     this.removeUserForm.disable()
-    this.isLoading = true
 
     const removeUserRequest : RemoveUserRequest = {
       userId : userId,
@@ -80,12 +95,12 @@ export class RemoveUserComponent implements CustomPopUpForm {
         }),
         finalize(() => {
           this.removeUserForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({
         next : res => {
-          this.applicationHubService.removeUser(removeUserRequest.userToDeleteName, removeUserRequest.groupId)
+          this.applicationHubService
+            .removeUser(removeUserRequest.userToDeleteName, removeUserRequest.groupId)
             .then(() => {
                 this.toast.success({detail:"Info", summary: res.message, duration:3000})
                 this.dialogRef.close()

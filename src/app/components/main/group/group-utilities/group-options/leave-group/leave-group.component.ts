@@ -8,12 +8,16 @@ import {NgToastService} from "ng-angular-popup";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../../data-transferring/contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
-import {catchError, switchMap, take, throwError} from "rxjs";
+import {catchError, switchMap, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {map} from "rxjs/operators";
 import {UsersDataService} from "../../../../../../services/states/users-data.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
+
+/**
+ * LeaveGroupComponent provides UI for leaving the group.
+ */
 
 @Component({
   selector: 'app-leave-group',
@@ -31,7 +35,11 @@ import {MatButton} from "@angular/material/button";
   templateUrl: './leave-group.component.html',
   styleUrl: './leave-group.component.scss'
 })
+
 export class LeaveGroupComponent {
+  /**
+   * Description: MatDialog reference to LeaveGroupComponent
+   */
   readonly dialogRef = inject(MatDialogRef<LeaveGroupComponent>)
 
   constructor(private userService : UsersService,
@@ -43,6 +51,11 @@ export class LeaveGroupComponent {
               private router : Router) {
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for leaving the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group by calling an applicationHub's leaveGroup method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
@@ -56,26 +69,29 @@ export class LeaveGroupComponent {
       .pipe(
         take(1),
         switchMap(() => {
-          return this.userService.getUserAccount(this.userService.getUserId())
-            .pipe(
-              map(user => user.groups)
-            )
+          return this.userService
+            .getUserAccount(this.userService.getUserId())
+        }),
+        tap((user) => {
+          this.userDataService.updateGroupData(user.groups)
+          this.userDataService.updateUserScores(user.scores)
         }),
         catchError(error => {
           return throwError(() => error)
         })
       )
       .subscribe({
-        next : groups => {
-          this.userDataService.updateGroupData(groups)
-          this.applicationHubService.leaveTheGroup(leaveGroupRequest.groupId)
+        next : () => {
+          this.applicationHubService
+            .leaveGroup(leaveGroupRequest.groupId)
             .then(() => {
-                this.toast.info({detail:"Info", summary: 'You left the group', duration:3000})
-                this.router.navigate(['main/home']).then(
-                  () => this.dialogRef.close()
-                )
-              }
-            )
+                this.toast.info({detail:"Info", summary: 'You left the group.', duration:3000})
+                this.router
+                  .navigate(['main/home'])
+                  .then(
+                    () => this.dialogRef.close()
+                  )
+              })
         }
       })
   }

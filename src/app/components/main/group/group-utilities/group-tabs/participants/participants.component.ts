@@ -5,6 +5,10 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} fr
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatTooltip} from "@angular/material/tooltip";
 
+/**
+ * ParticipantsComponent displays the list of people who participate in group.
+ */
+
 @Component({
   selector: 'app-participants',
   standalone: true,
@@ -25,8 +29,4 @@ import {MatTooltip} from "@angular/material/tooltip";
 })
 export class ParticipantsComponent {
   constructor(public groupDataService : GroupDataService) { }
-
-  showStatus(status : string) {
-    console.log(status);
-  }
 }

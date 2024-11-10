@@ -28,6 +28,15 @@ export class QuizzesService {
     )
   }
 
+
+  getQuizWithoutCorrectAnswers(quizId: number) {
+    return this.http.get<QuizDto>(`${this.baseUrl}${quizId}/unanswered`).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
+  }
+
   createNewQuiz(createQuizRequest : CreateQuizRequest) {
     return this.http.post<any>(`${this.baseUrl}create`, createQuizRequest).pipe(
       catchError(err => {
@@ -64,7 +73,7 @@ export class QuizzesService {
     return this.fb.group({
       id: [quiz.id],
       groupId: [quiz.groupId],
-      name: [quiz.name, Validators.required],
+      name: [quiz.name],
       questions: this.fb.array(quiz.questions.map(question => this.createQuestionFormGroup(question)))
     })
   }

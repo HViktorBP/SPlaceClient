@@ -14,6 +14,10 @@ import {MatHint, MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
 
+/**
+ * CreateGroupComponent is responsible for creating a new group in application.
+ */
+
 @Component({
   selector: 'app-create-group',
   standalone: true,
@@ -36,9 +40,15 @@ import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
 })
 
 export class CreateGroupComponent implements CustomPopUpForm {
+  /**
+   * Description: Reference to the component that will be opened in dialog
+   */
   readonly dialogRef = inject(MatDialogRef<CreateGroupComponent>)
+
+  /**
+   * Description: Form for new group.
+   */
   newGroupForm!: FormGroup
-  isLoading!: boolean
 
   constructor(private groupService : GroupsService,
               private toast : NgToastService,
@@ -53,11 +63,15 @@ export class CreateGroupComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for creating a group and then handles the UI according to the request's response.
+   * If the operation successful, it sets a new user-group connection in SignalR service by calling an applicationHub's setGroupConnection method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const userId = this.userService.getUserId()
 
     this.newGroupForm.disable()
-    this.isLoading = true;
 
     const createGroupRequest: CreateGroupRequest = {
       userId: userId,
@@ -70,7 +84,6 @@ export class CreateGroupComponent implements CustomPopUpForm {
         switchMap(() => this.userService.getUserAccount(userId).pipe(
           take(1),
           tap(account => {
-            this.usersDataService.updateCreatedQuizzesData(account.createdQuizzes)
             this.usersDataService.updateCreatedGroupData(account.createdGroups)
             this.usersDataService.updateGroupData(account.groups)
           })
@@ -80,7 +93,6 @@ export class CreateGroupComponent implements CustomPopUpForm {
         }),
         finalize (() => {
           this.newGroupForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({

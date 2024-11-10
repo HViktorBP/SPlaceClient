@@ -25,6 +25,10 @@ import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
 import {UsersDataService} from "../../../../services/states/users-data.service";
 
+/**
+ * ChangeUsernameComponent provides UI for user to change the username.
+ */
+
 @Component({
   selector: 'app-change-username',
   standalone: true,
@@ -46,9 +50,15 @@ import {UsersDataService} from "../../../../services/states/users-data.service";
   styleUrl: './change-username.component.scss'
 })
 export class ChangeUsernameComponent implements CustomPopUpForm {
+  /**
+   * Description: Reference to the component that will be opened in dialog.
+   */
   readonly dialogRef = inject(MatDialogRef<ChangeUsernameComponent>)
+
+  /**
+   * Description: form for new name.
+   */
   newUserNameForm!: FormGroup
-  isLoading!: boolean
 
   constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
@@ -62,10 +72,14 @@ export class ChangeUsernameComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for changing a user's username and handles the UI according to the request's response.
+   * If the operation successful, the status changing is also broadcast to the groups where user participates by calling an applicationHub's changeName method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const userId = this.userService.getUserId()
 
-    this.isLoading = true
     this.newUserNameForm.disable()
 
     const changeUsernameRequest : ChangeUsernameRequest = {
@@ -80,6 +94,9 @@ export class ChangeUsernameComponent implements CustomPopUpForm {
           this.userService.getUserAccount(this.userService.getUserId())
             .pipe(
               take(1),
+              catchError(error => {
+                return throwError(() => error)
+              })
             ).subscribe({
               next : account => {
                 this.userDataService.updateUsername(account.username)
@@ -91,17 +108,17 @@ export class ChangeUsernameComponent implements CustomPopUpForm {
         }),
         finalize(() => {
           this.newUserNameForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({
         next : res => {
-          this.applicationHubService.changeName(changeUsernameRequest.newUsername)
+          this.applicationHubService
+            .changeName(changeUsernameRequest.newUsername)
             .then(
               () => {
-                this.toast.success({detail:"Info", summary: res.message, duration:3000})
+                this.toast.success({detail:"Success", summary: res.message, duration:3000})
                 this.userService.storeUserData(res.token)
-                this.dialogRef.close();
+                this.dialogRef.close()
               }
             )
         }

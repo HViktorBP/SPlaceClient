@@ -16,6 +16,9 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 
+/**
+ * AddUserComponent provides UI for adding a user to the group.
+ */
 @Component({
   selector: 'app-add-user',
   standalone: true,
@@ -40,8 +43,14 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
   styleUrl: './add-user.component.scss'
 })
 export class AddUserComponent implements CustomPopUpForm {
+  /**
+   * Description: MatDialog reference to AddUserComponent
+   */
   readonly dialogRef = inject(MatDialogRef<AddUserComponent>)
-  isLoading!: boolean
+
+  /**
+   * Description: Form for adding the user
+   */
   addUserForm!: FormGroup
 
   constructor(private userService : UsersService,
@@ -52,7 +61,6 @@ export class AddUserComponent implements CustomPopUpForm {
               private fb : FormBuilder) {
   }
 
-
   ngOnInit(): void {
     this.addUserForm = this.fb.group({
       userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
@@ -60,12 +68,16 @@ export class AddUserComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for adding a user and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group and also informs the user who was added by calling an applicationHub's addUserRequest method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     this.addUserForm.disable()
-    this.isLoading = true
 
     const addUserRequest : AddUserRequest = {
       userId : userId,
@@ -82,11 +94,11 @@ export class AddUserComponent implements CustomPopUpForm {
         }),
         finalize(() => {
           this.addUserForm.enable()
-          this.isLoading = false
         }))
       .subscribe({
         next : res => {
-          this.applicationHubService.addToGroup(addUserRequest.groupId, addUserRequest.userToAddName)
+          this.applicationHubService
+            .addToGroup(addUserRequest.groupId, addUserRequest.userToAddName)
             .then(() => {
                 this.toast.success({detail:"Success", summary: res.message, duration:3000})
               })

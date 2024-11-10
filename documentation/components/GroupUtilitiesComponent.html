@@ -164,7 +164,7 @@
                                 <code><a href="../components/ParticipantsComponent.html" target="_self" >ParticipantsComponent</a></code>
                                 <code><a href="../components/GroupOptionsComponent.html" target="_self" >GroupOptionsComponent</a></code>
                                 <code><a href="../components/QuizListComponent.html" target="_self" >QuizListComponent</a></code>
-                                <code><a href="../components/GroupNameComponent.html" target="_self" >GroupNameComponent</a></code>
+                                <code><a href="../components/GroupNameComponent.html" target="_self" >GroupHeaderComponent</a></code>
                                 <code><a href="../components/GroupTabsComponent.html" target="_self" >GroupTabsComponent</a></code>
                 </td>
             </tr>
@@ -283,15 +283,15 @@
                                         <tbody>
                                                 <tr>
                                                         <td>groupDataService</td>
-                                                  
+
                                                         <td>
                                                                         <code><a href="../injectables/GroupDataService.html" target="_self" >GroupDataService</a></code>
                                                         </td>
-                                                  
+
                                                     <td>
                                                             No
                                                     </td>
-                                                    
+
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -307,7 +307,7 @@
 
 
     <section data-compodoc="block-methods">
-    
+
     <h3 id="methods">
         Methods
     </h3>
@@ -418,7 +418,7 @@
 
                             <div class="io-description">
                                 <b>Parameters :</b>
-                                
+
                                 <table class="params">
                                     <thead>
                                         <tr>
@@ -448,7 +448,7 @@
 
                         </div>
                             <div class="io-description">
-                                
+
                             </div>
                 </td>
             </tr>
@@ -456,7 +456,7 @@
     </table>
 </section>
     <section data-compodoc="block-properties">
-    
+
     <h3 id="inputs">
         Properties
     </h3>
@@ -621,7 +621,7 @@ import {GroupMainComponent} from &quot;../group-main/group-main.component&quot;;
 import {ParticipantsComponent} from &quot;./group-tabs/participants/participants.component&quot;;
 import {GroupOptionsComponent} from &quot;./group-options/group-options.component&quot;;
 import {QuizListComponent} from &quot;./quiz-list/quiz-list.component&quot;;
-import {GroupNameComponent} from &quot;./group-name/group-name.component&quot;;
+import {GroupHeaderComponent} from &quot;./group-name/group-name.component&quot;;
 import {Subscription} from &quot;rxjs&quot;;
 import {GroupDataService} from &quot;../../../../services/states/group-data.service&quot;;
 import {Role} from &quot;../../../../data-transferring/enums/role&quot;;
@@ -722,15 +722,15 @@ export class GroupUtilitiesComponent implements OnInit, OnDestroy {
         </div>
     </div>
 
-    
+
 </div>
 
 <script src="../js/libs/vis.min.js"></script>
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><app-group-name></app-group-name><app-group-tabs></app-group-tabs><app-group-options [isAdministrator]="isAdministrator" [isCreator]="isCreator" [isModerator]="isModerator" [isParticipant]="isParticipant"></app-group-options><app-quiz-list [isCreator]="isCreator" [isAdministrator]="isAdministrator"></app-quiz-list></div>'
-    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-name'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
+        var COMPONENT_TEMPLATE = '<div><app-group-header></app-group-header><app-group-tabs></app-group-tabs><app-group-options [isAdministrator]="isAdministrator" [isCreator]="isCreator" [isModerator]="isModerator" [isParticipant]="isParticipant"></app-group-options><app-quiz-list [isCreator]="isCreator" [isAdministrator]="isAdministrator"></app-quiz-list></div>'
+    var COMPONENTS = [{'name': 'AboutAppComponent', 'selector': 'app-about-app'},{'name': 'AddUserComponent', 'selector': 'app-add-user'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'ChangeRoleComponent', 'selector': 'app-change-role'},{'name': 'ChangeStatusComponent', 'selector': 'app-change-status'},{'name': 'ChangeUsernameComponent', 'selector': 'app-change-username'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'CreatedGroupsComponent', 'selector': 'app-created-groups'},{'name': 'CreatedQuizzesComponent', 'selector': 'app-created-quizzes'},{'name': 'CreateGroupComponent', 'selector': 'app-create-group'},{'name': 'CreateQuizComponent', 'selector': 'app-create-quiz'},{'name': 'DeleteAccountComponent', 'selector': 'app-delete-account'},{'name': 'DeleteGroupComponent', 'selector': 'app-delete-group'},{'name': 'DeleteQuizComponent', 'selector': 'app-delete-quiz'},{'name': 'EditQuizComponent', 'selector': 'app-edit-quiz'},{'name': 'GroupComponent', 'selector': 'app-group'},{'name': 'GroupMainComponent', 'selector': 'app-group-main'},{'name': 'GroupNameComponent', 'selector': 'app-group-header'},{'name': 'GroupOptionsComponent', 'selector': 'app-group-options'},{'name': 'GroupTabsComponent', 'selector': 'app-group-tabs'},{'name': 'GroupUtilitiesComponent', 'selector': 'app-group-utilities'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'LeaveGroupComponent', 'selector': 'app-leave-group'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogOutComponent', 'selector': 'app-log-out'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MessageComponent', 'selector': 'app-message'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ParticipantsComponent', 'selector': 'app-participants'},{'name': 'QuizComponent', 'selector': 'app-quiz'},{'name': 'QuizListComponent', 'selector': 'app-quiz-list'},{'name': 'RegistrationComponent', 'selector': 'app-registration'},{'name': 'RemoveUserComponent', 'selector': 'app-remove-user'},{'name': 'RenameGroupComponent', 'selector': 'app-rename-group'},{'name': 'ScoresComponent', 'selector': 'app-scores'},{'name': 'UserMenuComponent', 'selector': 'app-user-menu'},{'name': 'UserScoresComponent', 'selector': 'app-user-scores'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'GroupUtilitiesComponent'};
 </script>

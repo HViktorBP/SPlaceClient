@@ -5,6 +5,11 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
+/**
+ * ScoresComponent displays the list of scores on each quiz in group.
+ */
+
+
 @Component({
   selector: 'app-scores',
   standalone: true,
@@ -24,6 +29,5 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
   styleUrl: './scores.component.scss'
 })
 export class ScoresComponent {
-  constructor(public groupDataService : GroupDataService) {
-  }
+  constructor(public groupDataService : GroupDataService) { }
 }

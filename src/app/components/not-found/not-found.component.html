@@ -1,1 +1,14 @@
-<p>not-found works!</p>
+<div class="not-found-container">
+  <mat-card>
+    <mat-icon color="warn" aria-hidden="true">error_outline</mat-icon>
+    <mat-card-header>
+      <mat-card-title>404 - Page Not Found</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>I'm sorry, but the page you're looking for doesn't exist.</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" [routerLink]="'/'">Go Back to Home</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

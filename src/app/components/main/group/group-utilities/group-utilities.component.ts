@@ -3,11 +3,16 @@ import {GroupMainComponent} from "../group-main/group-main.component";
 import {ParticipantsComponent} from "./group-tabs/participants/participants.component";
 import {GroupOptionsComponent} from "./group-options/group-options.component";
 import {QuizListComponent} from "./quiz-list/quiz-list.component";
-import {GroupNameComponent} from "./group-name/group-name.component";
+import {GroupHeaderComponent} from "./group-header/group-header.component";
 import {Subscription} from "rxjs";
 import {GroupDataService} from "../../../../services/states/group-data.service";
 import {Role} from "../../../../data-transferring/enums/role";
 import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
+
+/**
+ * GroupUtilitiesComponent provides main UI for group features.
+ * It also determines role of the user in group and based on that provides user with functions his able to perform.
+ */
 
 @Component({
   selector: 'app-group-utilities',
@@ -17,7 +22,7 @@ import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
     ParticipantsComponent,
     GroupOptionsComponent,
     QuizListComponent,
-    GroupNameComponent,
+    GroupHeaderComponent,
     GroupTabsComponent
   ],
   templateUrl: './group-utilities.component.html',
@@ -25,11 +30,16 @@ import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
 })
 
 export class GroupUtilitiesComponent implements OnInit, OnDestroy {
-  isCreator: boolean = false;
-  isAdministrator: boolean = false;
-  isModerator: boolean = false;
-  isParticipant: boolean = false;
-  roleSubscription!: Subscription;
+  /**
+   * Description: User's role in the group.
+   */
+  userRole!: Role
+
+  /**
+   * Description: Role subscription.
+   * @private
+   */
+  private roleSubscription!: Subscription;
 
   constructor(private groupDataService : GroupDataService) {
 
@@ -46,31 +56,13 @@ export class GroupUtilitiesComponent implements OnInit, OnDestroy {
     this.roleSubscription.unsubscribe()
   }
 
+  /**
+   * Description: sets the user role which will later be passed to other components
+   * @param {Role} role - user's role
+   * @private
+   * @memberOf GroupUtilitiesComponent
+   */
   private setUserRole(role: Role) {
-    switch (role) {
-      case Role.Creator:
-        this.isCreator = true;
-        this.isAdministrator = false;
-        this.isModerator = false;
-        this.isParticipant = false;
-        break
-      case Role.Administrator:
-        this.isCreator = false;
-        this.isAdministrator = true;
-        this.isModerator = false;
-        this.isParticipant = false;
-        break
-      case Role.Moderator:
-        this.isCreator = false;
-        this.isAdministrator = false;
-        this.isModerator = true;
-        this.isParticipant = false;
-        break
-      default:
-        this.isCreator = false;
-        this.isAdministrator = false;
-        this.isModerator = false;
-        this.isParticipant = true;
-    }
+    this.userRole = role
   }
 }

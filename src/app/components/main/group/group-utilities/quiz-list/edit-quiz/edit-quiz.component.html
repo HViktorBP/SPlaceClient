@@ -64,13 +64,16 @@
           </ng-template>
 
           <button mat-raised-button color="warn" (click)="removeQuestion(i)" class="remove-question-btn">Remove question</button>
+
         </div>
         <button mat-raised-button color="primary" (click)="addQuestion()" class="add-question-btn">Add Question</button>
       </div>
-
+      <mat-error *ngIf="questions.hasError('atLeastOneCorrect')">
+        Each question should have at least one correct answer.
+      </mat-error>
       <div class="action-buttons">
-        <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid">Save Quiz</button>
-        <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled">Save Quiz</button>
+        <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="quizForm.disabled">Cancel</button>
       </div>
     </form>
   </div>

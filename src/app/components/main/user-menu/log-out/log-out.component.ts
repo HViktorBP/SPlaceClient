@@ -8,6 +8,10 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 
+/**
+ * LogOutComponent provides UI for user to log out form the application.
+ */
+
 @Component({
   selector: 'app-log-out',
   standalone: true,
@@ -26,17 +30,25 @@ import {MatInput} from "@angular/material/input";
   templateUrl: './log-out.component.html',
   styleUrl: './log-out.component.scss'
 })
+
 export class LogOutComponent {
+  /**
+   * Description: Reference to the component that will be opened in dialog.
+   */
   readonly dialogRef = inject(MatDialogRef<LogOutComponent>)
 
   constructor(private userService : UsersService,
-              private router : Router) {
-  }
+              private router : Router) { }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for logging out the user out of the application and handles the UI according to the request's response.
+   */
   onSubmit() {
     this.userService.logOut()
-    this.router.navigate(['login']).then(
-      () => this.dialogRef.close()
-    )
+    this.router
+      .navigate(['/login'])
+      .then(
+        () => this.dialogRef.close()
+      )
   }
 }

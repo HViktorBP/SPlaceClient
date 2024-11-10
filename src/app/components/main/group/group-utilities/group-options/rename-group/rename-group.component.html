@@ -10,8 +10,8 @@
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="renameGroupForm.invalid || isLoading">Rename</button>
-    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]=" isLoading">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="renameGroupForm.invalid || renameGroupForm.disabled">Rename</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="renameGroupForm.disabled">Cancel</button>
   </mat-dialog-actions>
 </form>
 

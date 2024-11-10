@@ -11,6 +11,7 @@ export class MyErrorHandlerService implements ErrorHandler {
 
   handleError(error: any): void {
     this.ngZone.run(() => {
+      console.log(error)
       this.toast.error({ detail: "Error", summary: error.error.detail, duration: 3000 })
     })
   }

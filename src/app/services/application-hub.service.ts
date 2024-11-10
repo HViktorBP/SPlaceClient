@@ -10,6 +10,10 @@ import {map} from "rxjs/operators";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router} from "@angular/router";
 
+/**
+ * ApplicationHubService establishes connection with SignalR service on the server side and provides methods to work with it.
+ */
+
 @Injectable({
   providedIn: 'root'
 })
@@ -146,7 +150,7 @@ export class ApplicationHubService {
         .subscribe({
           next : () => {
             if (this.groupDataService.currentGroupId == groupId) {
-              this.toast.success({detail:"Info", summary: `You have been removed from this group!`, duration:3000})
+              this.toast.info({detail:"Info", summary: `You have been removed from this group!`, duration:3000})
               this.router.navigate(['main']).catch(
                 err => {
                   this.toast.error({detail:"Error", summary: err, duration:3000})
@@ -166,6 +170,7 @@ export class ApplicationHubService {
           take(1),
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
+            this.usersDataService.updateUserScores(user.scores)
           }),
           catchError(err => {
             return throwError(() => err)
@@ -175,15 +180,8 @@ export class ApplicationHubService {
           next : () => {
             if (this.groupDataService.currentGroupId == groupId) {
               this.toast.info({detail:"Info", summary: `Group has been deleted!`, duration:3000})
-              this.router.navigate(['main']).catch(
-                err => {
-                  this.toast.error({detail:"Error", summary: err, duration:3000})
-                }
-              )
+              this.router.navigate(['main'])
             }
-          },
-          error: err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
           }
         })
     })
@@ -418,7 +416,7 @@ export class ApplicationHubService {
     return this.connection.invoke("AddToGroup", groupId, userName)
   }
 
-  public async leaveTheGroup(groupId : number){
+  public async leaveGroup(groupId : number){
     return this.connection.invoke("LeaveTheGroup", groupId)
   }
 

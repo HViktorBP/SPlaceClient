@@ -1,5 +1,5 @@
 <mat-card>
-  <p class="info-box-label">Some of your groups you may want to visit: </p>
+  <p class="info-box-label">Groups created by you: </p>
   <mat-list>
     <mat-list-item *ngFor="let group of userData.createdGroupsAsync | async">
       <fa-icon [icon]="icon"></fa-icon>

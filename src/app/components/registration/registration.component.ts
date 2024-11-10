@@ -11,6 +11,9 @@ import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/for
 import {MatInput} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
 
+/**
+ * RegistrationComponent is responsible for registering user into the application.
+ */
 @Component({
   selector: 'app-registration',
   standalone: true,
@@ -36,8 +39,14 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class RegistrationComponent implements OnInit, OnDestroy {
+  /**
+   * Description : Registration form
+   */
   registrationForm!: FormGroup;
 
+  /**
+   * Description: Bool signal. that indicates whether the password should be visible or not.
+   */
   hide = signal(true);
 
   constructor(private router: Router,
@@ -53,6 +62,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Description: onRegister is a function that handles the logic behind registering process, including handling UI and calling HTTP.
+   * @memberof RegistrationComponent
+   */
   onRegister() {
     if (this.registrationForm.valid) {
       if (this.registrationForm.get('confirmedPassword')?.value == this.registrationForm.get('password')?.value) {
@@ -80,11 +93,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Description : goToLogin method navigates user to log in page.
+   * @memberof RegistrationComponent
+   */
   goToLogin() : void {
     this.router.navigate(['login'])
   }
 
-  clickEvent(event: MouseEvent) {
+  /**
+   * Description : togglePassword method switches the visibility of password.
+   * @param {MouseEvent} event
+   * @memberOf RegistrationComponent
+   */
+  togglePassword(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }

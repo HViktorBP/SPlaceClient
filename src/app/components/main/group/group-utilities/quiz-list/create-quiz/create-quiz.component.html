@@ -56,8 +56,8 @@
 
 
     <div class="action-buttons">
-      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid">Submit Quiz</button>
-      <button mat-raised-button color="warn" type="button" (click)="closeDialog()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled">Submit Quiz</button>
+      <button mat-raised-button color="warn" type="button" (click)="closeDialog()" [disabled]="quizForm.disabled">Cancel</button>
     </div>
   </form>
 </div>

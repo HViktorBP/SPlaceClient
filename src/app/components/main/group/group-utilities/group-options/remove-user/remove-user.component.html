@@ -10,8 +10,8 @@
     </mat-form-field>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-raised-button color="warn" type="submit" [disabled]="removeUserForm.invalid || isLoading">Remove</button>
-    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="isLoading">Cancel</button>
+    <button mat-raised-button color="warn" type="submit" [disabled]="removeUserForm.invalid || removeUserForm.disabled">Remove</button>
+    <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()" [disabled]="removeUserForm.disabled">Cancel</button>
   </mat-dialog-actions>
 </form>
 

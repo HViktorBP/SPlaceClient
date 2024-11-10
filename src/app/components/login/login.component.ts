@@ -11,6 +11,10 @@ import {MatIcon} from "@angular/material/icon";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {NgIf} from "@angular/common";
 
+/**
+ * LoginComponent is responsible for handling the logging in into the application.
+ */
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -38,7 +42,14 @@ import {NgIf} from "@angular/common";
 })
 
 export class LoginComponent implements OnInit, OnDestroy{
+  /**
+   * Description: Log in form.
+   */
   loginForm!: FormGroup
+
+  /**
+   * Description: Bool signal. that indicates whether the password should be visible or not.
+   */
   hide = signal(true)
 
   constructor(private router: Router,
@@ -54,7 +65,11 @@ export class LoginComponent implements OnInit, OnDestroy{
     })
   }
 
-  onLogin() {
+  /**
+   * Description: onLogin is a function that handles the logic behind logging in process, including handling UI, calling HTTP method and storing the user data in case of success.
+   * @memberof LoginComponent
+   */
+  onLogin() : void {
     if (this.loginForm.valid) {
       this.loginForm.disable()
 
@@ -80,11 +95,20 @@ export class LoginComponent implements OnInit, OnDestroy{
     }
   }
 
+  /**
+   * Description : goToRegistration method navigates user to registration page.
+   * @memberof LoginComponent
+   */
   goToRegistration(): void {
     this.router.navigate(['registration'])
   }
 
-  clickEvent(event: MouseEvent) {
+  /**
+   * Description : togglePassword method switches the visibility of password.
+   * @param {MouseEvent} event
+   * @memberOf LoginComponent
+   */
+  togglePassword(event: MouseEvent) {
     this.hide.set(!this.hide())
     event.stopPropagation()
   }

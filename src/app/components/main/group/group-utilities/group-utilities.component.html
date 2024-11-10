@@ -1,4 +1,4 @@
-<app-group-name></app-group-name>
+<app-group-header></app-group-header>
 <app-group-tabs></app-group-tabs>
-<app-group-options [isAdministrator]="isAdministrator" [isCreator]="isCreator" [isModerator]="isModerator" [isParticipant]="isParticipant"></app-group-options>
-<app-quiz-list [isCreator]="isCreator" [isAdministrator]="isAdministrator"></app-quiz-list>
+<app-group-options [role]="userRole"></app-group-options>
+<app-quiz-list [role]="userRole"></app-quiz-list>

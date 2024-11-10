@@ -17,6 +17,9 @@ import {MatSelect} from "@angular/material/select";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
 
+/**
+ * ChangeRoleComponent provides UI for changing user's role in the group.
+ */
 @Component({
   selector: 'app-change-role',
   standalone: true,
@@ -41,8 +44,14 @@ import {NgIf} from "@angular/common";
 })
 
 export class ChangeRoleComponent implements CustomPopUpForm {
+  /**
+   * Description: MatDialog reference to ChangeRoleComponent
+   */
   readonly dialogRef = inject(MatDialogRef<ChangeRoleComponent>)
-  isLoading!: boolean
+
+  /**
+   * Description: Form for changing user's role
+   */
   changeRoleForm!: FormGroup
 
   constructor(private userService : UsersService,
@@ -60,12 +69,16 @@ export class ChangeRoleComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for changing a user and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group and also informs user about his role being changed by calling an applicationHub's changeRole method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     this.changeRoleForm.disable()
-    this.isLoading = true
 
     const addUserRequest : ChangeRoleRequest = {
       userId : userId,
@@ -82,12 +95,12 @@ export class ChangeRoleComponent implements CustomPopUpForm {
         }),
         finalize(() => {
           this.changeRoleForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({
         next : (res) => {
-          this.applicationHubService.changeRole(addUserRequest.userName, addUserRequest.role, addUserRequest.groupId)
+          this.applicationHubService
+            .changeRole(addUserRequest.userName, addUserRequest.role, addUserRequest.groupId)
             .then(() => {
               this.toast.success({detail:"Success", summary: res.message, duration:3000})
               this.dialogRef.close()

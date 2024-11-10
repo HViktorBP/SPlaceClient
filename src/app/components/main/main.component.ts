@@ -5,7 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {take} from 'rxjs';
+import {catchError, take, throwError} from 'rxjs';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../../services/users.service";
@@ -18,6 +18,10 @@ import {faUserGroup} from "@fortawesome/free-solid-svg-icons/faUserGroup";
 import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
 import {UserMenuComponent} from "./user-menu/user-menu.component";
 import {MatDialog} from "@angular/material/dialog";
+
+/**
+ * MainComponent is responsible for uploading user's data and providing the main UI for application to be used.
+ */
 
 @Component({
   selector: 'app-main',
@@ -43,13 +47,32 @@ import {MatDialog} from "@angular/material/dialog";
     UserMenuComponent,
   ]
 })
+
 export class MainComponent implements OnInit, OnDestroy{
-  title = 'material-responsive-sidenav';
-  readonly dialog = inject(MatDialog);
+  /**
+   * Description: opens the MatDialog
+   */
+  readonly dialog = inject(MatDialog)
+
+  /**
+   * Description: decorator for watching a MatSidenav
+   */
   @ViewChild(MatSidenav)
+
+  /**
+   * Description: Sidenav variable
+   */
   sidenav!: MatSidenav;
+
+  /**
+   * Description: List icon
+   */
   listIcon = faUserGroup
-  menuIcon = faBars;
+
+  /**
+   * Description: Menu icon
+   */
+  menuIcon = faBars
 
   constructor(private userService : UsersService,
               public userDataService : UsersDataService,
@@ -62,7 +85,12 @@ export class MainComponent implements OnInit, OnDestroy{
       const userId = this.userService.getUserId();
 
       this.userService.getUserAccount(userId)
-        .pipe(take(1))
+        .pipe(
+          take(1),
+          catchError(error => {
+            return throwError(() => error)
+          })
+          )
         .subscribe(user => {
           this.userDataService.updateUsername(user.username)
           this.userDataService.updateStatus(user.status)
@@ -79,9 +107,11 @@ export class MainComponent implements OnInit, OnDestroy{
                 () => {
                   console.log('Connection established!')
                   user.groups.forEach(g => {
-                    this.applicationHub.setGroupConnection(g.id).catch(
-                      (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-                    )
+                    this.applicationHub
+                      .setGroupConnection(g.id)
+                      .catch(
+                        (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
+                      )
                   })
                 })
                 .catch(
@@ -99,13 +129,19 @@ export class MainComponent implements OnInit, OnDestroy{
     }
   }
 
-
   ngOnDestroy() {
-    this.applicationHub.leave().then(() => {console.log('Disconnected from the group hub!')})
+    this.applicationHub
+      .leave()
+      .then(() => {
+        console.log('Disconnected from the group hub!')
+      })
   }
 
+  /**
+   * Description: onCreateNewGroup method opens new dialog where user can create a group
+   * @memberOf MainComponent
+   */
   onCreateNewGroup() {
     this.dialog.open(CreateGroupComponent)
   }
-
 }

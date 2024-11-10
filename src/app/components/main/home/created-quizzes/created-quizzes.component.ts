@@ -9,6 +9,10 @@ import {MatDivider} from "@angular/material/divider";
 import {MatLine} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
 
+/**
+ * CreatedQuizzesComponent displays the quizzes created by user.
+ */
+
 @Component({
   selector: 'app-created-quizzes',
   standalone: true,

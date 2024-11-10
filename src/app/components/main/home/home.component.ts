@@ -4,6 +4,10 @@ import {CreatedGroupsComponent} from "./created-groups/created-groups.component"
 import {UserScoresComponent} from "./user-scores/user-scores.component";
 import {MatGridList, MatGridTile, MatGridTileHeaderCssMatStyler} from "@angular/material/grid-list";
 
+/**
+ * HomeComponent serves as the home page of application
+ */
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -18,6 +22,7 @@ import {MatGridList, MatGridTile, MatGridTileHeaderCssMatStyler} from "@angular/
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
+
 export class HomeComponent {
 
 }

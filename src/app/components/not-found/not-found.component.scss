@@ -1,0 +1,32 @@
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+mat-card {
+  height: 50%;
+  max-width: 30vw;
+  padding: 20px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+mat-card-header {
+  align-self: center;
+}
+
+mat-card-title {
+  align-items: center;
+}
+
+button {
+  width: 100%;
+}
+
+mat-icon {
+  align-self: center;
+}

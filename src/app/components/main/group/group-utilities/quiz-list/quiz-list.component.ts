@@ -19,6 +19,11 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/mat
 import {MatList, MatListItem} from "@angular/material/list";
 import {UsersDataService} from "../../../../../services/states/users-data.service";
 import {MatIcon} from "@angular/material/icon";
+import {Role} from "../../../../../data-transferring/enums/role";
+
+/**
+ * QuizListComponent displays the list of quizzes in the group as well as providing UI for managing them.
+ */
 
 @Component({
   selector: 'app-quiz-list',
@@ -48,8 +53,16 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class QuizListComponent {
-  @Input()isCreator!: boolean;
-  @Input()isAdministrator!: boolean;
+  /**
+   * Description: User's role.
+   */
+  @Input()role!:Role
+
+  /**
+   * Description: Roles in group.
+   * @protected
+   */
+  protected readonly Role = Role;
 
   constructor(public groupDataService : GroupDataService,
               private userDataService : UsersDataService,
@@ -57,19 +70,29 @@ export class QuizListComponent {
               public applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private usersService : UsersService,
-              private quizzesService : QuizzesService) {
-  }
+              private quizzesService : QuizzesService) { }
 
-  createQuiz() {
+  /**
+   * Description: onCreateQuiz method opens the CreateQuizComponent in MatDialog.
+   * @memberOf QuizListComponent
+   */
+  onCreateQuiz() {
     this.dialog.open(CreateQuizComponent, {
       width: '50vw'
     });
   }
 
-  openDeleteDialog(quizName: string, quizId: number): void {
-    const dialogRef = this.dialog.open(DeleteQuizComponent);
+  /**
+   * Description: onDeleteQuiz method opens the DeleteQuizComponent in MatDialog.
+   * When the dialog closes, depending on the result, quiz is delete or not.
+   * @memberOf QuizListComponent
+   */
+  onDeleteQuiz(quizName: string, quizId: number): void {
+    const dialogRef = this.dialog.open(DeleteQuizComponent, {
+        data: { quizName: quizName }
+      })
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const deleteQuizRequest : DeleteQuizRequest = {
           userId: this.usersService.getUserId(),
@@ -81,30 +104,36 @@ export class QuizListComponent {
           .pipe(
             take(1),
             switchMap(() =>
-              this.usersService.getUserAccount(this.usersService.getUserId()).pipe(
-                take(1),
-                tap(user => {
-                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
-                })
-              )
+              this.usersService
+                .getUserAccount(this.usersService.getUserId())
+                .pipe(
+                  take(1),
+                  tap(user => {
+                    this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+                  }))
             )
           )
           .subscribe({
             next: () => {
-              this.applicationHubService.deleteQuiz(deleteQuizRequest.groupId)
+              this.applicationHubService
+                .deleteQuiz(deleteQuizRequest.groupId)
                 .then(() => {
                   this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000});
                 })
             }
-          });
+          })
       }
-    });
+    })
   }
 
-  openEditQuizDialog(quizId : number) {
+  /**
+   * Description: onEditQuiz method opens the EditQuizComponent in MatDialog.
+   * @memberOf QuizListComponent
+   */
+  onEditQuiz(quizId : number) {
     this.dialog.open(EditQuizComponent, {
       width: '50vw',
       data: { quizId: quizId }
-    });
+    })
   }
 }

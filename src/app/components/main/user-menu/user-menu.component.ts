@@ -12,6 +12,10 @@ import {DeleteAccountComponent} from "./delete-account/delete-account.component"
 import {MatDivider} from "@angular/material/divider";
 import {MatDialog} from "@angular/material/dialog";
 
+/**
+ * UserMenuComponent represents a user's menu.
+ */
+
 @Component({
   selector: 'app-user-menu',
   standalone: true,
@@ -32,32 +36,51 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './user-menu.component.scss'
 })
 export class UserMenuComponent {
-  readonly dialog = inject(MatDialog);
+  /**
+   * Description: opens the MatDialog
+   */
+  readonly dialog = inject(MatDialog)
 
-  constructor(public userDataService : UsersDataService) {
-  }
+  constructor(public userDataService : UsersDataService) { }
 
+  /**
+   * Description: opens the ChangeUsernameComponent in MatDialog
+   */
   openChangeUsername() {
     this.dialog.open(ChangeUsernameComponent)
   }
 
+  /**
+   * Description: opens the ChangePasswordComponent in MatDialog
+   */
   openChangePassword() {
     this.dialog.open(ChangePasswordComponent)
   }
 
+  /**
+   * Description: opens the ChangeStatusComponent in MatDialog
+   */
   openChangeStatus() {
     this.dialog.open(ChangeStatusComponent)
   }
 
+  /**
+   * Description: opens the LogOutComponent in MatDialog
+   */
   openLogOut() {
     this.dialog.open(LogOutComponent)
-
   }
 
+  /**
+   * Description: opens the AboutAppComponent in MatDialog
+   */
   openAboutApp() {
   this.dialog.open(AboutAppComponent)
   }
 
+  /**
+   * Description: opens the DeleteAccountComponent in MatDialog
+   */
   openDeleteAccount() {
     this.dialog.open(DeleteAccountComponent)
   }

@@ -3,6 +3,12 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {ParticipantsComponent} from "./participants/participants.component";
 import {ScoresComponent} from "./scores/scores.component";
 
+/**
+ * GroupTabsComponent contains a router for Participants and Scores Component
+ * @see ParticipantsComponent
+ * @see ScoresComponent
+ */
+
 @Component({
   selector: 'app-group-tabs',
   standalone: true,

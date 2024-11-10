@@ -14,6 +14,10 @@ import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
 import {UsersDataService} from "../../../../../../services/states/users-data.service";
 
+/**
+ * DeleteGroupComponent provides UI for deleting the group.
+ */
+
 @Component({
   selector: 'app-delete-group',
   standalone: true,
@@ -33,7 +37,11 @@ import {UsersDataService} from "../../../../../../services/states/users-data.ser
   templateUrl: './delete-group.component.html',
   styleUrl: './delete-group.component.scss'
 })
+
 export class DeleteGroupComponent {
+  /**
+   * Description: MatDialog reference to DeleteGroupComponent
+   */
   readonly dialogRef = inject(MatDialogRef<DeleteGroupComponent>)
 
   constructor(private userService : UsersService,
@@ -43,6 +51,11 @@ export class DeleteGroupComponent {
               private applicationHubService : ApplicationHubService) {
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for deleting the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participated in group by calling an applicationHub's deleteGroup method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
@@ -59,8 +72,8 @@ export class DeleteGroupComponent {
           this.userService.getUserAccount(this.userService.getUserId()).pipe(
             take(1),
             tap(user => {
-              this.userDataService.updateCreatedGroupData(user.createdGroups)
               this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+              this.userDataService.updateCreatedGroupData(user.createdGroups)
             })
           )
         ),

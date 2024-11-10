@@ -9,6 +9,10 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatLine} from "@angular/material/core";
 import {MatDivider} from "@angular/material/divider";
 
+/**
+ * CreatedGroupsComponent displays the groups created by user
+ */
+
 @Component({
   selector: 'app-created-groups',
   standalone: true,
@@ -28,6 +32,8 @@ import {MatDivider} from "@angular/material/divider";
   templateUrl: './created-groups.component.html',
   styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
+
+
 export class CreatedGroupsComponent {
   icon = faUsers
 

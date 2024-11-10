@@ -15,6 +15,10 @@ import {MatInput} from "@angular/material/input";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
 
+/**
+ * RemoveUserComponent provides UI for renaming a group.
+ */
+
 @Component({
   selector: 'app-rename-group',
   standalone: true,
@@ -36,9 +40,15 @@ import {NgIf} from "@angular/common";
   styleUrl: './rename-group.component.scss'
 })
 
-export class RenameGroupComponent implements CustomPopUpForm{
+export class RenameGroupComponent implements CustomPopUpForm {
+  /**
+   * Description: MatDialog reference to RenameGroupComponent
+   */
   readonly dialogRef = inject(MatDialogRef<RenameGroupComponent>)
-  isLoading!: boolean
+
+  /**
+   * Description: Form for renaming a group
+   */
   renameGroupForm!: FormGroup
 
   constructor(private userService : UsersService,
@@ -54,12 +64,17 @@ export class RenameGroupComponent implements CustomPopUpForm{
     })
   }
 
+
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for removing user from the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group and also for user who has been removed by calling an applicationHub's renameGroup method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const groupId : number = this.groupDataService.currentGroupId
     const userId : number = this.userService.getUserId()
 
     this.renameGroupForm.disable()
-    this.isLoading = true
 
     const renameGroupRequest : RenameGroupRequest = {
       userId : userId,
@@ -75,12 +90,12 @@ export class RenameGroupComponent implements CustomPopUpForm{
         }),
         finalize(() => {
           this.renameGroupForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({
         next : res => {
-          this.applicationHubService.renameGroup(renameGroupRequest.groupId)
+          this.applicationHubService
+            .renameGroup(renameGroupRequest.groupId)
             .then(
               () => {
                 this.toast.info({detail:"Info", summary: res.message, duration:3000})

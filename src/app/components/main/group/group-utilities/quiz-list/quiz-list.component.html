@@ -7,17 +7,17 @@
       <mat-list-item *ngFor="let quiz of groupDataService.quizzesListAsync | async; let i = index">
         <div class="list-item-wrapper">
           <a [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{i + 1}}. {{quiz.name}}</a>
-          <div *ngIf="isCreator|| isAdministrator">
-            <button mat-icon-button (click)="openEditQuizDialog(quiz.id)" title="Edit Quiz">
+          <div *ngIf="role == Role.Creator || role == Role.Administrator">
+            <button mat-icon-button (click)="onEditQuiz(quiz.id)" title="Edit Quiz">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="openDeleteDialog(quiz.name, quiz.id)" title="Delete Quiz">
+            <button mat-icon-button color="warn" (click)="onDeleteQuiz(quiz.name, quiz.id)" title="Delete Quiz">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
         </div>
       </mat-list-item>
     </mat-list>
-    <button mat-raised-button color="primary" (click)="createQuiz()" *ngIf="isCreator|| isAdministrator">Create quiz</button>
+    <button mat-raised-button color="primary" (click)="onCreateQuiz()" *ngIf="role == Role.Creator || role == Role.Administrator">Create quiz</button>
   </mat-card-content>
 </mat-card>

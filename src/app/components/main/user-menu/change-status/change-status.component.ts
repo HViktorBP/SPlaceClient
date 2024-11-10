@@ -13,6 +13,10 @@ import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 
+/**
+ * ChangeStatusComponent provides UI for user to change the status.
+ */
+
 @Component({
   selector: 'app-change-status',
   standalone: true,
@@ -33,8 +37,14 @@ import {ApplicationHubService} from "../../../../services/application-hub.servic
   styleUrl: './change-status.component.scss'
 })
 export class ChangeStatusComponent implements CustomPopUpForm {
+  /**
+   * Description: Reference to the component that will be opened in dialog.
+   */
   readonly dialogRef = inject(MatDialogRef<ChangeStatusComponent>)
-  isLoading! : boolean
+
+  /**
+   * Description: form for new status.
+   */
   newStatusForm!: FormGroup
 
   constructor(private toast : NgToastService,
@@ -49,10 +59,14 @@ export class ChangeStatusComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for changing a user's status and handles the UI according to the request's response.
+   * If the operation successful, the status changing is also broadcast to the groups where user participates by calling an applicationHub's changeStatus method.
+   * @see ApplicationHubService
+   */
   onSubmit() {
     const userId = this.userService.getUserId()
 
-    this.isLoading = true;
     this.newStatusForm.disable()
 
     const changeStatusRequest : ChangeStatusRequest = {
@@ -74,7 +88,6 @@ export class ChangeStatusComponent implements CustomPopUpForm {
         }),
         finalize (() => {
           this.newStatusForm.enable()
-          this.isLoading = false
         })
       )
       .subscribe({
@@ -87,7 +100,6 @@ export class ChangeStatusComponent implements CustomPopUpForm {
           )
         }
       })
-
   }
 
   ngOnDestroy() {

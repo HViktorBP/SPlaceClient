@@ -8,6 +8,10 @@ import {MatLine} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
 import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
 
+/**
+ * UserScoresComponent displays the scores that user achieved on quizzes.
+ */
+
 @Component({
   selector: 'app-user-scores',
   standalone: true,
@@ -25,10 +29,9 @@ import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
   templateUrl: './user-scores.component.html',
   styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
+
 export class UserScoresComponent {
   icon = faStar
 
-  constructor(public userData : UsersDataService) {
-
-  }
+  constructor(public userData : UsersDataService) { }
 }

@@ -11,6 +11,10 @@ import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 
+/**
+ * ChangePasswordComponent provides UI for user to change the password.
+ */
+
 @Component({
   selector: 'app-change-password',
   standalone: true,
@@ -32,9 +36,15 @@ import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 })
 
 export class ChangePasswordComponent implements CustomPopUpForm {
+  /**
+   * Description: Reference to the component that will be opened in dialog.
+   */
   readonly dialogRef = inject(MatDialogRef<ChangePasswordComponent>)
+
+  /**
+   * Description: form for new password.
+   */
   newPasswordForm!: FormGroup
-  isLoading!: boolean
 
   constructor(private toast : NgToastService,
               private userService : UsersService,
@@ -47,11 +57,13 @@ export class ChangePasswordComponent implements CustomPopUpForm {
     })
   }
 
+  /**
+   * Description: onSubmit method calls a function that sends an HTTP request for changing a user's password and handles the UI according to the request's response.
+   */
   onSubmit() {
     if (this.newPasswordForm.get('newPassword')!.value == this.newPasswordForm.get('submitNewPassword')!.value) {
       const userId = this.userService.getUserId()
 
-      this.isLoading = true
       this.newPasswordForm.disable()
 
       const changePasswordRequest : ChangePasswordRequest = {
@@ -67,7 +79,6 @@ export class ChangePasswordComponent implements CustomPopUpForm {
           }),
           finalize(() => {
             this.newPasswordForm.enable()
-            this.isLoading = false
           })
         )
         .subscribe({

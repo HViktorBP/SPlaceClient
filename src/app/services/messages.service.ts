@@ -22,7 +22,7 @@ export class MessagesService {
   }
 
   editMessage(message : MessageDto) {
-    return this.http.put<string>(`${this.baseUrl}edit`, message).pipe(
+    return this.http.put<any>(`${this.baseUrl}edit`, message).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -30,7 +30,7 @@ export class MessagesService {
   }
 
   deleteMessage(message : DeleteMessageRequest) {
-    return this.http.delete<string>(`${this.baseUrl}delete`, {"body": message}).pipe(
+    return this.http.delete<any>(`${this.baseUrl}delete`, {"body": message}).pipe(
       catchError(err => {
         return throwError(() => err)
       })

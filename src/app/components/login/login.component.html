@@ -19,7 +19,7 @@
             mat-icon-button
             type="button"
             matSuffix
-            (click)="clickEvent($event)"
+            (click)="togglePassword($event)"
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide()"
           >
@@ -32,8 +32,8 @@
         </mat-form-field>
 
         <div class="authorization-buttons">
-          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Log in</button>
-          <button mat-raised-button color="primary" type="button" (click)="goToRegistration()">Create account</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || loginForm.disabled">Log in</button>
+          <button mat-raised-button color="primary" type="button" (click)="goToRegistration()" [disabled]="loginForm.disabled">Create account</button>
         </div>
       </form>
     </mat-card-content>

@@ -6,11 +6,14 @@ import {MessageDto} from "../../../../../../data-transferring/dtos/message/messa
 import {NgToastService} from "ng-angular-popup";
 import {DeleteMessageRequest} from "../../../../../../data-transferring/contracts/message/delete-message-request";
 import {FormsModule} from "@angular/forms";
-import {take} from "rxjs";
+import {catchError, finalize, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 
+/**
+ * MessageComponent is responsible for handling messages' UI.
+ */
 @Component({
   selector: 'app-message',
   standalone: true,
@@ -27,17 +30,55 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class MessageComponent implements OnInit {
+  /**
+   * Description: Message's ID
+   */
   @Input() id!: number
-  @Input() userId!: number;
-  @Input() userName!: string;
-  @Input() groupId!: number;
-  @Input() message!: string;
-  @Input() timestamp!: Date;
-  @Input() isEdited!:boolean
-  own!: boolean
-  isEditing : boolean = false;
-  editableMessage: string = '';
 
+  /**
+   * Description: ID of the user who wrote the message
+   */
+  @Input() userId!: number
+
+  /**
+   * Description: Name of the user who wrote the message
+   */
+  @Input() userName!: string
+
+  /**
+   * Description: ID of the group to which message belongs
+   */
+  @Input() groupId!: number
+
+  /**
+   * Description: Message itself.
+   */
+  @Input() message!: string
+
+  /**
+   * Description: Time when the message was sent.
+   */
+  @Input() timestamp!: Date
+
+  /**
+   * Description: Indicator for message whether it was edited or not.
+   */
+  @Input() isEdited!:boolean
+
+  /**
+   * Description: Indicates whether the message belong to user or not.
+   */
+  own!: boolean
+
+  /**
+   * Description: Indicates whether user currently edits the message or not.
+   */
+  isEditing : boolean = false
+
+  /**
+   * Description: String which will contain the edited message.
+   */
+  editableMessage: string = ''
 
   constructor(private messagesService : MessagesService,
               private userService : UsersService,
@@ -49,20 +90,32 @@ export class MessageComponent implements OnInit {
     this.own = this.userService.getUserId() == this.userId
   }
 
-  toggleEdit() {
-    this.isEditing = !this.isEditing;
+  /**
+   * Description: showEdit method provides the UI for editing the message
+   * @memberOf MessageComponent
+   */
+  showEdit() {
+    this.isEditing = !this.isEditing
     this.editableMessage = this.message
   }
 
+  /**
+   * Description: cancelEdit method hides the UI for editing the message
+   * @memberOf MessageComponent
+   */
   cancelEdit() {
-    this.isEditing = false; // Exit edit mode without saving
+    this.isEditing = false
   }
 
+  /**
+   * Description: editMessage method calls the HTTP request for editing the message and handles the UI according to the request's result.
+   * @memberOf MessageComponent
+   */
   editMessage() {
-    const messageDto : MessageDto= {
+    const messageDto : MessageDto = {
       groupId: this.groupId,
       id: this.id,
-      message: this.editableMessage,
+      message: this.editableMessage.trim(),
       timestamp: this.timestamp,
       userId: this.userId,
       userName: this.userName,
@@ -70,24 +123,30 @@ export class MessageComponent implements OnInit {
     }
 
     this.messagesService.editMessage(messageDto)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError(error => {
+          return throwError(() => error)
+        }),
+        finalize(() => {
+          this.isEditing = false
+        })
+        )
       .subscribe({
-      next: (message) => {
-        this.applicationHubService.editMessage(messageDto)
-          .then(() => {
-            this.toast.success({detail:"Success", summary: message, duration:3000})
-          })
-          .catch(err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
-          })
-        this.isEditing = false;
-      },
-      error: (err) => {
-        this.toast.error({detail:"Success", summary: err, duration:3000})
-      }
+        next: (result) => {
+          this.applicationHubService
+            .editMessage(messageDto)
+            .then(() => {
+              this.toast.success({detail:"Success", summary: result.message, duration:3000})
+            })
+        }
     })
   }
 
+  /**
+   * Description: deleteMessage deletes calls the HTTP request for deleting the message and handles the UI according to the request's result.
+   * @memberOf MessageComponent
+   */
   deleteMessage() {
     const deleteMessageRequest : DeleteMessageRequest = {
       userId: this.userId,
@@ -96,19 +155,19 @@ export class MessageComponent implements OnInit {
     }
 
     this.messagesService.deleteMessage(deleteMessageRequest)
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        catchError(error => {
+          return throwError(() => error)
+        })
+      )
       .subscribe({
-        next: (message) => {
-          this.applicationHubService.deleteMessage(deleteMessageRequest.groupId, deleteMessageRequest.messageId)
+        next: (result) => {
+          this.applicationHubService
+            .deleteMessage(deleteMessageRequest.groupId, deleteMessageRequest.messageId)
             .then(() => {
-              this.toast.success({detail:"Success", summary: message, duration:3000})
+              this.toast.success({detail:"Success", summary: result.message, duration:3000})
             })
-            .catch(err => {
-              this.toast.error({detail:"Error", summary: err, duration:3000})
-            })
-        },
-        error: (err) => {
-          this.toast.error({detail:"Error", summary: err, duration:3000})
         }
     })
   }
