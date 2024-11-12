@@ -338,7 +338,11 @@ export class ApplicationHubService {
       }
     })
 
-    this.connection.on("QuizDeleted", () => {
+    this.connection.on("QuizDeleted", (quizId : number) => {
+      const hasParameter = this.route.snapshot.paramMap.get('quizId')
+
+      if (hasParameter && +hasParameter == quizId) {}
+        router.navigate(['/main/group/' + this.groupDataService.currentGroupId])
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),
@@ -442,8 +446,8 @@ export class ApplicationHubService {
     return this.connection.invoke("SubmitQuiz", groupId)
   }
 
-  public async deleteQuiz(groupId : number){
-    return this.connection.invoke("DeleteQuiz", groupId)
+  public async deleteQuiz(groupId : number, quizId : number){
+    return this.connection.invoke("DeleteQuiz", groupId, quizId)
   }
 
   //endregion

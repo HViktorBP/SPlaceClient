@@ -12,6 +12,7 @@ import {UsersDataService} from "../../../../services/states/users-data.service";
 import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
+import {trimFormValues} from "../../../../custom/helping-functions/FormTrim";
 
 /**
  * ChangeStatusComponent provides UI for user to change the status.
@@ -66,6 +67,8 @@ export class ChangeStatusComponent implements CustomPopUpForm {
    */
   onSubmit() {
     const userId = this.userService.getUserId()
+
+    trimFormValues(this.newStatusForm)
 
     this.newStatusForm.disable()
 

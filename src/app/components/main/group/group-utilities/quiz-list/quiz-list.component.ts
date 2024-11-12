@@ -5,19 +5,13 @@ import {MatDialog} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../../services/states/group-data.service";
 import { CreateQuizComponent } from "./create-quiz/create-quiz.component";
 import {RouterLink} from "@angular/router";
-import {NgToastService} from "ng-angular-popup";
-import {UsersService} from "../../../../../services/users.service";
-import {QuizzesService} from "../../../../../services/quizzes.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {DeleteQuizComponent} from "./delete-quiz/delete-quiz.component";
-import {DeleteQuizRequest} from "../../../../../data-transferring/contracts/quiz/delete-quiz-request";
-import {switchMap, take, tap} from "rxjs";
 import {EditQuizComponent} from "./edit-quiz/edit-quiz.component";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
-import {UsersDataService} from "../../../../../services/states/users-data.service";
 import {MatIcon} from "@angular/material/icon";
 import {Role} from "../../../../../data-transferring/enums/role";
 
@@ -65,12 +59,8 @@ export class QuizListComponent {
   protected readonly Role = Role;
 
   constructor(public groupDataService : GroupDataService,
-              private userDataService : UsersDataService,
               public dialog: MatDialog,
-              public applicationHubService : ApplicationHubService,
-              private toast : NgToastService,
-              private usersService : UsersService,
-              private quizzesService : QuizzesService) { }
+              public applicationHubService : ApplicationHubService) { }
 
   /**
    * Description: onCreateQuiz method opens the CreateQuizComponent in MatDialog.
@@ -84,46 +74,15 @@ export class QuizListComponent {
 
   /**
    * Description: onDeleteQuiz method opens the DeleteQuizComponent in MatDialog.
-   * When the dialog closes, depending on the result, quiz is delete or not.
    * @memberOf QuizListComponent
    */
   onDeleteQuiz(quizName: string, quizId: number): void {
-    const dialogRef = this.dialog.open(DeleteQuizComponent, {
-        data: { quizName: quizName }
-      })
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        const deleteQuizRequest : DeleteQuizRequest = {
-          userId: this.usersService.getUserId(),
-          groupId: this.groupDataService.currentGroupId,
+    this.dialog.open(DeleteQuizComponent, {
+        data: {
+          quizName: quizName,
           quizId: quizId
         }
-
-        this.quizzesService.deleteQuiz(deleteQuizRequest)
-          .pipe(
-            take(1),
-            switchMap(() =>
-              this.usersService
-                .getUserAccount(this.usersService.getUserId())
-                .pipe(
-                  take(1),
-                  tap(user => {
-                    this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
-                  }))
-            )
-          )
-          .subscribe({
-            next: () => {
-              this.applicationHubService
-                .deleteQuiz(deleteQuizRequest.groupId)
-                .then(() => {
-                  this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000});
-                })
-            }
-          })
-      }
-    })
+      })
   }
 
   /**

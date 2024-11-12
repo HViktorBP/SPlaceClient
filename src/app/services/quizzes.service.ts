@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {QuizDto} from "../data-transferring/dtos/quiz/quiz-dto";
-import {CreateQuizRequest} from "../data-transferring/contracts/quiz/create-quiz-request";
 import {SubmitQuizRequest} from "../data-transferring/contracts/quiz/submit-quiz-request";
 import {DeleteQuizRequest} from "../data-transferring/contracts/quiz/delete-quiz-request";
-import {FormBuilder, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {QuestionDto} from "../data-transferring/dtos/question/question-dto";
 import {Question} from "../data-transferring/enums/question";
 import {AnswerDto} from "../data-transferring/dtos/answer/answer-dto";
 import {catchError, throwError} from "rxjs";
+import {QuizValidators} from "../custom/valiators/QuizValidators";
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +37,8 @@ export class QuizzesService {
     )
   }
 
-  createNewQuiz(createQuizRequest : CreateQuizRequest) {
-    return this.http.post<any>(`${this.baseUrl}create`, createQuizRequest).pipe(
+  createNewQuiz(submitQuizRequest : SubmitQuizRequest) {
+    return this.http.post<any>(`${this.baseUrl}create`, submitQuizRequest).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -53,7 +53,7 @@ export class QuizzesService {
     )
   }
 
-  deleteQuiz (deleteQuizRequest : DeleteQuizRequest) {
+  deleteQuiz(deleteQuizRequest : DeleteQuizRequest) {
     return this.http.delete<any>(`${this.baseUrl}quiz`, {body: deleteQuizRequest}).pipe(
       catchError(err => {
         return throwError(() => err)
@@ -73,13 +73,13 @@ export class QuizzesService {
     return this.fb.group({
       id: [quiz.id],
       groupId: [quiz.groupId],
-      name: [quiz.name],
+      name: [quiz.name, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions: this.fb.array(quiz.questions.map(question => this.createQuestionFormGroup(question)))
     })
   }
 
   createQuestionFormGroup(question: QuestionDto) {
-    const formGroupConfig: any = {
+    const questionConfig: any = {
       id: [question.id],
       question: [question.question, Validators.required],
       type: [question.type],
@@ -89,13 +89,13 @@ export class QuizzesService {
     if (question.type === Question.SingleAnswer) {
       const answer = question.answers.find(a => a.status)
       if (answer) {
-        formGroupConfig.selectedAnswer = [answer.answer, Validators.required]
+        questionConfig.selectedAnswer = [0, Validators.required]
       } else {
-        formGroupConfig.selectedAnswer = [null, Validators.required]
+        questionConfig.selectedAnswer = [null, Validators.required]
       }
     }
 
-    return this.fb.group(formGroupConfig)
+    return this.fb.group(questionConfig)
   }
 
   createAnswerFormGroup(answer: AnswerDto) {
@@ -105,4 +105,64 @@ export class QuizzesService {
       status: [answer.status]
     })
   }
+
+  /**
+   * Description: processes quiz data by deleting all the unnecessary controls from it.
+   * @param questions -
+   * @private
+   */
+  processQuizBeforeSubmit(questions : FormArray) {
+    questions.controls.forEach((question: any, index: number) => {
+      if (question.type === 0 && question.selectedAnswer) {
+        question.answers.forEach((answer: any, index : number) => {
+          console.log(question.selectedAnswer, index)
+          answer.status = index == question.selectedAnswer
+        })
+
+        const questionFormGroup = questions.at(index) as FormGroup
+        questionFormGroup.removeControl('selectedAnswer')
+      }
+    })
+  }
+
+  /**
+   * Description: sets validators for the questions
+   * @private
+   */
+  setValidatorsForQuestions(quizForm : FormGroup) {
+    const questionsArray = quizForm.get('questions') as FormArray;
+    questionsArray.setValidators([
+      QuizValidators.atLeastOneCorrectAnswer(),
+      QuizValidators.quizHasQuestionsValidator(),
+      QuizValidators.uniqueQuestionsValidator()
+    ])
+
+    questionsArray.updateValueAndValidity()
+
+    questionsArray.controls.forEach((questionControl) => {
+      questionControl.get('question')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
+    })
+
+    questionsArray.controls.forEach((questionControl) => {
+      this.setValidatorsForAnswers(questionControl);
+    })
+  }
+
+  /**
+   * Description: sets validators for the answers
+   * @private
+   */
+   setValidatorsForAnswers(questionControl: any) {
+    const answersArray = questionControl.get('answers') as FormArray;
+    answersArray.setValidators([
+      QuizValidators.uniqueAnswersValidator()
+    ])
+
+    answersArray.updateValueAndValidity()
+
+    answersArray.controls.forEach((answersControl) => {
+      answersControl.get('answer')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
+    })
+  }
+
 }

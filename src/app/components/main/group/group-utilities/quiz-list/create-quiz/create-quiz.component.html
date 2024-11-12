@@ -1,63 +1,85 @@
 <div class="quiz-editor">
   <h2 mat-dialog-actions>Create Quiz</h2>
-  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Quiz name</mat-label>
-      <input matInput id="quiz-name" formControlName="name" required />
+  <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+    <mat-form-field class="full-width">
+      <mat-label>Quiz Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter quiz name">
     </mat-form-field>
 
     <div formArrayName="questions">
-      <div *ngFor="let question of questions.controls; let qIndex = index" [formGroupName]="qIndex" class="question-card">
-        <mat-card>
-            <mat-card-title>
-              <mat-card-header>Question {{ qIndex + 1 }}</mat-card-header>
-            </mat-card-title>
-          <mat-card-content>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Question</mat-label>
-              <input matInput formControlName="question" required />
-            </mat-form-field>
+      <mat-error *ngIf="questions.hasError('atLeastOneCorrect')">
+        * Each question should have at least one correct answer.
+      </mat-error>
+      <mat-error *ngIf="questions.hasError('duplicateQuestions')">
+        * Each question should be unique.
+      </mat-error>
+      <mat-error *ngIf="questions.hasError('duplicateAnswers')">
+        * Each answers in question should be unique.
+      </mat-error>
+      <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="question-box">
+        <mat-form-field class="full-width">
+          <mat-label>Question {{ i + 1 }}</mat-label>
+          <input matInput formControlName="question" placeholder="Enter question">
+        </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Type</mat-label>
-              <mat-select formControlName="type" required>
-                <mat-option value="0">True/False</mat-option>
-                <mat-option value="1">Multiple Choice</mat-option>
-              </mat-select>
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Question type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option [value]="0" (click)="addSingleAnswer(i)">Single Answer</mat-option>
+            <mat-option [value]="1" (click)="removeSingleAnswer(i)">Multiple Answer</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-            <div formArrayName="answers" class="answer-section">
-              <div *ngFor="let answer of getAnswers(qIndex).controls; let aIndex = index" [formGroupName]="aIndex" class="answer-row">
-                <mat-form-field appearance="fill" class="answer-field">
-                  <mat-label>Answer {{ aIndex + 1 }}</mat-label>
-                  <input matInput formControlName="answer" required />
+        <ng-container *ngIf="question.get('type')?.value === 0; else multipleAnswerTemplate">
+          <mat-radio-group formControlName="selectedAnswer">
+            <div formArrayName="answers">
+              <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j" class="answer-box">
+                <mat-form-field class="answer-field">
+                  <mat-label>Answer {{ j + 1 }}</mat-label>
+                  <input matInput formControlName="answer" placeholder="Enter answer">
                 </mat-form-field>
-                <mat-checkbox formControlName="status" class="status-checkbox"></mat-checkbox>
 
-                <button mat-icon-button color="warn" type="button" (click)="removeAnswer(qIndex, aIndex)">
+                <mat-radio-button
+                  [value]="answer.get('answer')?.value"
+                  [checked]="answer.get('status')?.value"
+                  (change)="onSingleAnswerSelection(questions, i, j)">
+                  Correct Answer
+                </mat-radio-button>
+
+                <button mat-icon-button color="warn" (click)="removeAnswer(i, j)" class="remove-answer">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
-
-              <button mat-raised-button color="primary" type="button" (click)="addAnswer(qIndex)">Add Answer</button>
             </div>
+          </mat-radio-group>
+          <button mat-raised-button color="primary" (click)="addAnswer(i)">Add Answer</button>
+        </ng-container>
 
-            <button mat-raised-button type="button" color="warn" (click)="removeQuestion(qIndex)">Remove Question</button>
-          </mat-card-content>
+        <ng-template #multipleAnswerTemplate>
+          <div formArrayName="answers">
+            <div *ngFor="let answer of getAnswers(i).controls; let j = index" [formGroupName]="j" class="answer-box">
+              <mat-form-field class="answer-field">
+                <mat-label>Answer {{ j + 1 }}</mat-label>
+                <input matInput formControlName="answer" placeholder="Enter answer">
+              </mat-form-field>
+              <mat-checkbox formControlName="status">Correct Answer</mat-checkbox>
+              <button mat-icon-button color="warn" (click)="removeAnswer(i, j)" class="remove-answer">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <button mat-raised-button color="primary" (click)="addAnswer(i)">Add Answer</button>
+        </ng-template>
 
-        </mat-card>
-        <mat-error *ngIf="question.hasError('multipleCorrectAnswers')">
-          Only one answer can be correct for True/False questions.
-        </mat-error>
+        <button mat-raised-button color="warn" (click)="removeQuestion(i)" class="remove-question-btn">Remove question</button>
+
       </div>
-
-      <button mat-raised-button type="button" color="primary" (click)="addQuestion()">Add Question</button>
+      <button mat-raised-button color="primary" (click)="addQuestion()" class="add-question-btn">Add Question</button>
     </div>
 
-
     <div class="action-buttons">
-      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled">Submit Quiz</button>
-      <button mat-raised-button color="warn" type="button" (click)="closeDialog()" [disabled]="quizForm.disabled">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled">Save Quiz</button>
+      <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="quizForm.disabled">Cancel</button>
     </div>
   </form>
 </div>

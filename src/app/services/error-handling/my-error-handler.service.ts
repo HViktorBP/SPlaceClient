@@ -11,8 +11,11 @@ export class MyErrorHandlerService implements ErrorHandler {
 
   handleError(error: any): void {
     this.ngZone.run(() => {
-      console.log(error)
-      this.toast.error({ detail: "Error", summary: error.error.detail, duration: 3000 })
+      if (error.status === 400 && error.error.errors) {
+        this.toast.error({ detail: "Error", summary: 'Data that you provided is invalid! Please, consider providing valid data.', duration: 3000 })
+      } else {
+        this.toast.error({ detail: "Error", summary: error.error.detail, duration: 3000 })
+      }
     })
   }
 }

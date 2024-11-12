@@ -8,6 +8,15 @@
       </mat-form-field>
 
       <div formArrayName="questions">
+        <mat-error *ngIf="questions.hasError('atLeastOneCorrect')">
+          * Each question should have at least one correct answer.
+        </mat-error>
+        <mat-error *ngIf="questions.hasError('duplicateQuestions')">
+          * Each question should be unique.
+        </mat-error>
+        <mat-error *ngIf="questions.hasError('duplicateAnswers')">
+          * Each answers in question should be unique.
+        </mat-error>
         <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="question-box">
           <mat-form-field class="full-width">
             <mat-label>Question {{ i + 1 }}</mat-label>
@@ -34,7 +43,7 @@
                   <mat-radio-button
                     [value]="answer.get('answer')?.value"
                     [checked]="answer.get('status')?.value"
-                    (change)="onSingleAnswerSelection(i, j)">
+                    (change)="onSingleAnswerSelection(questions, i, j)">
                     Correct Answer
                   </mat-radio-button>
 
@@ -68,12 +77,9 @@
         </div>
         <button mat-raised-button color="primary" (click)="addQuestion()" class="add-question-btn">Add Question</button>
       </div>
-      <mat-error *ngIf="questions.hasError('atLeastOneCorrect')">
-        Each question should have at least one correct answer.
-      </mat-error>
       <div class="action-buttons">
-        <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled">Save Quiz</button>
-        <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="quizForm.disabled">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid || quizForm.disabled || this.isLoading">Save Quiz</button>
+        <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="quizForm.disabled ||this.isLoading">Cancel</button>
       </div>
     </form>
   </div>

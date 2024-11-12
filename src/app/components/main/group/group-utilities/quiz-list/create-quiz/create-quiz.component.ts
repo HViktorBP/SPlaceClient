@@ -1,19 +1,22 @@
-import {Component, inject} from '@angular/core';
+import {Component, Inject, inject} from '@angular/core';
 import {
-  FormArray,
   FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {MatDialogActions, MatDialogContainer, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContainer,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {QuizzesService} from "../../../../../../services/quizzes.service";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {UsersService} from "../../../../../../services/users.service";
-import {CreateQuizRequest} from "../../../../../../data-transferring/contracts/quiz/create-quiz-request";
 import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
@@ -24,9 +27,11 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {UsersDataService} from "../../../../../../services/states/users-data.service";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
-import {QuizValidators} from "../../../../../../custom/valiators/QuizValidators";
 import {MatIcon} from "@angular/material/icon";
-
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {QuizForm} from "../../../../../../custom/classes/QuizForm";
+import {SubmitQuizRequest} from "../../../../../../data-transferring/contracts/quiz/submit-quiz-request";
+import {trimFormValues} from "../../../../../../custom/helping-functions/FormTrim";
 
 /**
  * CreateQuizComponent handles the logic and UI for creating a quiz.
@@ -56,175 +61,100 @@ import {MatIcon} from "@angular/material/icon";
     NgIf,
     MatError,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    MatRadioButton,
+    MatRadioGroup
   ],
   templateUrl: './create-quiz.component.html',
-  styleUrl: './create-quiz.component.scss'
+  styleUrl: './../../../../../../custom/styles/quiz.scss'
 })
 
-export class CreateQuizComponent implements CustomPopUpForm {
+export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
   /**
-   * Description: Form for new quiz.
+   * Description: Reference to the component that will be opened in dialog
    */
-  quizForm!: FormGroup
-
-  /**
-   * Description: Reference to the CreateQuizComponent that will be opened in MatDialog.
-   */
-  dialogRef = inject(MatDialogRef<CreateQuizComponent>)
+  public dialogRef = inject(MatDialogRef<CreateQuizComponent>)
 
   constructor(
-    private fb: FormBuilder,
-    private quizzesService : QuizzesService,
-    private usersService : UsersService,
-    private groupDataService : GroupDataService,
-    private toast : NgToastService,
-    private applicationHubService : ApplicationHubService,
-    private userDataService : UsersDataService,
-  ) {}
+    protected override fb : FormBuilder,
+    protected override quizzesService : QuizzesService,
+    private usersService: UsersService,
+    private usersDataService: UsersDataService,
+    private groupDataService: GroupDataService,
+    private applicationHub: ApplicationHubService,
+    private toast: NgToastService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    super(quizzesService, fb)
+  }
 
   ngOnInit() {
     this.quizForm = this.fb.group({
+      id: 0,
+      groupId: 0,
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
-      questions: this.fb.array([this.newQuestion()],[QuizValidators.questionsValidator, QuizValidators.quizHasQuestionsValidator()])
-    });
+      questions : this.fb.array([this.createQuestion()])
+    })
+
+    this.quizzesService.setValidatorsForQuestions(this.quizForm)
   }
 
   /**
-   * Description: getter for questions in the form.
-   * @memberOf CreateQuizComponent
-   */
-  get questions(): FormArray {
-    return this.quizForm.get('questions') as FormArray;
-  }
-
-  /**
-   * Description: creates new question in form.
-   * @memberOf CreateQuizComponent
-   */
-  newQuestion(): FormGroup {
-    return this.fb.group({
-      question: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
-      type: [1, Validators.required],
-      answers: this.fb.array([])
-    }, { validators: [QuizValidators.trueFalseSingleCorrectValidator()] });
-  }
-
-  /**
-   * Description: adds new question to the arrays of form's question.
-   * @memberOf CreateQuizComponent
-   */
-  addQuestion() {
-    this.questions.push(this.newQuestion());
-  }
-
-  /**
-   * Description: removes question from the arrays of form's question.
-   * @memberOf CreateQuizComponent
-   */
-  removeQuestion(index: number) {
-    this.questions.removeAt(index);
-  }
-
-  /**
-   * Description: getter for answers in form's questions.
-   * @param {number} index - question's index
-   * @memberOf CreateQuizComponent
-   */
-  getAnswers(index: number): FormArray {
-    return this.questions.at(index).get('answers') as FormArray;
-  }
-
-  /**
-   * Description: creates new answer in form.
-   * @memberOf CreateQuizComponent
-   */
-  newAnswer(): FormGroup {
-    return this.fb.group({
-      answer: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
-      status: [false]
-    });
-  }
-
-  /**
-   * Description: adds new answer to the arrays of answers that belong to specific question.
-   * @memberOf CreateQuizComponent
-   * @param {number} index - question's index
-   */
-  addAnswer(index: number) {
-    this.getAnswers(index).push(this.newAnswer());
-  }
-
-  /**
-   * Description: removes from the question.
-   * @memberOf CreateQuizComponent
-   * @param {number} questionIndex - question's index
-   * @param {number} answerIndex - answer's index
-   */
-  removeAnswer(questionIndex: number, answerIndex: number) {
-    this.getAnswers(questionIndex).removeAt(answerIndex);
-  }
-
-  /**
-   * Description: closes the MatDialog and resets the form.
-   * @memberOf CreateQuizComponent
-   */
-  closeDialog() {
-    this.quizForm.reset()
-    this.dialogRef.close();
-  }
-
-  /**
-   * Description: onSubmit method calls a function that sends an HTTP request for creating a new quiz in the group and handles the UI according to the request's response.
-   * If the operation successful, it updates the UI for all other users who participate in group by calling applicationHub's createNewQuiz method.
+   * Description: onSubmit method preprocesses quiz before submitting it and then calls a function that sends an HTTP request for editing a quiz in the group and handles the UI according to the request's response.
+   * If the operation successful, it updates the UI for all other users who participate in group by calling applicationHub's editQuiz method.
    * @see ApplicationHubService
    */
   onSubmit() {
     if (this.quizForm.valid) {
-      const quizDto = this.quizForm.value
+
+      trimFormValues(this.quizForm)
 
       this.quizForm.disable()
 
-      const createQuizRequest : CreateQuizRequest = {
+      const quizData = this.quizForm.value
+
+      this.quizzesService.processQuizBeforeSubmit(this.questions)
+
+      const creatQuizRequest: SubmitQuizRequest = {
         userId: this.usersService.getUserId(),
         groupId: this.groupDataService.currentGroupId,
-        quiz: quizDto
+        quiz: quizData
       }
 
-      this.quizzesService.createNewQuiz(createQuizRequest)
+      this.quizzesService.createNewQuiz(creatQuizRequest)
         .pipe(
           take(1),
-          switchMap(() =>
-            this.usersService
-              .getUserAccount(this.usersService.getUserId())
-              .pipe(
-                take(1),
-                tap(user => {
-                  this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
-                })
-              )
-          ),
+          switchMap(() => {
+            return this.usersService.getUserAccount(this.usersService.getUserId())
+          }),
+          tap(account => {
+            this.usersDataService.updateCreatedQuizzesData(account.createdQuizzes)
+          }),
           catchError(error => {
             return throwError(() => error)
           }),
           finalize(() => {
-            this.quizForm.enable()
+            this.quizForm.disable()
           })
         )
         .subscribe({
-          next : () => {
-            this.applicationHubService
-              .createQuiz(createQuizRequest.groupId)
+          next: () => {
+            this.applicationHub
+              .createQuiz(this.groupDataService.currentGroupId)
               .then(() => {
-                this.toast.success({detail: "Success", summary: "Quiz is created!", duration: 3000})
-                this.dialogRef.close();
+                this.toast.success({detail: 'Success', summary: 'Quiz created successfully!', duration: 3000})
+                this.dialogRef.close()
               })
           }
         })
     }
   }
 
-  ngOnDestroy(): void {
-    this.quizForm.reset()
+  /**
+   * Description: cancels the quiz editing
+   */
+  override onCancel(): void {
+    super.onCancel()
+    this.dialogRef.close()
   }
 }
