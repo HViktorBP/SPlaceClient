@@ -94,7 +94,8 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
       groupId: 0,
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions : this.fb.array([this.createQuestion()])
-    })
+      }, { updateOn: "blur" }
+    )
 
     this.quizzesService.setValidatorsForQuestions(this.quizForm)
   }

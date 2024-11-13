@@ -75,7 +75,8 @@ export class QuizzesService {
       groupId: [quiz.groupId],
       name: [quiz.name, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions: this.fb.array(quiz.questions.map(question => this.createQuestionFormGroup(question)))
-    })
+    }, { updateOn: "blur" }
+    )
   }
 
   createQuestionFormGroup(question: QuestionDto) {
@@ -89,9 +90,9 @@ export class QuizzesService {
     if (question.type === Question.SingleAnswer) {
       const answer = question.answers.find(a => a.status)
       if (answer) {
-        questionConfig.selectedAnswer = [0, Validators.required]
+        questionConfig.selectedAnswer = [0, [Validators.required]]
       } else {
-        questionConfig.selectedAnswer = [null, Validators.required]
+        questionConfig.selectedAnswer = [null, [Validators.required]]
       }
     }
 
@@ -101,9 +102,11 @@ export class QuizzesService {
   createAnswerFormGroup(answer: AnswerDto) {
     return this.fb.group({
       id: [answer.id],
-      answer: [answer.answer, Validators.required],
-      status: [answer.status]
+      answer: [answer.answer, [Validators.required]],
+      status: [answer.status, [Validators.required]]
     })
+
+
   }
 
   /**
@@ -143,6 +146,8 @@ export class QuizzesService {
       questionControl.get('question')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
     })
 
+    questionsArray.updateValueAndValidity()
+
     questionsArray.controls.forEach((questionControl) => {
       this.setValidatorsForAnswers(questionControl);
     })
@@ -163,6 +168,7 @@ export class QuizzesService {
     answersArray.controls.forEach((answersControl) => {
       answersControl.get('answer')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
     })
-  }
 
+    answersArray.updateValueAndValidity()
+  }
 }

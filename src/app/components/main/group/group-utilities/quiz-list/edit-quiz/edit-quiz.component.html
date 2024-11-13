@@ -42,6 +42,7 @@
 
                   <mat-radio-button
                     [value]="answer.get('answer')?.value"
+                    [disabled]="answer.get('status')?.disabled"
                     [checked]="answer.get('status')?.value"
                     (change)="onSingleAnswerSelection(questions, i, j)">
                     Correct Answer
@@ -63,7 +64,8 @@
                   <mat-label>Answer {{ j + 1 }}</mat-label>
                   <input matInput formControlName="answer" placeholder="Enter answer">
                 </mat-form-field>
-                <mat-checkbox formControlName="status">Correct Answer</mat-checkbox>
+                <mat-checkbox
+                  formControlName="status">Correct Answer</mat-checkbox>
                 <button mat-icon-button color="warn" (click)="removeAnswer(i, j)" class="remove-answer">
                   <mat-icon>delete</mat-icon>
                 </button>

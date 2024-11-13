@@ -1,6 +1,7 @@
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {QuizzesService} from "../../services/quizzes.service";
 import {Injectable, OnDestroy} from "@angular/core";
+import {Subscription} from "rxjs";
 
 /**
  * QuizForm class provides the base functionality of the quiz forms
@@ -12,6 +13,7 @@ export class QuizForm implements OnDestroy {
    * Description: quiz's form
    */
   protected quizForm!: FormGroup
+  protected dynamicControlSubscriptions: Subscription[] = [];
 
   constructor(protected quizzesService : QuizzesService,
               protected fb : FormBuilder) {}
@@ -33,18 +35,34 @@ export class QuizForm implements OnDestroy {
       type: [0, Validators.required],
       selectedAnswer: 0,
       answers: this.fb.array([]),
-    })
+    }, { updateOn: "blur" }
+    )
   }
 
   /**
    * Description: creates a new answer in form.
    */
   createAnswer(): FormGroup {
-    return this.fb.group({
+    const answerGroup = this.fb.group({
       id: 0,
       answer: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       status: [false]
+      }, { updateOn: "blur" }
+    )
+
+    answerGroup.get('status')?.disable()
+
+    const dynamicSubscription = answerGroup.get('answer')?.valueChanges.subscribe((value) => {
+      if (!value || value === '') {
+        answerGroup.get('status')?.disable()
+      } else {
+        answerGroup.get('status')?.enable()
+      }
     })
+
+    this.dynamicControlSubscriptions.push(dynamicSubscription!);
+
+    return answerGroup
   }
 
   /**
@@ -85,7 +103,7 @@ export class QuizForm implements OnDestroy {
 
     answersArray.removeAt(answerIndex);
 
-    if (questionFormGroup.get('type')?.value === 0 && answerIndex === selectedAnswer) {
+    if (questionFormGroup.get('type')?.value === 0 && answerIndex == selectedAnswer) {
       questionFormGroup.get('selectedAnswer')?.setValue(0)
     }
 
@@ -139,7 +157,6 @@ export class QuizForm implements OnDestroy {
 
     answersArray.at(answerIndex).get('status')?.setValue(true)
     questionFormGroup.get('selectedAnswer')?.setValue(answerIndex)
-    console.log(questionFormGroup.get('selectedAnswer')?.value)
   }
 
   /**
@@ -150,7 +167,7 @@ export class QuizForm implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.dynamicControlSubscriptions.forEach(subscription => subscription.unsubscribe())
     this.quizForm.reset()
   }
-
 }

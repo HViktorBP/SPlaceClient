@@ -251,52 +251,7 @@ export class ApplicationHubService {
     //#endregion
 
     //#region Quiz
-    this.connection.on("QuizEdited", (groupId : number, quizId : number) => {
-      this.usersService.getUserAccount(this.usersService.getUserId())
-        .pipe(
-          take(1),
-          tap(user => {
-            this.usersDataService.updateUserScores(user.scores)
-          }),
-          catchError(err => {
-            throw err
-          })
-        )
-        .subscribe({
-          error : err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
-          }
-        })
 
-      if (this.groupDataService.currentGroupId == groupId) {
-        const currentQuizId = this.route.snapshot.paramMap.get('quizId');
-
-        this.groupService.getGroup(groupId)
-          .pipe(
-            take(1),
-            tap(group => {
-              this.groupDataService.updateGroupScores(group.scores)
-            }),
-            catchError(err => {
-              throw err
-            })
-          )
-          .subscribe({
-            error : err => {
-              this.toast.error({detail:"Error", summary: err, duration:3000})
-            }
-          })
-
-        if (currentQuizId != null) {
-          if (+currentQuizId == quizId) {
-            this.router.navigate(['main/group' + groupId + 'chat'])
-              .then(() => {
-                this.toast.info({detail:"Info", summary: "This quiz has been edited.", duration:3000})
-              })
-          }
-        }
-      }
-    })
 
     this.connection.on("UpdateQuizList", (groupId : number) => {
       if (this.groupDataService.currentGroupId == groupId) {
@@ -338,11 +293,36 @@ export class ApplicationHubService {
       }
     })
 
-    this.connection.on("QuizDeleted", (quizId : number) => {
+    this.connection.on("QuizModified", (groupId : number, quizId : number) => {
       const hasParameter = this.route.snapshot.paramMap.get('quizId')
 
-      if (hasParameter && +hasParameter == quizId) {}
-        router.navigate(['/main/group/' + this.groupDataService.currentGroupId])
+      if (this.groupDataService.currentGroupId == groupId) {
+        this.groupService.getGroup(groupId)
+          .pipe(
+            take(1),
+            tap(group => {
+              this.groupDataService.updateGroupScores(group.scores)
+            }),
+            catchError(err => {
+              throw err
+            })
+          )
+          .subscribe({
+            error : err => {
+              this.toast.error({detail:"Error", summary: err, duration:3000})
+            }
+          })
+
+        if (hasParameter && +hasParameter == quizId) {
+          console.log(hasParameter)
+          this.router
+            .navigate(['/main/group' + quizId])
+            .then(() => {
+              this.toast.info({detail:"Info", summary: "This quiz has been edited.", duration:3000})
+            })
+        }
+      }
+
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),

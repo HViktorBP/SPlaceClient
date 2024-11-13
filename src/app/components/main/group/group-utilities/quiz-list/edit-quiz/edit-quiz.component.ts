@@ -1,5 +1,6 @@
 import {Component, inject, Inject} from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   ReactiveFormsModule,
   Validators
@@ -101,7 +102,24 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
           this.quizForm = this.quizzesService.buildQuiz(quiz)
           this.isLoading = false
           this.quizzesService.setValidatorsForQuestions(this.quizForm)
-          this.quizForm.get('name')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(30)])
+          this.quizForm.get('name')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
+          ((this.quizForm.get('questions') as FormArray).controls.forEach((question) => {
+              (question.get('answers') as FormArray).controls.forEach((answer) => {
+                  answer.get('status')?.enable()
+                  const dynamicSubscription = answer.get('answer')?.valueChanges.subscribe((answerValue) => {
+                    console.log('here')
+                    if (answerValue || answerValue === '') {
+                      answer.get('status')?.enable()
+                      console.log('enabled')
+                    } else {
+                      answer.get('status')?.disable()
+                      console.log('disabled')
+                    }
+                  })
+
+                  this.dynamicControlSubscriptions.push(dynamicSubscription!)
+              })
+          }))
         }
       })
   }
