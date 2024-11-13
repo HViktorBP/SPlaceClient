@@ -84,7 +84,7 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
   }
 
   /**
-   * Description: fetches the quiz
+   * Description: fetches the quiz and adds some subscriptions to track the values
    * @private
    * @memberOf EditQuizComponent
    */

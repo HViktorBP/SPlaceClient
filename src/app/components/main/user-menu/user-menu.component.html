@@ -1,5 +1,5 @@
 <div class="user-info">
-  <h2 [matMenuTriggerFor]="usermenu">{{userDataService.userNameAsync | async}}</h2>
+  <h2 [matMenuTriggerFor]="usermenu">{{userDataService.usernameAsync | async}}</h2>
   <h3>Status : {{userDataService.userStatusAsync | async}}</h3>
 </div>
 <mat-menu #usermenu="matMenu" class="user-menu">

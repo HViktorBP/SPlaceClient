@@ -10,6 +10,7 @@ import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/m
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
+import {UserAuthorization} from "../../data-transferring/contracts/user/user-authorization";
 
 /**
  * RegistrationComponent is responsible for registering user into the application.
@@ -56,9 +57,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registrationForm = this.fb.group({
-      userName: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmedPassword: ['', [Validators.required, Validators.minLength(8)]],
+      userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
+      confirmedPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
     });
   }
 
@@ -71,7 +72,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       if (this.registrationForm.get('confirmedPassword')?.value == this.registrationForm.get('password')?.value) {
         this.registrationForm.disable()
 
-        this.auth.signUp(this.registrationForm.value)
+        const registrationData : UserAuthorization = {
+          username : this.registrationForm.get('userName')?.value,
+          password: this.registrationForm.get('password')?.value
+        }
+
+        this.auth.signUp(registrationData)
           .pipe(
             take(1),
             catchError(error => {

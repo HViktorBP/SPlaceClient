@@ -10,7 +10,6 @@ import {UserGroupRequest} from "../../../../../../data-transferring/contracts/gr
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {catchError, switchMap, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
-import {map} from "rxjs/operators";
 import {UsersDataService} from "../../../../../../services/states/users-data.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
@@ -65,15 +64,18 @@ export class LeaveGroupComponent {
       groupId : groupId
     }
 
-    this.groupService.leaveGroup(leaveGroupRequest)
+    const usersQuizzes = this.userDataService.createdQuizzes
+
+    this.groupService
+      .leaveGroup(leaveGroupRequest)
       .pipe(
         take(1),
         switchMap(() => {
-          return this.userService
-            .getUserAccount(this.userService.getUserId())
+          return this.userService.getUserAccount(this.userService.getUserId())
         }),
         tap((user) => {
           this.userDataService.updateGroupData(user.groups)
+          this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
           this.userDataService.updateUserScores(user.scores)
         }),
         catchError(error => {
@@ -85,13 +87,23 @@ export class LeaveGroupComponent {
           this.applicationHubService
             .leaveGroup(leaveGroupRequest.groupId)
             .then(() => {
-                this.toast.info({detail:"Info", summary: 'You left the group.', duration:3000})
-                this.router
-                  .navigate(['main/home'])
-                  .then(
-                    () => this.dialogRef.close()
-                  )
+              this.toast.info({detail:"Info", summary: 'You left the group.', duration:3000})
+              usersQuizzes.forEach(userQuiz => {
+                if (userQuiz.groupId === this.groupDataService.currentGroupId) {
+                  this.applicationHubService
+                    .deleteQuiz(this.groupDataService.currentGroupId, userQuiz.id).then(() => {
+                    console.log(userQuiz.name)
+                  })
+                }
               })
+            })
+            .finally(() => {
+                this.router
+                  .navigate(['/main'])
+                  .then(() => {
+                    this.dialogRef.close()
+                  })
+            })
         }
       })
   }

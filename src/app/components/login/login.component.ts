@@ -10,6 +10,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {NgIf} from "@angular/common";
+import {UserAuthorization} from "../../data-transferring/contracts/user/user-authorization";
 
 /**
  * LoginComponent is responsible for handling the logging in into the application.
@@ -61,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.loginForm = this.fb.group({
       userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]]
     })
   }
 
@@ -73,7 +74,12 @@ export class LoginComponent implements OnInit, OnDestroy{
     if (this.loginForm.valid) {
       this.loginForm.disable()
 
-      this.userService.logIn(this.loginForm.value)
+      const loginData : UserAuthorization = {
+        username : this.loginForm.get('userName')?.value,
+        password: this.loginForm.get('password')?.value
+      }
+
+      this.userService.logIn(loginData)
         .pipe(
           take(1),
           catchError(error => {
@@ -81,15 +87,13 @@ export class LoginComponent implements OnInit, OnDestroy{
           }),
           finalize(() => this.loginForm.enable())
         )
-        .subscribe(
-          {
+        .subscribe({
             next: res => {
               this.toast.success({detail: "Success", summary: res.message, duration: 3000})
               this.userService.storeUserData(res.token)
               this.router.navigate(['main'])
             }
-          }
-        )
+          })
     } else {
       this.toast.warning({detail: "Warning", summary: "Please fill out the form correctly.", duration: 3000})
     }

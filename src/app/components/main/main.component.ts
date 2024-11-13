@@ -11,7 +11,6 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../../services/users.service";
 import {UsersDataService} from "../../services/states/users-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
-import {NgToastService} from "ng-angular-popup";
 import {CreateGroupComponent} from "./create-group/create-group.component";
 import {LogOutComponent} from "./user-menu/log-out/log-out.component";
 import {faUserGroup} from "@fortawesome/free-solid-svg-icons/faUserGroup";
@@ -62,7 +61,7 @@ export class MainComponent implements OnInit, OnDestroy{
   /**
    * Description: Sidenav variable
    */
-  sidenav!: MatSidenav;
+  sidenav!: MatSidenav
 
   /**
    * Description: List icon
@@ -76,57 +75,37 @@ export class MainComponent implements OnInit, OnDestroy{
 
   constructor(private userService : UsersService,
               public userDataService : UsersDataService,
-              private applicationHub : ApplicationHubService,
-              private toast : NgToastService) {
+              private applicationHub : ApplicationHubService) {
   }
 
   ngOnInit() {
-    try {
-      const userId = this.userService.getUserId();
+    const userId = this.userService.getUserId()
 
-      this.userService.getUserAccount(userId)
-        .pipe(
-          take(1),
-          catchError(error => {
-            return throwError(() => error)
-          })
-          )
-        .subscribe(user => {
-          this.userDataService.updateUsername(user.username)
-          this.userDataService.updateStatus(user.status)
-          this.userDataService.updateGroupData(user.groups)
-          this.userDataService.updateCreatedGroupData(user.createdGroups)
-          this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
-          this.userDataService.updateUserScores(user.scores)
-
-          this.applicationHub.start()
-            .then(() => {
-              console.log('Connected to the application hub!')
-              this.applicationHub.addUserConnection(this.userService.getUserName())
-                .then(
-                () => {
-                  console.log('Connection established!')
-                  user.groups.forEach(g => {
-                    this.applicationHub
-                      .setGroupConnection(g.id)
-                      .catch(
-                        (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-                      )
-                  })
-                })
-                .catch(
-                  (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-                )
-              }
-            )
-            .catch(
-              (reason) => this.toast.error({detail: "Error", summary: reason, duration: 3000})
-            )
-          }
+    this.userService.getUserAccount(userId)
+      .pipe(
+        take(1),
+        catchError(error => {
+          return throwError(() => error)
+        })
         )
-    } catch (e : any) {
-      this.toast.error({detail: "Error", summary: e, duration: 3000})
-    }
+      .subscribe(user => {
+        this.userDataService.updateUsername(user.username)
+        this.userDataService.updateStatus(user.status)
+        this.userDataService.updateGroupData(user.groups)
+        this.userDataService.updateCreatedGroupData(user.createdGroups)
+        this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
+        this.userDataService.updateUserScores(user.scores)
+
+        this.applicationHub.start()
+          .then(() => {
+            this.applicationHub.addUserConnection(this.userService.getUserName())
+              .then(() => {
+                user.groups.forEach(g => {
+                  this.applicationHub.setGroupConnection(g.id)
+                })
+              })
+            })
+        })
   }
 
   ngOnDestroy() {

@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroupRequest} from "../../../../../../data-transferring/contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
@@ -14,6 +14,7 @@ import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
+import {UsersDataService} from "../../../../../../services/states/users-data.service";
 
 /**
  * RemoveUserComponent provides UI for renaming a group.
@@ -56,6 +57,7 @@ export class RenameGroupComponent implements CustomPopUpForm {
               private applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private groupDataService : GroupDataService,
+              private userDataService : UsersDataService,
               private fb : FormBuilder) { }
 
   ngOnInit(): void {
@@ -85,6 +87,12 @@ export class RenameGroupComponent implements CustomPopUpForm {
     this.groupService.renameGroup(renameGroupRequest)
       .pipe(
         take(1),
+        switchMap(() => {
+          return this.userService.getUserAccount(this.userService.getUserId())
+        }),
+        tap(userAccount => {
+          this.userDataService.updateCreatedGroupData(userAccount.createdGroups)
+        }),
         catchError(error => {
           return throwError(() => error)
         }),
@@ -93,12 +101,12 @@ export class RenameGroupComponent implements CustomPopUpForm {
         })
       )
       .subscribe({
-        next : res => {
+        next : () => {
           this.applicationHubService
             .renameGroup(renameGroupRequest.groupId)
             .then(
               () => {
-                this.toast.info({detail:"Info", summary: res.message, duration:3000})
+                this.toast.info({detail:"Info", summary: 'Group renamed successfully!', duration:3000,})
                 this.dialogRef.close()
               }
             )

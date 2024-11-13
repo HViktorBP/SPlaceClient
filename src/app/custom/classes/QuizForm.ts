@@ -60,7 +60,7 @@ export class QuizForm implements OnDestroy {
       }
     })
 
-    this.dynamicControlSubscriptions.push(dynamicSubscription!);
+    this.dynamicControlSubscriptions.push(dynamicSubscription!)
 
     return answerGroup
   }
@@ -140,10 +140,10 @@ export class QuizForm implements OnDestroy {
 
 
   /**
-   * Description: set's the status of selected answer to true and others to false when user sets a correct answer on question with thy type SingleAnswer
+   * Description: set's the status of selected answer to true and others to false when user sets a correct answer on question with thy type SingleAnswer.
    * @param questionIndex - question's index
    * @param answerIndex - answer's index
-   * @param questions -
+   * @param questions - questions in quiz's form
    */
   onSingleAnswerSelection(questions : FormArray, questionIndex: number, answerIndex: number) {
     const questionFormGroup = questions.at(questionIndex) as FormGroup

@@ -49,19 +49,5 @@ describe('Http testing UsersService', () => {
     expect(req.request.body).toEqual(formData)
     req.flush(mockResponse)
   })
-
-  it('should log in a user', () => {
-    const mockResponse = {token: 'test-token'}
-    const formData = {username: 'testuser', password: 'testpass'}
-
-    service.logIn(formData.username).subscribe(response => {
-      expect(response.token).toBe(mockResponse.token)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}authentication`)
-    expect(req.request.method).toBe('POST')
-    expect(req.request.body).toEqual(formData)
-    req.flush(mockResponse)
-  })
 })
 

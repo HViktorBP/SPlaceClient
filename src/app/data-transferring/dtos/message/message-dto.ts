@@ -1,3 +1,6 @@
+/**
+ * MessageDto provides a data transfer object for message.
+ */
 export interface MessageDto {
   id : number
   userId: number;

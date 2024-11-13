@@ -9,17 +9,32 @@ import {Question} from "../data-transferring/enums/question";
 import {AnswerDto} from "../data-transferring/dtos/answer/answer-dto";
 import {catchError, throwError} from "rxjs";
 import {QuizValidators} from "../custom/valiators/QuizValidators";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 
+/**
+ * QuizzesService is responsible for managing quizzes-related operations, including
+ * creating, updating, and deleting quizzes data mostly by communicating with the backend API.
+ * It also provides methods for setting the validators for the quizzes if it's necessary.
+ */
+
 export class QuizzesService {
-  private baseUrl = 'https://localhost:7149/api/Quizzes/'
+  /**
+   * baseUrl is the endpoint used to communicate with the server for quizzes-related operations.
+   * @private
+   */
+  private baseUrl = environment.apiUrl + 'Quizzes/'
 
   constructor(private http : HttpClient,
               private fb : FormBuilder) { }
 
+  /**
+   * getQuiz method sends HTTP request to retrieve quiz's data.
+   * @param quizId - quiz's id.
+   */
   getQuiz(quizId: number) {
     return this.http.get<QuizDto>(`${this.baseUrl}${quizId}`).pipe(
       catchError(err => {
@@ -28,7 +43,10 @@ export class QuizzesService {
     )
   }
 
-
+  /**
+   * getQuizWithoutCorrectAnswers method sends HTTP request to retrieve quiz's data without answers.
+   * @param quizId - quiz's id.
+   */
   getQuizWithoutCorrectAnswers(quizId: number) {
     return this.http.get<QuizDto>(`${this.baseUrl}${quizId}/unanswered`).pipe(
       catchError(err => {
@@ -37,48 +55,71 @@ export class QuizzesService {
     )
   }
 
-  createNewQuiz(submitQuizRequest : SubmitQuizRequest) {
-    return this.http.post<any>(`${this.baseUrl}create`, submitQuizRequest).pipe(
+  /**
+   * createNewQuiz method sends HTTP request to create a new quiz in the group.
+   * @param submitQuizPayload - data needed for quiz to be submitted.
+   */
+  createNewQuiz(submitQuizPayload : SubmitQuizRequest) {
+    return this.http.post<any>(`${this.baseUrl}create`, submitQuizPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
     )
   }
 
-  submitQuiz(submitQuizRequest : SubmitQuizRequest) {
-    return this.http.put<string>(`${this.baseUrl}submit`, submitQuizRequest).pipe(
+  /**
+   * submitQuiz method sends HTTP request to submit quiz for checking.
+   * @param submitQuizPayload - data needed for quiz to be submitted for checking.
+   */
+  submitQuiz(submitQuizPayload : SubmitQuizRequest) {
+    return this.http.put<string>(`${this.baseUrl}submit`, submitQuizPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
     )
   }
 
-  deleteQuiz(deleteQuizRequest : DeleteQuizRequest) {
-    return this.http.delete<any>(`${this.baseUrl}quiz`, {body: deleteQuizRequest}).pipe(
+  /**
+   * deleteQuiz method sends HTTP request to delete the quiz.
+   * @param deleteQuizPayload - data needed for quiz to be deleted.
+   */
+  deleteQuiz(deleteQuizPayload : DeleteQuizRequest) {
+    return this.http.delete<any>(`${this.baseUrl}quiz`, {body: deleteQuizPayload}).pipe(
       catchError(err => {
         return throwError(() => err)
       })
     )
   }
 
-  editQuiz(editQuizRequest : SubmitQuizRequest) {
-    return this.http.put<any>(`${this.baseUrl}edit`, editQuizRequest).pipe(
+  /**
+   * editQuiz method sends HTTP request to edit the quiz.
+   * @param editQuizPayload - data needed for quiz to be edited.
+   */
+  editQuiz(editQuizPayload : SubmitQuizRequest) {
+    return this.http.put<any>(`${this.baseUrl}edit`, editQuizPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
     )
   }
 
+  /**
+   * buildQuiz method builds reactive form based on quiz's fetched data.
+   * @param quiz - quiz's fetched data.
+   */
   buildQuiz(quiz : QuizDto) {
     return this.fb.group({
       id: quiz.id,
       groupId: quiz.groupId,
       name: [quiz.name, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions: this.fb.array(quiz.questions.map(question => this.createQuestionFormGroup(question)))
-    }
-    )
+    })
   }
 
+  /**
+   * createQuestionFormGroup method creates question control for quiz's form based on fetched data.
+   * @param question - question's fetched data.
+   */
   createQuestionFormGroup(question: QuestionDto) {
     const questionConfig: any = {
       id: [question.id],
@@ -99,6 +140,10 @@ export class QuizzesService {
     return this.fb.group(questionConfig)
   }
 
+  /**
+   * createAnswerFormGroup method creates answer control for quiz's question control based on fetched data.
+   * @param answer - answer's fetched data.
+   */
   createAnswerFormGroup(answer: AnswerDto) {
     return this.fb.group({
       id: [answer.id],
@@ -109,7 +154,7 @@ export class QuizzesService {
 
   /**
    * Description: processes quiz data by deleting all the unnecessary controls from it.
-   * @param questions -
+   * @param questions - array of question in reactive form.
    * @private
    */
   processQuizBeforeSubmit(questions : FormArray) {
@@ -127,7 +172,8 @@ export class QuizzesService {
   }
 
   /**
-   * Description: sets validators for the questions
+   * Description: sets validators for the questions of quiz's form.
+   * @param quizForm - quiz's form.
    * @private
    */
   setValidatorsForQuestions(quizForm : FormGroup) {
@@ -152,7 +198,8 @@ export class QuizzesService {
   }
 
   /**
-   * Description: sets validators for the answers
+   * Description: sets validators for the answers of quiz's form.
+   * @param questionControl - question to which answers belong.
    * @private
    */
    setValidatorsForAnswers(questionControl: any) {
