@@ -8,7 +8,7 @@ import {GroupsService} from "./groups.service";
 import {catchError, take, tap, throwError} from "rxjs";
 import {map} from "rxjs/operators";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 /**
  * ApplicationHubService establishes connection with SignalR service on the server side and provides methods to work with it.
@@ -32,8 +32,7 @@ export class ApplicationHubService {
               private usersService : UsersService,
               private groupService : GroupsService,
               private toast : NgToastService,
-              private router : Router,
-              private route : ActivatedRoute) {
+              private router : Router) {
 
     //#region Message
     this.connection.on("MessageSent", (messageDto : MessageDto) => {
