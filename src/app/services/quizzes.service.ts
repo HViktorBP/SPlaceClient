@@ -71,11 +71,11 @@ export class QuizzesService {
 
   buildQuiz(quiz : QuizDto) {
     return this.fb.group({
-      id: [quiz.id],
-      groupId: [quiz.groupId],
+      id: quiz.id,
+      groupId: quiz.groupId,
       name: [quiz.name, [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions: this.fb.array(quiz.questions.map(question => this.createQuestionFormGroup(question)))
-    }, { updateOn: "blur" }
+    }
     )
   }
 
@@ -105,8 +105,6 @@ export class QuizzesService {
       answer: [answer.answer, [Validators.required]],
       status: [answer.status, [Validators.required]]
     })
-
-
   }
 
   /**

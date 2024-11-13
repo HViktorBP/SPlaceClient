@@ -94,7 +94,7 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
       groupId: 0,
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       questions : this.fb.array([this.createQuestion()])
-      }, { updateOn: "blur" }
+      }
     )
 
     this.quizzesService.setValidatorsForQuestions(this.quizForm)
@@ -107,20 +107,19 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
    */
   onSubmit() {
     if (this.quizForm.valid) {
-
       trimFormValues(this.quizForm)
 
-      this.quizForm.disable()
+      this.quizzesService.processQuizBeforeSubmit(this.questions)
 
       const quizData = this.quizForm.value
-
-      this.quizzesService.processQuizBeforeSubmit(this.questions)
 
       const creatQuizRequest: SubmitQuizRequest = {
         userId: this.usersService.getUserId(),
         groupId: this.groupDataService.currentGroupId,
         quiz: quizData
       }
+
+      this.quizForm.disable()
 
       this.quizzesService.createNewQuiz(creatQuizRequest)
         .pipe(
@@ -135,7 +134,7 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
             return throwError(() => error)
           }),
           finalize(() => {
-            this.quizForm.disable()
+            this.quizForm.enable()
           })
         )
         .subscribe({

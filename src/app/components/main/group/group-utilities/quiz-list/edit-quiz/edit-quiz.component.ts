@@ -106,14 +106,11 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
           ((this.quizForm.get('questions') as FormArray).controls.forEach((question) => {
               (question.get('answers') as FormArray).controls.forEach((answer) => {
                   answer.get('status')?.enable()
-                  const dynamicSubscription = answer.get('answer')?.valueChanges.subscribe((answerValue) => {
-                    console.log('here')
-                    if (answerValue || answerValue === '') {
-                      answer.get('status')?.enable()
-                      console.log('enabled')
-                    } else {
+                  const dynamicSubscription = answer.get('answer')?.valueChanges.subscribe((answerValue : string) => {
+                    if (!answerValue || answerValue.length == 0) {
                       answer.get('status')?.disable()
-                      console.log('disabled')
+                    } else {
+                      answer.get('status')?.enable()
                     }
                   })
 
@@ -135,8 +132,6 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
 
       const quizData = this.quizForm.value
 
-      this.quizForm.disable()
-
       this.quizzesService.processQuizBeforeSubmit(this.questions)
 
       const editQuizRequest: SubmitQuizRequest = {
@@ -144,6 +139,8 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
         groupId: this.groupDataService.currentGroupId,
         quiz: quizData
       }
+
+      this.quizForm.disable()
 
       this.quizzesService.editQuiz(editQuizRequest)
         .pipe(
@@ -157,6 +154,7 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
         )
         .subscribe({
           next: (res) => {
+            console.log(editQuizRequest.quiz.id)
             this.applicationHub
               .editQuiz(editQuizRequest.groupId, editQuizRequest.quiz.id)
               .then(() => {

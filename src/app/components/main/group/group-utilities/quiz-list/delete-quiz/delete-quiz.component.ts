@@ -82,9 +82,9 @@ export class DeleteQuizComponent {
       .subscribe({
         next: () => {
           this.applicationHubService
-            .deleteQuiz(deleteQuizRequest.groupId, +this.data.quizId)
+            .deleteQuiz(deleteQuizRequest.groupId, deleteQuizRequest.quizId)
             .then(() => {
-              this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000});
+              this.toast.success({detail: 'Success', summary: 'Quiz deleted!', duration: 3000})
             })
             .finally(() => {
               this.dialogRef.close()

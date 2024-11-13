@@ -294,7 +294,11 @@ export class ApplicationHubService {
     })
 
     this.connection.on("QuizModified", (groupId : number, quizId : number) => {
-      const hasParameter = this.route.snapshot.paramMap.get('quizId')
+      const parameters = this.router.url.split('/')
+      let quizIdCurrent = 0
+
+      if(parameters.includes('quiz'))
+        quizIdCurrent = +parameters.at(parameters.length - 1)!
 
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
@@ -313,10 +317,9 @@ export class ApplicationHubService {
             }
           })
 
-        if (hasParameter && +hasParameter == quizId) {
-          console.log(hasParameter)
+        if (quizIdCurrent == quizId) {
           this.router
-            .navigate(['/main/group' + quizId])
+            .navigate(['/main/group/' + groupId])
             .then(() => {
               this.toast.info({detail:"Info", summary: "This quiz has been edited.", duration:3000})
             })

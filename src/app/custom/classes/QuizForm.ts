@@ -35,7 +35,7 @@ export class QuizForm implements OnDestroy {
       type: [0, Validators.required],
       selectedAnswer: 0,
       answers: this.fb.array([]),
-    }, { updateOn: "blur" }
+    }
     )
   }
 
@@ -47,13 +47,13 @@ export class QuizForm implements OnDestroy {
       id: 0,
       answer: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       status: [false]
-      }, { updateOn: "blur" }
+      }
     )
 
     answerGroup.get('status')?.disable()
 
     const dynamicSubscription = answerGroup.get('answer')?.valueChanges.subscribe((value) => {
-      if (!value || value === '') {
+      if (!value || value.length == 0) {
         answerGroup.get('status')?.disable()
       } else {
         answerGroup.get('status')?.enable()
@@ -151,7 +151,7 @@ export class QuizForm implements OnDestroy {
 
     answersArray.controls.forEach((control, index) => {
       if (index !== answerIndex) {
-        control.get('status')?.setValue(false);
+        control.get('status')?.setValue(false)
       }
     })
 

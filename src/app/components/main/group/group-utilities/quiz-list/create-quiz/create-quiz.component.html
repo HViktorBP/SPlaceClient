@@ -40,8 +40,8 @@
                 </mat-form-field>
 
                 <mat-radio-button
-                  [value]="answer.get('answer')?.value"
-                  [disabled]="answer.get('status')?.value"
+                  [value]="answer.get('status')?.value"
+                  [disabled]="answer.get('status')?.disabled"
                   [checked]="answer.get('status')?.value"
                   (change)="onSingleAnswerSelection(questions, i, j)">
                   Correct Answer
