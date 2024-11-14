@@ -8,6 +8,7 @@ import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {MatLine} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
+import {MatIcon} from "@angular/material/icon";
 
 /**
  * CreatedQuizzesComponent displays the quizzes created by user.
@@ -25,7 +26,8 @@ import {MatList, MatListItem} from "@angular/material/list";
         MatDivider,
         MatLine,
         MatList,
-        MatListItem
+        MatListItem,
+        MatIcon
     ],
   templateUrl: './created-quizzes.component.html',
   styleUrl: '../../../../custom/styles/info-list-box.scss'

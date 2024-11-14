@@ -35,7 +35,7 @@ mat-list-item {
   align-items: center;
 }
 
-mat-list-item fa-icon {
+mat-list-item mat-icon {
   margin-right: 1rem;
 }
 
@@ -43,7 +43,7 @@ mat-list-item a {
   text-decoration: none;
 }
 
-mat-list-item a, mat-list-item fa-icon {
+mat-list-item a, mat-list-item mat-icon {
   font-size: 1.25rem;
 }
 

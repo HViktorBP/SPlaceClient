@@ -2,7 +2,7 @@
   <p class="info-box-label">Some of your scores: </p>
   <mat-list>
     <mat-list-item *ngFor="let score of userData.userScoresAsync | async">
-      <fa-icon [icon]="icon"></fa-icon>
+      <mat-icon>star</mat-icon>
       <a>{{score.quizName}} - {{score.scores[0].score}}</a>
     </mat-list-item>
   </mat-list>

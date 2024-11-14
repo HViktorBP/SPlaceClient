@@ -43,13 +43,14 @@ mat-sidenav-content{
 a {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: baseline;
 }
 
-a fa-icon {
+a mat-icon {
   padding-right: 16px;
 }
 
-a span, a fa-icon  {
-  font-size: 1.25rem;
+a span {
+  font-size: 1.2rem;
 }
+

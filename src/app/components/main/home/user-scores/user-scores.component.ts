@@ -7,6 +7,7 @@ import {MatDivider} from "@angular/material/divider";
 import {MatLine} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
 import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
+import {MatIcon} from "@angular/material/icon";
 
 /**
  * UserScoresComponent displays the scores that user achieved on quizzes.
@@ -24,7 +25,8 @@ import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
     MatLine,
     MatList,
     MatListItem,
-    NgIf
+    NgIf,
+    MatIcon
   ],
   templateUrl: './user-scores.component.html',
   styleUrl: '../../../../custom/styles/info-list-box.scss'

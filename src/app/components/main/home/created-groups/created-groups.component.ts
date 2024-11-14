@@ -8,6 +8,7 @@ import {MatCard} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatLine} from "@angular/material/core";
 import {MatDivider} from "@angular/material/divider";
+import {MatIcon} from "@angular/material/icon";
 
 /**
  * CreatedGroupsComponent displays the groups created by user
@@ -27,7 +28,8 @@ import {MatDivider} from "@angular/material/divider";
     MatListItem,
     MatLine,
     MatDivider,
-    NgIf
+    NgIf,
+    MatIcon
   ],
   templateUrl: './created-groups.component.html',
   styleUrl: '../../../../custom/styles/info-list-box.scss'

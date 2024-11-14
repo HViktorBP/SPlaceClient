@@ -2,7 +2,7 @@
   <p class="info-box-label">Groups created by you: </p>
   <mat-list>
     <mat-list-item *ngFor="let group of userData.createdGroupsAsync | async">
-      <fa-icon [icon]="icon"></fa-icon>
+      <mat-icon>groups</mat-icon>
       <a matLine [routerLink]="['/main/group', group.id]">{{ group.name }}</a>
     </mat-list-item>
   </mat-list>
