@@ -17,6 +17,7 @@ import {faUserGroup} from "@fortawesome/free-solid-svg-icons/faUserGroup";
 import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
 import {UserMenuComponent} from "./user-menu/user-menu.component";
 import {MatDialog} from "@angular/material/dialog";
+import {AboutAppComponent} from "./about-app/about-app.component";
 
 /**
  * MainComponent is responsible for uploading user's data and providing the main UI for application to be used.
@@ -80,6 +81,11 @@ export class MainComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     const userId = this.userService.getUserId()
+
+    if (!sessionStorage.getItem("aboutAppPopUpShowed")) {
+      this.dialog.open(AboutAppComponent)
+      sessionStorage.setItem("aboutAppPopUpShowed", 'true')
+    }
 
     this.userService.getUserAccount(userId)
       .pipe(

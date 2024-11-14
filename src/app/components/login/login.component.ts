@@ -10,7 +10,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {NgIf} from "@angular/common";
-import {UserAuthorization} from "../../data-transferring/contracts/user/user-authorization";
+import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-in-request";
 
 /**
  * LoginComponent is responsible for handling the logging in into the application.
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      userName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(25)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(25)]]
     })
   }
@@ -74,8 +74,8 @@ export class LoginComponent implements OnInit, OnDestroy{
     if (this.loginForm.valid) {
       this.loginForm.disable()
 
-      const loginData : UserAuthorization = {
-        username : this.loginForm.get('userName')?.value,
+      const loginData : UserLogInRequest = {
+        username : this.loginForm.get('username')?.value,
         password: this.loginForm.get('password')?.value
       }
 

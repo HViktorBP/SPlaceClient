@@ -6,9 +6,17 @@
       <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
-          <input matInput formControlName="userName" placeholder="Enter your username" type="text" required>
-          <mat-error *ngIf="registrationForm.get('userName')?.invalid && registrationForm.get('userName')?.touched">
+          <input matInput formControlName="username" placeholder="Enter your username" type="text" required>
+          <mat-error *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
             Please enter a valid username.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" placeholder="Enter your email" type="email" required>
+          <mat-error *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+            Please enter a valid email.
           </mat-error>
         </mat-form-field>
 

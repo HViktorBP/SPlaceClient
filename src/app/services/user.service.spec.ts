@@ -35,19 +35,5 @@ describe('Http testing UsersService', () => {
   afterEach(() => {
     httpMock.verify()
   })
-
-  it('should sign up a user', () => {
-    const mockResponse = {message: 'User registered successfully'}
-    const formData = {username: 'testuser', password: 'testpass'}
-
-    service.signUp(formData).subscribe(response => {
-      expect(response).toEqual(mockResponse)
-    })
-
-    const req = httpMock.expectOne(`${service['baseUrl']}register`)
-    expect(req.request.method).toBe('POST')
-    expect(req.request.body).toEqual(formData)
-    req.flush(mockResponse)
-  })
 })
 

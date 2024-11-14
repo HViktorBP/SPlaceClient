@@ -4,13 +4,14 @@ import {UsersDataService} from "../../../services/states/users-data.service";
 import {AsyncPipe} from "@angular/common";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {MatButton} from "@angular/material/button";
-import {AboutAppComponent} from "./about-app/about-app.component";
+import {AboutAppComponent} from "../about-app/about-app.component";
 import {ChangeUsernameComponent} from "./change-username/change-username.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
 import {ChangeStatusComponent} from "./change-status/change-status.component";
 import {DeleteAccountComponent} from "./delete-account/delete-account.component";
 import {MatDivider} from "@angular/material/divider";
 import {MatDialog} from "@angular/material/dialog";
+import {ChangeEmailComponent} from "./change-email/change-email.component";
 
 /**
  * UserMenuComponent represents a user's menu.
@@ -48,6 +49,10 @@ export class UserMenuComponent {
    */
   openChangeUsername() {
     this.dialog.open(ChangeUsernameComponent)
+  }
+
+  openChangeEmail() {
+    this.dialog.open(ChangeEmailComponent)
   }
 
   /**

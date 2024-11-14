@@ -77,7 +77,7 @@ export class DeleteAccountComponent implements OnInit {
             })
             .finally(() => {
               this.router
-                .navigate(['login'])
+                .navigate(['/login'])
                 .then(() => {
                   this.userService.logOut()
                   this.dialogRef.close()

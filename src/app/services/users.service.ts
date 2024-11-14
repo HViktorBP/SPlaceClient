@@ -7,7 +7,9 @@ import {ChangeUsernameRequest} from "../data-transferring/contracts/user/change-
 import {ChangePasswordRequest} from "../data-transferring/contracts/user/change-password-request";
 import {ChangeStatusRequest} from "../data-transferring/contracts/user/change-status-request";
 import {environment} from "../../environments/environment";
-import {UserAuthorization} from "../data-transferring/contracts/user/user-authorization";
+import {UserLogInRequest} from "../data-transferring/contracts/user/user-log-in-request";
+import {UserRegistrationRequest} from "../data-transferring/contracts/user/user-registration-request";
+import {ChangeEmailRequest} from "../data-transferring/contracts/user/change-email-request";
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +31,9 @@ export class UsersService {
 
   /**
    * signUp method registers user in application.
-   * @param userData - user's username and password
+   * @param userData - user's username, password and email
    */
-  signUp(userData: UserAuthorization) {
+  signUp(userData: UserRegistrationRequest) {
     return this.http.post<any>(`${this.baseUrl}register`, userData).pipe(
       catchError(err => {
         return throwError(() => err)
@@ -43,7 +45,7 @@ export class UsersService {
    * logIn method logs user into the application.
    * @param userData - user's username and password
    */
-  logIn(userData : UserAuthorization) {
+  logIn(userData : UserLogInRequest) {
     return this.http.post<any>(`${this.baseUrl}login`, userData).pipe(
       catchError(err => {
         return throwError(() => err)
@@ -123,6 +125,18 @@ export class UsersService {
   }
 
   /**
+   * changeEmail method sends a http request to change user's email.
+   * @param {ChangeEmailRequest} changeEmailPayload - data needed for user's email to be changed.
+   */
+  changeEmail(changeEmailPayload : ChangeEmailRequest) {
+    return this.http.put<any>(`${this.baseUrl}email`, changeEmailPayload).pipe(
+      catchError(err => {
+        return throwError(() => err)
+      })
+    )
+  }
+
+  /**
    * changeStatus method sends a http request to change user's status.
    * @param {ChangeStatusRequest} changeStatusPayload - data needed for user's status to be changed.
    */
@@ -160,6 +174,7 @@ export class UsersService {
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("userId")
     sessionStorage.removeItem("userName")
+    sessionStorage.removeItem("aboutAppPopUpShowed")
   }
 
   /**
