@@ -1,15 +1,17 @@
 import {TestBed} from '@angular/core/testing';
 
 import {GroupsService} from './groups.service';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('GroupsService', () => {
   let service: GroupsService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    }).compileComponents()
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents()
     service = TestBed.inject(GroupsService)
   })
 
@@ -24,9 +26,9 @@ describe('Http testing GroupsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [GroupsService]
-    })
+    imports: [],
+    providers: [GroupsService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
 
     service = TestBed.inject(GroupsService)
     httpMock = TestBed.inject(HttpTestingController)

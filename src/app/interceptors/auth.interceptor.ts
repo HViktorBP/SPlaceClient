@@ -1,4 +1,4 @@
-import {HttpInterceptorFn} from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
 
 /**
  * authInterceptor adds user's JWT token to the HTTP request.

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 import {UserAccount} from "../data-transferring/dtos/user/user-account";
 import {catchError, Observable, throwError} from "rxjs";

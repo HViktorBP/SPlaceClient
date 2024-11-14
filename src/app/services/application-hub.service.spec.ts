@@ -2,15 +2,17 @@ import {TestBed} from '@angular/core/testing';
 
 import {ApplicationHubService} from './application-hub.service';
 import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('AppHubService', () => {
   let service: ApplicationHubService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule]
-    }).compileComponents()
+    imports: [RouterTestingModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents()
     service = TestBed.inject(ApplicationHubService);
   });
 

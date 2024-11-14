@@ -1,17 +1,19 @@
 import {TestBed} from '@angular/core/testing';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 import {UsersDataService} from './users-data.service';
 import {UsersService} from '../users.service';
 import {GroupsService} from '../groups.service';
 import {QuizzesService} from '../quizzes.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('UsersDataService', () => {
   let service: UsersDataService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    }).compileComponents()
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents()
     service = TestBed.inject(UsersDataService)
   })
 

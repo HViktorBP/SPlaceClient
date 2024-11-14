@@ -1,8 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import { provideHttpClientTesting } from "@angular/common/http/testing";
 
 import {GroupMainComponent} from './group-main.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('GroupMainComponent', () => {
   let component: GroupMainComponent;
@@ -10,8 +11,9 @@ describe('GroupMainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GroupMainComponent, RouterTestingModule, HttpClientTestingModule]
-    })
+    imports: [GroupMainComponent, RouterTestingModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(GroupMainComponent);

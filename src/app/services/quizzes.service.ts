@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {QuizDto} from "../data-transferring/dtos/quiz/quiz-dto";
 import {SubmitQuizRequest} from "../data-transferring/contracts/quiz/submit-quiz-request";
 import {DeleteQuizRequest} from "../data-transferring/contracts/quiz/delete-quiz-request";

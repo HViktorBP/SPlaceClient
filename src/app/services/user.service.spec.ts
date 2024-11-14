@@ -1,15 +1,17 @@
 import {TestBed} from '@angular/core/testing';
 
 import {UsersService} from './users.service';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('UserService', () => {
   let service: UsersService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
-    }).compileComponents()
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents()
     service = TestBed.inject(UsersService)
   })
 
@@ -24,9 +26,9 @@ describe('Http testing UsersService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [UsersService]
-    })
+    imports: [],
+    providers: [UsersService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
 
     service = TestBed.inject(UsersService)
     httpMock = TestBed.inject(HttpTestingController)

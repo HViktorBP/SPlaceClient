@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {GroupDto} from "../data-transferring/dtos/group/group-dto";
 import {Role} from "../data-transferring/enums/role";
 import {ChangeRoleRequest} from "../data-transferring/contracts/group/change-role-request";
