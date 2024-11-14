@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {UsersDataService} from "../../../../services/states/users-data.service";
 import {RouterLink} from "@angular/router";
 import {MatCard} from "@angular/material/card";
@@ -33,7 +32,6 @@ import {MatIcon} from "@angular/material/icon";
   styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
 export class CreatedQuizzesComponent {
-  icon = faUsers
 
   constructor(public userData : UsersDataService) {
 

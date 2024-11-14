@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: 'https://localhost:7149/api/',
-  signalRConnectUrl: 'https://localhost:7149/application',
+  production: true,
+  apiUrl: 'http://172.20.10.5:5171/api/',
+  signalRConnectUrl: 'http://172.20.10.5:5171/application',
 }

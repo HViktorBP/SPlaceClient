@@ -6,7 +6,6 @@ import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
 import {MatLine} from "@angular/material/core";
 import {MatList, MatListItem} from "@angular/material/list";
-import {faStar} from "@fortawesome/free-solid-svg-icons/faStar";
 import {MatIcon} from "@angular/material/icon";
 
 /**
@@ -33,7 +32,6 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class UserScoresComponent {
-  icon = faStar
 
   constructor(public userData : UsersDataService) { }
 }

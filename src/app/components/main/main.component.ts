@@ -13,8 +13,6 @@ import {UsersDataService} from "../../services/states/users-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
 import {CreateGroupComponent} from "./create-group/create-group.component";
 import {LogOutComponent} from "./user-menu/log-out/log-out.component";
-import {faUserGroup} from "@fortawesome/free-solid-svg-icons/faUserGroup";
-import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
 import {UserMenuComponent} from "./user-menu/user-menu.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AboutAppComponent} from "./about-app/about-app.component";
@@ -67,12 +65,6 @@ export class MainComponent implements OnInit, OnDestroy{
   /**
    * Description: List icon
    */
-  listIcon = faUserGroup
-
-  /**
-   * Description: Menu icon
-   */
-  menuIcon = faBars
 
   constructor(private userService : UsersService,
               public userDataService : UsersDataService,
