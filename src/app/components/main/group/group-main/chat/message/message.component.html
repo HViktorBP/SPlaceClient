@@ -17,7 +17,7 @@
       <button mat-icon-button class="edit-btn" (click)="showEdit()" *ngIf="this.own" title="Edit">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button color="warn" class="delete-btn" (click)="deleteMessage()" *ngIf="this.own" title="Delete">
+      <button mat-icon-button color="warn" class="delete-btn" (click)="onDelete()" *ngIf="this.own" title="Delete">
         <mat-icon>delete</mat-icon>
       </button>
     </div>

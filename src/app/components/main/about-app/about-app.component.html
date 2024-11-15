@@ -1,6 +1,26 @@
-<h2 mat-dialog-title>About app</h2>
 <mat-dialog-content>
-  <p>about-app works!</p>
+  <mat-card class="about-container">
+    <h1>About the App</h1>
+    <p>
+      <strong>SPlace</strong> is a modern, real-time collaborative learning support application designed to make it easier for students to study together and communicate effectively. The app allows students to create groups around different subjects and topics, participate in real-time chat, and create or solve interactive quizzes.
+    </p>
+    <h2>Main Features:</h2>
+    <p>
+      <strong>Registration and Security</strong>: Students need to register with an email, username, and password. For data security, passwords are encrypted using a hash function.
+    </p>
+    <p>
+      <strong>Group Creation</strong>: The app allows students to create their own groups where they can study together, prepare for exams, and support each other. Each group assigns specific roles to members (e.g., founder, administrator) that define the actions they can perform within the group.
+    </p>
+    <p>
+      <strong>Real-time Chat</strong>: Every group has a real-time chat feature that stores message history, allowing students to communicate quickly and share ideas.
+    </p>
+    <p>
+      <strong>Quiz Creation and Solving</strong>: The quiz feature provides a fun way for students to expand their knowledge and test their skills. Only students with the appropriate status or permissions can create quizzes.
+    </p>
+    <p>
+      The goal of <strong>SPlace</strong> is to make learning more flexible, enjoyable, and collaborative. During the development of the application, we place a strong emphasis on security and user experience to ensure that students can work together efficiently and seamlessly throughout the learning process.
+    </p>
+  </mat-card>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button color="primary" type="button" (click)="dialogRef.close()">Ok</button>

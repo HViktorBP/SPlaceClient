@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {DatePipe, NgIf} from "@angular/common";
 import {MessagesService} from "../../../../../../services/messages.service";
 import {UsersService} from "../../../../../../services/users.service";
@@ -10,6 +10,8 @@ import {catchError, finalize, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmMessageDeleteComponent} from "./confirm-message-delete/confirm-message-delete.component";
 
 /**
  * MessageComponent is responsible for handling messages' UI.
@@ -30,6 +32,7 @@ import {MatIcon} from "@angular/material/icon";
 })
 
 export class MessageComponent implements OnInit {
+  readonly dialog = inject(MatDialog)
   /**
    * Description: Message's ID
    */
@@ -143,32 +146,13 @@ export class MessageComponent implements OnInit {
     })
   }
 
-  /**
-   * Description: deleteMessage deletes calls the HTTP request for deleting the message and handles the UI according to the request's result.
-   * @memberOf MessageComponent
-   */
-  deleteMessage() {
-    const deleteMessageRequest : DeleteMessageRequest = {
-      userId: this.userId,
-      groupId: this.groupId,
-      messageId: this.id
-    }
-
-    this.messagesService.deleteMessage(deleteMessageRequest)
-      .pipe(
-        take(1),
-        catchError(error => {
-          return throwError(() => error)
-        })
-      )
-      .subscribe({
-        next: (result) => {
-          this.applicationHubService
-            .deleteMessage(deleteMessageRequest.groupId, deleteMessageRequest.messageId)
-            .then(() => {
-              this.toast.success({detail:"Success", summary: result.message, duration:3000})
-            })
-        }
+  onDelete() {
+    this.dialog.open(ConfirmMessageDeleteComponent, {
+      data: {
+        id: this.id,
+        userId: this.userId,
+        groupId: this.groupId
+      }
     })
   }
 }

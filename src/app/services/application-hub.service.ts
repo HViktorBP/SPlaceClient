@@ -129,8 +129,9 @@ export class ApplicationHubService {
      * Informs about user who left the group.
      */
     this.connection.on("LeftTheGroup", (user : string, groupId : number) => {
+      const groupData = this.usersDataService.userGroups.find(g => g.id == groupId)
       if (this.groupDataService.currentGroupId == groupId)
-        this.toast.info({detail:"Info", summary: `${user} left the group!`, duration:3000})
+        this.toast.info({detail:"Info", summary: `${user} left the ${groupData?.name}!`, duration:3000})
     })
 
     /**
@@ -148,11 +149,7 @@ export class ApplicationHubService {
               return throwError(() => err)
             })
           )
-          .subscribe({
-            error : err => {
-              this.toast.error({detail:"Error", summary: err, duration:3000})
-            }
-          })
+          .subscribe()
       }
     })
 
@@ -161,6 +158,7 @@ export class ApplicationHubService {
      * Also updates the list of the group and created quizzes.
      */
     this.connection.on("RemovedFromTheGroup", (groupId : number) => {
+      const groupFromWhichRemoved = this.usersDataService.userGroups.find(g => g.id == groupId)
       this.usersDataService.createdQuizzes.forEach(quiz => {
         if (quiz.groupId == groupId) {
           this.deleteQuiz(groupId, quiz.id)
@@ -184,6 +182,8 @@ export class ApplicationHubService {
             if (this.groupDataService.currentGroupId == groupId) {
               this.toast.info({detail:"Info", summary: `You have been removed from this group!`, duration:3000})
               this.router.navigate(['main'])
+            } else {
+              this.toast.info({detail:"Info", summary: `You where removed from ${groupFromWhichRemoved?.name}!`, duration:3000})
             }
           }
         })
@@ -194,6 +194,7 @@ export class ApplicationHubService {
      * If user was in the group that has been currently deleted than navigates him to the main page.
      */
     this.connection.on("GroupDeleted", (groupId : number) => {
+      const deletedGroup = this.usersDataService.userGroups.find(g => g.id == groupId)
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),
@@ -211,6 +212,8 @@ export class ApplicationHubService {
             if (this.groupDataService.currentGroupId == groupId) {
               this.toast.info({detail:"Info", summary: `Group has been deleted!`, duration:3000})
               this.router.navigate(['main'])
+            } else {
+              this.toast.info({detail:"Info", summary: `${deletedGroup?.name} has been deleted!`, duration:3000})
             }
           }
         })
@@ -232,9 +235,12 @@ export class ApplicationHubService {
             })
           ).subscribe({
             next : () => {
-              this.toast.info({detail:"Info", summary: `You are now promoted to ${role}`, duration:3000})
+              this.toast.info({detail:"Info", summary: `You are now ${role}`, duration:3000})
             }
         })
+      } else {
+        const group = this.usersDataService.userGroups.find(g => g.id == groupId)
+        this.toast.info({detail:"Info", summary: `You are now ${role} in ${group?.name} group`, duration:3000})
       }
     })
 
@@ -242,6 +248,7 @@ export class ApplicationHubService {
      * Updates the list of the groups and the group's name if the user is currently in it.
      */
     this.connection.on("GroupRenamed", (groupId : number) => {
+      const group = this.usersDataService.userGroups.find(g => g.id == groupId)
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
           take(1),
@@ -253,8 +260,9 @@ export class ApplicationHubService {
           })
         )
         .subscribe({
-          next : () => {
-            this.toast.info({detail:"Info", summary: "Group's list has been updated.", duration:3000})
+          next : (account) => {
+            const newGroupName = account.groups.find(g => g.id == groupId)
+            this.toast.info({detail:"Info", summary: `Group ${group?.name} has been renamed to ${newGroupName?.name}`, duration:3000})
           }
         })
 

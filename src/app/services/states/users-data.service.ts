@@ -121,6 +121,14 @@ export class UsersDataService {
   }
 
   /**
+   * userGroupsAsync provides the current list of user's groups.
+   */
+  get userGroups() : GroupIdentifier[] {
+    return this.userGroupDataSubject.value
+  }
+
+
+  /**
    * updateCreatedGroupData updates the list of the group that user created.
    * @param createdGroups - groups that user created.
    */
