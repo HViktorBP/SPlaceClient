@@ -4,7 +4,6 @@ import {MessagesService} from "../../../../../../services/messages.service";
 import {UsersService} from "../../../../../../services/users.service";
 import {MessageDto} from "../../../../../../data-transferring/dtos/message/message-dto";
 import {NgToastService} from "ng-angular-popup";
-import {DeleteMessageRequest} from "../../../../../../data-transferring/contracts/message/delete-message-request";
 import {FormsModule} from "@angular/forms";
 import {catchError, finalize, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";

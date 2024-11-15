@@ -1,4 +1,4 @@
-import {Component, Inject, inject, OnInit} from '@angular/core';
+import {Component, Inject, inject} from '@angular/core';
 import {MessagesService} from "../../../../../../../services/messages.service";
 import {DeleteMessageRequest} from "../../../../../../../data-transferring/contracts/message/delete-message-request";
 import {catchError, take, throwError} from "rxjs";
@@ -12,7 +12,6 @@ import {
   MatDialogTitle
 } from "@angular/material/dialog";
 import {ApplicationHubService} from "../../../../../../../services/application-hub.service";
-import {ActivatedRoute} from "@angular/router";
 import {NgToastService} from "ng-angular-popup";
 
 @Component({
