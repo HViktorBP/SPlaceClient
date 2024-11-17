@@ -12,7 +12,7 @@ import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
-import {UsersDataService} from "../../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../../services/states/user-data.service";
 
 /**
  * DeleteGroupComponent provides UI for deleting the group.
@@ -47,7 +47,7 @@ export class DeleteGroupComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
-              private userDataService : UsersDataService,
+              private userDataService : UserDataService,
               private applicationHubService : ApplicationHubService) {
   }
 

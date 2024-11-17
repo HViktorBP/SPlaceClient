@@ -9,9 +9,9 @@ import {QuizScores} from "../../data-transferring/dtos/score/quiz-scores";
 })
 
 /**
- * UsersDataService provides the user's data.
+ * UserDataService provides the user's data.
  */
-export class UsersDataService {
+export class UserDataService {
   /**
    * userNameSubject contains the name of the user.
    * @private

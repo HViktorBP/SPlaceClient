@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf, SlicePipe} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {UsersDataService} from "../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../services/states/user-data.service";
 import {MatCard} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatLine} from "@angular/material/core";
@@ -37,7 +37,7 @@ import {MatIcon} from "@angular/material/icon";
 
 export class CreatedGroupsComponent {
 
-  constructor(public userData : UsersDataService) {
+  constructor(public userData : UserDataService) {
 
   }
 }

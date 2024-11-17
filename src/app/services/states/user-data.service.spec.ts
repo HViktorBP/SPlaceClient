@@ -1,20 +1,20 @@
 import {TestBed} from '@angular/core/testing';
 import { provideHttpClientTesting } from "@angular/common/http/testing";
-import {UsersDataService} from './users-data.service';
+import {UserDataService} from './user-data.service';
 import {UsersService} from '../users.service';
 import {GroupsService} from '../groups.service';
 import {QuizzesService} from '../quizzes.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('UsersDataService', () => {
-  let service: UsersDataService
+  let service: UserDataService
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
     imports: [],
     providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents()
-    service = TestBed.inject(UsersDataService)
+    service = TestBed.inject(UserDataService)
   })
 
   it('should be created', () => {
@@ -22,7 +22,7 @@ describe('UsersDataService', () => {
   })
 })
 
-describe('UsersDataService subjects testing', () => {
+describe('UserDataService subjects testing', () => {
   beforeEach(() => {
     const userServiceMock = jasmine.createSpyObj('UserService', ['getUserID', 'getUserByID', 'getUsername'])
     const groupsServiceMock = jasmine.createSpyObj('GroupsService', ['getGroups', 'getGroupById', 'getUsersInGroup', 'getUserRole'])
@@ -30,7 +30,7 @@ describe('UsersDataService subjects testing', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        UsersDataService,
+        UserDataService,
         { provide: UsersService, useValue: userServiceMock },
         { provide: GroupsService, useValue: groupsServiceMock },
         { provide: QuizzesService, useValue: quizzesServiceMock }

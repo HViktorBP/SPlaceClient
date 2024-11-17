@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {catchError, finalize, take, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
-import {UsersDataService} from "../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../services/states/user-data.service";
 import {Router} from "@angular/router";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
@@ -41,7 +41,7 @@ export class DeleteAccountComponent implements OnInit {
 
   constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
-              private usersDataService : UsersDataService,
+              private usersDataService : UserDataService,
               private userService : UsersService,
               private router : Router) { }
 

@@ -5,7 +5,7 @@ import {CreateGroupRequest} from "../../../data-transferring/contracts/group/cre
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
-import {UsersDataService} from "../../../services/states/users-data.service";
+import {UserDataService} from "../../../services/states/user-data.service";
 import {ApplicationHubService} from "../../../services/application-hub.service";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
@@ -53,7 +53,7 @@ export class CreateGroupComponent implements CustomPopUpForm {
   constructor(private groupService : GroupsService,
               private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
-              private usersDataService : UsersDataService,
+              private usersDataService : UserDataService,
               private userService : UsersService,
               private fb : FormBuilder) { }
 

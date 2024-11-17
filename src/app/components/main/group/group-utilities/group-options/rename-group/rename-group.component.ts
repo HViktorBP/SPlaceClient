@@ -14,7 +14,7 @@ import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
-import {UsersDataService} from "../../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../../services/states/user-data.service";
 
 /**
  * RemoveUserComponent provides UI for renaming a group.
@@ -57,7 +57,7 @@ export class RenameGroupComponent implements CustomPopUpForm {
               private applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private groupDataService : GroupDataService,
-              private userDataService : UsersDataService,
+              private userDataService : UserDataService,
               private fb : FormBuilder) { }
 
   ngOnInit(): void {

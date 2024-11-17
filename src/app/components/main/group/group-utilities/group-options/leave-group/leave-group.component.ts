@@ -10,7 +10,7 @@ import {UserGroupRequest} from "../../../../../../data-transferring/contracts/gr
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {catchError, switchMap, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
-import {UsersDataService} from "../../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../../services/states/user-data.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 
@@ -44,7 +44,7 @@ export class LeaveGroupComponent {
   constructor(private userService : UsersService,
               private groupService : GroupsService,
               private groupDataService : GroupDataService,
-              private userDataService : UsersDataService,
+              private userDataService : UserDataService,
               private applicationHubService : ApplicationHubService,
               private toast : NgToastService,
               private router : Router) {

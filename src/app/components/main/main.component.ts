@@ -9,7 +9,7 @@ import {catchError, take, throwError} from 'rxjs';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../../services/users.service";
-import {UsersDataService} from "../../services/states/users-data.service";
+import {UserDataService} from "../../services/states/user-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
 import {CreateGroupComponent} from "./create-group/create-group.component";
 import {LogOutComponent} from "./user-menu/log-out/log-out.component";
@@ -67,7 +67,7 @@ export class MainComponent implements OnInit, OnDestroy{
    */
 
   constructor(private userService : UsersService,
-              public userDataService : UsersDataService,
+              public userDataService : UserDataService,
               private applicationHub : ApplicationHubService) {
   }
 

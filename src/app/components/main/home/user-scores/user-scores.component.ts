@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {UsersDataService} from "../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../services/states/user-data.service";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -33,5 +33,5 @@ import {MatIcon} from "@angular/material/icon";
 
 export class UserScoresComponent {
 
-  constructor(public userData : UsersDataService) { }
+  constructor(public userData : UserDataService) { }
 }

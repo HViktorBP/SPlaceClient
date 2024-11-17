@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {LogOutComponent} from "./log-out/log-out.component";
-import {UsersDataService} from "../../../services/states/users-data.service";
+import {UserDataService} from "../../../services/states/user-data.service";
 import {AsyncPipe} from "@angular/common";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {MatButton} from "@angular/material/button";
@@ -42,7 +42,7 @@ export class UserMenuComponent {
    */
   readonly dialog = inject(MatDialog)
 
-  constructor(public userDataService : UsersDataService) { }
+  constructor(public userDataService : UserDataService) { }
 
   /**
    * Description: opens the ChangeUsernameComponent in MatDialog

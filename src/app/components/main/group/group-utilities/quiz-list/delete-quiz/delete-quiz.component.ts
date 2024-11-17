@@ -11,7 +11,7 @@ import {DeleteQuizRequest} from "../../../../../../data-transferring/contracts/q
 import {switchMap, take, tap} from "rxjs";
 import {UsersService} from "../../../../../../services/users.service";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
-import {UsersDataService} from "../../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../../services/states/user-data.service";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {QuizzesService} from "../../../../../../services/quizzes.service";
 import {NgToastService} from "ng-angular-popup";
@@ -41,7 +41,7 @@ export class DeleteQuizComponent {
 
   constructor(
     private usersService : UsersService,
-    private userDataService : UsersDataService,
+    private userDataService : UserDataService,
     private applicationHubService : ApplicationHubService,
     private groupDataService : GroupDataService,
     private quizzesService : QuizzesService,

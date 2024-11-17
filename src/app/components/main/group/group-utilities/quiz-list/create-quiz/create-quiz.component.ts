@@ -25,7 +25,7 @@ import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
-import {UsersDataService} from "../../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../../services/states/user-data.service";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {MatIcon} from "@angular/material/icon";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
@@ -79,7 +79,7 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
     protected override fb : FormBuilder,
     protected override quizzesService : QuizzesService,
     private usersService: UsersService,
-    private usersDataService: UsersDataService,
+    private usersDataService: UserDataService,
     private groupDataService: GroupDataService,
     private applicationHub: ApplicationHubService,
     private toast: NgToastService,

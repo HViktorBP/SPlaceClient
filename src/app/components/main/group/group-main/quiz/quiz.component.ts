@@ -15,7 +15,7 @@ import {UsersService} from "../../../../../services/users.service";
 import {GroupDataService} from "../../../../../services/states/group-data.service";
 import {Question} from "../../../../../data-transferring/enums/question";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
-import {UsersDataService} from "../../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../../services/states/user-data.service";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatCheckbox} from "@angular/material/checkbox";
@@ -77,7 +77,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     public groupDataService: GroupDataService,
     private applicationHubService: ApplicationHubService,
-    private userDataService : UsersDataService,
+    private userDataService : UserDataService,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) { }

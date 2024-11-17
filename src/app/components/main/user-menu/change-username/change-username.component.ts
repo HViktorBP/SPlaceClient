@@ -23,7 +23,7 @@ import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {NgIf} from "@angular/common";
-import {UsersDataService} from "../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../services/states/user-data.service";
 
 /**
  * ChangeUsernameComponent provides UI for user to change the username.
@@ -63,7 +63,7 @@ export class ChangeUsernameComponent implements CustomPopUpForm {
   constructor(private toast : NgToastService,
               private applicationHubService : ApplicationHubService,
               private userService : UsersService,
-              private userDataService : UsersDataService,
+              private userDataService : UserDataService,
               private fb : FormBuilder) { }
 
   ngOnInit(): void {

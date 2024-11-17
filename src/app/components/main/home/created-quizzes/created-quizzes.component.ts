@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {UsersDataService} from "../../../../services/states/users-data.service";
+import {UserDataService} from "../../../../services/states/user-data.service";
 import {RouterLink} from "@angular/router";
 import {MatCard} from "@angular/material/card";
 import {MatDivider} from "@angular/material/divider";
@@ -33,7 +33,7 @@ import {MatIcon} from "@angular/material/icon";
 })
 export class CreatedQuizzesComponent {
 
-  constructor(public userData : UsersDataService) {
+  constructor(public userData : UserDataService) {
 
   }
 }

@@ -19,7 +19,7 @@
              [(ngModel)]="inputMessage"
              type="text"
              placeholder="Type a message" />
-      <button [disabled]="inputMessage.trim().length < 1 || inputMessage.length > 1200"
+      <button [disabled]="inputMessage.trim().length < 1 || inputMessage.trim().length > 1200"
               (click)="sendMessage()" class="msg_send_btn" type="button">
         <p>Send</p>
       </button>

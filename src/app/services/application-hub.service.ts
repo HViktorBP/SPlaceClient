@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {GroupDataService} from "./states/group-data.service";
 import {MessageDto} from "../data-transferring/dtos/message/message-dto";
-import {UsersDataService} from "./states/users-data.service";
+import {UserDataService} from "./states/user-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
 import {catchError, take, tap, throwError} from "rxjs";
@@ -36,7 +36,7 @@ export class ApplicationHubService {
    * In constructor there are specifications for what he should do in cases of possible messages that can come from the SignalR service on the server side.
    */
   constructor(private groupDataService : GroupDataService,
-              private usersDataService : UsersDataService,
+              private usersDataService : UserDataService,
               private usersService : UsersService,
               private groupService : GroupsService,
               private toast : NgToastService,
