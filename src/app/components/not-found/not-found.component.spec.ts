@@ -2,9 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotFoundComponent } from './not-found.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatCard, MatCardHeader, MatCardContent, MatCardActions, MatCardTitle } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
 
 /**
  * Test suite for NotFoundComponent which is responsible for displaying a 404 page when the user navigates to a non-existent route.

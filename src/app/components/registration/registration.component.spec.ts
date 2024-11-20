@@ -4,7 +4,7 @@ import { UsersService } from '../../services/users.service';
 import { NgToastService } from 'ng-angular-popup';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
