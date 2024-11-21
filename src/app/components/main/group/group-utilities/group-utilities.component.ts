@@ -53,7 +53,8 @@ export class GroupUtilitiesComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.roleSubscription.unsubscribe()
+    if (this.roleSubscription)
+      this.roleSubscription.unsubscribe()
   }
 
   /**

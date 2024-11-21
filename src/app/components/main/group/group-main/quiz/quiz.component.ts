@@ -150,7 +150,7 @@ export class QuizComponent implements OnInit, OnDestroy {
    * @private
    * @memberOf QuizComponent
    */
-  private processQuizBeforeSubmit(quiz: any) {
+  processQuizBeforeSubmit(quiz: any) {
     quiz.questions.forEach((question: any) => {
       if (question.selectedAnswer) {
         question.answers.forEach((answer: any) => {

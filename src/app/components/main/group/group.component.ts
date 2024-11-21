@@ -35,48 +35,43 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 })
 
 export class GroupComponent implements OnInit, OnDestroy{
-  /**
-   * Description: Router subscription
-   */
-  private routeSubscription !: Subscription;
+  routeSubscription: Subscription | undefined; // Define routeSubscription with possible undefined value
 
-  constructor(private route : ActivatedRoute,
-              private groupsService : GroupsService,
-              private userService : UsersService,
-              private groupDataService : GroupDataService) {
+  constructor(
+    private route: ActivatedRoute,
+    private groupsService: GroupsService,
+    private usersService: UsersService,
+    private groupDataService: GroupDataService
+  ) {}
+
+  ngOnInit(): void {
+    this.routeSubscription = this.route.params.subscribe(params => {
+      const groupId = +params['groupId'];
+      this.loadGroupData(groupId);
+    });
   }
 
-  ngOnInit() {
-    this.routeSubscription = this.route.params
-      .pipe(
-        switchMap(() => {
-          const groupId = +this.route.snapshot.paramMap.get('groupId')!;
-          this.groupDataService.updateUserCurrentGroupId(groupId)
-          const userId = this.userService.getUserId();
-          return forkJoin({
-            group: this.groupsService.getGroup(groupId),
-            role: this.groupsService.getRole(userId, groupId)
-          });
-        })
-      )
-      .subscribe({
-        next: ({ group, role }) => {
-          this.groupDataService.updateGroupName(group.name);
-          this.groupDataService.updateUserCount(group.users.length);
-          this.groupDataService.updateUsersList(group.users);
-          this.groupDataService.updateQuizzesList(group.quizzes);
-          this.groupDataService.updateGroupMessages(group.messages);
-          this.groupDataService.updateUserRole(role)
-          this.groupDataService.updateGroupScores(group.scores);
-        }
-      })
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe()
+      this.routeSubscription.unsubscribe(); // Unsubscribe if defined
     }
+  }
 
-    this.groupDataService.updateUserCurrentGroupId(0)
+  private loadGroupData(groupId: number) {
+    // Method to load group data (simplified version)
+    this.groupsService.getGroup(groupId).subscribe(group => {
+      this.groupDataService.updateUserCurrentGroupId(groupId);
+      this.groupDataService.updateGroupName(group.name);
+      this.groupDataService.updateUserCount(group.users.length);
+      this.groupDataService.updateUsersList(group.users);
+      this.groupDataService.updateQuizzesList(group.quizzes);
+      this.groupDataService.updateGroupMessages(group.messages);
+      this.groupDataService.updateGroupScores(group.scores);
+    });
+
+    const userId = this.usersService.getUserId();
+    this.groupsService.getRole(userId, groupId).subscribe(role => {
+      this.groupDataService.updateUserRole(role);
+    });
   }
 }

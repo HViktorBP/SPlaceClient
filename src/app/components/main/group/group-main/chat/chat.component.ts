@@ -40,7 +40,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
    * Description: input field for message
    * @protected
    */
-  protected inputMessage= ''
+  inputMessage= ''
 
   /**
    * Description: decorator the views the container of messages
@@ -65,7 +65,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   /**
    * Description: sendMessages calls the HTTP request for saving message into the database and if the request was successful than broadcasts this message to all the other user's in the group
    */
-  protected sendMessage() {
+  sendMessage() {
     const userId = this.userService.getUserId()
     const groupId = this.groupDataService.currentGroupId
 
@@ -95,7 +95,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
    * Description: scrollToBottom methods scrolls to the last message automatically whenever the new message appears in the chat
    * @private
    */
-  private scrollToBottom() {
+  scrollToBottom() {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
