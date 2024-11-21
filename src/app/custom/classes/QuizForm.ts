@@ -34,9 +34,8 @@ export class QuizForm implements OnDestroy {
       question: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
       type: [0, Validators.required],
       selectedAnswer: 0,
-      answers: this.fb.array([]),
-    }
-    )
+      answers: this.fb.array([this.createAnswer()]),
+    })
   }
 
   /**

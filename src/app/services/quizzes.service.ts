@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import {QuizDto} from "../data-transferring/dtos/quiz/quiz-dto";
 import {SubmitQuizRequest} from "../data-transferring/contracts/quiz/submit-quiz-request";
 import {DeleteQuizRequest} from "../data-transferring/contracts/quiz/delete-quiz-request";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {QuestionDto} from "../data-transferring/dtos/question/question-dto";
 import {Question} from "../data-transferring/enums/question";
 import {AnswerDto} from "../data-transferring/dtos/answer/answer-dto";
@@ -129,8 +129,8 @@ export class QuizzesService {
     }
 
     if (question.type === Question.SingleAnswer) {
-      const answer = question.answers.find(a => a.status)
-      if (answer) {
+      const answer = question.answers.findIndex(a => a.status)
+      if (answer != -1) {
         questionConfig.selectedAnswer = [0, [Validators.required]]
       } else {
         questionConfig.selectedAnswer = [null, [Validators.required]]
@@ -158,17 +158,25 @@ export class QuizzesService {
    * @private
    */
   processQuizBeforeSubmit(questions : FormArray) {
-    questions.controls.forEach((question: any, index: number) => {
-      if (question.type === 0 && question.selectedAnswer) {
-        question.answers.forEach((answer: any, index : number) => {
-          console.log(question.selectedAnswer, index)
-          answer.status = index == question.selectedAnswer
-        })
+    questions.controls.forEach((control: AbstractControl) => {
+      const question = control as FormGroup; // Explicit cast to FormGroup
 
-        const questionFormGroup = questions.at(index) as FormGroup
-        questionFormGroup.removeControl('selectedAnswer')
+      if (question.get('type')?.value === 0 && question.get('selectedAnswer')) {
+        // Update answer status based on the selectedAnswer value
+        const selectedAnswerIndex: number = question.get('selectedAnswer')?.value;
+        if (selectedAnswerIndex !== null && selectedAnswerIndex !== undefined) {
+
+          console.log(question.get('selectedAnswer')?.value)
+          const answers = question.get('answers') as FormArray;
+          answers.controls.forEach((answerControl, answerIndex) => {
+            answerControl.get('status')?.setValue(answerIndex === selectedAnswerIndex);
+          });
+        }
+
+        // Remove the selectedAnswer control
+        question.removeControl('selectedAnswer');
       }
-    })
+    });
   }
 
   /**
@@ -184,17 +192,16 @@ export class QuizzesService {
       QuizValidators.uniqueQuestionsValidator()
     ])
 
-    questionsArray.updateValueAndValidity()
-
     questionsArray.controls.forEach((questionControl) => {
       questionControl.get('question')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
     })
 
-    questionsArray.updateValueAndValidity()
-
     questionsArray.controls.forEach((questionControl) => {
       this.setValidatorsForAnswers(questionControl);
     })
+
+    questionsArray.updateValueAndValidity()
+
   }
 
   /**

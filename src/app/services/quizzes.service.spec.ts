@@ -185,7 +185,6 @@ describe('QuizzesService', () => {
 
     // Updated assertion to check whether selectedAnswer value is properly reset
     const selectedAnswerControl = question.get('selectedAnswer');
-    expect(selectedAnswerControl).toBeDefined();
-    expect(selectedAnswerControl?.value).toBeNull(); // Assert that 'selectedAnswer' has been removed
+    expect(selectedAnswerControl?.value).toBeUndefined(); // Assert that 'selectedAnswer' has been removed
   });
 });

@@ -102,16 +102,13 @@ export class MainComponent implements OnInit, OnDestroy{
                   this.applicationHub.setGroupConnection(g.id)
                 })
               })
-            })
+          }).catch()
         })
   }
 
   ngOnDestroy() {
     this.applicationHub
       .leave()
-      .then(() => {
-        console.log('Disconnected from the group hub!')
-      })
   }
 
   /**
