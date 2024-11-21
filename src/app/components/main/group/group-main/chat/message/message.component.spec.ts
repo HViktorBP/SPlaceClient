@@ -4,10 +4,9 @@ import { MessagesService } from "../../../../../../services/messages.service";
 import { UsersService } from "../../../../../../services/users.service";
 import { NgToastService } from "ng-angular-popup";
 import { ApplicationHubService } from "../../../../../../services/application-hub.service";
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { MatDialog } from "@angular/material/dialog";
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { ConfirmMessageDeleteComponent } from "./confirm-message-delete/confirm-message-delete.component";
 
 // Mock Services

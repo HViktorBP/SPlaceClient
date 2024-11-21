@@ -6,7 +6,6 @@ import { MessagesService } from '../../../../../services/messages.service';
 import { ApplicationHubService } from '../../../../../services/application-hub.service';
 import {Observable, of} from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import {MessageDto} from "../../../../../data-transferring/dtos/message/message-dto";
 
 // Mock Services

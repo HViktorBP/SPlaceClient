@@ -5,7 +5,7 @@ import {ParticipantsComponent} from "./group-utilities/group-tabs/participants/p
 import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
 import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
-import {forkJoin, Subscription, switchMap} from "rxjs";
+import {Subscription} from "rxjs";
 import {GroupsService} from "../../../services/groups.service";
 import {GroupDataService} from "../../../services/states/group-data.service";
 import {UsersService} from "../../../services/users.service";

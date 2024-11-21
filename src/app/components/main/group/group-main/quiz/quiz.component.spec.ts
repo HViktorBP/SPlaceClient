@@ -7,7 +7,7 @@ import { GroupDataService } from "../../../../../services/states/group-data.serv
 import { ApplicationHubService } from "../../../../../services/application-hub.service";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
-import {of, Subscription, throwError} from 'rxjs';
+import {of, Subscription} from 'rxjs';
 
 // Mock Services
 class MockQuizzesService {

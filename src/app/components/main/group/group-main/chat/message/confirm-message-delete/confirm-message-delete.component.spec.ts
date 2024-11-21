@@ -4,7 +4,7 @@ import { MessagesService } from "../../../../../../../services/messages.service"
 import { ApplicationHubService } from "../../../../../../../services/application-hub.service";
 import { NgToastService } from "ng-angular-popup";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 // Mock Services

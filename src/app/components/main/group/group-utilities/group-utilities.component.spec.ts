@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GroupUtilitiesComponent } from './group-utilities.component';
 import { GroupDataService } from '../../../../services/states/group-data.service';
-import {BehaviorSubject, of, Subject, Subscription} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import { Role } from '../../../../data-transferring/enums/role';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { ApplicationHubService } from '../../../../services/application-hub.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // <-- Add this import
