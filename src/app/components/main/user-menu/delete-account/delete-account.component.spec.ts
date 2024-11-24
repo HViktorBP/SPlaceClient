@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DeleteAccountComponent } from './delete-account.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { UsersService } from "../../../../services/users.service";
 import { NgToastService } from "ng-angular-popup";
 import { UserDataService } from '../../../../services/states/user-data.service';
 import { Router } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 
@@ -19,7 +19,7 @@ class MockUsersService {
     return of({ message: 'Account deleted successfully' });
   }
   logOut() {
-    // Logic to log out the user, for testing it can be a dummy implementation
+
   }
 }
 
@@ -30,7 +30,7 @@ class MockNgToastService {
 
 class MockApplicationHubService {
   deleteUser() {
-    return Promise.resolve(); // Mocking successful SignalR call for delete user
+    return Promise.resolve();
   }
 }
 

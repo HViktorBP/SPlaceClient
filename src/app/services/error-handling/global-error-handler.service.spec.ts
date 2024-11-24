@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { GlobalErrorHandlerService } from './global-error-handler.service';
 import { NgToastService } from 'ng-angular-popup';
-import { ErrorHandler, NgZone } from '@angular/core';
+import { NgZone } from '@angular/core';
 
 class MockNgZone extends NgZone {
   constructor() {

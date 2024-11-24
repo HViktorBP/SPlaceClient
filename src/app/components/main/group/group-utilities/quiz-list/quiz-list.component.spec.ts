@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuizListComponent } from './quiz-list.component';
 import { GroupDataService } from '../../../../../services/states/group-data.service';
 import { ApplicationHubService } from '../../../../../services/application-hub.service';

@@ -36,7 +36,6 @@ class MockApplicationHubService {
 
 class MockUserDataService {
   updateCreatedQuizzesData(data: any) {
-    // Mock updateCreatedQuizzesData implementation
   }
 }
 
@@ -46,7 +45,6 @@ class MockGroupDataService {
 
 class MockNgToastService {
   success(message: any) {
-    // Mock success toast method
   }
 }
 

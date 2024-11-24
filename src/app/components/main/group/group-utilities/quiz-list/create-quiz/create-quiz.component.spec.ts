@@ -17,10 +17,8 @@ import {UsersService} from "../../../../../../services/users.service"; // Add Ht
 // Mock QuizzesService
 class MockQuizzesService {
   setValidatorsForQuestions(form: any) {
-    // Mock implementation
   }
   setValidatorsForAnswers(form: any) {
-    // Mock implementation
   }
 }
 

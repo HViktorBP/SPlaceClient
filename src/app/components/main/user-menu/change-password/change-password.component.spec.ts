@@ -1,15 +1,13 @@
-import {ComponentFixture, TestBed, fakeAsync, tick, waitForAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import { ChangePasswordComponent } from './change-password.component';
 import { provideHttpClientTesting } from "@angular/common/http/testing";
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { UsersService } from '../../../../services/users.service';
 import { NgToastService } from "ng-angular-popup";
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import {GlobalErrorHandlerService} from "../../../../services/error-handling/global-error-handler.service";
 import {ErrorHandler} from "@angular/core";
 

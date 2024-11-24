@@ -16,7 +16,7 @@ import { UsersService } from '../../../../../../services/users.service';
 import { GroupDataService } from '../../../../../../services/states/group-data.service';
 import { ApplicationHubService } from '../../../../../../services/application-hub.service';
 import { NgToastService } from 'ng-angular-popup';
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 
 // Mock Services
 class MockQuizzesService {
@@ -43,15 +43,12 @@ class MockQuizzesService {
   }
 
   processQuizBeforeSubmit(questions: any) {
-    // Mock implementation for processing quiz before submitting
   }
 
   setValidatorsForQuestions(quizForm: any) {
-    // Mock implementation for setting validators for questions
   }
 
   setValidatorsForAnswers(questionForm: any) {
-    // Mock implementation for setting validators for questions
   }
 }
 
