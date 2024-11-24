@@ -29,7 +29,6 @@ class MockNgToastService {
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
   let fixture: ComponentFixture<ChangePasswordComponent>;
-  let mockErrorHandler: GlobalErrorHandlerService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -51,7 +50,6 @@ describe('ChangePasswordComponent', () => {
 
     fixture = TestBed.createComponent(ChangePasswordComponent);
     component = fixture.componentInstance;
-    mockErrorHandler = TestBed.inject(GlobalErrorHandlerService);
     fixture.detectChanges();
   });
 
