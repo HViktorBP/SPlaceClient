@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://172.20.10.5:5171/api/',
-  signalRConnectUrl: 'http://172.20.10.5:5171/application',
+  apiUrl: 'https://splacebackend.azurewebsites.net/api/',
+  signalRConnectUrl: 'https://splacebackend.azurewebsites.net/application'
 }

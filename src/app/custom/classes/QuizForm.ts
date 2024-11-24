@@ -12,7 +12,7 @@ export class QuizForm implements OnDestroy {
   /**
    * Description: quiz's form
    */
-  protected quizForm!: FormGroup
+  quizForm!: FormGroup
   protected dynamicControlSubscriptions: Subscription[] = [];
 
   constructor(protected quizzesService : QuizzesService,

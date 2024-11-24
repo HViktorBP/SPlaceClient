@@ -154,13 +154,13 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
         )
         .subscribe({
           next: (res) => {
-            console.log(editQuizRequest.quiz.id)
             this.applicationHub
               .editQuiz(editQuizRequest.groupId, editQuizRequest.quiz.id)
               .then(() => {
                 this.toast.success({ detail: 'Success', summary: res.message, duration: 3000 })
+              }).finally(() => {
                 this.dialogRef.close()
-              })
+            })
           }
         })
     }

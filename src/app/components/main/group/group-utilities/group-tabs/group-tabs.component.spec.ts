@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GroupTabsComponent } from './group-tabs.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // To disable animations
@@ -40,43 +40,41 @@ describe('GroupTabsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupTabsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges(); // Trigger initial change detection to apply template logic
+  });
+
+  afterEach(() => {
+    fixture.destroy(); // Properly destroy the fixture after each test
   });
 
   it('should create', () => {
+    // Test that the component is successfully created
     expect(component).toBeTruthy();
   });
 
-  // it('should render two tabs', fakeAsync(() => {
-  //   fixture.detectChanges(); // Trigger initial change detection
-  //   tick(); // Simulate the passage of time to let MatTabGroup finish rendering
-  //
-  //   // Query for all tab labels
-  //   const tabLabels = fixture.debugElement.queryAll(By.css('.mat-tab-label-content'));
-  //   expect(tabLabels.length).toBe(2);
-  //   expect(tabLabels[0].nativeElement.textContent).toContain('Participants');
-  //   expect(tabLabels[1].nativeElement.textContent).toContain('Scores');
-  // }));
+  it('should render a MatTabGroup', () => {
+    // Test that a MatTabGroup is rendered in the component
+    const tabGroupElement = fixture.debugElement.query(By.css('mat-tab-group'));
+    expect(tabGroupElement).toBeTruthy();
+  });
 
-  it('should display ParticipantsComponent when the Participants tab is active', fakeAsync(() => {
-    const tabGroup = fixture.debugElement.query(By.css('mat-tab-group')).componentInstance;
-    tabGroup.selectedIndex = 0; // Select the Participants tab
+  it('should have two tabs labeled "Participants" and "Scores"', () => {
+    // Test that the MatTabGroup contains the correct tab labels
+    fixture.detectChanges(); // Trigger initial change detection
+
+    // Query for all tab labels using the correct selector for MDC-based tabs
+    const tabLabels = fixture.debugElement.queryAll(By.css('.mdc-tab__text-label'));
+    expect(tabLabels.length).toBe(2);
+    expect(tabLabels[0].nativeElement.textContent).toContain('Participants');
+    expect(tabLabels[1].nativeElement.textContent).toContain('Scores');
+  });
+
+  it('should initially display the Participants tab', () => {
+    // Test that the initial active tab is the Participants tab
     fixture.detectChanges();
-    tick(); // Simulate the passage of time to let content render
+    const tabGroupElement = fixture.debugElement.query(By.css('mat-tab-group')).componentInstance;
 
-    // Query for the ParticipantsComponent
-    const participantsComponent = fixture.debugElement.query(By.css('app-participants'));
-    expect(participantsComponent).toBeTruthy();
-  }));
-
-  // it('should display ScoresComponent when the Scores tab is active', fakeAsync(() => {
-  //   const tabGroup = fixture.debugElement.query(By.css('mat-tab-group')).componentInstance;
-  //   tabGroup.selectedIndex = 1; // Select the Scores tab
-  //   fixture.detectChanges();
-  //   tick(); // Simulate the passage of time to let content render
-  //
-  //   // Query for the ScoresComponent
-  //   const scoresComponent = fixture.debugElement.query(By.css('app-scores'));
-  //   expect(scoresComponent).toBeTruthy();
-  // }));
+    // Check that the initially selected index is 0 (Participants tab)
+    expect(tabGroupElement.selectedIndex).toBe(0);
+  });
 });

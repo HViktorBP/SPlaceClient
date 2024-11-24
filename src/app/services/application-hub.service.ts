@@ -117,11 +117,7 @@ export class ApplicationHubService {
               return throwError(() => err)
             })
           )
-          .subscribe({
-            next : () => {
-              this.toast.info({detail:"Info", summary: 'List of participants was updated.', duration:3000})
-            }
-          })
+          .subscribe()
       }
     })
 
@@ -260,9 +256,8 @@ export class ApplicationHubService {
           })
         )
         .subscribe({
-          next : (account) => {
-            const newGroupName = account.groups.find(g => g.id == groupId)
-            this.toast.info({detail:"Info", summary: `Group ${group?.name} has been renamed to ${newGroupName?.name}`, duration:3000})
+          next : (name) => {
+            this.toast.info({detail:"Info", summary: `${group?.name} changed to ${name}.`, duration:3000})
           }
         })
 
@@ -279,7 +274,7 @@ export class ApplicationHubService {
             })
           ).subscribe({
             next : (name) => {
-              this.toast.info({detail:"Info", summary: `This group name changed to ${name}`, duration:3000})
+              this.toast.info({detail:"Info", summary: `This group name changed to ${name}.`, duration:3000})
             }
           })
       }
@@ -325,11 +320,7 @@ export class ApplicationHubService {
               return throwError(() => err)
             })
           )
-          .subscribe({
-            next : () => {
-              this.toast.info({detail:"Error", summary: 'Scores had been updated!', duration:3000})
-            }
-          })
+          .subscribe()
       }
     })
 
@@ -353,11 +344,7 @@ export class ApplicationHubService {
             return throwError(() => err)
           })
         )
-        .subscribe({
-          error : err => {
-            this.toast.error({detail:"Error", summary: err, duration:3000})
-          }
-        })
+        .subscribe()
 
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
