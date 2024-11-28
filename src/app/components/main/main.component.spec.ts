@@ -16,7 +16,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 let toastSpy: jasmine.SpyObj<NgToastService>;
 
-describe('MainComponent without ApplicationHubService', () => {
+describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
   let usersServiceSpy: jasmine.SpyObj<UsersService>;
