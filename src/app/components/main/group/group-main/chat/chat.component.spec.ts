@@ -4,7 +4,7 @@ import { UsersService } from '../../../../../services/users.service';
 import { GroupDataService } from '../../../../../services/states/group-data.service';
 import { MessagesService } from '../../../../../services/messages.service';
 import { ApplicationHubService } from '../../../../../services/application-hub.service';
-import {Observable, of} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {MessageDto} from "../../../../../data-transferring/dtos/message/message-dto";
 
@@ -36,6 +36,7 @@ class MockGroupDataService {
       isEdited: false
     }
   ]);
+  groupMessages$ = this.groupMessagesAsync;
   currentGroupId = 1; // Mocked group ID
 }
 
@@ -58,6 +59,7 @@ describe('ChatComponent', () => {
   let mockGroupDataService: MockGroupDataService;
   let mockMessagesService: MockMessagesService;
   let mockApplicationHubService: MockApplicationHubService;
+  let subscriptionToScroll: Subscription;
 
   beforeEach(waitForAsync(() => {
     mockUsersService = new MockUsersService();
@@ -67,7 +69,7 @@ describe('ChatComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        ChatComponent // Import the standalone component directly
+        ChatComponent
       ],
       providers: [
         { provide: UsersService, useValue: mockUsersService },
@@ -81,6 +83,7 @@ describe('ChatComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChatComponent);
     component = fixture.componentInstance;
+    subscriptionToScroll = component.subscriptionToScroll = new Subscription();
     fixture.detectChanges(); // Trigger change detection to apply template logic
   });
 
@@ -98,10 +101,11 @@ describe('ChatComponent', () => {
   }));
 
   it('should call sendMessage when enter key is pressed', () => {
-    spyOn(component, "sendMessage");
+    spyOn(component, 'sendMessage');
 
     const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
     inputElement.value = 'Test message';
+    inputElement.dispatchEvent(new Event('input')); // To trigger ngModel change
     inputElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
     fixture.detectChanges();
@@ -131,9 +135,41 @@ describe('ChatComponent', () => {
     });
   }));
 
-  it('should scroll to bottom on ngAfterViewChecked', () => {
+  it('should scroll to bottom after sending a message', waitForAsync(() => {
     spyOn(component, 'scrollToBottom');
-    component.ngAfterViewChecked();
-    expect(component.scrollToBottom).toHaveBeenCalled();
+
+    component.inputMessage = 'Message to send';
+    component.sendMessage();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.scrollToBottom).toHaveBeenCalled();
+    });
+  }));
+
+  it('should scroll to bottom on groupMessages$ subscription update', waitForAsync(() => {
+    spyOn(component, 'scrollToBottom');
+
+    // Trigger the groupMessages$ observable to emit a new value
+    mockGroupDataService.groupMessagesAsync = of([{
+      id: 3,
+      groupId: 1,
+      userId: 3,
+      message: 'New message',
+      userName: 'User3',
+      timestamp: new Date(),
+      isEdited: false
+    }]);
+    component.ngOnInit();
+
+    fixture.whenStable().then(() => {
+      expect(component.scrollToBottom).toHaveBeenCalled();
+    });
+  }));
+
+  afterEach(() => {
+    if (subscriptionToScroll) {
+      subscriptionToScroll.unsubscribe();
+    }
   });
 });

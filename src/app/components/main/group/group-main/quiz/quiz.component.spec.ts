@@ -5,7 +5,7 @@ import { NgToastService } from "ng-angular-popup";
 import { UsersService } from "../../../../../services/users.service";
 import { GroupDataService } from "../../../../../services/states/group-data.service";
 import { ApplicationHubService } from "../../../../../services/application-hub.service";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import {of, Subscription} from 'rxjs';
 
@@ -81,6 +81,7 @@ describe('QuizComponent', () => {
   let mockUsersService: MockUsersService;
   let mockGroupDataService: MockGroupDataService;
   let mockApplicationHubService: MockApplicationHubService;
+  let mockRouter: jasmine.SpyObj<Router>;
 
   beforeEach(waitForAsync(() => {
     mockQuizzesService = new MockQuizzesService();
@@ -88,6 +89,7 @@ describe('QuizComponent', () => {
     mockUsersService = new MockUsersService();
     mockGroupDataService = new MockGroupDataService();
     mockApplicationHubService = new MockApplicationHubService();
+    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       imports: [
@@ -100,6 +102,7 @@ describe('QuizComponent', () => {
         { provide: UsersService, useValue: mockUsersService },
         { provide: GroupDataService, useValue: mockGroupDataService },
         { provide: ApplicationHubService, useValue: mockApplicationHubService },
+        { provide: Router, useValue: mockRouter },
         {
           provide: ActivatedRoute,
           useValue: {
