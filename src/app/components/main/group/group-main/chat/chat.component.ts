@@ -1,7 +1,7 @@
 import {
   AfterViewChecked,
   Component,
-  ElementRef,
+  ElementRef, OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +13,7 @@ import {MessagesService} from "../../../../../services/messages.service";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {SaveMessageRequest} from "../../../../../data-transferring/contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
-import {catchError, take, throwError} from "rxjs";
+import {catchError, Subscription, take, throwError} from "rxjs";
 
 /**
  * ChatComponent responsible for chat's UI
@@ -35,12 +35,16 @@ import {catchError, take, throwError} from "rxjs";
   styleUrl: './chat.component.scss'
 })
 
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, OnDestroy {
   /**
    * Description: input field for message
-   * @protected
    */
   inputMessage= ''
+
+  /**
+   * Description: subscription to the scroll
+   */
+  subscriptionToScroll!: Subscription;
 
   /**
    * Description: decorator the views the container of messages
@@ -56,10 +60,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.scrollToBottom()
-  }
-
-  ngAfterViewChecked() {
-    this.scrollToBottom()
+    this.subscriptionToScroll = this.groupDataService.groupMessages$.subscribe(() => {
+      setTimeout(() => this.scrollToBottom(), 100)
+    })
   }
 
   /**
@@ -100,5 +103,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionToScroll.unsubscribe()
   }
 }

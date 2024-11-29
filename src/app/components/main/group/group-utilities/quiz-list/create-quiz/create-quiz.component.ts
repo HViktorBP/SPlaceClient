@@ -109,9 +109,7 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
     if (this.quizForm.valid) {
       trimFormValues(this.quizForm)
 
-      console.log(this.questions.value)
       this.quizzesService.processQuizBeforeSubmit(this.questions)
-      console.log(this.questions.value)
 
       const quizData = this.quizForm.value
 

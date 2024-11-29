@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import {QuizzesService} from "../../../../../services/quizzes.service";
 import {NgToastService} from "ng-angular-popup";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {catchError, Subscription, switchMap, take, tap, throwError} from "rxjs";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
@@ -79,7 +79,8 @@ export class QuizComponent implements OnInit, OnDestroy {
     private applicationHubService: ApplicationHubService,
     private userDataService : UserDataService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -139,6 +140,9 @@ export class QuizComponent implements OnInit, OnDestroy {
             .submitQuiz(submitQuizRequest.groupId)
             .then(() => {
               this.toast.success({ detail: "Success", summary: 'Quiz submitted successfully! Checkout the scores to see your score!', duration: 3000 })
+            })
+            .finally(() => {
+              this.router.navigate(['/main/group/' + this.groupDataService.currentGroupId])
             })
         }
       });

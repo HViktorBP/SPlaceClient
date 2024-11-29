@@ -13,29 +13,31 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div formArrayName="questions"
-           *ngFor="let question of questions.controls; let i = index">
-        <div [formGroupName]="i">
-          <h2>Question {{ i + 1 }}: {{ question.get('question')?.value }}</h2>
+      <div class="quiz-form">
+        <div formArrayName="questions"
+             *ngFor="let question of questions.controls; let i = index">
+          <div [formGroupName]="i">
+            <h2>Question {{ i + 1 }}: {{ question.get('question')?.value }}</h2>
 
-          <div *ngIf="question.get('type')?.value === Question.SingleAnswer">
-            <mat-radio-group formControlName="selectedAnswer">
-              <div *ngFor="let answer of getAnswers(i).controls; let j = index">
-                <mat-radio-button [value]="answer.get('answer')?.value"
-                                  id="questions{{i}}-answer{{j}}">
-                  {{ answer.get('answer')?.value }}
-                </mat-radio-button>
-              </div>
-            </mat-radio-group>
-          </div>
+            <div *ngIf="question.get('type')?.value === Question.SingleAnswer">
+              <mat-radio-group formControlName="selectedAnswer">
+                <div *ngFor="let answer of getAnswers(i).controls; let j = index">
+                  <mat-radio-button [value]="answer.get('answer')?.value"
+                                    id="questions{{i}}-answer{{j}}">
+                    {{ answer.get('answer')?.value }}
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
+            </div>
 
-          <div *ngIf="question.get('type')?.value !== Question.SingleAnswer">
-            <div formArrayName="answers"
-                 *ngFor="let answer of getAnswers(i).controls; let j = index">
-              <div [formGroupName]="j">
-                <mat-checkbox formControlName="status">
-                  {{ answer.get('answer')?.value }}
-                </mat-checkbox>
+            <div *ngIf="question.get('type')?.value !== Question.SingleAnswer">
+              <div formArrayName="answers"
+                   *ngFor="let answer of getAnswers(i).controls; let j = index">
+                <div [formGroupName]="j">
+                  <mat-checkbox formControlName="status">
+                    {{ answer.get('answer')?.value }}
+                  </mat-checkbox>
+                </div>
               </div>
             </div>
           </div>

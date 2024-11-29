@@ -1,5 +1,5 @@
 <div id="messages">
-  <div #scrollMe id="msg_history">
+  <div #scrollMe id="message_history">
     <ng-container *ngFor="let message of groupDataService.groupMessagesAsync| async">
       <app-message
         [id] = "message.id"
@@ -13,14 +13,14 @@
     </ng-container>
   </div>
 
-  <div class="type_msg">
-    <div class="input_msg_write">
+  <div class="type_message">
+    <div class="input_message_write">
       <input (keydown.enter)="sendMessage()"
              [(ngModel)]="inputMessage"
              type="text"
              placeholder="Type a message" />
       <button [disabled]="inputMessage.trim().length < 1 || inputMessage.trim().length > 1200"
-              (click)="sendMessage()" class="msg_send_btn" type="button">
+              (click)="sendMessage()" class="message_send_btn" type="button">
         <p>Send</p>
       </button>
     </div>

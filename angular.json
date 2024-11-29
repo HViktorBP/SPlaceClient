@@ -25,7 +25,8 @@
 						],
 						"tsConfig": "tsconfig.app.json",
 						"assets": [
-							"src/favicon.ico"
+							"src/favicon.ico",
+              "src/web.config"
 						],
 						"styles": [
               "@angular/material/prebuilt-themes/deeppurple-amber.css",

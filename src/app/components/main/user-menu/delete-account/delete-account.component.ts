@@ -76,11 +76,11 @@ export class DeleteAccountComponent implements OnInit {
                 this.toast.info({detail:"Info", summary: res.message, duration:3000})
             })
             .finally(() => {
+              this.dialogRef.close()
               this.router
                 .navigate(['/login'])
                 .then(() => {
                   this.userService.logOut()
-                  this.dialogRef.close()
                 })
             })
         }

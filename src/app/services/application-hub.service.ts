@@ -126,8 +126,22 @@ export class ApplicationHubService {
      */
     this.connection.on("LeftTheGroup", (user : string, groupId : number) => {
       const groupData = this.usersDataService.userGroups.find(g => g.id == groupId)
-      if (this.groupDataService.currentGroupId == groupId)
-        this.toast.info({detail:"Info", summary: `${user} left the ${groupData?.name}!`, duration:3000})
+      if (this.groupDataService.currentGroupId == groupId) {
+        this.groupService.getGroup(this.groupDataService.currentGroupId)
+          .pipe(
+            take(1),
+            tap(group => {
+              this.groupDataService.updateGroupScores(group.scores)
+            }),
+            catchError(err => {
+              return throwError(() => err)
+            })
+          ).subscribe({
+            next : () => {
+              this.toast.info({detail:"Info", summary: `${user} left the ${groupData?.name}!`, duration:3000})
+            }
+        })
+      }
     })
 
     /**
@@ -213,6 +227,7 @@ export class ApplicationHubService {
             }
           }
         })
+
     })
 
     /**
