@@ -160,7 +160,7 @@ describe('QuizzesService', () => {
     };
 
     const formGroup = service.buildQuiz(mockQuiz);
-    expect(formGroup instanceof FormGroup).toBeTrue();
+    expect(formGroup).toBeTrue();
     expect(formGroup.get('id')?.value).toBe(mockQuiz.id);
     expect(formGroup.get('groupId')?.value).toBe(mockQuiz.groupId);
     expect(formGroup.get('name')?.value).toBe(mockQuiz.name);
