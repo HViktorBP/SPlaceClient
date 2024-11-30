@@ -1,0 +1,49 @@
+.info-box-label  {
+  color: #333;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+:host {
+  height: inherit;
+  width: inherit;
+  min-height: 100%;
+  min-width: 80%;
+  margin: 0 20px;
+  position: absolute;
+  top: 10%;
+}
+
+mat-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  height: 80%;
+  min-height: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+mat-list {
+  height: 100%;
+  position: relative;
+}
+
+mat-list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+mat-list-item mat-icon {
+  margin-right: 1rem;
+}
+
+mat-list-item a {
+  text-decoration: none;
+}
+
+mat-list-item a, mat-list-item mat-icon {
+  font-size: 1.25rem;
+}
+

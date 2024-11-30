@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+#messages{
+  height: inherit;
+}
+
+#message_history {
+  padding: 0.7rem;
+  display: flex;
+  height: 90%;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.type_message {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.2rem;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ccc;
+}
+
+.input_message_write {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input_message_write input {
+  width: 90%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  outline: none;
+  margin-right: 10px;
+}
+
+.input_message_write input::placeholder {
+  color: #999;
+}
+
+.message_send_btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message_send_btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.message_send_btn p {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.message_send_btn:hover {
+  background-color: #45a049;
+}

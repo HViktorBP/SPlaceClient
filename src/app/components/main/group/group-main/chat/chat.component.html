@@ -1,0 +1,30 @@
+<div id="messages">
+  <div #scrollMe
+       id="message_history">
+    <ng-container *ngFor="let message of groupDataService.groupMessagesAsync| async">
+      <app-message
+        [id] = "message.id"
+        [groupId]="message.groupId"
+        [userId]="message.userId"
+        [message]="message.message"
+        [userName]="message.userName"
+        [timestamp]="message.timestamp"
+        [isEdited]="message.isEdited">
+      </app-message>
+    </ng-container>
+  </div>
+
+  <div class="type_message">
+    <div class="input_message_write">
+      <input (keydown.enter)="sendMessage()"
+             [(ngModel)]="inputMessage"
+             type="text"
+             placeholder="Type a message" />
+      <button [disabled]="inputMessage.trim().length < 1 || inputMessage.trim().length > 1200"
+              (click)="sendMessage()" class="message_send_btn" type="button">
+        <p>Send</p>
+      </button>
+    </div>
+  </div>
+</div>
+

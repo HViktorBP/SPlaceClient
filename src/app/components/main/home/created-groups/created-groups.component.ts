@@ -1,0 +1,43 @@
+import {Component} from '@angular/core';
+import {AsyncPipe, NgForOf, NgIf, SlicePipe} from "@angular/common";
+import {RouterLink} from "@angular/router";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {UserDataService} from "../../../../services/states/user-data.service";
+import {MatCard} from "@angular/material/card";
+import {MatList, MatListItem} from "@angular/material/list";
+import {MatLine} from "@angular/material/core";
+import {MatDivider} from "@angular/material/divider";
+import {MatIcon} from "@angular/material/icon";
+
+/**
+ * CreatedGroupsComponent displays the groups created by user
+ */
+
+@Component({
+  selector: 'app-created-groups',
+  standalone: true,
+  imports: [
+    NgForOf,
+    RouterLink,
+    AsyncPipe,
+    SlicePipe,
+    FaIconComponent,
+    MatCard,
+    MatList,
+    MatListItem,
+    MatLine,
+    MatDivider,
+    NgIf,
+    MatIcon
+  ],
+  templateUrl: './created-groups.component.html',
+  styleUrl: '../../../../custom/styles/info-list-box.scss'
+})
+
+
+export class CreatedGroupsComponent {
+
+  constructor(public userData : UserDataService) {
+
+  }
+}

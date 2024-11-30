@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
-import {MenuComponent} from "./main/side-bar/menu/menu.component";
-import {MainBarComponent} from "./main/main-bar/main-bar.component";
-import {SideBarComponent} from "./main/side-bar/side-bar.component";
-import {MainComponent} from "./main/main.component";
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {MainComponent} from "./components/main/main.component";
+import {NgToastModule} from "ng-angular-popup";
+
+/**
+ * AppComponent is the entry point of the application.
+ * Here a toast service and main router are provided.
+ */
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MenuComponent, MainBarComponent, SideBarComponent, MainComponent],
+  imports: [RouterOutlet, MainComponent, NgToastModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'SPlaceClient';
 
-  constructor(private router: Router) {
-    this.router.navigate(['/main']);
-  }
+export class AppComponent{
+
 }

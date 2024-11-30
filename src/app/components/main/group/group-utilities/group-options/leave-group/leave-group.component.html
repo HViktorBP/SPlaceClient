@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Leave group</h2>
+<form (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <h2>You sure you want to leave this group?</h2>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button
+            color="warn"
+            type="submit">Leave</button>
+    <button mat-raised-button
+            type="button"
+            (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,14 @@
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab *ngFor="let quiz of groupDataService.groupScoresAsync | async; let i = index"
+               [label]="quiz.quizName">
+        <mat-list>
+          <mat-list-item *ngFor="let score of quiz.scores; let j = index">
+            {{j + 1}}. {{score.username}} - {{score.score}}
+          </mat-list-item>
+        </mat-list>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

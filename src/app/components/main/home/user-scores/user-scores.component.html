@@ -1,0 +1,10 @@
+<mat-card>
+  <p class="info-box-label">Your scores: </p>
+  <mat-list>
+    <mat-list-item *ngFor="let score of userData.userScoresAsync | async">
+      <mat-icon>star</mat-icon>
+      <a>{{score.quizName}} - {{score.scores[0].score}}</a>
+    </mat-list-item>
+  </mat-list>
+  <mat-divider></mat-divider>
+</mat-card>

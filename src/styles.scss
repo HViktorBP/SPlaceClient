@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@fontsource/geist-sans"; /* Default weight and style */
+
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height:6px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2B2D42;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  border: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  position: relative;
+  background-color: #8D99AE;
+}

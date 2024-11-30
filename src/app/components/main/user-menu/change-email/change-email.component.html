@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Change email</h2>
+<form (ngSubmit)="onSubmit()"
+      [formGroup]="newEmailForm">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>New email</mat-label>
+      <input matInput
+             type="email"
+             formControlName="newEmail"
+             required>
+      <mat-error *ngIf="newEmailForm.get('newEmail')?.invalid && newEmailForm.get('newEmail')?.touched">
+        Email must contain max 254 characters.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="newEmailForm.invalid || newEmailForm.disabled">Change</button>
+    <button mat-raised-button
+            color="primary"
+            type="button"
+            (click)="dialogRef.close()"
+            [disabled]="newEmailForm.disabled">Cancel</button>
+  </mat-dialog-actions>
+</form>

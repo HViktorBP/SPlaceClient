@@ -1,0 +1,14 @@
+<div class="user-info">
+  <h2 [matMenuTriggerFor]="usermenu">{{userDataService.usernameAsync | async}}</h2>
+  <h3>Status : {{userDataService.userStatusAsync | async}}</h3>
+</div>
+<mat-menu #usermenu="matMenu" class="user-menu">
+  <p (click)="openChangeUsername()">Change username</p>
+  <p (click)="openChangeEmail()">Change email</p>
+  <p (click)="openChangePassword()">Change password</p>
+  <p (click)="openChangeStatus()">Change status</p>
+  <p (click)="openLogOut()">Log out</p>
+  <mat-divider></mat-divider>
+  <p (click)="openAboutApp()">About app</p>
+  <p (click)="openDeleteAccount()">Delete account</p>
+</mat-menu>

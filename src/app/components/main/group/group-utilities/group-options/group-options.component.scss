@@ -1,0 +1,15 @@
+:host{
+  flex-grow: 1;
+}
+
+.child {
+  cursor: pointer;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: inherit;
+  overflow-x: auto;
+}

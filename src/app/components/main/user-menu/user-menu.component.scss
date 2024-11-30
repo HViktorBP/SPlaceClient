@@ -1,0 +1,40 @@
+:host{
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  cursor: pointer;
+  transition: font-size 0.5s;
+}
+
+h2:hover {
+  font-size: 1.5rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  width: 100%;
+}
+
+p {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+p:hover {
+  cursor: pointer;
+  background-color: #d8d8d8;
+  transition: background-color 0.5s ease;
+}
+
+mat-divider {
+  margin: 0.5rem 0;
+}
+

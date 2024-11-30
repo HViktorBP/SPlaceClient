@@ -1,0 +1,33 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav mode="over">
+    <div id="sidenav-wrapper">
+      <mat-nav-list>
+        <h3>Groups</h3>
+        <mat-divider></mat-divider>
+        <a mat-list-item
+           *ngFor="let group of userDataService.userGroupsAsync | async"
+           [routerLink]="['/main/group', group.id]">
+          <mat-icon>groups</mat-icon>
+          <span> {{ group.name }} </span>
+        </a>
+        <mat-divider></mat-divider>
+      </mat-nav-list>
+      <button mat-raised-button
+              color="primary"
+              type="button"
+              (click)="onCreateNewGroup()">Create new group</button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button
+              aria-label="Menu icon"
+              (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 [routerLink]="['/main/home']">SPlace</h1>
+      <app-user-menu></app-user-menu>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
