@@ -5,7 +5,7 @@ import { UserDataService } from '../../../services/states/user-data.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';  // To prevent animations during testing
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ChangeUsernameComponent } from './change-username/change-username.component';
 import { ChangeEmailComponent } from './change-email/change-email.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -31,7 +31,7 @@ describe('UserMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserMenuComponent, MatMenuModule, NoopAnimationsModule, MatDivider], // Import necessary modules
+      imports: [UserMenuComponent, MatMenuModule, NoopAnimationsModule, MatDivider],
       providers: [
         { provide: MatDialog, useClass: MockMatDialog },
         { provide: UserDataService, useClass: MockUserDataService }

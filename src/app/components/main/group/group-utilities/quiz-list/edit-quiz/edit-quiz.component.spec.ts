@@ -118,7 +118,7 @@ describe('EditQuizComponent', () => {
 
     expect(component.quizForm).toBeDefined();
     expect(component.quizForm.get('name')?.value).toBe('Sample Quiz');
-    expect(component.questions.length).toBe(0); // Questions should be built using `buildQuiz`
+    expect(component.questions.length).toBe(0);
   }));
 
   it('should add a question to the form', fakeAsync(() => {
@@ -160,7 +160,7 @@ describe('EditQuizComponent', () => {
     component.quizForm.get('name')?.setValue('Edited Quiz Name');
     component.addQuestion()
     component.questions.at(0).get('question')?.setValue('Question 1')
-    component.getAnswers(0).at(0)?.get('answer')?.setValue('Answer 1'); // Set answer to ensure it's not empty
+    component.getAnswers(0).at(0)?.get('answer')?.setValue('Answer 1');
     component.getAnswers(0).at(0)?.get('status')?.setValue('true');
     fixture.detectChanges();
     tick();

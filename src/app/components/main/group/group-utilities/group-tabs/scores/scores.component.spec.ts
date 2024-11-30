@@ -61,7 +61,7 @@ describe('ScoresComponent', () => {
     expect(tabGroupElement).toBeTruthy();
 
     const tabLabels = fixture.debugElement.queryAll(By.css('.mdc-tab__text-label'));
-    expect(tabLabels.length).toBe(1); // Ensure there are two quizzes
+    expect(tabLabels.length).toBe(1);
     expect(tabLabels[0].nativeElement.textContent).toContain('Quiz 1');
   });
 

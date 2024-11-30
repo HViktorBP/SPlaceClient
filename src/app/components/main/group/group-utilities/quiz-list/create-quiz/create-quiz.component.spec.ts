@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { CreateQuizComponent } from './create-quiz.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'; // Add `MAT_DIALOG_DATA` import
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import {QuizzesService} from "../../../../../../services/quizzes.service";
-import {UsersService} from "../../../../../../services/users.service"; // Add HttpClientModule import to provide HttpClient
+import {UsersService} from "../../../../../../services/users.service";
 
 class MockQuizzesService {
   setValidatorsForQuestions(form: any) {

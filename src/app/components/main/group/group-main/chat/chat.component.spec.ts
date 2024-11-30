@@ -10,7 +10,7 @@ import {MessageDto} from "../../../../../data-transferring/dtos/message/message-
 
 class MockUsersService {
   getUserId() {
-    return 1; // Mocked user ID
+    return 1;
   }
 }
 
@@ -36,7 +36,7 @@ class MockGroupDataService {
     }
   ]);
   groupMessages$ = this.groupMessagesAsync;
-  currentGroupId = 1; // Mocked group ID
+  currentGroupId = 1;
 }
 
 class MockMessagesService {
@@ -104,7 +104,7 @@ describe('ChatComponent', () => {
 
     const inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
     inputElement.value = 'Test message';
-    inputElement.dispatchEvent(new Event('input')); // To trigger ngModel change
+    inputElement.dispatchEvent(new Event('input'));
     inputElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
     fixture.detectChanges();

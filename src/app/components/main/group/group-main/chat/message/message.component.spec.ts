@@ -17,7 +17,7 @@ class MockMessagesService {
 
 class MockUsersService {
   getUserId() {
-    return 1; // Mocked user ID
+    return 1;
   }
 }
 
@@ -108,7 +108,7 @@ describe('MessageComponent', () => {
   });
 
   it('should cancel edit when cancel button is clicked', () => {
-    component.showEdit(); // Enable edit mode
+    component.showEdit();
     fixture.detectChanges();
 
     spyOn(component, 'cancelEdit').and.callThrough();

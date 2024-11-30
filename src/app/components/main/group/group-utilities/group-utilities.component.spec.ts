@@ -6,7 +6,7 @@ import { Role } from '../../../../data-transferring/enums/role';
 import { By } from '@angular/platform-browser';
 import { ApplicationHubService } from '../../../../services/application-hub.service';
 import { HttpClientModule } from '@angular/common/http';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // <-- Add this import
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 class MockGroupDataService {
   userRoleAsync = new BehaviorSubject<Role>(Role.Administrator);
