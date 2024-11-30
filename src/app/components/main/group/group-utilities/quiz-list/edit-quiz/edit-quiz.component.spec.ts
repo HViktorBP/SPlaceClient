@@ -18,7 +18,6 @@ import { ApplicationHubService } from '../../../../../../services/application-hu
 import { NgToastService } from 'ng-angular-popup';
 import { of } from 'rxjs';
 
-// Mock Services
 class MockQuizzesService {
   getQuiz(quizId: number) {
     return of({
@@ -54,23 +53,22 @@ class MockQuizzesService {
 
 class MockUsersService {
   getUserId() {
-    return 1; // Mocked user ID
+    return 1;
   }
 }
 
 class MockGroupDataService {
-  currentGroupId = 1; // Mocked group ID
+  currentGroupId = 1;
 }
 
 class MockApplicationHubService {
   editQuiz(groupId: number, quizId: number) {
-    return Promise.resolve(); // Mock the editQuiz method
+    return Promise.resolve();
   }
 }
 
 class MockNgToastService {
   success(message: any) {
-    // Mock success toast method
   }
 }
 
@@ -159,7 +157,6 @@ describe('EditQuizComponent', () => {
     spyOn(applicationHub, 'editQuiz').and.callThrough();
     spyOn(toastService, 'success').and.callThrough();
 
-    // Fill the form to make it valid
     component.quizForm.get('name')?.setValue('Edited Quiz Name');
     component.addQuestion()
     component.questions.at(0).get('question')?.setValue('Question 1')

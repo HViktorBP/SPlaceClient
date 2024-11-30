@@ -3,6 +3,6 @@
  */
 export interface AnswerDto {
   id: number;
-  answer : string,
+  answer : string;
   status : boolean
 }

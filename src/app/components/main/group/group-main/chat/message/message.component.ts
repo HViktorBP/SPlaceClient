@@ -145,6 +145,10 @@ export class MessageComponent implements OnInit {
     })
   }
 
+  /**
+   * Description: onDelete method opens the confirmation pop-up for deleting the message
+   * @memberOf MessageComponent
+   */
   onDelete() {
     this.dialog.open(ConfirmMessageDeleteComponent, {
       data: {

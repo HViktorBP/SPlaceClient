@@ -3,9 +3,6 @@ import { NotFoundComponent } from './not-found.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-/**
- * Test suite for NotFoundComponent which is responsible for displaying a 404 page when the user navigates to a non-existent route.
- */
 describe('NotFoundComponent', () => {
   let component: NotFoundComponent;
   let fixture: ComponentFixture<NotFoundComponent>;
@@ -13,7 +10,7 @@ describe('NotFoundComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NotFoundComponent, RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA], // Ignore Angular Material elements for simplicity
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
@@ -36,6 +33,6 @@ describe('NotFoundComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const button = compiled.querySelector('button');
     expect(button).toBeTruthy();
-    expect(button?.textContent).toContain('Go Back to Home');
+    expect(button?.textContent).toContain('Go Back to Home Page');
   });
 });

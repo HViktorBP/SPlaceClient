@@ -3,10 +3,15 @@
     <mat-card-title>SPlace</mat-card-title>
     <mat-card-subtitle>Registration</mat-card-subtitle>
     <mat-card-content>
-      <form [formGroup]="registrationForm" (ngSubmit)="onRegister()">
+      <form [formGroup]="registrationForm"
+            (ngSubmit)="onRegister()">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
-          <input matInput formControlName="username" placeholder="Enter your username" type="text" required>
+          <input matInput
+                 formControlName="username"
+                 placeholder="Enter your username"
+                 type="text"
+                 required>
           <mat-error *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched">
             Please enter a valid username.
           </mat-error>
@@ -14,7 +19,11 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" placeholder="Enter your email" type="email" required>
+          <input matInput
+                 formControlName="email"
+                 placeholder="Enter your email"
+                 type="email"
+                 required>
           <mat-error *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
             Please enter a valid email.
           </mat-error>
@@ -22,7 +31,11 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <input matInput formControlName="password" placeholder="Enter your password" [type]="hide() ? 'password' : 'text'" type="password" required>
+          <input matInput
+                 formControlName="password"
+                 placeholder="Enter your password"
+                 [type]="hide() ? 'password' : 'text'"
+                 type="password" required>
           <button
             mat-icon-button
             type="button"
@@ -40,15 +53,26 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Confirm your password</mat-label>
-          <input matInput formControlName="confirmedPassword" placeholder="Enter your password once again" type="password" required>
+          <input matInput
+                 formControlName="confirmedPassword"
+                 placeholder="Enter your password once again"
+                 type="password"
+                 required>
           <mat-error *ngIf="registrationForm.get('confirmedPassword')?.invalid && registrationForm.get('confirmedPassword')?.touched">
             Passwords are not matching.
           </mat-error>
         </mat-form-field>
 
         <div class="authorization-buttons">
-          <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid || registrationForm.disabled">Register</button>
-          <button mat-raised-button color="primary" type="button" (click)="goToLogin()" [disabled]="registrationForm.disabled">Log in</button>
+          <button mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="registrationForm.invalid || registrationForm.disabled">Register</button>
+          <button mat-raised-button
+                  color="primary"
+                  type="button"
+                  (click)="goToLogin()"
+                  [disabled]="registrationForm.disabled">Log in</button>
         </div>
       </form>
     </mat-card-content>

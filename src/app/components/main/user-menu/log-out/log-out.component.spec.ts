@@ -6,16 +6,14 @@ import { UsersService } from "../../../../services/users.service";
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-// Mock Services
 class MockUsersService {
   logOut() {
-    // Dummy log out implementation for testing
   }
 }
 
 class MockRouter {
   navigate() {
-    return Promise.resolve(true); // Mock navigation success
+    return Promise.resolve(true);
   }
 }
 
@@ -30,7 +28,7 @@ describe('LogOutComponent', () => {
       imports: [
         LogOutComponent,
         MatDialogModule,
-        NoopAnimationsModule, // To disable animations during testing
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
@@ -56,18 +54,16 @@ describe('LogOutComponent', () => {
     spyOn(userService, 'logOut').and.callThrough();
     spyOn(router, 'navigate').and.callThrough();
 
-    // Trigger form submission
     component.onSubmit();
-    tick(); // Simulate async operations
+    tick();
 
     expect(component.onSubmit).toHaveBeenCalled();
     expect(userService.logOut).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    expect(component.dialogRef.close).toHaveBeenCalled(); // Verify dialog is closed after logging out
+    expect(component.dialogRef.close).toHaveBeenCalled();
   }));
 
   it('should close the dialog when "Not yet" button is clicked', fakeAsync(() => {
-    // Find the "Not yet" button and trigger a click event
     const notYetButton = fixture.debugElement.query(By.css('button[type="button"]'));
     notYetButton.nativeElement.click();
     fixture.detectChanges();

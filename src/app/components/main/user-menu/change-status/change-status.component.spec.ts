@@ -33,7 +33,6 @@ class MockNgToastService {
 
 class MockApplicationHubService {
   changeStatus() {
-    // Return a resolved promise to simulate a successful SignalR call
     return Promise.resolve();
   }
 }
@@ -81,7 +80,7 @@ describe('ChangeStatusComponent', () => {
 
   it('should disable "Change" button when form is invalid', () => {
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeTrue(); // Should be disabled initially
+    expect(changeButton.nativeElement.disabled).toBeTrue();
   });
 
   it('should enable "Change" button when form is valid', () => {
@@ -89,7 +88,7 @@ describe('ChangeStatusComponent', () => {
     fixture.detectChanges();
 
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeFalse(); // Should be enabled when form is valid
+    expect(changeButton.nativeElement.disabled).toBeFalse();
   });
 
   it('should call changeStatus() on successful submission', fakeAsync(() => {
@@ -98,7 +97,6 @@ describe('ChangeStatusComponent', () => {
     spyOn(userService, 'changeStatus').and.callThrough();
     spyOn(toastService, 'success');
 
-    // Set valid status and submit
     component.newStatusForm.get('newStatus')?.setValue('New Status');
     fixture.detectChanges();
     component.onSubmit();

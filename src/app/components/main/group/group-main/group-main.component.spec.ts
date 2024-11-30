@@ -6,9 +6,7 @@ import { RouterOutlet } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-// Mock GroupDataService
 class MockGroupDataService {
-  // Add any required mock methods or properties if necessary
 }
 
 describe('GroupMainComponent', () => {
@@ -21,8 +19,8 @@ describe('GroupMainComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        GroupMainComponent, // Import the standalone component directly
-        RouterTestingModule // Needed for RouterOutlet testing
+        GroupMainComponent,
+        RouterTestingModule
       ],
       providers: [
         { provide: GroupDataService, useValue: mockGroupDataService }
@@ -33,7 +31,7 @@ describe('GroupMainComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupMainComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -41,7 +39,6 @@ describe('GroupMainComponent', () => {
   });
 
   it('should contain a router outlet', () => {
-    // Check that the RouterOutlet is present
     const routerOutlet: DebugElement = fixture.debugElement.query(By.directive(RouterOutlet));
     expect(routerOutlet).toBeTruthy();
   });

@@ -7,7 +7,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-// Mock Services
 class MockMessagesService {
   deleteMessage(request: any) {
     return of({ message: 'Message deleted successfully' });
@@ -53,7 +52,7 @@ describe('ConfirmMessageDeleteComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfirmMessageDeleteComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {

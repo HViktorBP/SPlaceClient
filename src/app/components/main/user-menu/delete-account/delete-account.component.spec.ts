@@ -13,7 +13,6 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 
-// Mock Services
 class MockUsersService {
   deleteAccount() {
     return of({ message: 'Account deleted successfully' });
@@ -113,9 +112,8 @@ describe('DeleteAccountComponent', () => {
     spyOn(toastService, 'info');
     spyOn(router, 'navigate').and.callThrough();
 
-    // Trigger form submission
     component.onSubmit();
-    tick(); // Simulate async operations
+    tick();
 
     expect(component.onSubmit).toHaveBeenCalled();
     expect(userService.deleteAccount).toHaveBeenCalled();

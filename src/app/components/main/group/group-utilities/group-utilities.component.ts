@@ -39,11 +39,9 @@ export class GroupUtilitiesComponent implements OnInit, OnDestroy {
    * Description: Role subscription.
    * @private
    */
-  private roleSubscription!: Subscription;
+  private roleSubscription!: Subscription
 
-  constructor(private groupDataService : GroupDataService) {
-
-  }
+  constructor(private groupDataService : GroupDataService) { }
 
   ngOnInit() {
     this.roleSubscription = this.groupDataService.userRoleAsync.subscribe(role => {

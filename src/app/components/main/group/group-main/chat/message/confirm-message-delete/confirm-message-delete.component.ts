@@ -34,9 +34,7 @@ export class ConfirmMessageDeleteComponent {
               private applicationHubService : ApplicationHubService,
               private toast: NgToastService,
               @Inject(MAT_DIALOG_DATA) public data: any
-              ) {
-
-  }
+              ) { }
 
   /**
    * Description: deleteMessage deletes calls the HTTP request for deleting the message and handles the UI according to the request's result.

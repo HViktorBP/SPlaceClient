@@ -9,7 +9,6 @@ import { MatDialog } from "@angular/material/dialog";
 import { By } from '@angular/platform-browser';
 import { ConfirmMessageDeleteComponent } from "./confirm-message-delete/confirm-message-delete.component";
 
-// Mock Services
 class MockMessagesService {
   editMessage(messageDto: any) {
     return of({ message: 'Message updated successfully' });
@@ -72,7 +71,6 @@ describe('MessageComponent', () => {
     fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
 
-    // Setting input values to simulate a message
     component.id = 1;
     component.userId = 1;
     component.groupId = 1;
@@ -81,7 +79,7 @@ describe('MessageComponent', () => {
     component.timestamp = new Date();
     component.isEdited = false;
 
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -129,7 +127,7 @@ describe('MessageComponent', () => {
     spyOn(mockApplicationHubService, 'editMessage').and.callThrough();
     spyOn(mockToastService, 'success').and.callThrough();
 
-    component.showEdit(); // Enable edit mode
+    component.showEdit();
     component.editableMessage = 'Updated Message';
     fixture.detectChanges();
 

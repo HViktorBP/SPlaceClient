@@ -92,7 +92,6 @@ export class LeaveGroupComponent {
                 if (userQuiz.groupId === this.groupDataService.currentGroupId) {
                   this.applicationHubService
                     .deleteQuiz(this.groupDataService.currentGroupId, userQuiz.id).then(() => {
-                    console.log(userQuiz.name)
                   })
                 }
               })

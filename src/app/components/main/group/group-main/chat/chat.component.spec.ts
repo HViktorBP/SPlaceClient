@@ -8,7 +8,6 @@ import {Observable, of, Subscription} from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {MessageDto} from "../../../../../data-transferring/dtos/message/message-dto";
 
-// Mock Services
 class MockUsersService {
   getUserId() {
     return 1; // Mocked user ID
@@ -42,13 +41,13 @@ class MockGroupDataService {
 
 class MockMessagesService {
   saveMessage(request: any) {
-    return of(request); // Simulate successful message save
+    return of(request);
   }
 }
 
 class MockApplicationHubService {
   sendMessage(message: any) {
-    return Promise.resolve(); // Simulate successful message broadcast
+    return Promise.resolve();
   }
 }
 
@@ -84,7 +83,7 @@ describe('ChatComponent', () => {
     fixture = TestBed.createComponent(ChatComponent);
     component = fixture.componentInstance;
     subscriptionToScroll = component.subscriptionToScroll = new Subscription();
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -150,7 +149,6 @@ describe('ChatComponent', () => {
   it('should scroll to bottom on groupMessages$ subscription update', waitForAsync(() => {
     spyOn(component, 'scrollToBottom');
 
-    // Trigger the groupMessages$ observable to emit a new value
     mockGroupDataService.groupMessagesAsync = of([{
       id: 3,
       groupId: 1,

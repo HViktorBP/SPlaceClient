@@ -85,21 +85,18 @@ describe('RenameGroupComponent', () => {
 
   it('should disable the "Rename" button when the form is invalid', () => {
     const renameButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(renameButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(renameButton.nativeElement.disabled).toBeTruthy();
 
-    // Set an invalid value
     component.renameGroupForm.get('groupName')?.setValue('');
     fixture.detectChanges();
-    expect(renameButton.nativeElement.disabled).toBeTruthy(); // Should still be disabled
+    expect(renameButton.nativeElement.disabled).toBeTruthy();
 
-    // Set a valid value
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
     fixture.detectChanges();
-    expect(renameButton.nativeElement.disabled).toBeFalsy(); // Should be enabled now
+    expect(renameButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should close the dialog when the "Cancel" button is clicked', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -110,11 +107,9 @@ describe('RenameGroupComponent', () => {
   it('should call onSubmit() when the "Rename" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Set a valid groupName to make the form valid
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
     fixture.detectChanges();
 
-    // Find the rename button and click it
     const renameButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     renameButton.nativeElement.click();
     tick();
@@ -126,10 +121,8 @@ describe('RenameGroupComponent', () => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'renameGroup').and.callThrough();
 
-    // Set a valid value for the form
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -140,10 +133,8 @@ describe('RenameGroupComponent', () => {
     const applicationHubService = TestBed.inject(ApplicationHubService);
     spyOn(applicationHubService, 'renameGroup').and.callThrough();
 
-    // Set a valid value for the form
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -151,10 +142,8 @@ describe('RenameGroupComponent', () => {
   }));
 
   it('should close the dialog after successful rename', fakeAsync(() => {
-    // Set a valid value for the form
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -165,10 +154,8 @@ describe('RenameGroupComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'info');
 
-    // Set a valid value for the form
     component.renameGroupForm.get('groupName')?.setValue('Valid Group Name');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 

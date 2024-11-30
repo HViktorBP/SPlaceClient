@@ -9,7 +9,6 @@ import { Role } from '../../../data-transferring/enums/role';
 import { UserPublicData } from '../../../data-transferring/dtos/user/user-public-data';
 import { provideRouter } from '@angular/router';
 
-// Mock Services
 interface GroupDto {
   name: string;
   users: UserPublicData[];
@@ -60,7 +59,7 @@ describe('GroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GroupComponent], // Import the standalone component directly
+      imports: [GroupComponent],
       providers: [
         provideRouter([]),
         { provide: GroupsService, useClass: MockGroupsService },
@@ -78,7 +77,7 @@ describe('GroupComponent', () => {
           },
         },
       ],
-      teardown: { destroyAfterEach: false } // Disable automatic fixture destruction after each test
+      teardown: { destroyAfterEach: false }
     }).compileComponents();
 
     fixture = TestBed.createComponent(GroupComponent);
@@ -89,11 +88,9 @@ describe('GroupComponent', () => {
   });
 
   afterEach(() => {
-    // Manual teardown to avoid Angular's automatic teardown, which can be problematic with children components.
     if (fixture && fixture.nativeElement && fixture.nativeElement.isConnected) {
       fixture.destroy();
     }
-    // Optionally, reset the test module to avoid conflicts between tests.
     TestBed.resetTestingModule();
   });
 
@@ -126,15 +123,12 @@ describe('GroupComponent', () => {
   it('should unsubscribe from routeSubscription on destroy', () => {
     component.ngOnInit();
 
-    // Set a real subscription to mimic ngOnInit behavior.
-    component.routeSubscription = new Subscription(); // Mock subscription setup
+    component.routeSubscription = new Subscription();
 
     const unsubscribeSpy = spyOn(component.routeSubscription, 'unsubscribe');
 
-    // Call ngOnDestroy
     component.ngOnDestroy();
 
-    // Ensure unsubscribe is called
     expect(unsubscribeSpy).toHaveBeenCalled();
   });
 });

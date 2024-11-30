@@ -9,7 +9,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import {of, Subscription} from 'rxjs';
 
-// Mock Services
 class MockQuizzesService {
   getQuizWithoutCorrectAnswers(quizId: number) {
     return of({
@@ -25,7 +24,7 @@ class MockQuizzesService {
   }
 
   submitQuiz(request: any) {
-    return of(request); // Simulate a successful submission
+    return of(request);
   }
 
   buildQuiz(quiz: any) {
@@ -55,21 +54,21 @@ class MockNgToastService {
 
 class MockUsersService {
   getUserId() {
-    return 1; // Mocked user ID
+    return 1;
   }
 
   getUserAccount(userId: number) {
-    return of({ scores: [] }); // Mocked user account with empty scores
+    return of({ scores: [] });
   }
 }
 
 class MockGroupDataService {
-  currentGroupId = 1; // Mocked group ID
+  currentGroupId = 1;
 }
 
 class MockApplicationHubService {
   submitQuiz(groupId: number) {
-    return Promise.resolve(); // Simulate a successful message broadcast
+    return Promise.resolve();
   }
 }
 
@@ -121,7 +120,7 @@ describe('QuizComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(QuizComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -156,7 +155,6 @@ describe('QuizComponent', () => {
 
     fixture.detectChanges();
 
-    // Call the submit function
     component.onSubmit();
 
     expect(mockQuizzesService.submitQuiz).toHaveBeenCalled();

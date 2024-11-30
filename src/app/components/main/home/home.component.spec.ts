@@ -13,7 +13,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HomeComponent, // Import standalone component directly
+        HomeComponent,
         CreatedQuizzesComponent,
         CreatedGroupsComponent,
         UserScoresComponent,
@@ -21,12 +21,12 @@ describe('HomeComponent', () => {
         MatGridTile,
         MatGridTileHeaderCssMatStyler,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], // Schema added to ignore unknown elements and attributes
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -34,7 +34,6 @@ describe('HomeComponent', () => {
   });
 
   it('should render CreatedQuizzesComponent, CreatedGroupsComponent, and UserScoresComponent', () => {
-    // Check if the child components are present in the DOM
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('app-created-quizzes')).not.toBeNull();
     expect(compiled.querySelector('app-created-groups')).not.toBeNull();

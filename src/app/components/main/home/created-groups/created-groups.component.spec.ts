@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import {RouterLink} from "@angular/router";
 
-// Mock UserDataService
 class MockUserDataService {
   createdGroupsAsync = of([
     { name: 'Group A', id: 1 },
@@ -32,7 +31,7 @@ describe('CreatedGroupsComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        CreatedGroupsComponent, // Import the standalone component directly
+        CreatedGroupsComponent,
         NgForOf,
         RouterLink,
         AsyncPipe,
@@ -45,7 +44,7 @@ describe('CreatedGroupsComponent', () => {
         MatDivider,
         NgIf,
         MatIcon,
-        RouterTestingModule // Needed for RouterLink to work properly
+        RouterTestingModule
       ],
       providers: [
         { provide: UserDataService, useValue: mockUserDataService }
@@ -56,7 +55,7 @@ describe('CreatedGroupsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatedGroupsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -65,30 +64,25 @@ describe('CreatedGroupsComponent', () => {
 
   it('should display groups created by the user', waitForAsync(() => {
     fixture.whenStable().then(() => {
-      fixture.detectChanges(); // Ensure that the component view has been updated
+      fixture.detectChanges();
 
-      // Log the HTML for debugging
       console.log(fixture.nativeElement.innerHTML);
 
-      // Query the mat-card element
       const matCard: DebugElement = fixture.debugElement.query(By.css('mat-card'));
-      expect(matCard).toBeTruthy(); // Check that the mat-card exists
+      expect(matCard).toBeTruthy();
 
-      // Query the list items within the mat-card
       const listItems: DebugElement[] = matCard.queryAll(By.css('mat-list-item'));
-      expect(listItems.length).toBe(2); // Expect two list items for two groups
+      expect(listItems.length).toBe(2);
 
-      // Check the content of the first list item (Group A)
       const firstListItem = listItems[0];
       const firstLink = firstListItem.query(By.css('a[matLine]'));
-      expect(firstLink).toBeTruthy(); // Check if <a> tag exists
+      expect(firstLink).toBeTruthy();
       expect(firstLink.nativeElement.textContent).toContain('Group A');
       expect(firstLink.attributes['ng-reflect-router-link']?.toString().split(',').join('/')).toContain('/main/group/1');
 
-      // Check the content of the second list item (Group B)
       const secondListItem = listItems[1];
       const secondLink = secondListItem.query(By.css('a[matLine]'));
-      expect(secondLink).toBeTruthy(); // Check if <a> tag exists
+      expect(secondLink).toBeTruthy();
       expect(secondLink.nativeElement.textContent).toContain('Group B');
       expect(secondLink.attributes['ng-reflect-router-link']?.toString().split(',').join('/')).toContain('/main/group/2');
     });

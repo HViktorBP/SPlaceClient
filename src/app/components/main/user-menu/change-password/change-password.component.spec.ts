@@ -11,7 +11,6 @@ import { of } from 'rxjs';
 import {GlobalErrorHandlerService} from "../../../../services/error-handling/global-error-handler.service";
 import {ErrorHandler} from "@angular/core";
 
-// Mock services for testing purposes
 class MockUsersService {
   getUserId() {
     return 1;
@@ -65,23 +64,20 @@ describe('ChangePasswordComponent', () => {
 
   it('should disable the "Change" button when the form is invalid', () => {
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(changeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set invalid values
     component.newPasswordForm.get('newPassword')?.setValue('');
     component.newPasswordForm.get('submitNewPassword')?.setValue('');
     fixture.detectChanges();
-    expect(changeButton.nativeElement.disabled).toBeTruthy(); // Should still be disabled
+    expect(changeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set valid values
     component.newPasswordForm.get('newPassword')?.setValue('validpassword123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('validpassword123');
     fixture.detectChanges();
-    expect(changeButton.nativeElement.disabled).toBeFalsy(); // Should be enabled now
+    expect(changeButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should close the dialog when the "Cancel" button is clicked', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -93,12 +89,10 @@ describe('ChangePasswordComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'error');
 
-    // Set mismatched passwords
     component.newPasswordForm.get('newPassword')?.setValue('password123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('password456');
     fixture.detectChanges();
 
-    // Submit the form
     component.onSubmit();
 
     expect(toastService.error).toHaveBeenCalledWith({ detail: "Info", summary: "Passwords doesn't match.", duration: 3000 });
@@ -107,12 +101,10 @@ describe('ChangePasswordComponent', () => {
   it('should call onSubmit() when the "Change" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Set valid passwords to make the form valid
     component.newPasswordForm.get('newPassword')?.setValue('password123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('password123');
     fixture.detectChanges();
 
-    // Find the change button and click it
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     changeButton.nativeElement.click();
     tick();
@@ -124,11 +116,9 @@ describe('ChangePasswordComponent', () => {
     const userService = TestBed.inject(UsersService);
     spyOn(userService, 'changePassword').and.callThrough();
 
-    // Set valid passwords
     component.newPasswordForm.get('newPassword')?.setValue('password123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('password123');
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -139,11 +129,9 @@ describe('ChangePasswordComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'success');
 
-    // Set valid passwords
     component.newPasswordForm.get('newPassword')?.setValue('password123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('password123');
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -151,11 +139,9 @@ describe('ChangePasswordComponent', () => {
   }));
 
   it('should close the dialog after successful password change', fakeAsync(() => {
-    // Set valid passwords
     component.newPasswordForm.get('newPassword')?.setValue('password123');
     component.newPasswordForm.get('submitNewPassword')?.setValue('password123');
 
-    // Submit the form
     component.onSubmit();
     tick();
 

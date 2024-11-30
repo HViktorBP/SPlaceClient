@@ -1,21 +1,45 @@
 <mat-card>
   <mat-card-content>
-    <button mat-icon-button class="child" *ngIf="role == Role.Creator || role == Role.Administrator || role == Role.Moderator" (click)="onAddUser()" title="Add user">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role == Role.Creator || role == Role.Administrator || role == Role.Moderator"
+            (click)="onAddUser()"
+            title="Add user">
       <mat-icon>person_add</mat-icon>
     </button>
-    <button mat-icon-button class="child" *ngIf="role == Role.Creator || role == Role.Administrator || role == Role.Moderator" (click)="onRemoveUser()" title="Remove user">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role == Role.Creator || role == Role.Administrator || role == Role.Moderator"
+            (click)="onRemoveUser()"
+            title="Remove user">
       <mat-icon>person_remove</mat-icon>
     </button>
-    <button mat-icon-button class="child" *ngIf="role == Role.Creator || role == Role.Administrator" (click)="onChangeRole()" title="Change role">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role == Role.Creator || role == Role.Administrator"
+            (click)="onChangeRole()"
+            title="Change role">
       <mat-icon>manage_accounts</mat-icon>
     </button>
-    <button mat-icon-button class="child" *ngIf="role == Role.Creator" (click)="onRenameGroup()" title="Rename group">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role == Role.Creator"
+            (click)="onRenameGroup()"
+            title="Rename group">
       <mat-icon>drive_file_rename_outline</mat-icon>
     </button>
-    <button mat-icon-button class="child" *ngIf="role == Role.Creator" (click)="onDeleteGroup()" title="Delete group">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role == Role.Creator"
+            (click)="onDeleteGroup()"
+            title="Delete group">
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-icon-button class="child" *ngIf="role != Role.Creator" (click)="onLeaveGroup()" title="Leave group">
+    <button mat-icon-button
+            class="child"
+            *ngIf="role != Role.Creator"
+            (click)="onLeaveGroup()"
+            title="Leave group">
       <mat-icon>exit_to_app</mat-icon>
     </button>
   </mat-card-content>

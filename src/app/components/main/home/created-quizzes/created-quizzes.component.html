@@ -3,7 +3,8 @@
   <mat-list>
     <mat-list-item *ngFor="let quiz of userData.createdQuizzesAsync | async">
       <mat-icon>quiz</mat-icon>
-      <a matLine [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{ quiz.name }}</a>
+      <a matLine
+         [routerLink]="['/main/group', quiz.groupId, 'quiz', quiz.id]">{{ quiz.name }}</a>
     </mat-list-item>
   </mat-list>
   <mat-divider></mat-divider>

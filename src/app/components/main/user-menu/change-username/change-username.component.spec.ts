@@ -12,7 +12,6 @@ import { By } from '@angular/platform-browser';
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {UserDataService} from "../../../../services/states/user-data.service";
 
-// Mock Services
 class MockUsersService {
   changeUsername() {
     return of({ message: 'Username updated successfully', token: 'newToken' });
@@ -24,7 +23,6 @@ class MockUsersService {
     return of({ username: 'UpdatedUsername' });
   }
   storeUserData(token: string) {
-    // Store token logic mock
   }
 }
 
@@ -35,7 +33,7 @@ class MockNgToastService {
 
 class MockApplicationHubService {
   changeName() {
-    return Promise.resolve(); // Mock successful SignalR call
+    return Promise.resolve();
   }
 }
 
@@ -83,7 +81,7 @@ describe('ChangeUsernameComponent', () => {
 
   it('should disable "Change" button when form is invalid', () => {
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeTrue(); // Should be disabled initially
+    expect(changeButton.nativeElement.disabled).toBeTrue();
   });
 
   it('should enable "Change" button when form is valid', () => {
@@ -91,7 +89,7 @@ describe('ChangeUsernameComponent', () => {
     fixture.detectChanges();
 
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeFalse(); // Should be enabled when form is valid
+    expect(changeButton.nativeElement.disabled).toBeFalse();
   });
 
   it('should call changeUsername() on successful submission', fakeAsync(() => {
@@ -100,7 +98,6 @@ describe('ChangeUsernameComponent', () => {
     spyOn(userService, 'storeUserData').and.callThrough();
     spyOn(toastService, 'success');
 
-    // Set valid username and submit
     component.newUserNameForm.get('newUsername')?.setValue('ValidUsername');
     fixture.detectChanges();
     component.onSubmit();

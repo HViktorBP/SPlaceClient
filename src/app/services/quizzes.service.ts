@@ -159,24 +159,22 @@ export class QuizzesService {
    */
   processQuizBeforeSubmit(questions : FormArray) {
     questions.controls.forEach((control: AbstractControl) => {
-      const question = control as FormGroup; // Explicit cast to FormGroup
+      const question = control as FormGroup
 
       if (question.get('type')?.value === 0 && question.get('selectedAnswer')) {
-        // Update answer status based on the selectedAnswer value
-        const selectedAnswerIndex: number = question.get('selectedAnswer')?.value;
+        const selectedAnswerIndex: number = question.get('selectedAnswer')?.value
         if (selectedAnswerIndex !== null && selectedAnswerIndex !== undefined) {
 
           console.log(question.get('selectedAnswer')?.value)
           const answers = question.get('answers') as FormArray;
           answers.controls.forEach((answerControl, answerIndex) => {
-            answerControl.get('status')?.setValue(answerIndex === selectedAnswerIndex);
-          });
+            answerControl.get('status')?.setValue(answerIndex === selectedAnswerIndex)
+          })
         }
 
-        // Remove the selectedAnswer control
-        question.removeControl('selectedAnswer');
+        question.removeControl('selectedAnswer')
       }
-    });
+    })
   }
 
   /**
@@ -185,7 +183,7 @@ export class QuizzesService {
    * @private
    */
   setValidatorsForQuestions(quizForm : FormGroup) {
-    const questionsArray = quizForm.get('questions') as FormArray;
+    const questionsArray = quizForm.get('questions') as FormArray
     questionsArray.setValidators([
       QuizValidators.atLeastOneCorrectAnswer(),
       QuizValidators.quizHasQuestionsValidator(),
@@ -193,15 +191,14 @@ export class QuizzesService {
     ])
 
     questionsArray.controls.forEach((questionControl) => {
-      questionControl.get('question')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
+      questionControl.get('question')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)])
     })
 
     questionsArray.controls.forEach((questionControl) => {
-      this.setValidatorsForAnswers(questionControl);
+      this.setValidatorsForAnswers(questionControl)
     })
 
     questionsArray.updateValueAndValidity()
-
   }
 
   /**
@@ -210,7 +207,7 @@ export class QuizzesService {
    * @private
    */
    setValidatorsForAnswers(questionControl: any) {
-    const answersArray = questionControl.get('answers') as FormArray;
+    const answersArray = questionControl.get('answers') as FormArray
     answersArray.setValidators([
       QuizValidators.uniqueAnswersValidator()
     ])
@@ -218,7 +215,7 @@ export class QuizzesService {
     answersArray.updateValueAndValidity()
 
     answersArray.controls.forEach((answersControl) => {
-      answersControl.get('answer')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)]);
+      answersControl.get('answer')?.setValidators([Validators.required, Validators.minLength(1), Validators.maxLength(500)])
     })
 
     answersArray.updateValueAndValidity()

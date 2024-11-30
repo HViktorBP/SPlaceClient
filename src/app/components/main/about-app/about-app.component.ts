@@ -32,5 +32,5 @@ export class AboutAppComponent {
   /**
    * Description: Reference to the component that will be opened in dialog
    */
-  readonly dialogRef = inject(MatDialogRef<AboutAppComponent>);
+  readonly dialogRef = inject(MatDialogRef<AboutAppComponent>)
 }

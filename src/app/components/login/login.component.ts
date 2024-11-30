@@ -15,7 +15,6 @@ import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-
 /**
  * LoginComponent is responsible for handling the logging in into the application.
  */
-
 @Component({
   selector: 'app-login',
   standalone: true,

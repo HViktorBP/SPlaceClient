@@ -20,7 +20,7 @@ describe('GlobalErrorHandlerService', () => {
       providers: [
         GlobalErrorHandlerService,
         { provide: NgToastService, useValue: toastSpy },
-        { provide: NgZone, useClass: MockNgZone }, // Provide the mocked version here
+        { provide: NgZone, useClass: MockNgZone },
       ],
     });
 

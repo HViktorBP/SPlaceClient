@@ -81,12 +81,12 @@ describe('ChangeRoleComponent', () => {
   it('should initialize the form correctly', () => {
     expect(component.changeRoleForm).toBeDefined();
     expect(component.changeRoleForm.get('userName')?.value).toBe('');
-    expect(component.changeRoleForm.get('userRole')?.value).toBe(3); // Default role is Participant
+    expect(component.changeRoleForm.get('userRole')?.value).toBe(3);
   });
 
   it('should show validation errors for invalid username', fakeAsync(() => {
     const userNameInput = component.changeRoleForm.get('userName');
-    userNameInput?.setValue(''); // Set to empty to trigger validation
+    userNameInput?.setValue('');
     userNameInput?.markAsTouched();
     fixture.detectChanges();
     tick();
@@ -98,26 +98,23 @@ describe('ChangeRoleComponent', () => {
 
   it('should enable the "Change" button only when the form is valid', fakeAsync(() => {
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(changeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set valid form values
     component.changeRoleForm.get('userName')?.setValue('ValidUser');
     component.changeRoleForm.get('userRole')?.setValue(1);
     fixture.detectChanges();
     tick();
 
-    expect(changeButton.nativeElement.disabled).toBeFalsy(); // Should now be enabled
+    expect(changeButton.nativeElement.disabled).toBeFalsy();
   }));
 
   it('should call GroupsService.changeRole on form submit', fakeAsync(() => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'changeRole').and.callThrough();
 
-    // Set valid form values
     component.changeRoleForm.get('userName')?.setValue('ValidUser');
     component.changeRoleForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -125,11 +122,9 @@ describe('ChangeRoleComponent', () => {
   }));
 
   it('should close the dialog after changing role successfully', fakeAsync(() => {
-    // Set valid form values
     component.changeRoleForm.get('userName')?.setValue('ValidUser');
     component.changeRoleForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -140,11 +135,9 @@ describe('ChangeRoleComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'success').and.callThrough();
 
-    // Set valid form values
     component.changeRoleForm.get('userName')?.setValue('ValidUser');
     component.changeRoleForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 

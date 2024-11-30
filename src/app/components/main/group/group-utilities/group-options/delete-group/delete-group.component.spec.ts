@@ -82,7 +82,6 @@ describe('DeleteGroupComponent', () => {
   it('should call onSubmit() when the "Delete" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Find the delete button and click it
     const deleteButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     deleteButton.nativeElement.click();
     tick();
@@ -91,7 +90,6 @@ describe('DeleteGroupComponent', () => {
   }));
 
   it('should close the dialog on cancel button click', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -103,7 +101,6 @@ describe('DeleteGroupComponent', () => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'deleteGroup').and.callThrough();
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -115,7 +112,6 @@ describe('DeleteGroupComponent', () => {
     spyOn(userDataService, 'updateCreatedQuizzesData').and.callThrough();
     spyOn(userDataService, 'updateCreatedGroupData').and.callThrough();
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -124,7 +120,6 @@ describe('DeleteGroupComponent', () => {
   }));
 
   it('should close the dialog after deleting the group', fakeAsync(() => {
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 

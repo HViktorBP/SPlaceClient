@@ -7,14 +7,12 @@ import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import createSpyObj = jasmine.createSpyObj;
-
 import { NgToastService } from 'ng-angular-popup';
 import {CreateGroupComponent} from "./create-group/create-group.component";
 import {UserAccount} from "../../data-transferring/dtos/user/user-account";
 import {AboutAppComponent} from "./about-app/about-app.component";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-let toastSpy: jasmine.SpyObj<NgToastService>;
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -23,6 +21,7 @@ describe('MainComponent', () => {
   let userDataServiceSpy: jasmine.SpyObj<UserDataService>;
   let dialogSpy: jasmine.SpyObj<MatDialog>;
   let activatedRouteSpy: jasmine.SpyObj<ActivatedRoute>;
+  let toastSpy: jasmine.SpyObj<NgToastService>;
 
   beforeEach(async () => {
     toastSpy = createSpyObj('NgToastService', ['info', 'error', 'success']);

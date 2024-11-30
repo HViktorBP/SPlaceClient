@@ -188,7 +188,7 @@ export class UsersService {
 
     const decodedJwt = this.decodeJwtToken(token)
     if (decodedJwt.exp !== undefined)
-      isTokenExpired = Date.now() >= decodedJwt.exp * 1000;
+      isTokenExpired = Date.now() >= decodedJwt.exp * 1000
 
     if (isTokenExpired)
       this.logOut()

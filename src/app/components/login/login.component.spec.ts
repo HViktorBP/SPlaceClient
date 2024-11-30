@@ -41,7 +41,7 @@ describe('LoginComponent', () => {
         { provide: Router, useClass: MockRouter },
         { provide: NgToastService, useClass: MockToastService },
       ],
-      schemas: [NO_ERRORS_SCHEMA], // Ignore Angular Material elements
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 

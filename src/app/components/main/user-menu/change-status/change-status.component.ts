@@ -95,12 +95,15 @@ export class ChangeStatusComponent implements CustomPopUpForm {
       )
       .subscribe({
         next : () => {
-          this.applicationHub.changeStatus().then(
-            () => {
-              this.toast.success({detail:"Success", summary: 'Status updated', duration:3000})
+          this.applicationHub
+            .changeStatus()
+            .then(() => {
+                this.toast.success({detail:"Success", summary: 'Status updated', duration:3000})
+              }
+            )
+            .finally(() => {
               this.dialogRef.close()
-            }
-          )
+            })
         }
       })
   }

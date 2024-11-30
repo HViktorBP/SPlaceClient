@@ -107,9 +107,11 @@ export class RenameGroupComponent implements CustomPopUpForm {
             .then(
               () => {
                 this.toast.info({detail:"Info", summary: 'Group renamed successfully!', duration:3000,})
-                this.dialogRef.close()
               }
             )
+            .finally(() => {
+              this.dialogRef.close()
+            })
         }
       })
   }

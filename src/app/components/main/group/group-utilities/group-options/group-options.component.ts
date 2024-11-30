@@ -42,18 +42,18 @@ export class GroupOptionsComponent{
   /**
    * Description: variable to work with MatDialogs
    */
-  readonly dialog = inject(MatDialog);
+  readonly dialog = inject(MatDialog)
 
   /**
    * Description: user's role
    */
-  @Input()role!: Role;
+  @Input()role!: Role
 
   /**
    * Description: roles in the group
    * @protected
    */
-  protected readonly Role = Role;
+  protected readonly Role = Role
 
   /**
    * Description: Method onAddUser opens an AddUserComponent in MatDialog

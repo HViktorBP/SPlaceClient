@@ -10,7 +10,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { of, } from 'rxjs';
 
-// Mock services
 class MockGroupsService {
   createGroup() {
     return of({});

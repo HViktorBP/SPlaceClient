@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import {QuizzesService} from "../../../../../../services/quizzes.service";
 import {UsersService} from "../../../../../../services/users.service"; // Add HttpClientModule import to provide HttpClient
 
-// Mock QuizzesService
 class MockQuizzesService {
   setValidatorsForQuestions(form: any) {
   }
@@ -22,10 +21,9 @@ class MockQuizzesService {
   }
 }
 
-// Mock UsersService
 class MockUsersService {
   getUserId() {
-    return 1; // Mock return value
+    return 1;
   }
 }
 
@@ -40,20 +38,20 @@ describe('CreateQuizComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MatDialogModule,
-        NoopAnimationsModule, // To disable animations during testing
+        NoopAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
         MatRadioModule,
         MatCheckboxModule,
         MatButtonModule,
         MatIconModule,
-        HttpClientModule, // Provide HttpClient for dependent services
+        HttpClientModule,
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },
-        { provide: QuizzesService, useClass: MockQuizzesService }, // Provide mock `QuizzesService`
-        { provide: UsersService, useClass: MockUsersService }, // Provide mock `UsersService`
-        { provide: MAT_DIALOG_DATA, useValue: {} }, // Provide empty data for `MAT_DIALOG_DATA`
+        { provide: QuizzesService, useClass: MockQuizzesService },
+        { provide: UsersService, useClass: MockUsersService },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
       ],
     }).compileComponents();
 
@@ -68,38 +66,32 @@ describe('CreateQuizComponent', () => {
 
   it('should initialize the form correctly', () => {
     expect(component.quizForm).toBeDefined();
-    expect(component.questions.length).toBe(1); // Initially, no questions should be present
+    expect(component.questions.length).toBe(1);
   });
 
   it('should add a question to the form', fakeAsync(() => {
     fixture.detectChanges();
-    tick(); // Simulate the passage of time
+    tick();
 
-    // Verify that a question has been added to the form array
     expect(component.questions.length).toBe(1);
 
-    // Check if the question appears in the DOM
     const questionInputs = fixture.debugElement.queryAll(By.css('input[formControlName="question"]'));
     expect(questionInputs.length).toBe(1);
     expect(questionInputs[0].nativeElement.placeholder).toBe('Enter question');
   }));
 
   it('should add answers to a question', fakeAsync(() => {
-    // Add a question first
     component.addQuestion();
     fixture.detectChanges();
     tick();
 
-    // Now add answers to that question
-    component.addAnswer(0); // Add second answer to question at index 0
+    component.addAnswer(0);
     fixture.detectChanges();
     tick();
 
-    // Verify that two answers have been added to the first question
     const answersArray = component.getAnswers(0);
     expect(answersArray.length).toBe(2);
 
-    // Check if the answers appear in the DOM
     const answerInputs = fixture.debugElement.queryAll(By.css('input[formControlName="answer"]'));
     expect(answerInputs.length).toBe(3);
     expect(answerInputs[0].nativeElement.placeholder).toBe('Enter answer');
@@ -116,16 +108,15 @@ describe('CreateQuizComponent', () => {
 
   it('should disable "Save Quiz" button when form is invalid', fakeAsync(() => {
     const saveButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(saveButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(saveButton.nativeElement.disabled).toBeTruthy();
 
-    // Make the form valid by adding quiz name and a question
     component.quizForm.get('name')?.setValue('Sample Quiz');
     component.questions.at(0).get('question')?.setValue('Question 1')
-    component.getAnswers(0).at(0)?.get('answer')?.setValue('Answer 1'); // Set answer to ensure it's not empty
+    component.getAnswers(0).at(0)?.get('answer')?.setValue('Answer 1');
     component.getAnswers(0).at(0)?.get('status')?.setValue('true');
     fixture.detectChanges();
     tick();
 
-    expect(saveButton.nativeElement.disabled).toBeFalsy(); // Should now be enabled
+    expect(saveButton.nativeElement.disabled).toBeFalsy();
   }));
 });

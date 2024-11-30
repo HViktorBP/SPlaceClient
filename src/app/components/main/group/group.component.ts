@@ -5,7 +5,7 @@ import {ParticipantsComponent} from "./group-utilities/group-tabs/participants/p
 import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
 import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
 import {ActivatedRoute, RouterOutlet} from "@angular/router";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {GroupsService} from "../../../services/groups.service";
 import {GroupDataService} from "../../../services/states/group-data.service";
 import {UsersService} from "../../../services/users.service";
@@ -35,7 +35,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 })
 
 export class GroupComponent implements OnInit, OnDestroy{
-  routeSubscription: Subscription | undefined; // Define routeSubscription with possible undefined value
+  routeSubscription !: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,25 +53,31 @@ export class GroupComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe(); // Unsubscribe if defined
+      this.routeSubscription.unsubscribe();
     }
   }
 
   private loadGroupData(groupId: number) {
-    // Method to load group data (simplified version)
-    this.groupsService.getGroup(groupId).subscribe(group => {
-      this.groupDataService.updateUserCurrentGroupId(groupId);
-      this.groupDataService.updateGroupName(group.name);
-      this.groupDataService.updateUserCount(group.users.length);
-      this.groupDataService.updateUsersList(group.users);
-      this.groupDataService.updateQuizzesList(group.quizzes);
-      this.groupDataService.updateGroupMessages(group.messages);
-      this.groupDataService.updateGroupScores(group.scores);
-    });
+    this.groupsService.getGroup(groupId)
+      .pipe(
+        take(1)
+      )
+      .subscribe(group => {
+        this.groupDataService.updateUserCurrentGroupId(groupId);
+        this.groupDataService.updateGroupName(group.name);
+        this.groupDataService.updateUserCount(group.users.length);
+        this.groupDataService.updateUsersList(group.users);
+        this.groupDataService.updateQuizzesList(group.quizzes);
+        this.groupDataService.updateGroupMessages(group.messages);
+        this.groupDataService.updateGroupScores(group.scores);
+      });
 
-    const userId = this.usersService.getUserId();
-    this.groupsService.getRole(userId, groupId).subscribe(role => {
-      this.groupDataService.updateUserRole(role);
-    });
+    this.groupsService.getRole(this.usersService.getUserId(), groupId)
+      .pipe(
+        take(1)
+      )
+      .subscribe(role => {
+        this.groupDataService.updateUserRole(role);
+      });
   }
 }

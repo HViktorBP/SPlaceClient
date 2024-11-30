@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import {RouterLink} from "@angular/router";
 
-// Mock UserDataService
 class MockUserDataService {
   createdQuizzesAsync = of([
     { name: 'Angular Basics', id: 1, groupId: 10 },
@@ -32,7 +31,7 @@ describe('CreatedQuizzesComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        CreatedQuizzesComponent, // Import the standalone component directly
+        CreatedQuizzesComponent,
         AsyncPipe,
         FaIconComponent,
         NgForOf,
@@ -43,7 +42,7 @@ describe('CreatedQuizzesComponent', () => {
         MatList,
         MatListItem,
         MatIcon,
-        RouterTestingModule // Needed for RouterLink to work properly
+        RouterTestingModule
       ],
       providers: [
         { provide: UserDataService, useValue: mockUserDataService }
@@ -54,7 +53,7 @@ describe('CreatedQuizzesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreatedQuizzesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -63,30 +62,25 @@ describe('CreatedQuizzesComponent', () => {
 
   it('should display the quizzes created by the user', waitForAsync(() => {
     fixture.whenStable().then(() => {
-      fixture.detectChanges(); // Trigger change detection after data has arrived
+      fixture.detectChanges();
 
-      // Log the HTML for debugging
       console.log(fixture.nativeElement.innerHTML);
 
-      // Query the mat-card element
       const matCard: DebugElement = fixture.debugElement.query(By.css('mat-card'));
-      expect(matCard).toBeTruthy(); // Check that the mat-card exists
+      expect(matCard).toBeTruthy();
 
-      // Query the list items within the mat-card
       const listItems: DebugElement[] = matCard.queryAll(By.css('mat-list-item'));
-      expect(listItems.length).toBe(2); // Expect two list items for two quizzes
+      expect(listItems.length).toBe(2);
 
-      // Check the content of the first list item
       const firstListItem = listItems[0];
       const firstLink = firstListItem.query(By.css('a[matLine]'));
-      expect(firstLink).toBeTruthy(); // Check if <a> tag exists
+      expect(firstLink).toBeTruthy();
       expect(firstLink.nativeElement.textContent).toContain('Angular Basics');
       expect(firstLink.attributes['ng-reflect-router-link']?.toString().split(',').join('/')).toContain('/main/group/10/quiz/1');
 
-      // Check the content of the second list item
       const secondListItem = listItems[1];
       const secondLink = secondListItem.query(By.css('a[matLine]'));
-      expect(secondLink).toBeTruthy(); // Check if <a> tag exists
+      expect(secondLink).toBeTruthy();
       expect(secondLink.nativeElement.textContent).toContain('Testing in Angular');
       expect(secondLink.attributes['ng-reflect-router-link']?.toString().split(',').join('/')).toContain('/main/group/20/quiz/2');
     });

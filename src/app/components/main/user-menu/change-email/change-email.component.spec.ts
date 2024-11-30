@@ -63,21 +63,18 @@ describe('ChangeEmailComponent', () => {
 
   it('should disable the "Change" button when the form is invalid', () => {
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(changeButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(changeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set an invalid value
     component.newEmailForm.get('newEmail')?.setValue('');
     fixture.detectChanges();
-    expect(changeButton.nativeElement.disabled).toBeTruthy(); // Should still be disabled
+    expect(changeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set a valid value
     component.newEmailForm.get('newEmail')?.setValue('test@example.com');
     fixture.detectChanges();
-    expect(changeButton.nativeElement.disabled).toBeFalsy(); // Should be enabled now
+    expect(changeButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should close the dialog when the "Cancel" button is clicked', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -88,11 +85,9 @@ describe('ChangeEmailComponent', () => {
   it('should call onSubmit() when the "Change" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Set a valid email to make the form valid
     component.newEmailForm.get('newEmail')?.setValue('test@example.com');
     fixture.detectChanges();
 
-    // Find the change button and click it
     const changeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     changeButton.nativeElement.click();
     tick();
@@ -104,10 +99,8 @@ describe('ChangeEmailComponent', () => {
     const userService = TestBed.inject(UsersService);
     spyOn(userService, 'changeEmail').and.callThrough();
 
-    // Set a valid value for the form
     component.newEmailForm.get('newEmail')?.setValue('test@example.com');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -118,10 +111,8 @@ describe('ChangeEmailComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'success');
 
-    // Set a valid value for the form
     component.newEmailForm.get('newEmail')?.setValue('test@example.com');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -129,10 +120,8 @@ describe('ChangeEmailComponent', () => {
   }));
 
   it('should close the dialog after successful email change', fakeAsync(() => {
-    // Set a valid value for the form
     component.newEmailForm.get('newEmail')?.setValue('test@example.com');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 

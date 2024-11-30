@@ -82,21 +82,18 @@ describe('RemoveUserComponent', () => {
 
   it('should disable the "Remove" button when the form is invalid', () => {
     const removeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(removeButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(removeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set an invalid value
     component.removeUserForm.get('userName')?.setValue('');
     fixture.detectChanges();
-    expect(removeButton.nativeElement.disabled).toBeTruthy(); // Should still be disabled
+    expect(removeButton.nativeElement.disabled).toBeTruthy();
 
-    // Set a valid value
     component.removeUserForm.get('userName')?.setValue('Valid User');
     fixture.detectChanges();
-    expect(removeButton.nativeElement.disabled).toBeFalsy(); // Should be enabled now
+    expect(removeButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should close the dialog when the "Cancel" button is clicked', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -107,11 +104,9 @@ describe('RemoveUserComponent', () => {
   it('should call onSubmit() when the "Remove" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Set a valid userName to make the form valid
     component.removeUserForm.get('userName')?.setValue('Valid User');
     fixture.detectChanges();
 
-    // Find the remove button and click it
     const removeButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     removeButton.nativeElement.click();
     tick();
@@ -123,10 +118,8 @@ describe('RemoveUserComponent', () => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'removeUser').and.callThrough();
 
-    // Set a valid value for the form
     component.removeUserForm.get('userName')?.setValue('Valid User');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -137,10 +130,8 @@ describe('RemoveUserComponent', () => {
     const applicationHubService = TestBed.inject(ApplicationHubService);
     spyOn(applicationHubService, 'removeUser').and.callThrough();
 
-    // Set a valid value for the form
     component.removeUserForm.get('userName')?.setValue('Valid User');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -148,10 +139,8 @@ describe('RemoveUserComponent', () => {
   }));
 
   it('should close the dialog after successful removal', fakeAsync(() => {
-    // Set a valid value for the form
     component.removeUserForm.get('userName')?.setValue('Valid User');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -162,10 +151,8 @@ describe('RemoveUserComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'success');
 
-    // Set a valid value for the form
     component.removeUserForm.get('userName')?.setValue('Valid User');
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 

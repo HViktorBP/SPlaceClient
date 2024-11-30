@@ -8,13 +8,11 @@ import { ApplicationHubService } from '../../../../services/application-hub.serv
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'; // <-- Add this import
 
-// Mock Services
 class MockGroupDataService {
   userRoleAsync = new BehaviorSubject<Role>(Role.Administrator);
 }
 
 class MockApplicationHubService {
-  // Add any necessary mock methods or properties
 }
 
 describe('GroupUtilitiesComponent', () => {
@@ -27,13 +25,13 @@ describe('GroupUtilitiesComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        GroupUtilitiesComponent, // Import the standalone component directly
-        HttpClientModule,        // Import HttpClientModule to provide HttpClient dependency
-        NoopAnimationsModule     // Import NoopAnimationsModule to handle animations in the test environment
+        GroupUtilitiesComponent,
+        HttpClientModule,
+        NoopAnimationsModule
       ],
       providers: [
         { provide: GroupDataService, useValue: mockGroupDataService },
-        { provide: ApplicationHubService, useClass: MockApplicationHubService } // Provide a mock ApplicationHubService
+        { provide: ApplicationHubService, useClass: MockApplicationHubService }
       ]
     }).compileComponents();
   }));
@@ -41,11 +39,11 @@ describe('GroupUtilitiesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupUtilitiesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger change detection to apply template logic
+    fixture.detectChanges();
   });
 
   afterEach(() => {
-    mockGroupDataService.userRoleAsync.complete(); // Complete the subject after each test
+    mockGroupDataService.userRoleAsync.complete();
   });
 
   it('should create', () => {
@@ -65,19 +63,15 @@ describe('GroupUtilitiesComponent', () => {
   });
 
   it('should pass the correct role to GroupOptionsComponent and QuizListComponent', () => {
-    // Set user role to Administrator through the mocked service.
     mockGroupDataService.userRoleAsync.next(Role.Administrator);
     fixture.detectChanges();
 
-    // Find child components in the template.
     const groupOptionsDebugElement = fixture.debugElement.query(By.css('app-group-options'));
     const quizListDebugElement = fixture.debugElement.query(By.css('app-quiz-list'));
 
-    // Ensure that both components exist.
     expect(groupOptionsDebugElement).toBeTruthy();
     expect(quizListDebugElement).toBeTruthy();
 
-    // Access the component instance to verify the role input value.
     const groupOptionsComponent = groupOptionsDebugElement.componentInstance;
     const quizListComponent = quizListDebugElement.componentInstance;
 

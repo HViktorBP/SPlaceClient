@@ -107,7 +107,6 @@ describe('LeaveGroupComponent', () => {
   it('should call onSubmit() when the "Leave" button is clicked', fakeAsync(() => {
     spyOn(component, 'onSubmit').and.callThrough();
 
-    // Find the leave button and click it
     const leaveButton = fixture.debugElement.query(By.css('button[type="submit"]'));
     leaveButton.nativeElement.click();
     tick();
@@ -116,7 +115,6 @@ describe('LeaveGroupComponent', () => {
   }));
 
   it('should close the dialog when the "Cancel" button is clicked', fakeAsync(() => {
-    // Find the cancel button and click it
     const cancelButton = fixture.debugElement.query(By.css('button[type="button"]'));
     cancelButton.nativeElement.click();
     tick();
@@ -128,7 +126,6 @@ describe('LeaveGroupComponent', () => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'leaveGroup').and.callThrough();
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -136,7 +133,6 @@ describe('LeaveGroupComponent', () => {
   }));
 
   it('should close the dialog after successfully leaving the group', fakeAsync(() => {
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -147,7 +143,6 @@ describe('LeaveGroupComponent', () => {
     const router = TestBed.inject(Router);
     spyOn(router, 'navigate').and.callThrough();
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 
@@ -158,7 +153,6 @@ describe('LeaveGroupComponent', () => {
     const applicationHubService = TestBed.inject(ApplicationHubService);
     spyOn(applicationHubService, 'deleteQuiz').and.callThrough();
 
-    // Call the onSubmit method
     component.onSubmit();
     tick();
 

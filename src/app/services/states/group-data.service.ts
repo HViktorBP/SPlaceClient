@@ -243,7 +243,7 @@ export class GroupDataService {
    * @param scores - users' scores on quizzes.
    */
   updateGroupScores(scores : QuizScores[]) : void {
-    this.groupScoresSubject.next(scores);
+    this.groupScoresSubject.next(scores)
   }
 
   /**

@@ -7,9 +7,6 @@ import { DeleteQuizRequest } from '../data-transferring/contracts/quiz/delete-qu
 import { QuizDto } from '../data-transferring/dtos/quiz/quiz-dto';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-/**
- * Unit tests for QuizzesService, which manages quizzes-related operations.
- */
 describe('QuizzesService', () => {
   let service: QuizzesService;
   let httpMock: HttpTestingController;
@@ -179,12 +176,11 @@ describe('QuizzesService', () => {
     service.processQuizBeforeSubmit(formArray);
 
     const question = formArray.at(0) as FormGroup;
-    formArray.updateValueAndValidity(); // Ensure any value/validity changes are propagated
+    formArray.updateValueAndValidity();
 
     expect(question.get('answers')?.value[1].status).toBeTrue();
 
-    // Updated assertion to check whether selectedAnswer value is properly reset
     const selectedAnswerControl = question.get('selectedAnswer');
-    expect(selectedAnswerControl?.value).toBeUndefined(); // Assert that 'selectedAnswer' has been removed
+    expect(selectedAnswerControl?.value).toBeUndefined();
   });
 });

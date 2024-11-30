@@ -53,7 +53,7 @@ describe('AddUserComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         MatDialogModule,
-        NoopAnimationsModule, // Disable animations for unit tests
+        NoopAnimationsModule,
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
@@ -83,12 +83,12 @@ describe('AddUserComponent', () => {
   it('should initialize the form correctly', () => {
     expect(component.addUserForm).toBeDefined();
     expect(component.addUserForm.get('userName')?.value).toBe('');
-    expect(component.addUserForm.get('userRole')?.value).toBe(3); // Default role is Participant
+    expect(component.addUserForm.get('userRole')?.value).toBe(3);
   });
 
   it('should show validation errors for invalid username', fakeAsync(() => {
     const userNameInput = component.addUserForm.get('userName');
-    userNameInput?.setValue(''); // Set to empty to trigger validation
+    userNameInput?.setValue('');
     userNameInput?.markAsTouched();
     fixture.detectChanges();
     tick();
@@ -100,26 +100,23 @@ describe('AddUserComponent', () => {
 
   it('should enable the "Add" button only when the form is valid', fakeAsync(() => {
     const addButton = fixture.debugElement.query(By.css('button[type="submit"]'));
-    expect(addButton.nativeElement.disabled).toBeTruthy(); // Should be disabled initially
+    expect(addButton.nativeElement.disabled).toBeTruthy();
 
-    // Set valid form values
     component.addUserForm.get('userName')?.setValue('ValidUser');
     component.addUserForm.get('userRole')?.setValue(1);
     fixture.detectChanges();
     tick();
 
-    expect(addButton.nativeElement.disabled).toBeFalsy(); // Should now be enabled
+    expect(addButton.nativeElement.disabled).toBeFalsy();
   }));
 
   it('should call GroupsService.addUser on form submit', fakeAsync(() => {
     const groupService = TestBed.inject(GroupsService);
     spyOn(groupService, 'addUser').and.callThrough();
 
-    // Set valid form values
     component.addUserForm.get('userName')?.setValue('ValidUser');
     component.addUserForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -127,11 +124,9 @@ describe('AddUserComponent', () => {
   }));
 
   it('should close the dialog after adding user successfully', fakeAsync(() => {
-    // Set valid form values
     component.addUserForm.get('userName')?.setValue('ValidUser');
     component.addUserForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 
@@ -142,11 +137,9 @@ describe('AddUserComponent', () => {
     const toastService = TestBed.inject(NgToastService);
     spyOn(toastService, 'success').and.callThrough();
 
-    // Set valid form values
     component.addUserForm.get('userName')?.setValue('ValidUser');
     component.addUserForm.get('userRole')?.setValue(1);
 
-    // Submit the form
     component.onSubmit();
     tick();
 

@@ -11,26 +11,25 @@ import { NgToastService } from 'ng-angular-popup';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-// Mock Services
 class MockQuizzesService {
   deleteQuiz() {
-    return of(null); // Mocked response for delete quiz
+    return of(null);
   }
 }
 
 class MockUsersService {
   getUserId() {
-    return 1; // Mocked user ID
+    return 1;
   }
 
   getUserAccount() {
-    return of({ createdQuizzes: [] }); // Mocked user account response
+    return of({ createdQuizzes: [] });
   }
 }
 
 class MockApplicationHubService {
   deleteQuiz(groupId: number, quizId: number) {
-    return Promise.resolve(); // Mock the deleteQuiz method
+    return Promise.resolve();
   }
 }
 
@@ -40,7 +39,7 @@ class MockUserDataService {
 }
 
 class MockGroupDataService {
-  currentGroupId = 1; // Mocked group ID
+  currentGroupId = 1;
 }
 
 class MockNgToastService {
@@ -50,7 +49,7 @@ class MockNgToastService {
 
 describe('DeleteQuizComponent', () => {
   let component: DeleteQuizComponent;
-  let fixture: ComponentFixture<DeleteQuizComponent>;
+  let fixture: ComponentFixture<DeleteQuizComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -101,11 +100,11 @@ describe('DeleteQuizComponent', () => {
     const deleteButton = fixture.debugElement.query(By.css('button:first-child'));
     deleteButton.nativeElement.click();
 
-    tick(); // Simulate async operations
+    tick();
 
     expect(quizzesService.deleteQuiz).toHaveBeenCalled();
     expect(usersService.getUserAccount).toHaveBeenCalled();
-    expect(applicationHubService.deleteQuiz).toHaveBeenCalledWith(1, 123); // Group ID and quiz ID
+    expect(applicationHubService.deleteQuiz).toHaveBeenCalledWith(1, 123);
     expect(toastService.success).toHaveBeenCalledWith({
       detail: 'Success',
       summary: 'Quiz deleted!',

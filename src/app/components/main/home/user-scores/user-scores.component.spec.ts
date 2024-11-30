@@ -13,7 +13,6 @@ import { QuizScores } from '../../../../data-transferring/dtos/score/quiz-scores
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-// Mock UserDataService
 class MockUserDataService {
   userScoresAsync = of<QuizScores[]>([
     {
@@ -41,7 +40,7 @@ describe('UserScoresComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        UserScoresComponent, // Import the standalone component directly
+        UserScoresComponent,
         AsyncPipe,
         NgForOf,
         NgIf,
@@ -62,7 +61,7 @@ describe('UserScoresComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserScoresComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Trigger initial change detection
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -70,29 +69,24 @@ describe('UserScoresComponent', () => {
   });
 
   it('should display quizzes and user scores', fakeAsync(() => {
-    // Allow observable to emit data
     tick();
-    fixture.detectChanges(); // Trigger change detection after data has arrived
+    fixture.detectChanges();
 
-    // There should be one mat-card element
     const matCard: DebugElement = fixture.debugElement.query(By.css('mat-card'));
     expect(matCard).toBeTruthy();
 
-    // Check if mat-list-item elements are rendered inside the mat-card
     const listItems: DebugElement[] = matCard.queryAll(By.css('mat-list-item'));
-    expect(listItems.length).toBe(2); // Expect two list items for two quizzes
+    expect(listItems.length).toBe(2);
 
-    // Check the content of the first list item (Quiz 1)
     const firstListItem = listItems[0];
     const firstLink = firstListItem.query(By.css('a'));
-    expect(firstLink).toBeTruthy(); // Check if <a> tag exists
+    expect(firstLink).toBeTruthy();
     expect(firstLink.nativeElement.textContent).toContain('Quiz 1');
     expect(firstLink.nativeElement.textContent).toContain('3.1');
 
-    // Check the content of the second list item (Quiz 2)
     const secondListItem = listItems[1];
     const secondLink = secondListItem.query(By.css('a'));
-    expect(secondLink).toBeTruthy(); // Check if <a> tag exists
+    expect(secondLink).toBeTruthy();
     expect(secondLink.nativeElement.textContent).toContain('Quiz 2');
     expect(secondLink.nativeElement.textContent).toContain('8.4');
   }));
