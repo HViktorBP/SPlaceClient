@@ -97,7 +97,7 @@ describe('MessageComponent', () => {
   it('should enable edit mode when edit button is clicked', () => {
     spyOn(component, 'showEdit').and.callThrough();
 
-    const editButton = fixture.debugElement.query(By.css('.edit-btn')).nativeElement;
+    const editButton = fixture.debugElement.query(By.css('.edit-button')).nativeElement;
     editButton.click();
 
     fixture.detectChanges();
@@ -113,7 +113,7 @@ describe('MessageComponent', () => {
 
     spyOn(component, 'cancelEdit').and.callThrough();
 
-    const cancelButton = fixture.debugElement.query(By.css('.cancel-btn')).nativeElement;
+    const cancelButton = fixture.debugElement.query(By.css('.cancel-button')).nativeElement;
     cancelButton.click();
 
     fixture.detectChanges();
@@ -131,7 +131,7 @@ describe('MessageComponent', () => {
     component.editableMessage = 'Updated Message';
     fixture.detectChanges();
 
-    const saveButton = fixture.debugElement.query(By.css('.edit-btn')).nativeElement;
+    const saveButton = fixture.debugElement.query(By.css('.edit-button')).nativeElement;
     saveButton.click();
 
     fixture.whenStable().then(() => {
@@ -150,7 +150,7 @@ describe('MessageComponent', () => {
   it('should open delete confirmation dialog when delete button is clicked', () => {
     spyOn(mockMatDialog, 'open').and.callThrough();
 
-    const deleteButton = fixture.debugElement.query(By.css('.delete-btn')).nativeElement;
+    const deleteButton = fixture.debugElement.query(By.css('.delete-button')).nativeElement;
     deleteButton.click();
 
     fixture.detectChanges();
