@@ -1,11 +1,12 @@
-import { TestBed } from '@angular/core/testing';
-import { QuizzesService } from './quizzes.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { environment } from '../../environments/environment';
-import { SubmitQuizRequest } from '../data-transferring/contracts/quiz/submit-quiz-request';
-import { DeleteQuizRequest } from '../data-transferring/contracts/quiz/delete-quiz-request';
-import { QuizDto } from '../data-transferring/dtos/quiz/quiz-dto';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {TestBed} from '@angular/core/testing';
+import {QuizzesService} from './quizzes.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {environment} from '../../environments/environment';
+import {SubmitQuizRequest} from '../data-transferring/contracts/quiz/submit-quiz-request';
+import {DeleteQuizRequest} from '../data-transferring/contracts/quiz/delete-quiz-request';
+import {QuizDto} from '../data-transferring/dtos/quiz/quiz-dto';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Question} from "../data-transferring/enums/question";
 
 describe('QuizzesService', () => {
   let service: QuizzesService;
@@ -75,7 +76,16 @@ describe('QuizzesService', () => {
         id: 1,
         groupId: 1,
         name: 'New Quiz',
-        questions: []
+        questions: [{
+          id: 1,
+          question : 'New Question',
+          type : Question.SingleAnswer,
+          answers: [{
+            id: 1,
+            answer: 'New answer',
+            status: true
+          }]
+        }]
       }
     };
     const mockResponse = { message: 'Quiz created successfully' };
