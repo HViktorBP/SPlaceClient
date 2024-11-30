@@ -35,7 +35,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 })
 
 export class GroupComponent implements OnInit, OnDestroy{
-  routeSubscription !: Subscription;
+  routeSubscription !: Subscription
 
   constructor(
     private route: ActivatedRoute,
@@ -46,15 +46,16 @@ export class GroupComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe(params => {
-      const groupId = +params['groupId'];
-      this.loadGroupData(groupId);
-    });
+      const groupId = +params['groupId']
+      this.loadGroupData(groupId)
+    })
   }
 
   ngOnDestroy(): void {
     if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
+      this.routeSubscription.unsubscribe()
     }
+    this.groupDataService.updateUserCurrentGroupId(0)
   }
 
   private loadGroupData(groupId: number) {
@@ -63,13 +64,13 @@ export class GroupComponent implements OnInit, OnDestroy{
         take(1)
       )
       .subscribe(group => {
-        this.groupDataService.updateUserCurrentGroupId(groupId);
-        this.groupDataService.updateGroupName(group.name);
-        this.groupDataService.updateUserCount(group.users.length);
-        this.groupDataService.updateUsersList(group.users);
-        this.groupDataService.updateQuizzesList(group.quizzes);
-        this.groupDataService.updateGroupMessages(group.messages);
-        this.groupDataService.updateGroupScores(group.scores);
+        this.groupDataService.updateUserCurrentGroupId(groupId)
+        this.groupDataService.updateGroupName(group.name)
+        this.groupDataService.updateUserCount(group.users.length)
+        this.groupDataService.updateUsersList(group.users)
+        this.groupDataService.updateQuizzesList(group.quizzes)
+        this.groupDataService.updateGroupMessages(group.messages)
+        this.groupDataService.updateGroupScores(group.scores)
       });
 
     this.groupsService.getRole(this.usersService.getUserId(), groupId)
@@ -77,7 +78,7 @@ export class GroupComponent implements OnInit, OnDestroy{
         take(1)
       )
       .subscribe(role => {
-        this.groupDataService.updateUserRole(role);
-      });
+        this.groupDataService.updateUserRole(role)
+      })
   }
 }
