@@ -132,6 +132,7 @@ export class ApplicationHubService {
             take(1),
             tap(group => {
               this.groupDataService.updateGroupScores(group.scores)
+              this.groupDataService.updateQuizzesList(group.quizzes)
             }),
             catchError(err => {
               return throwError(() => err)

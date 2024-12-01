@@ -20,6 +20,9 @@
              [(ngModel)]="inputMessage"
              type="text"
              placeholder="Type a message" />
+      <mat-error *ngIf="inputMessage.trim().length > 1200">
+        Message is too long.
+      </mat-error>
       <button [disabled]="inputMessage.trim().length < 1 || inputMessage.trim().length > 1200"
               (click)="sendMessage()" class="message_send_btn" type="button">
         <p>Send</p>

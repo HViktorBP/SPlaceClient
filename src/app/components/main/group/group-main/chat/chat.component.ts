@@ -13,6 +13,7 @@ import {ApplicationHubService} from "../../../../../services/application-hub.ser
 import {SaveMessageRequest} from "../../../../../data-transferring/contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
 import {catchError, Subscription, take, throwError} from "rxjs";
+import {MatError} from "@angular/material/form-field";
 
 /**
  * ChatComponent responsible for chat's UI
@@ -20,16 +21,17 @@ import {catchError, Subscription, take, throwError} from "rxjs";
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    DatePipe,
-    NgForOf,
-    NgIf,
-    NgOptimizedImage,
-    NgClass,
-    FormsModule,
-    MessageComponent
-  ],
+    imports: [
+        AsyncPipe,
+        DatePipe,
+        NgForOf,
+        NgIf,
+        NgOptimizedImage,
+        NgClass,
+        FormsModule,
+        MessageComponent,
+        MatError
+    ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })

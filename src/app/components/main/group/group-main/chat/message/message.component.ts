@@ -11,6 +11,7 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmMessageDeleteComponent} from "./confirm-message-delete/confirm-message-delete.component";
+import {MatError} from "@angular/material/form-field";
 
 /**
  * MessageComponent is responsible for handling messages' UI.
@@ -24,7 +25,8 @@ import {ConfirmMessageDeleteComponent} from "./confirm-message-delete/confirm-me
     FormsModule,
     MatIconButton,
     MatIcon,
-    MatButton
+    MatButton,
+    MatError
   ],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'

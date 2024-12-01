@@ -7,7 +7,11 @@
       <input matInput
              formControlName="name"
              placeholder="Enter quiz name">
+      <mat-error *ngIf="quizForm.get('name')?.invalid && quizForm.get('name')?.touched">
+        Name of the quiz must contain at least 3 characters and maximum 30.
+      </mat-error>
     </mat-form-field>
+
 
     <div formArrayName="questions">
       <mat-error *ngIf="questions.hasError('atLeastOneCorrect')">
@@ -25,6 +29,9 @@
           <input matInput
                  formControlName="question"
                  placeholder="Enter question">
+          <mat-error *ngIf="question.invalid">
+            Question must contain up to 500 characters.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -48,6 +55,9 @@
                   <input matInput
                          formControlName="answer"
                          placeholder="Enter answer">
+                  <mat-error *ngIf="answer.invalid">
+                    Answer must contain up to 500 characters.
+                  </mat-error>
                 </mat-form-field>
 
                 <mat-radio-button
@@ -82,6 +92,9 @@
                 <input matInput
                        formControlName="answer"
                        placeholder="Enter answer">
+                <mat-error *ngIf="answer.invalid">
+                  Answer must contain up to 500 characters.
+                </mat-error>
               </mat-form-field>
               <mat-checkbox formControlName="status">Correct Answer</mat-checkbox>
               <button mat-icon-button
