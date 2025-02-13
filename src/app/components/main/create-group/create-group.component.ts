@@ -4,7 +4,7 @@ import {UsersService} from "../../../services/users.service";
 import {CreateGroupRequest} from "../../../data-transferring/contracts/group/create-group-request";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
+import {catchError, finalize, switchMap, tap, throwError} from "rxjs";
 import {UserDataService} from "../../../services/states/user-data.service";
 import {ApplicationHubService} from "../../../services/application-hub.service";
 import {MatButton} from "@angular/material/button";

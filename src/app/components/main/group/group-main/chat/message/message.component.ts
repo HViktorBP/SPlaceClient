@@ -5,7 +5,7 @@ import {UsersService} from "../../../../../../services/users.service";
 import {MessageDto} from "../../../../../../data-transferring/dtos/message/message-dto";
 import {NgToastService} from "ng-angular-popup";
 import {FormsModule} from "@angular/forms";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";

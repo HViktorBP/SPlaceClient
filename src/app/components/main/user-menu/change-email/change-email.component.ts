@@ -7,7 +7,7 @@ import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
 import {UsersService} from "../../../../services/users.service";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {ChangeEmailRequest} from "../../../../data-transferring/contracts/user/change-email-request";
 

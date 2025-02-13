@@ -1,7 +1,7 @@
 import {Component, Inject, inject} from '@angular/core';
 import {MessagesService} from "../../../../../../../services/messages.service";
 import {DeleteMessageRequest} from "../../../../../../../data-transferring/contracts/message/delete-message-request";
-import {catchError, take, throwError} from "rxjs";
+import {catchError, throwError} from "rxjs";
 import {FormsModule} from "@angular/forms";
 import {MatButton} from "@angular/material/button";
 import {

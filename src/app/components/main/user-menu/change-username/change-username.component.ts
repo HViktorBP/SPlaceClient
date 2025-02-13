@@ -9,7 +9,7 @@ import {
   Validators
 } from "@angular/forms";
 import {ChangeUsernameRequest} from "../../../../data-transferring/contracts/user/change-username-request";
-import {catchError, finalize, take, tap, throwError} from "rxjs";
+import {catchError, finalize, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {
   MatDialogActions,

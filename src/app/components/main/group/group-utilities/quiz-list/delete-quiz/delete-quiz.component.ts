@@ -8,7 +8,7 @@ import {
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {DeleteQuizRequest} from "../../../../../../data-transferring/contracts/quiz/delete-quiz-request";
-import {switchMap, take, tap} from "rxjs";
+import {switchMap, tap} from "rxjs";
 import {UsersService} from "../../../../../../services/users.service";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {UserDataService} from "../../../../../../services/states/user-data.service";

@@ -6,7 +6,7 @@ import {
 import {QuizzesService} from "../../../../../services/quizzes.service";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {catchError, Subscription, switchMap, take, tap, throwError} from "rxjs";
+import {catchError, Subscription, switchMap, tap, throwError} from "rxjs";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";

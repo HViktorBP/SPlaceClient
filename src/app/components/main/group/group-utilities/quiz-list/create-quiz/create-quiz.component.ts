@@ -17,7 +17,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {QuizzesService} from "../../../../../../services/quizzes.service";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {UsersService} from "../../../../../../services/users.service";
-import {catchError, finalize, switchMap, take, tap, throwError} from "rxjs";
+import {catchError, finalize, switchMap, tap, throwError} from "rxjs";
 import {NgToastService} from "ng-angular-popup";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";

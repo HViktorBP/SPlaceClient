@@ -8,7 +8,7 @@ import {NgToastService} from "ng-angular-popup";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserGroupRequest} from "../../../../../../data-transferring/contracts/group/user-group-request";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
-import {catchError, switchMap, take, tap, throwError} from "rxjs";
+import {catchError, switchMap, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {UserDataService} from "../../../../../../services/states/user-data.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";

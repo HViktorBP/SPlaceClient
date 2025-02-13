@@ -3,7 +3,7 @@ import {UsersService} from "../../../../services/users.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
 import {ChangePasswordRequest} from "../../../../data-transferring/contracts/user/change-password-request";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";

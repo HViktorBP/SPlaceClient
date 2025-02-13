@@ -7,7 +7,7 @@ import {GroupsService} from "../../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
 import {RemoveUserRequest} from "../../../../../../data-transferring/contracts/group/remove-user-request";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";

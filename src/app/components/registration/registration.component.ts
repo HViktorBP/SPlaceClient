@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {UsersService} from "../../services/users.service";
 import {NgIf} from "@angular/common";
 import {NgToastService} from "ng-angular-popup";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";

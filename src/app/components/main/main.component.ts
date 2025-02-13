@@ -5,7 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
-import {catchError, take, throwError} from 'rxjs';
+import {catchError, throwError} from 'rxjs';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../../services/users.service";

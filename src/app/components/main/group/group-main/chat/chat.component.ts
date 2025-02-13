@@ -12,7 +12,7 @@ import {MessagesService} from "../../../../../services/messages.service";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {SaveMessageRequest} from "../../../../../data-transferring/contracts/message/save-message-request";
 import {MessageComponent} from "./message/message.component";
-import {catchError, Subscription, take, throwError} from "rxjs";
+import {catchError, Subscription, throwError} from "rxjs";
 import {MatError} from "@angular/material/form-field";
 
 /**

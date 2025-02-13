@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {UsersService} from "../../../../services/users.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgToastService} from "ng-angular-popup";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
 import {UserDataService} from "../../../../services/states/user-data.service";
 import {Router} from "@angular/router";
