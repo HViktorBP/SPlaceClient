@@ -62,7 +62,6 @@ export class DeleteAccountComponent implements OnInit {
     this.userService
       .deleteAccount()
       .pipe(
-        take(1),
         catchError(err => {
           return throwError(() => err)
         }),

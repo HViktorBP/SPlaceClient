@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {catchError, finalize, take, throwError} from "rxjs";
+import {catchError, finalize, throwError} from "rxjs";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatHint, MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
@@ -80,7 +80,6 @@ export class LoginComponent implements OnInit, OnDestroy{
 
       this.userService.logIn(loginData)
         .pipe(
-          take(1),
           catchError(error => {
             return throwError(() => error)
           }),

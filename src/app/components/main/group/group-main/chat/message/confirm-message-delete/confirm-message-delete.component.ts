@@ -49,7 +49,6 @@ export class ConfirmMessageDeleteComponent {
 
     this.messagesService.deleteMessage(deleteMessageRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         })

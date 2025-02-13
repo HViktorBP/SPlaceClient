@@ -92,7 +92,6 @@ export class EditQuizComponent extends QuizForm implements CustomPopUpForm {
     this.quizzesService
       .getQuiz(this.data.quizId)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         })

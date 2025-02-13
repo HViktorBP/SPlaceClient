@@ -128,7 +128,6 @@ export class MessageComponent implements OnInit {
 
     this.messagesService.editMessage(messageDto)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         }),

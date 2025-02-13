@@ -89,7 +89,6 @@ export class ChangeRoleComponent implements CustomPopUpForm {
 
     this.groupService.changeRole(addUserRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         }),

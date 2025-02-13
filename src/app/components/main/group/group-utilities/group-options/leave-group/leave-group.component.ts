@@ -69,7 +69,6 @@ export class LeaveGroupComponent {
     this.groupService
       .leaveGroup(leaveGroupRequest)
       .pipe(
-        take(1),
         switchMap(() => {
           return this.userService.getUserAccount(this.userService.getUserId())
         }),
@@ -91,17 +90,16 @@ export class LeaveGroupComponent {
               usersQuizzes.forEach(userQuiz => {
                 if (userQuiz.groupId === this.groupDataService.currentGroupId) {
                   this.applicationHubService
-                    .deleteQuiz(this.groupDataService.currentGroupId, userQuiz.id).then(() => {
-                  })
+                    .deleteQuiz(this.groupDataService.currentGroupId, userQuiz.id)
                 }
               })
             })
             .finally(() => {
-                this.router
-                  .navigate(['/main'])
-                  .then(() => {
-                    this.dialogRef.close()
-                  })
+              this.router
+                .navigate(['/main'])
+                .then(() => {
+                  this.dialogRef.close()
+                })
             })
         }
       })

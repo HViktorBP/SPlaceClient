@@ -60,9 +60,6 @@ export class GroupComponent implements OnInit, OnDestroy{
 
   private loadGroupData(groupId: number) {
     this.groupsService.getGroup(groupId)
-      .pipe(
-        take(1)
-      )
       .subscribe(group => {
         this.groupDataService.updateUserCurrentGroupId(groupId)
         this.groupDataService.updateGroupName(group.name)
@@ -74,9 +71,6 @@ export class GroupComponent implements OnInit, OnDestroy{
       });
 
     this.groupsService.getRole(this.usersService.getUserId(), groupId)
-      .pipe(
-        take(1)
-      )
       .subscribe(role => {
         this.groupDataService.updateUserRole(role)
       })

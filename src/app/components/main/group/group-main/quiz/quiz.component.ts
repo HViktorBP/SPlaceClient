@@ -125,7 +125,6 @@ export class QuizComponent implements OnInit, OnDestroy {
 
     this.quizzesService.submitQuiz(submitQuizRequest)
       .pipe(
-        take(1),
         switchMap(() => this.usersService.getUserAccount(this.usersService.getUserId())),
         tap(user => {
           this.userDataService.updateUserScores(user.scores)

@@ -81,7 +81,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.messagesService.saveMessage(saveMessageRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         })
@@ -103,6 +102,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
+
     }
   }
 

@@ -80,9 +80,7 @@ export class CreateGroupComponent implements CustomPopUpForm {
 
     this.groupService.createGroup(createGroupRequest)
       .pipe(
-        take(1),
         switchMap(() => this.userService.getUserAccount(userId).pipe(
-          take(1),
           tap(account => {
             this.usersDataService.updateCreatedGroupData(account.createdGroups)
             this.usersDataService.updateGroupData(account.groups)

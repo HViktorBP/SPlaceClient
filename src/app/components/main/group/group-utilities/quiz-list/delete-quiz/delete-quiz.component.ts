@@ -68,12 +68,10 @@ export class DeleteQuizComponent {
 
     this.quizzesService.deleteQuiz(deleteQuizRequest)
       .pipe(
-        take(1),
         switchMap(() =>
           this.usersService
             .getUserAccount(this.usersService.getUserId())
             .pipe(
-              take(1),
               tap(user => {
                 this.userDataService.updateCreatedQuizzesData(user.createdQuizzes)
               }))

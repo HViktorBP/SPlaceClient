@@ -76,7 +76,6 @@ export class MainComponent implements OnInit, OnDestroy{
 
     this.userService.getUserAccount(userId)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         })

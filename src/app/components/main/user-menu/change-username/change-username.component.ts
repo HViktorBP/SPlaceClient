@@ -89,11 +89,9 @@ export class ChangeUsernameComponent implements CustomPopUpForm {
 
     this.userService.changeUsername(changeUsernameRequest)
       .pipe(
-        take(1),
         tap(() => {
           this.userService.getUserAccount(this.userService.getUserId())
             .pipe(
-              take(1),
               catchError(error => {
                 return throwError(() => error)
               })

@@ -156,13 +156,6 @@ export class GroupDataService {
   }
 
   /**
-   * quizzesListAsync the current value of the list of quizzes.
-   */
-  get quizzesList() : QuizIdentifier[] {
-    return this.quizListSubject.value
-  }
-
-  /**
    * updateMessage updates specific message in the group.
    * @param message - message to update.
    */

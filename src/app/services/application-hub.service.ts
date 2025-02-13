@@ -108,7 +108,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateUsersList(group.users)
               this.groupDataService.updateUserCount(group.users.length)
@@ -129,7 +128,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(this.groupDataService.currentGroupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateGroupScores(group.scores)
               this.groupDataService.updateQuizzesList(group.quizzes)
@@ -152,7 +150,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateGroupMessages(group.messages)
             }),
@@ -178,7 +175,6 @@ export class ApplicationHubService {
 
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
-          take(1),
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
             this.usersDataService.updateUserScores(user.scores)
@@ -208,7 +204,6 @@ export class ApplicationHubService {
       const deletedGroup = this.usersDataService.userGroups.find(g => g.id == groupId)
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
-          take(1),
           tap(user => {
             this.usersDataService.updateCreatedQuizzesData(user.createdQuizzes)
             this.usersDataService.updateGroupData(user.groups)
@@ -238,7 +233,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getRole(this.usersService.getUserId(), groupId)
           .pipe(
-            take(1),
             tap(role => {
               this.groupDataService.updateUserRole(role)
             }),
@@ -263,7 +257,6 @@ export class ApplicationHubService {
       const group = this.usersDataService.userGroups.find(g => g.id == groupId)
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
-          take(1),
           tap(user => {
             this.usersDataService.updateGroupData(user.groups)
           }),
@@ -280,7 +273,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateGroupName(group.name)
             }),
@@ -305,7 +297,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateQuizzesList(group.quizzes)
             }),
@@ -328,7 +319,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateGroupScores(group.scores)
             }),
@@ -352,7 +342,6 @@ export class ApplicationHubService {
 
       this.usersService.getUserAccount(this.usersService.getUserId())
         .pipe(
-          take(1),
           tap(user => {
             this.usersDataService.updateUserScores(user.scores)
           }),
@@ -365,7 +354,6 @@ export class ApplicationHubService {
       if (this.groupDataService.currentGroupId == groupId) {
         this.groupService.getGroup(groupId)
           .pipe(
-            take(1),
             tap(group => {
               this.groupDataService.updateQuizzesList(group.quizzes)
               this.groupDataService.updateGroupScores(group.scores)

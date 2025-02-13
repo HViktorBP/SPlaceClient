@@ -66,7 +66,6 @@ export class ChangeEmailComponent implements CustomPopUpForm {
 
     this.userService.changeEmail(changeEmailRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         }),

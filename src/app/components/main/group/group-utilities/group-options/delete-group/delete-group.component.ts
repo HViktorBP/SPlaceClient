@@ -67,7 +67,6 @@ export class DeleteGroupComponent {
 
     this.groupService.deleteGroup(deleteGroupRequest)
       .pipe(
-        take(1),
         switchMap(() =>
           this.userService.getUserAccount(this.userService.getUserId()).pipe(
             take(1),

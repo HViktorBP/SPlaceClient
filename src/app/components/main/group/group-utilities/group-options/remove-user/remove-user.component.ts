@@ -89,7 +89,6 @@ export class RemoveUserComponent implements CustomPopUpForm {
 
     this.groupService.removeUser(removeUserRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         }),

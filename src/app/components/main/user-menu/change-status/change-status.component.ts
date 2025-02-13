@@ -79,7 +79,6 @@ export class ChangeStatusComponent implements CustomPopUpForm {
 
     this.userService.changeStatus(changeStatusRequest)
       .pipe(
-        take(1),
         switchMap(() => {
           return this.userService.getUserAccount(this.userService.getUserId())
         }),

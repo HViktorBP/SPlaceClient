@@ -86,7 +86,6 @@ export class RenameGroupComponent implements CustomPopUpForm {
 
     this.groupService.renameGroup(renameGroupRequest)
       .pipe(
-        take(1),
         switchMap(() => {
           return this.userService.getUserAccount(this.userService.getUserId())
         }),
@@ -106,7 +105,7 @@ export class RenameGroupComponent implements CustomPopUpForm {
             .renameGroup(renameGroupRequest.groupId)
             .then(
               () => {
-                this.toast.info({detail:"Info", summary: 'Group renamed successfully!', duration:3000,})
+                this.toast.info({detail:"Info", summary: 'Group renamed successfully!', duration:3000})
               }
             )
             .finally(() => {

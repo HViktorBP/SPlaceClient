@@ -123,7 +123,6 @@ export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {
 
       this.quizzesService.createNewQuiz(creatQuizRequest)
         .pipe(
-          take(1),
           switchMap(() => {
             return this.usersService.getUserAccount(this.usersService.getUserId())
           }),

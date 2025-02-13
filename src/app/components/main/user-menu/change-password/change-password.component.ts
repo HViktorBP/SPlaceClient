@@ -73,7 +73,6 @@ export class ChangePasswordComponent implements CustomPopUpForm {
 
       this.userService.changePassword(changePasswordRequest)
         .pipe(
-          take(1),
           catchError(error => {
             return throwError(() => error)
           }),

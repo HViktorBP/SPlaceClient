@@ -81,7 +81,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
         this.auth.signUp(registrationData)
           .pipe(
-            take(1),
             catchError(error => {
               return throwError(() => error)
             }),

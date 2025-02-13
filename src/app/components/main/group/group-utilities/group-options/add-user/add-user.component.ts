@@ -88,7 +88,6 @@ export class AddUserComponent implements CustomPopUpForm {
 
     this.groupService.addUser(addUserRequest)
       .pipe(
-        take(1),
         catchError(error => {
           return throwError(() => error)
         }),
