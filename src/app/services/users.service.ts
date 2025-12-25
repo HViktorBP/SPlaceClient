@@ -11,6 +11,14 @@ import {UserLogInRequest} from "../data-transferring/contracts/user/user-log-in-
 import {UserRegistrationRequest} from "../data-transferring/contracts/user/user-registration-request";
 import {ChangeEmailRequest} from "../data-transferring/contracts/user/change-email-request";
 
+/**
+ * Interface for decoded JWT token payload
+ */
+interface DecodedJwtToken extends JwtPayload {
+  userId: string;
+  userName: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -58,9 +66,15 @@ export class UsersService {
    * @param token - user's JWT token
    */
   storeUserData(token: string) : void {
-    const decodedJwt : any = this.decodeJwtToken(token)
-    sessionStorage.setItem("userId", decodedJwt['userId'])
-    sessionStorage.setItem("userName", decodedJwt['userName'])
+    const decodedJwt = this.decodeJwtToken(token)
+    
+    // Validate token contains required fields
+    if (!decodedJwt.userId || !decodedJwt.userName) {
+      throw new Error("Invalid token: missing required fields")
+    }
+    
+    sessionStorage.setItem("userId", decodedJwt.userId)
+    sessionStorage.setItem("userName", decodedJwt.userName)
     sessionStorage.setItem("token", token)
   }
 
@@ -201,11 +215,19 @@ export class UsersService {
    * @param token
    * @private
    */
-  private decodeJwtToken(token : string) : JwtPayload {
+  private decodeJwtToken(token : string) : DecodedJwtToken {
     try {
-      return jwtDecode(token)
+      const decoded = jwtDecode<DecodedJwtToken>(token)
+      
+      // Validate token structure
+      if (!decoded || typeof decoded !== 'object') {
+        throw new Error("Invalid token structure")
+      }
+      
+      return decoded
     } catch (error) {
-      throw error
+      this.logOut() // Clear any stored data on decode error
+      throw new Error("Failed to decode token: " + (error instanceof Error ? error.message : 'Unknown error'))
     }
   }
 }
