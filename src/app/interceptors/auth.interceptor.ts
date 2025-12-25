@@ -7,9 +7,14 @@ import { HttpInterceptorFn } from '@angular/common/http';
  * @returns - An observable that will send the modified request.
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  let token = sessionStorage.getItem('token')
-  req = req.clone({
-    headers : req.headers.set('Authorization', 'Bearer ' + token),
-  })
+  const token = sessionStorage.getItem('token')
+  
+  // Only add Authorization header if token exists
+  if (token) {
+    req = req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${token}`),
+    })
+  }
+  
   return next(req)
 }

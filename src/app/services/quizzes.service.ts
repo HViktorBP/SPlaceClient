@@ -164,8 +164,6 @@ export class QuizzesService {
       if (question.get('type')?.value === 0 && question.get('selectedAnswer')) {
         const selectedAnswerIndex: number = question.get('selectedAnswer')?.value
         if (selectedAnswerIndex !== null && selectedAnswerIndex !== undefined) {
-
-          console.log(question.get('selectedAnswer')?.value)
           const answers = question.get('answers') as FormArray;
           answers.controls.forEach((answerControl, answerIndex) => {
             answerControl.get('status')?.setValue(answerIndex === selectedAnswerIndex)
@@ -206,7 +204,7 @@ export class QuizzesService {
    * @param questionControl - question to which answers belong.
    * @private
    */
-   setValidatorsForAnswers(questionControl: any) {
+   setValidatorsForAnswers(questionControl: AbstractControl) {
     const answersArray = questionControl.get('answers') as FormArray
     answersArray.setValidators([
       QuizValidators.uniqueAnswersValidator()

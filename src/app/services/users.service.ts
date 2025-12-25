@@ -34,7 +34,7 @@ export class UsersService {
    * @param userData - user's username, password and email
    */
   signUp(userData: UserRegistrationRequest) {
-    return this.http.post<any>(`${this.baseUrl}register`, userData).pipe(
+    return this.http.post<{message: string}>(`${this.baseUrl}register`, userData).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -46,7 +46,7 @@ export class UsersService {
    * @param userData - user's username and password
    */
   logIn(userData : UserLogInRequest) {
-    return this.http.post<any>(`${this.baseUrl}login`, userData).pipe(
+    return this.http.post<{token: string, message: string}>(`${this.baseUrl}login`, userData).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -81,7 +81,7 @@ export class UsersService {
    */
   getUserId() : number {
     const userId = sessionStorage.getItem('userId')
-    if (userId === null) throw new Error("No ID stored in localStorage")
+    if (userId === null) throw new Error("No ID stored in sessionStorage")
 
     const parsedUserId = Number(userId)
     if (isNaN(parsedUserId)) throw new Error("Stored ID is not a valid number")
@@ -95,7 +95,7 @@ export class UsersService {
   getUserName() : string {
     const userName = sessionStorage.getItem('userName')
 
-    if (userName === null) throw new Error("No ID stored in localStorage")
+    if (userName === null) throw new Error("No username stored in sessionStorage")
 
     return userName
   }
@@ -105,7 +105,7 @@ export class UsersService {
    * @param {ChangeUsernameRequest} changeUsernamePayload - data needed for user's username to be changed
    */
   changeUsername(changeUsernamePayload : ChangeUsernameRequest) {
-    return this.http.put<any>(`${this.baseUrl}username`, changeUsernamePayload).pipe(
+    return this.http.put<{message: string, token: string}>(`${this.baseUrl}username`, changeUsernamePayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -117,7 +117,7 @@ export class UsersService {
    * @param {ChangePasswordRequest} changePasswordPayload - data needed for user's password to be changed.
    */
   changePassword(changePasswordPayload : ChangePasswordRequest) {
-    return this.http.put<any>(`${this.baseUrl}password`, changePasswordPayload).pipe(
+    return this.http.put<{message: string}>(`${this.baseUrl}password`, changePasswordPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -129,7 +129,7 @@ export class UsersService {
    * @param {ChangeEmailRequest} changeEmailPayload - data needed for user's email to be changed.
    */
   changeEmail(changeEmailPayload : ChangeEmailRequest) {
-    return this.http.put<any>(`${this.baseUrl}email`, changeEmailPayload).pipe(
+    return this.http.put<{message: string}>(`${this.baseUrl}email`, changeEmailPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -141,7 +141,7 @@ export class UsersService {
    * @param {ChangeStatusRequest} changeStatusPayload - data needed for user's status to be changed.
    */
   changeStatus(changeStatusPayload : ChangeStatusRequest) {
-    return this.http.put<any>(`${this.baseUrl}status`, changeStatusPayload).pipe(
+    return this.http.put<void>(`${this.baseUrl}status`, changeStatusPayload).pipe(
       catchError(err => {
         return throwError(() => err)
       })
@@ -153,7 +153,7 @@ export class UsersService {
    */
   deleteAccount() {
     const userId = this.getUserId()
-    return this.http.delete<any>(`${this.baseUrl}${userId}`).pipe(
+    return this.http.delete<{message: string}>(`${this.baseUrl}${userId}`).pipe(
       catchError(err => {
         return throwError(() => err)
       })

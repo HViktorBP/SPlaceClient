@@ -22,6 +22,31 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
 
 /**
+ * Interface for quiz answer in form
+ */
+interface QuizAnswerForm {
+  answer: string;
+  status: boolean;
+}
+
+/**
+ * Interface for quiz question in form
+ */
+interface QuizQuestionForm {
+  question: string;
+  answers: QuizAnswerForm[];
+  selectedAnswer?: string;
+}
+
+/**
+ * Interface for quiz form value
+ */
+interface QuizFormValue {
+  name: string;
+  questions: QuizQuestionForm[];
+}
+
+/**
  * QuizComponent responsible for quiz's UI.
  */
 @Component({
@@ -153,10 +178,10 @@ export class QuizComponent implements OnInit, OnDestroy {
    * @private
    * @memberOf QuizComponent
    */
-  processQuizBeforeSubmit(quiz: any) {
-    quiz.questions.forEach((question: any) => {
+  processQuizBeforeSubmit(quiz: QuizFormValue) {
+    quiz.questions.forEach((question) => {
       if (question.selectedAnswer) {
-        question.answers.forEach((answer: any) => {
+        question.answers.forEach((answer) => {
           answer.status = answer.answer === question.selectedAnswer
         })
 

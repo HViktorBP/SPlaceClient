@@ -10,8 +10,6 @@ import {GlobalErrorHandlerService} from "./services/error-handling/global-error-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
-    provideAnimationsAsync(),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
     {

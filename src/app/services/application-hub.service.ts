@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import * as signalR from "@microsoft/signalr";
 import {GroupDataService} from "./states/group-data.service";
 import {MessageDto} from "../data-transferring/dtos/message/message-dto";
 import {UserDataService} from "./states/user-data.service";
 import {UsersService} from "./users.service";
 import {GroupsService} from "./groups.service";
-import {catchError, take, tap, throwError} from "rxjs";
+import {catchError, Subject, take, takeUntil, tap, throwError} from "rxjs";
 import {map} from "rxjs/operators";
 import {NgToastService} from "ng-angular-popup";
 import {Router} from "@angular/router";
@@ -19,7 +19,7 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 
-export class ApplicationHubService {
+export class ApplicationHubService implements OnDestroy {
   private connection : signalR.HubConnection = new signalR.HubConnectionBuilder()
     .withUrl(environment.signalRConnectUrl)
     .configureLogging(signalR.LogLevel.Information)
@@ -31,6 +31,12 @@ export class ApplicationHubService {
    * @private
    */
   private messages: MessageDto[] = []
+
+  /**
+   * Subject to handle cleanup of subscriptions
+   * @private
+   */
+  private destroy$ = new Subject<void>()
 
   /**
    * In constructor there are specifications for what he should do in cases of possible messages that can come from the SignalR service on the server side.
@@ -90,8 +96,9 @@ export class ApplicationHubService {
           }),
           map (user => user.groups),
           catchError(err => {
-            return throwError(() => err)
-          })
+            return throwError(() => err)  
+          }),
+          takeUntil(this.destroy$)
           )
         .subscribe({
           next : (groups) => {
@@ -114,7 +121,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           )
           .subscribe()
       }
@@ -134,7 +142,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           ).subscribe({
             next : () => {
               this.toast.info({detail:"Info", summary: `${user} left the ${groupData?.name}!`, duration:3000})
@@ -155,7 +164,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           )
           .subscribe()
       }
@@ -182,7 +192,8 @@ export class ApplicationHubService {
           }),
           catchError(err => {
             return throwError(() => err)
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe({
           next : () => {
@@ -211,7 +222,8 @@ export class ApplicationHubService {
           }),
           catchError(err => {
             return throwError(() => err)
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe({
           next : () => {
@@ -238,7 +250,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           ).subscribe({
             next : () => {
               this.toast.info({detail:"Info", summary: `You are now ${role}`, duration:3000})
@@ -262,7 +275,8 @@ export class ApplicationHubService {
           }),
           catchError(err => {
             return throwError(() => err)
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe({
           next : (name) => {
@@ -279,7 +293,8 @@ export class ApplicationHubService {
             map(group => group.name),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           ).subscribe({
             next : (name) => {
               this.toast.info({detail:"Info", summary: `This group name changed to ${name}.`, duration:3000})
@@ -302,7 +317,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           )
           .subscribe({
             next : () => {
@@ -324,7 +340,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           )
           .subscribe()
       }
@@ -347,7 +364,8 @@ export class ApplicationHubService {
           }),
           catchError(err => {
             return throwError(() => err)
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe()
 
@@ -360,7 +378,8 @@ export class ApplicationHubService {
             }),
             catchError(err => {
               return throwError(() => err)
-            })
+            }),
+            takeUntil(this.destroy$)
           )
           .subscribe({
             error : err => {
@@ -552,4 +571,12 @@ export class ApplicationHubService {
     return this.connection.invoke("DeleteQuiz", groupId, quizId)
   }
   //endregion
+
+  /**
+   * ngOnDestroy lifecycle hook to cleanup subscriptions
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
+  }
 }
