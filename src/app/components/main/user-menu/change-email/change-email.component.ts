@@ -12,23 +12,22 @@ import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
 import {ChangeEmailRequest} from "../../../../data-transferring/contracts/user/change-email-request";
 
 @Component({
-  selector: 'app-change-email',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    NgIf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './change-email.component.html',
-  styleUrl: './change-email.component.scss'
+    selector: 'app-change-email',
+    imports: [
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        NgIf,
+        ReactiveFormsModule
+    ],
+    templateUrl: './change-email.component.html',
+    styleUrl: './change-email.component.scss'
 })
 export class ChangeEmailComponent implements CustomPopUpForm {
   /**

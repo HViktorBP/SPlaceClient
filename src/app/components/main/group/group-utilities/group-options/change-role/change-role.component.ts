@@ -21,26 +21,25 @@ import {NgIf} from "@angular/common";
  * ChangeRoleComponent provides UI for changing user's role in the group.
  */
 @Component({
-  selector: 'app-change-role',
-  standalone: true,
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './change-role.component.html',
-  styleUrl: './change-role.component.scss'
+    selector: 'app-change-role',
+    imports: [
+        FaIconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './change-role.component.html',
+    styleUrl: './change-role.component.scss'
 })
 
 export class ChangeRoleComponent implements CustomPopUpForm {

@@ -19,23 +19,22 @@ import {trimFormValues} from "../../../../custom/helping-functions/FormTrim";
  */
 
 @Component({
-  selector: 'app-change-status',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './change-status.component.html',
-  styleUrl: './change-status.component.scss'
+    selector: 'app-change-status',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './change-status.component.html',
+    styleUrl: './change-status.component.scss'
 })
 export class ChangeStatusComponent implements CustomPopUpForm {
   /**

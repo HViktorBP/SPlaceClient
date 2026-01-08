@@ -9,18 +9,17 @@ import {MatGridList, MatGridTile, MatGridTileHeaderCssMatStyler} from "@angular/
  */
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CreatedQuizzesComponent,
-    CreatedGroupsComponent,
-    UserScoresComponent,
-    MatGridList,
-    MatGridTile,
-    MatGridTileHeaderCssMatStyler
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    imports: [
+        CreatedQuizzesComponent,
+        CreatedGroupsComponent,
+        UserScoresComponent,
+        MatGridList,
+        MatGridTile,
+        MatGridTileHeaderCssMatStyler
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss'
 })
 
 export class HomeComponent {

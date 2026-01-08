@@ -17,24 +17,23 @@ import {Role} from "../../../../../data-transferring/enums/role";
  */
 
 @Component({
-  selector: 'app-group-options',
-  standalone: true,
-  imports: [
-    AddUserComponent,
-    RemoveUserComponent,
-    LeaveGroupComponent,
-    DeleteGroupComponent,
-    NgIf,
-    ChangeRoleComponent,
-    AsyncPipe,
-    RenameGroupComponent,
-    MatCard,
-    MatCardContent,
-    MatIconButton,
-    MatIcon,
-  ],
-  templateUrl: './group-options.component.html',
-  styleUrl: './group-options.component.scss'
+    selector: 'app-group-options',
+    imports: [
+        AddUserComponent,
+        RemoveUserComponent,
+        LeaveGroupComponent,
+        DeleteGroupComponent,
+        NgIf,
+        ChangeRoleComponent,
+        AsyncPipe,
+        RenameGroupComponent,
+        MatCard,
+        MatCardContent,
+        MatIconButton,
+        MatIcon,
+    ],
+    templateUrl: './group-options.component.html',
+    styleUrl: './group-options.component.scss'
 })
 
 

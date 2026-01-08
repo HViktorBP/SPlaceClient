@@ -20,27 +20,26 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
  * AddUserComponent provides UI for adding a user to the group.
  */
 @Component({
-  selector: 'app-add-user',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    FaIconComponent,
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    ReactiveFormsModule,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './add-user.component.html',
-  styleUrl: './add-user.component.scss'
+    selector: 'app-add-user',
+    imports: [
+        NgOptimizedImage,
+        FaIconComponent,
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        ReactiveFormsModule,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './add-user.component.html',
+    styleUrl: './add-user.component.scss'
 })
 export class AddUserComponent implements CustomPopUpForm {
   /**

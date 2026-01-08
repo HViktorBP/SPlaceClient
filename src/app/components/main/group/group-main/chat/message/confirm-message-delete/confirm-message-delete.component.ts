@@ -15,17 +15,16 @@ import {ApplicationHubService} from "../../../../../../../services/application-h
 import {NgToastService} from "ng-angular-popup";
 
 @Component({
-  selector: 'app-confirm-message-delete',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle
-  ],
-  templateUrl: './confirm-message-delete.component.html',
-  styleUrl: './confirm-message-delete.component.scss'
+    selector: 'app-confirm-message-delete',
+    imports: [
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle
+    ],
+    templateUrl: './confirm-message-delete.component.html',
+    styleUrl: './confirm-message-delete.component.scss'
 })
 export class ConfirmMessageDeleteComponent {
   public dialogRef = inject(MatDialogRef<ConfirmMessageDeleteComponent>)

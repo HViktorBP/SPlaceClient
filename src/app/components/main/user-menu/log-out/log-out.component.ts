@@ -13,22 +13,21 @@ import {MatInput} from "@angular/material/input";
  */
 
 @Component({
-  selector: 'app-log-out',
-  standalone: true,
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel
-  ],
-  templateUrl: './log-out.component.html',
-  styleUrl: './log-out.component.scss'
+    selector: 'app-log-out',
+    imports: [
+        FaIconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel
+    ],
+    templateUrl: './log-out.component.html',
+    styleUrl: './log-out.component.scss'
 })
 
 export class LogOutComponent {

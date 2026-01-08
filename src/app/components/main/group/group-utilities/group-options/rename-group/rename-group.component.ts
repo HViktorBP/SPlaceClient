@@ -21,24 +21,23 @@ import {UserDataService} from "../../../../../../services/states/user-data.servi
  */
 
 @Component({
-  selector: 'app-rename-group',
-  standalone: true,
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './rename-group.component.html',
-  styleUrl: './rename-group.component.scss'
+    selector: 'app-rename-group',
+    imports: [
+        FaIconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './rename-group.component.html',
+    styleUrl: './rename-group.component.scss'
 })
 
 export class RenameGroupComponent implements CustomPopUpForm {

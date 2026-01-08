@@ -1,10 +1,5 @@
 import {Component, inject, Inject} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from "@angular/forms";
+import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {NgForOf, NgIf} from "@angular/common";
@@ -30,29 +25,28 @@ import {trimFormValues} from "../../../../../../custom/helping-functions/FormTri
  */
 
 @Component({
-  selector: 'app-edit-quiz',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatRadioGroup,
-    MatRadioButton,
-    NgForOf,
-    MatInput,
-    MatCheckbox,
-    MatIconButton,
-    MatLabel,
-    MatIcon,
-    MatButton,
-    NgIf,
-    MatSelect,
-    MatOption,
-    MatError,
-    MatHint,
-    MatDialogActions
-  ],
-  templateUrl: './edit-quiz.component.html',
-  styleUrl: './../../../../../../custom/styles/quiz.scss'
+    selector: 'app-edit-quiz',
+    imports: [
+        ReactiveFormsModule,
+        MatFormField,
+        MatRadioGroup,
+        MatRadioButton,
+        NgForOf,
+        MatInput,
+        MatCheckbox,
+        MatIconButton,
+        MatLabel,
+        MatIcon,
+        MatButton,
+        NgIf,
+        MatSelect,
+        MatOption,
+        MatError,
+        MatHint,
+        MatDialogActions
+    ],
+    templateUrl: './edit-quiz.component.html',
+    styleUrl: './../../../../../../custom/styles/quiz.scss'
 })
 
 export class EditQuizComponent extends QuizForm implements CustomPopUpForm {

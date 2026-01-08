@@ -17,21 +17,20 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
  */
 
 @Component({
-  selector: 'app-group',
-  standalone: true,
-  imports: [
-    GroupHeaderComponent,
-    GroupMainComponent,
-    ParticipantsComponent,
-    GroupOptionsComponent,
-    QuizListComponent,
-    RouterOutlet,
-    GroupUtilitiesComponent,
-    MatGridList,
-    MatGridTile
-  ],
-  templateUrl: './group.component.html',
-  styleUrl: './group.component.scss'
+    selector: 'app-group',
+    imports: [
+        GroupHeaderComponent,
+        GroupMainComponent,
+        ParticipantsComponent,
+        GroupOptionsComponent,
+        QuizListComponent,
+        RouterOutlet,
+        GroupUtilitiesComponent,
+        MatGridList,
+        MatGridTile
+    ],
+    templateUrl: './group.component.html',
+    styleUrl: './group.component.scss'
 })
 
 export class GroupComponent implements OnInit, OnDestroy{

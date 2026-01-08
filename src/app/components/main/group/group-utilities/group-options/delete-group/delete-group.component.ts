@@ -19,23 +19,22 @@ import {UserDataService} from "../../../../../../services/states/user-data.servi
  */
 
 @Component({
-  selector: 'app-delete-group',
-  standalone: true,
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatFormField,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    MatDialogTitle
-  ],
-  templateUrl: './delete-group.component.html',
-  styleUrl: './delete-group.component.scss'
+    selector: 'app-delete-group',
+    imports: [
+        FaIconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatFormField,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        MatDialogTitle
+    ],
+    templateUrl: './delete-group.component.html',
+    styleUrl: './delete-group.component.scss'
 })
 
 export class DeleteGroupComponent {

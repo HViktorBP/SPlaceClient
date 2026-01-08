@@ -15,18 +15,17 @@ import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
  */
 
 @Component({
-  selector: 'app-group-utilities',
-  standalone: true,
-  imports: [
-    GroupMainComponent,
-    ParticipantsComponent,
-    GroupOptionsComponent,
-    QuizListComponent,
-    GroupHeaderComponent,
-    GroupTabsComponent
-  ],
-  templateUrl: './group-utilities.component.html',
-  styleUrl: './group-utilities.component.scss'
+    selector: 'app-group-utilities',
+    imports: [
+        GroupMainComponent,
+        ParticipantsComponent,
+        GroupOptionsComponent,
+        QuizListComponent,
+        GroupHeaderComponent,
+        GroupTabsComponent
+    ],
+    templateUrl: './group-utilities.component.html',
+    styleUrl: './group-utilities.component.scss'
 })
 
 export class GroupUtilitiesComponent implements OnInit, OnDestroy {

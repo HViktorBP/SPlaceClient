@@ -14,24 +14,23 @@ import {MatIcon} from "@angular/material/icon";
  */
 
 @Component({
-  selector: 'app-created-groups',
-  standalone: true,
-  imports: [
-    NgForOf,
-    RouterLink,
-    AsyncPipe,
-    SlicePipe,
-    FaIconComponent,
-    MatCard,
-    MatList,
-    MatListItem,
-    MatLine,
-    MatDivider,
-    NgIf,
-    MatIcon
-  ],
-  templateUrl: './created-groups.component.html',
-  styleUrl: '../../../../custom/styles/info-list-box.scss'
+    selector: 'app-created-groups',
+    imports: [
+        NgForOf,
+        RouterLink,
+        AsyncPipe,
+        SlicePipe,
+        FaIconComponent,
+        MatCard,
+        MatList,
+        MatListItem,
+        MatLine,
+        MatDivider,
+        NgIf,
+        MatIcon
+    ],
+    templateUrl: './created-groups.component.html',
+    styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
 
 

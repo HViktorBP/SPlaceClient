@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef, OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild,} from '@angular/core';
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupDataService} from "../../../../../services/states/group-data.service";
@@ -19,8 +14,7 @@ import {MatError} from "@angular/material/form-field";
  * ChatComponent responsible for chat's UI
  */
 @Component({
-  selector: 'app-chat',
-  standalone: true,
+    selector: 'app-chat',
     imports: [
         AsyncPipe,
         DatePipe,
@@ -32,8 +26,8 @@ import {MatError} from "@angular/material/form-field";
         MessageComponent,
         MatError
     ],
-  templateUrl: './chat.component.html',
-  styleUrl: './chat.component.scss'
+    templateUrl: './chat.component.html',
+    styleUrl: './chat.component.scss'
 })
 
 export class ChatComponent implements OnInit, OnDestroy {

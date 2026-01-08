@@ -16,29 +16,28 @@ import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-
  * LoginComponent is responsible for handling the logging in into the application.
  */
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatFormField,
-    MatInput,
-    MatHint,
-    MatIconButton,
-    MatIcon,
-    MatLabel,
-    MatSuffix,
-    MatCard,
-    MatCardTitle,
-    MatCardContent,
-    ReactiveFormsModule,
-    NgIf,
-    MatButton,
-    MatError,
-    MatCardHeader,
-    MatCardSubtitle
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: '../../custom/styles/authorization-form.scss'
+    selector: 'app-login',
+    imports: [
+        FormsModule,
+        MatFormField,
+        MatInput,
+        MatHint,
+        MatIconButton,
+        MatIcon,
+        MatLabel,
+        MatSuffix,
+        MatCard,
+        MatCardTitle,
+        MatCardContent,
+        ReactiveFormsModule,
+        NgIf,
+        MatButton,
+        MatError,
+        MatCardHeader,
+        MatCardSubtitle
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: '../../custom/styles/authorization-form.scss'
 })
 
 export class LoginComponent implements OnInit, OnDestroy{

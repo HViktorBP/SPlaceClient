@@ -11,22 +11,21 @@ import {MatCard, MatCardActions} from "@angular/material/card";
  */
 
 @Component({
-  selector: 'app-about-app',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatCard,
-    MatCardActions
-  ],
-  templateUrl: './about-app.component.html',
-  styleUrl: './about-app.component.scss'
+    selector: 'app-about-app',
+    imports: [
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatCard,
+        MatCardActions
+    ],
+    templateUrl: './about-app.component.html',
+    styleUrl: './about-app.component.scss'
 })
 export class AboutAppComponent {
   /**

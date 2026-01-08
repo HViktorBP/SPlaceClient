@@ -16,23 +16,22 @@ import {CustomPopUpForm} from "../../../../custom/interfaces/CustomPopUpForm";
  */
 
 @Component({
-  selector: 'app-change-password',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './change-password.component.html',
-  styleUrl: './change-password.component.scss',
+    selector: 'app-change-password',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './change-password.component.html',
+    styleUrl: './change-password.component.scss'
 })
 
 export class ChangePasswordComponent implements CustomPopUpForm {

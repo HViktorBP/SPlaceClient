@@ -1,13 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {UsersService} from "../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from "@angular/forms";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ChangeUsernameRequest} from "../../../../data-transferring/contracts/user/change-username-request";
 import {catchError, finalize, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
@@ -30,24 +24,23 @@ import {UserDataService} from "../../../../services/states/user-data.service";
  */
 
 @Component({
-  selector: 'app-change-username',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogContent,
-    MatFormField,
-    MatDialogActions,
-    MatButton,
-    MatDialogTitle,
-    MatInput,
-    MatDialogClose,
-    MatLabel,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './change-username.component.html',
-  styleUrl: './change-username.component.scss'
+    selector: 'app-change-username',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogContent,
+        MatFormField,
+        MatDialogActions,
+        MatButton,
+        MatDialogTitle,
+        MatInput,
+        MatDialogClose,
+        MatLabel,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './change-username.component.html',
+    styleUrl: './change-username.component.scss'
 })
 export class ChangeUsernameComponent implements CustomPopUpForm {
   /**

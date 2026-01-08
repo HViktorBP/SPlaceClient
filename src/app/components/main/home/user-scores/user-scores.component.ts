@@ -13,22 +13,21 @@ import {MatIcon} from "@angular/material/icon";
  */
 
 @Component({
-  selector: 'app-user-scores',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    NgForOf,
-    FaIconComponent,
-    MatCard,
-    MatDivider,
-    MatLine,
-    MatList,
-    MatListItem,
-    NgIf,
-    MatIcon
-  ],
-  templateUrl: './user-scores.component.html',
-  styleUrl: '../../../../custom/styles/info-list-box.scss'
+    selector: 'app-user-scores',
+    imports: [
+        AsyncPipe,
+        NgForOf,
+        FaIconComponent,
+        MatCard,
+        MatDivider,
+        MatLine,
+        MatList,
+        MatListItem,
+        NgIf,
+        MatIcon
+    ],
+    templateUrl: './user-scores.component.html',
+    styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
 
 export class UserScoresComponent {

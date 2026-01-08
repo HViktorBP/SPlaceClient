@@ -17,19 +17,18 @@ import {MatError} from "@angular/material/form-field";
  * MessageComponent is responsible for handling messages' UI.
  */
 @Component({
-  selector: 'app-message',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgIf,
-    FormsModule,
-    MatIconButton,
-    MatIcon,
-    MatButton,
-    MatError
-  ],
-  templateUrl: './message.component.html',
-  styleUrl: './message.component.scss'
+    selector: 'app-message',
+    imports: [
+        DatePipe,
+        NgIf,
+        FormsModule,
+        MatIconButton,
+        MatIcon,
+        MatButton,
+        MatError
+    ],
+    templateUrl: './message.component.html',
+    styleUrl: './message.component.scss'
 })
 
 export class MessageComponent implements OnInit {

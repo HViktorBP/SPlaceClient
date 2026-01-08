@@ -14,8 +14,7 @@ import {MatIcon} from "@angular/material/icon";
  */
 
 @Component({
-  selector: 'app-created-quizzes',
-  standalone: true,
+    selector: 'app-created-quizzes',
     imports: [
         AsyncPipe,
         FaIconComponent,
@@ -28,8 +27,8 @@ import {MatIcon} from "@angular/material/icon";
         MatListItem,
         MatIcon
     ],
-  templateUrl: './created-quizzes.component.html',
-  styleUrl: '../../../../custom/styles/info-list-box.scss'
+    templateUrl: './created-quizzes.component.html',
+    styleUrl: '../../../../custom/styles/info-list-box.scss'
 })
 export class CreatedQuizzesComponent {
 

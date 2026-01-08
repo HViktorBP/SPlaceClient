@@ -21,16 +21,15 @@ import {NgToastService} from "ng-angular-popup";
  */
 
 @Component({
-  selector: 'app-delete-quiz',
-  standalone: true,
-  imports: [
-    MatDialogContent,
-    MatDialogTitle,
-    MatDialogActions,
-    MatButton
-  ],
-  templateUrl: './delete-quiz.component.html',
-  styleUrl: './delete-quiz.component.scss'
+    selector: 'app-delete-quiz',
+    imports: [
+        MatDialogContent,
+        MatDialogTitle,
+        MatDialogActions,
+        MatButton
+    ],
+    templateUrl: './delete-quiz.component.html',
+    styleUrl: './delete-quiz.component.scss'
 })
 
 export class DeleteQuizComponent {

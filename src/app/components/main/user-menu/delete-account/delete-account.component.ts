@@ -14,18 +14,17 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "
  */
 
 @Component({
-  selector: 'app-delete-account',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle
-  ],
-  templateUrl: './delete-account.component.html',
-  styleUrl: './delete-account.component.scss'
+    selector: 'app-delete-account',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle
+    ],
+    templateUrl: './delete-account.component.html',
+    styleUrl: './delete-account.component.scss'
 })
 
 export class DeleteAccountComponent implements OnInit {

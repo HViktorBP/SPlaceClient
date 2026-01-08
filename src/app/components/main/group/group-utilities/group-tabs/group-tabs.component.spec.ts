@@ -1,19 +1,21 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { GroupTabsComponent } from './group-tabs.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
-import { Component } from '@angular/core';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {GroupTabsComponent} from './group-tabs.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {By} from '@angular/platform-browser';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-participants',
-  template: '<div>Mock Participants Component</div>'
+    selector: 'app-participants',
+    template: '<div>Mock Participants Component</div>',
+    standalone: false
 })
 class MockParticipantsComponent {}
 
 @Component({
-  selector: 'app-scores',
-  template: '<div>Mock Scores Component</div>'
+    selector: 'app-scores',
+    template: '<div>Mock Scores Component</div>',
+    standalone: false
 })
 class MockScoresComponent {}
 

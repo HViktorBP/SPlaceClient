@@ -21,28 +21,27 @@ import {AboutAppComponent} from "./about-app/about-app.component";
  * MainComponent is responsible for uploading user's data and providing the main UI for application to be used.
  */
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.scss',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe,
-    RouterOutlet,
-    FaIconComponent,
-    NgForOf,
-    SlicePipe,
-    RouterLink,
-    CreateGroupComponent,
-    LogOutComponent,
-    NgIf,
-    NgClass,
-    UserMenuComponent,
-  ]
+    selector: 'app-main',
+    templateUrl: './main.component.html',
+    styleUrl: './main.component.scss',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe,
+        RouterOutlet,
+        FaIconComponent,
+        NgForOf,
+        SlicePipe,
+        RouterLink,
+        CreateGroupComponent,
+        LogOutComponent,
+        NgIf,
+        NgClass,
+        UserMenuComponent,
+    ]
 })
 
 export class MainComponent implements OnInit, OnDestroy{

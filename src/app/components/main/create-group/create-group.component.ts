@@ -19,24 +19,23 @@ import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
  */
 
 @Component({
-  selector: 'app-create-group',
-  standalone: true,
-  imports: [
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatHint,
-    ReactiveFormsModule,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './create-group.component.html',
-  styleUrl: './create-group.component.scss'
+    selector: 'app-create-group',
+    imports: [
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatHint,
+        ReactiveFormsModule,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './create-group.component.html',
+    styleUrl: './create-group.component.scss'
 })
 
 export class CreateGroupComponent implements CustomPopUpForm {

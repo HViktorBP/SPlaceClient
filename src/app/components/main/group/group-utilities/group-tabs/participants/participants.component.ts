@@ -10,22 +10,21 @@ import {MatTooltip} from "@angular/material/tooltip";
  */
 
 @Component({
-  selector: 'app-participants',
-  standalone: true,
-  imports: [
-    NgForOf,
-    AsyncPipe,
-    MatCard,
-    MatCardHeader,
-    MatCardActions,
-    MatCardContent,
-    MatList,
-    MatListItem,
-    MatCardTitle,
-    MatTooltip,
-  ],
-  templateUrl: './participants.component.html',
-  styleUrl: './participants.component.scss'
+    selector: 'app-participants',
+    imports: [
+        NgForOf,
+        AsyncPipe,
+        MatCard,
+        MatCardHeader,
+        MatCardActions,
+        MatCardContent,
+        MatList,
+        MatListItem,
+        MatCardTitle,
+        MatTooltip,
+    ],
+    templateUrl: './participants.component.html',
+    styleUrl: './participants.component.scss'
 })
 export class ParticipantsComponent {
   constructor(public groupDataService : GroupDataService) { }

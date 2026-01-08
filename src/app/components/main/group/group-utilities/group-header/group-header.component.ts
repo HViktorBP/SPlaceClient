@@ -6,13 +6,12 @@ import {GroupDataService} from "../../../../../services/states/group-data.servic
  * GroupHeaderComponent displays the group's name and the amount of people that participate in it
  */
 @Component({
-  selector: 'app-group-header',
-  standalone: true,
-  imports: [
-    AsyncPipe
-  ],
-  templateUrl: './group-header.component.html',
-  styleUrl: './group-header.component.scss'
+    selector: 'app-group-header',
+    imports: [
+        AsyncPipe
+    ],
+    templateUrl: './group-header.component.html',
+    styleUrl: './group-header.component.scss'
 })
 export class GroupHeaderComponent {
 

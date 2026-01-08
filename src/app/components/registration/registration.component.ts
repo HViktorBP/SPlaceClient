@@ -16,27 +16,26 @@ import {UserRegistrationRequest} from "../../data-transferring/contracts/user/us
  * RegistrationComponent is responsible for registering user into the application.
  */
 @Component({
-  selector: 'app-registration',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatError,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatIcon,
-    MatIconButton,
-    MatSuffix
-  ],
-  templateUrl: './registration.component.html',
-  styleUrl: '../../custom/styles/authorization-form.scss'
+    selector: 'app-registration',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        MatButton,
+        MatCard,
+        MatCardContent,
+        MatCardSubtitle,
+        MatCardTitle,
+        MatError,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatIcon,
+        MatIconButton,
+        MatSuffix
+    ],
+    templateUrl: './registration.component.html',
+    styleUrl: '../../custom/styles/authorization-form.scss'
 })
 
 export class RegistrationComponent implements OnInit, OnDestroy {

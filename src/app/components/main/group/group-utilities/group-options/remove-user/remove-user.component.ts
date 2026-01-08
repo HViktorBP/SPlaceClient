@@ -21,27 +21,26 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
  */
 
 @Component({
-  selector: 'app-remove-user',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    FaIconComponent,
-    FormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatSelect,
-    ReactiveFormsModule,
-    MatError,
-    NgIf
-  ],
-  templateUrl: './remove-user.component.html',
-  styleUrl: './remove-user.component.scss'
+    selector: 'app-remove-user',
+    imports: [
+        NgOptimizedImage,
+        FaIconComponent,
+        FormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatSelect,
+        ReactiveFormsModule,
+        MatError,
+        NgIf
+    ],
+    templateUrl: './remove-user.component.html',
+    styleUrl: './remove-user.component.scss'
 })
 
 export class RemoveUserComponent implements CustomPopUpForm {

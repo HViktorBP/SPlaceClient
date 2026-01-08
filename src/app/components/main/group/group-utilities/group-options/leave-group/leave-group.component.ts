@@ -19,20 +19,19 @@ import {MatButton} from "@angular/material/button";
  */
 
 @Component({
-  selector: 'app-leave-group',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButton,
-    MatDialogActions,
-    MatDialogContent,
-    MatDialogTitle
-  ],
-  templateUrl: './leave-group.component.html',
-  styleUrl: './leave-group.component.scss'
+    selector: 'app-leave-group',
+    imports: [
+        NgOptimizedImage,
+        FaIconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButton,
+        MatDialogActions,
+        MatDialogContent,
+        MatDialogTitle
+    ],
+    templateUrl: './leave-group.component.html',
+    styleUrl: './leave-group.component.scss'
 })
 
 export class LeaveGroupComponent {

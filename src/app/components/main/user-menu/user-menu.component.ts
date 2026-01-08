@@ -18,23 +18,22 @@ import {ChangeEmailComponent} from "./change-email/change-email.component";
  */
 
 @Component({
-  selector: 'app-user-menu',
-  standalone: true,
-  imports: [
-    LogOutComponent,
-    AsyncPipe,
-    MatMenuTrigger,
-    MatMenu,
-    MatButton,
-    AboutAppComponent,
-    ChangeUsernameComponent,
-    ChangePasswordComponent,
-    ChangeStatusComponent,
-    DeleteAccountComponent,
-    MatDivider,
-  ],
-  templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.scss'
+    selector: 'app-user-menu',
+    imports: [
+        LogOutComponent,
+        AsyncPipe,
+        MatMenuTrigger,
+        MatMenu,
+        MatButton,
+        AboutAppComponent,
+        ChangeUsernameComponent,
+        ChangePasswordComponent,
+        ChangeStatusComponent,
+        DeleteAccountComponent,
+        MatDivider,
+    ],
+    templateUrl: './user-menu.component.html',
+    styleUrl: './user-menu.component.scss'
 })
 export class UserMenuComponent {
   /**

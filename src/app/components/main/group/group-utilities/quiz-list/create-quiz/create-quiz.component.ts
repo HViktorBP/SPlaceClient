@@ -1,10 +1,5 @@
 import {Component, Inject, inject} from '@angular/core';
-import {
-  FormBuilder,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -38,35 +33,34 @@ import {trimFormValues} from "../../../../../../custom/helping-functions/FormTri
  */
 
 @Component({
-  selector: 'app-create-quiz',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButton,
-    NgForOf,
-    MatDialogTitle,
-    FormsModule,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatCheckbox,
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatCardTitle,
-    MatDialogActions,
-    MatDialogContainer,
-    NgIf,
-    MatError,
-    MatIconButton,
-    MatIcon,
-    MatRadioButton,
-    MatRadioGroup
-  ],
-  templateUrl: './create-quiz.component.html',
-  styleUrl: './../../../../../../custom/styles/quiz.scss'
+    selector: 'app-create-quiz',
+    imports: [
+        ReactiveFormsModule,
+        MatButton,
+        NgForOf,
+        MatDialogTitle,
+        FormsModule,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatCheckbox,
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatCardTitle,
+        MatDialogActions,
+        MatDialogContainer,
+        NgIf,
+        MatError,
+        MatIconButton,
+        MatIcon,
+        MatRadioButton,
+        MatRadioGroup
+    ],
+    templateUrl: './create-quiz.component.html',
+    styleUrl: './../../../../../../custom/styles/quiz.scss'
 })
 
 export class CreateQuizComponent extends QuizForm implements CustomPopUpForm {

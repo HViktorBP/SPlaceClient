@@ -9,21 +9,20 @@ import {RouterLink} from "@angular/router";
  */
 
 @Component({
-  selector: 'app-not-found',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardHeader,
-    MatIcon,
-    MatCardContent,
-    MatCardActions,
-    MatButton,
-    RouterLink,
-    MatCardActions,
-    MatCardTitle,
-  ],
-  templateUrl: './not-found.component.html',
-  styleUrl: './not-found.component.scss'
+    selector: 'app-not-found',
+    imports: [
+        MatCard,
+        MatCardHeader,
+        MatIcon,
+        MatCardContent,
+        MatCardActions,
+        MatButton,
+        RouterLink,
+        MatCardActions,
+        MatCardTitle,
+    ],
+    templateUrl: './not-found.component.html',
+    styleUrl: './not-found.component.scss'
 })
 
 export class NotFoundComponent {

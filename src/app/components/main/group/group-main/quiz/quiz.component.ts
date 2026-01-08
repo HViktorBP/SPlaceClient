@@ -1,8 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QuizzesService} from "../../../../../services/quizzes.service";
 import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
@@ -25,27 +21,26 @@ import {MatButton} from "@angular/material/button";
  * QuizComponent responsible for quiz's UI.
  */
 @Component({
-  selector: 'app-quiz',
-  standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    JsonPipe,
-    MatProgressSpinner,
-    ReactiveFormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatRadioGroup,
-    MatRadioButton,
-    MatCheckbox,
-    MatButton,
-    RouterLink,
-  ],
-  templateUrl: './quiz.component.html',
-  styleUrl: './quiz.component.scss'
+    selector: 'app-quiz',
+    imports: [
+        NgForOf,
+        NgIf,
+        JsonPipe,
+        MatProgressSpinner,
+        ReactiveFormsModule,
+        MatCard,
+        MatCardHeader,
+        MatCardContent,
+        MatCardSubtitle,
+        MatCardTitle,
+        MatRadioGroup,
+        MatRadioButton,
+        MatCheckbox,
+        MatButton,
+        RouterLink,
+    ],
+    templateUrl: './quiz.component.html',
+    styleUrl: './quiz.component.scss'
 })
 
 export class QuizComponent implements OnInit, OnDestroy {
