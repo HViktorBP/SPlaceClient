@@ -3,7 +3,6 @@ import {UsersService} from "../../../../../../services/users.service";
 import {GroupsService} from "../../../../../../services/groups.service";
 import {NgToastService} from "ng-angular-popup";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {RenameGroupRequest} from "../../../../../../data-transferring/contracts/group/rename-group-request";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
 import {catchError, finalize, switchMap, tap, throwError} from "rxjs";
@@ -23,7 +22,6 @@ import {UserDataService} from "../../../../../../services/states/user-data.servi
 @Component({
     selector: 'app-rename-group',
     imports: [
-        FaIconComponent,
         FormsModule,
         ReactiveFormsModule,
         MatButton,

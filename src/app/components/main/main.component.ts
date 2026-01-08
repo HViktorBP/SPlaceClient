@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {AsyncPipe, NgClass, NgForOf, NgIf, SlicePipe} from '@angular/common';
+import {AsyncPipe, NgForOf} from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
@@ -7,12 +7,10 @@ import {MatListModule} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
 import {catchError, throwError} from 'rxjs';
 import {RouterLink, RouterOutlet} from "@angular/router";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UsersService} from "../../services/users.service";
 import {UserDataService} from "../../services/states/user-data.service";
 import {ApplicationHubService} from "../../services/application-hub.service";
 import {CreateGroupComponent} from "./create-group/create-group.component";
-import {LogOutComponent} from "./user-menu/log-out/log-out.component";
 import {UserMenuComponent} from "./user-menu/user-menu.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AboutAppComponent} from "./about-app/about-app.component";
@@ -32,14 +30,8 @@ import {AboutAppComponent} from "./about-app/about-app.component";
         MatIconModule,
         AsyncPipe,
         RouterOutlet,
-        FaIconComponent,
         NgForOf,
-        SlicePipe,
         RouterLink,
-        CreateGroupComponent,
-        LogOutComponent,
-        NgIf,
-        NgClass,
         UserMenuComponent,
     ]
 })

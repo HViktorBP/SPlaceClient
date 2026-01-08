@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
 import {GroupDataService} from "../../../../../../services/states/group-data.service";
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatTooltip} from "@angular/material/tooltip";
 
@@ -16,7 +16,6 @@ import {MatTooltip} from "@angular/material/tooltip";
         AsyncPipe,
         MatCard,
         MatCardHeader,
-        MatCardActions,
         MatCardContent,
         MatList,
         MatListItem,

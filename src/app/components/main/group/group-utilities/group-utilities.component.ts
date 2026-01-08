@@ -1,6 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GroupMainComponent} from "../group-main/group-main.component";
-import {ParticipantsComponent} from "./group-tabs/participants/participants.component";
 import {GroupOptionsComponent} from "./group-options/group-options.component";
 import {QuizListComponent} from "./quiz-list/quiz-list.component";
 import {GroupHeaderComponent} from "./group-header/group-header.component";
@@ -17,8 +15,6 @@ import {GroupTabsComponent} from "./group-tabs/group-tabs.component";
 @Component({
     selector: 'app-group-utilities',
     imports: [
-        GroupMainComponent,
-        ParticipantsComponent,
         GroupOptionsComponent,
         QuizListComponent,
         GroupHeaderComponent,

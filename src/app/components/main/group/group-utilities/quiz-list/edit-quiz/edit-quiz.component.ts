@@ -3,7 +3,7 @@ import {FormArray, FormBuilder, ReactiveFormsModule, Validators} from "@angular/
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {NgForOf, NgIf} from "@angular/common";
-import {MatHint, MatInput} from "@angular/material/input";
+import {MatInput} from "@angular/material/input";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -42,7 +42,6 @@ import {trimFormValues} from "../../../../../../custom/helping-functions/FormTri
         MatSelect,
         MatOption,
         MatError,
-        MatHint,
         MatDialogActions
     ],
     templateUrl: './edit-quiz.component.html',

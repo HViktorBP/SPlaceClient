@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../../../../../services/users.service";
 import {GroupsService} from "../../../../../../services/groups.service";
@@ -23,7 +22,6 @@ import {NgIf} from "@angular/common";
 @Component({
     selector: 'app-change-role',
     imports: [
-        FaIconComponent,
         FormsModule,
         ReactiveFormsModule,
         MatButton,

@@ -7,11 +7,10 @@ import {NgToastService} from "ng-angular-popup";
 import {FormsModule} from "@angular/forms";
 import {catchError, finalize, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmMessageDeleteComponent} from "./confirm-message-delete/confirm-message-delete.component";
-import {MatError} from "@angular/material/form-field";
 
 /**
  * MessageComponent is responsible for handling messages' UI.
@@ -24,8 +23,6 @@ import {MatError} from "@angular/material/form-field";
         FormsModule,
         MatIconButton,
         MatIcon,
-        MatButton,
-        MatError
     ],
     templateUrl: './message.component.html',
     styleUrl: './message.component.scss'

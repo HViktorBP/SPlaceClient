@@ -1,12 +1,6 @@
 import {Component, Inject, inject} from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogContainer,
-  MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogRef} from "@angular/material/dialog";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import {QuizzesService} from "../../../../../../services/quizzes.service";
@@ -19,7 +13,6 @@ import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatCheckbox} from "@angular/material/checkbox";
-import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {UserDataService} from "../../../../../../services/states/user-data.service";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 import {MatIcon} from "@angular/material/icon";
@@ -38,7 +31,6 @@ import {trimFormValues} from "../../../../../../custom/helping-functions/FormTri
         ReactiveFormsModule,
         MatButton,
         NgForOf,
-        MatDialogTitle,
         FormsModule,
         MatFormField,
         MatInput,
@@ -46,12 +38,7 @@ import {trimFormValues} from "../../../../../../custom/helping-functions/FormTri
         MatSelect,
         MatOption,
         MatCheckbox,
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatCardTitle,
         MatDialogActions,
-        MatDialogContainer,
         NgIf,
         MatError,
         MatIconButton,

@@ -1,10 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GroupHeaderComponent} from "./group-utilities/group-header/group-header.component";
 import {GroupMainComponent} from "./group-main/group-main.component";
-import {ParticipantsComponent} from "./group-utilities/group-tabs/participants/participants.component";
-import {GroupOptionsComponent} from "./group-utilities/group-options/group-options.component";
-import {QuizListComponent} from "./group-utilities/quiz-list/quiz-list.component";
-import {ActivatedRoute, RouterOutlet} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import {GroupsService} from "../../../services/groups.service";
 import {GroupDataService} from "../../../services/states/group-data.service";
@@ -19,12 +15,7 @@ import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 @Component({
     selector: 'app-group',
     imports: [
-        GroupHeaderComponent,
         GroupMainComponent,
-        ParticipantsComponent,
-        GroupOptionsComponent,
-        QuizListComponent,
-        RouterOutlet,
         GroupUtilitiesComponent,
         MatGridList,
         MatGridTile

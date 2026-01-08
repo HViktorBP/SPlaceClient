@@ -3,7 +3,7 @@ import {AddUserComponent} from "./add-user/add-user.component";
 import {RemoveUserComponent} from "./remove-user/remove-user.component";
 import {LeaveGroupComponent} from "./leave-group/leave-group.component";
 import {DeleteGroupComponent} from "./delete-group/delete-group.component";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {NgIf} from "@angular/common";
 import {ChangeRoleComponent} from "./change-role/change-role.component";
 import {RenameGroupComponent} from "./rename-group/rename-group.component";
 import {MatCard, MatCardContent} from "@angular/material/card";
@@ -19,14 +19,7 @@ import {Role} from "../../../../../data-transferring/enums/role";
 @Component({
     selector: 'app-group-options',
     imports: [
-        AddUserComponent,
-        RemoveUserComponent,
-        LeaveGroupComponent,
-        DeleteGroupComponent,
         NgIf,
-        ChangeRoleComponent,
-        AsyncPipe,
-        RenameGroupComponent,
         MatCard,
         MatCardContent,
         MatIconButton,

@@ -1,6 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../../../../../services/users.service";
 import {GroupsService} from "../../../../../../services/groups.service";
@@ -13,7 +12,6 @@ import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
-import {MatOption, MatSelect} from "@angular/material/select";
 import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpForm";
 
 /**
@@ -23,8 +21,6 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
 @Component({
     selector: 'app-remove-user',
     imports: [
-        NgOptimizedImage,
-        FaIconComponent,
         FormsModule,
         MatButton,
         MatDialogActions,
@@ -33,8 +29,6 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
         MatFormField,
         MatInput,
         MatLabel,
-        MatOption,
-        MatSelect,
         ReactiveFormsModule,
         MatError,
         NgIf

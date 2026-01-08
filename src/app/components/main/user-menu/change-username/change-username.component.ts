@@ -5,13 +5,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {ChangeUsernameRequest} from "../../../../data-transferring/contracts/user/change-username-request";
 import {catchError, finalize, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../services/application-hub.service";
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
-} from "@angular/material/dialog";
+import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
@@ -34,7 +28,6 @@ import {UserDataService} from "../../../../services/states/user-data.service";
         MatButton,
         MatDialogTitle,
         MatInput,
-        MatDialogClose,
         MatLabel,
         MatError,
         NgIf

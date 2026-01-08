@@ -3,7 +3,6 @@ import {LogOutComponent} from "./log-out/log-out.component";
 import {UserDataService} from "../../../services/states/user-data.service";
 import {AsyncPipe} from "@angular/common";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
-import {MatButton} from "@angular/material/button";
 import {AboutAppComponent} from "../about-app/about-app.component";
 import {ChangeUsernameComponent} from "./change-username/change-username.component";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
@@ -20,16 +19,9 @@ import {ChangeEmailComponent} from "./change-email/change-email.component";
 @Component({
     selector: 'app-user-menu',
     imports: [
-        LogOutComponent,
         AsyncPipe,
         MatMenuTrigger,
         MatMenu,
-        MatButton,
-        AboutAppComponent,
-        ChangeUsernameComponent,
-        ChangePasswordComponent,
-        ChangeStatusComponent,
-        DeleteAccountComponent,
         MatDivider,
     ],
     templateUrl: './user-menu.component.html',

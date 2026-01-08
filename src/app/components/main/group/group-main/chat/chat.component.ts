@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild,} from '@angular/core';
-import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {UsersService} from "../../../../../services/users.service";
 import {GroupDataService} from "../../../../../services/states/group-data.service";
 import {FormsModule} from "@angular/forms";
@@ -17,11 +17,8 @@ import {MatError} from "@angular/material/form-field";
     selector: 'app-chat',
     imports: [
         AsyncPipe,
-        DatePipe,
         NgForOf,
         NgIf,
-        NgOptimizedImage,
-        NgClass,
         FormsModule,
         MessageComponent,
         MatError

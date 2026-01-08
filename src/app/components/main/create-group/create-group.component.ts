@@ -10,7 +10,7 @@ import {ApplicationHubService} from "../../../services/application-hub.service";
 import {MatButton} from "@angular/material/button";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatHint, MatInput} from "@angular/material/input";
+import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
 
@@ -29,7 +29,6 @@ import {CustomPopUpForm} from "../../../custom/interfaces/CustomPopUpForm";
         MatFormField,
         MatInput,
         MatLabel,
-        MatHint,
         ReactiveFormsModule,
         MatError,
         NgIf

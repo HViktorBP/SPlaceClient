@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {AsyncPipe, NgForOf, NgIf, SlicePipe} from "@angular/common";
+import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserDataService} from "../../../../services/states/user-data.service";
 import {MatCard} from "@angular/material/card";
 import {MatList, MatListItem} from "@angular/material/list";
@@ -19,14 +18,11 @@ import {MatIcon} from "@angular/material/icon";
         NgForOf,
         RouterLink,
         AsyncPipe,
-        SlicePipe,
-        FaIconComponent,
         MatCard,
         MatList,
         MatListItem,
         MatLine,
         MatDivider,
-        NgIf,
         MatIcon
     ],
     templateUrl: './created-groups.component.html',

@@ -1,7 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
 import {Router} from "@angular/router";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../../services/groups.service";
 import {UsersService} from "../../../../../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
@@ -21,8 +19,6 @@ import {MatButton} from "@angular/material/button";
 @Component({
     selector: 'app-leave-group',
     imports: [
-        NgOptimizedImage,
-        FaIconComponent,
         FormsModule,
         ReactiveFormsModule,
         MatButton,

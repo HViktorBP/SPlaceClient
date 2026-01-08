@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {GroupsService} from "../../../../../../services/groups.service";
 import {UsersService} from "../../../../../../services/users.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -9,9 +8,6 @@ import {catchError, switchMap, take, tap, throwError} from "rxjs";
 import {ApplicationHubService} from "../../../../../../services/application-hub.service";
 import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatOption} from "@angular/material/autocomplete";
-import {MatSelect} from "@angular/material/select";
 import {UserDataService} from "../../../../../../services/states/user-data.service";
 
 /**
@@ -21,16 +17,11 @@ import {UserDataService} from "../../../../../../services/states/user-data.servi
 @Component({
     selector: 'app-delete-group',
     imports: [
-        FaIconComponent,
         FormsModule,
         ReactiveFormsModule,
         MatButton,
         MatDialogActions,
         MatDialogContent,
-        MatFormField,
-        MatLabel,
-        MatOption,
-        MatSelect,
         MatDialogTitle
     ],
     templateUrl: './delete-group.component.html',

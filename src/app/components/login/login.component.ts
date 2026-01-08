@@ -5,10 +5,10 @@ import {UsersService} from "../../services/users.service";
 import {NgToastService} from "ng-angular-popup";
 import {catchError, finalize, throwError} from "rxjs";
 import {MatError, MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
-import {MatHint, MatInput} from "@angular/material/input";
+import {MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {NgIf} from "@angular/common";
 import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-in-request";
 
@@ -21,7 +21,6 @@ import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-
         FormsModule,
         MatFormField,
         MatInput,
-        MatHint,
         MatIconButton,
         MatIcon,
         MatLabel,
@@ -33,7 +32,6 @@ import {UserLogInRequest} from "../../data-transferring/contracts/user/user-log-
         NgIf,
         MatButton,
         MatError,
-        MatCardHeader,
         MatCardSubtitle
     ],
     templateUrl: './login.component.html',

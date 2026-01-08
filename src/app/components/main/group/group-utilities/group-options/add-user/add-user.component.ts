@@ -1,6 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {NgIf} from "@angular/common";
 import {GroupsService} from "../../../../../../services/groups.service";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../../../../../services/users.service";
@@ -22,8 +21,6 @@ import {CustomPopUpForm} from "../../../../../../custom/interfaces/CustomPopUpFo
 @Component({
     selector: 'app-add-user',
     imports: [
-        NgOptimizedImage,
-        FaIconComponent,
         FormsModule,
         MatButton,
         MatDialogActions,

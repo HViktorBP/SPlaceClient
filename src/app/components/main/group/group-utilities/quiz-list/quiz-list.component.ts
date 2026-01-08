@@ -1,11 +1,10 @@
 import {Component, Input} from '@angular/core';
-import {AsyncPipe, JsonPipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialog} from '@angular/material/dialog';
 import {GroupDataService} from "../../../../../services/states/group-data.service";
 import {CreateQuizComponent} from "./create-quiz/create-quiz.component";
 import {RouterLink} from "@angular/router";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {DeleteQuizComponent} from "./delete-quiz/delete-quiz.component";
 import {EditQuizComponent} from "./edit-quiz/edit-quiz.component";
@@ -25,12 +24,9 @@ import {Role} from "../../../../../data-transferring/enums/role";
         NgForOf,
         FormsModule,
         ReactiveFormsModule,
-        JsonPipe,
         NgIf,
-        KeyValuePipe,
         AsyncPipe,
         RouterLink,
-        FaIconComponent,
         MatButton,
         MatCard,
         MatCardContent,

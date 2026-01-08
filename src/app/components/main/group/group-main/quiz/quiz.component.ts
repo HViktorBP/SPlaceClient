@@ -4,7 +4,7 @@ import {NgToastService} from "ng-angular-popup";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {catchError, Subscription, switchMap, tap, throwError} from "rxjs";
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {SubmitQuizRequest} from "../../../../../data-transferring/contracts/quiz/submit-quiz-request";
 import {UsersService} from "../../../../../services/users.service";
@@ -12,7 +12,7 @@ import {GroupDataService} from "../../../../../services/states/group-data.servic
 import {Question} from "../../../../../data-transferring/enums/question";
 import {ApplicationHubService} from "../../../../../services/application-hub.service";
 import {UserDataService} from "../../../../../services/states/user-data.service";
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
@@ -25,13 +25,11 @@ import {MatButton} from "@angular/material/button";
     imports: [
         NgForOf,
         NgIf,
-        JsonPipe,
         MatProgressSpinner,
         ReactiveFormsModule,
         MatCard,
         MatCardHeader,
         MatCardContent,
-        MatCardSubtitle,
         MatCardTitle,
         MatRadioGroup,
         MatRadioButton,

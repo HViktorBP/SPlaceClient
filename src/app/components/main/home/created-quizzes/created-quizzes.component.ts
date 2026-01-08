@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {AsyncPipe, NgForOf} from "@angular/common";
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserDataService} from "../../../../services/states/user-data.service";
 import {RouterLink} from "@angular/router";
 import {MatCard} from "@angular/material/card";
@@ -17,7 +16,6 @@ import {MatIcon} from "@angular/material/icon";
     selector: 'app-created-quizzes',
     imports: [
         AsyncPipe,
-        FaIconComponent,
         NgForOf,
         RouterLink,
         MatCard,
